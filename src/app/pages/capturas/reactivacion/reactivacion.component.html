@@ -1,0 +1,245 @@
+<div class="text-900 font-bold text-2xl mb-4 text-center">Formulario Reactivación</div>
+
+<div class="card">
+    <p-panel header="Datos de Reactivación" class="line-height-12 m-0">
+        <form [formGroup]="formReactivacion">
+            <div class="p-fluid p-formgrid grid">
+                <div class="col-12 md:col-6">
+                    <h5>Tipo de Cuenta</h5>
+                    <div class="field-radiobutton" >
+                        <p-radioButton
+                          [value]="'NEW ERA'"
+                          [ngClass]="{'ng-invalid ng-dirty': formReactivacion.get('Tipo_Cuenta')?.errors != null && formReactivacion.get('Tipo_Cuenta')?.touched == true}"
+                          formControlName="Tipo_Cuenta">
+                        </p-radioButton>
+                        <label>New Era</label>
+                      </div>
+                      <div class="field-radiobutton" >
+                        <p-radioButton
+                          [value]="'TRADICIONAL'"
+                          [ngClass]="{'ng-invalid ng-dirty': formReactivacion.get('Tipo_Cuenta')?.errors != null && formReactivacion.get('Tipo_Cuenta')?.touched == true}"
+                          formControlName="Tipo_Cuenta">
+                        </p-radioButton>
+                        <label>Tradicional</label>
+                      </div>
+                    </div>
+                <div class="field col-12 md:col-6">
+                    <span class="p-float-label">
+                        <input
+                        [ngClass]="{'ng-invalid ng-dirty': formReactivacion.get('Cuenta')?.errors != null && formReactivacion.get('Cuenta')?.touched == true}"
+                        type="text"
+                        pInputText
+                        onlyNumbers
+                        formControlName="Cuenta">
+                        <label>Número de cuenta</label>
+                    </span>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <p-dropdown
+                    [ngClass]="{'ng-invalid ng-dirty': formReactivacion.get('Tipo_dispositivo')?.errors != null && formReactivacion.get('Tipo_dispositivo')?.touched == true}"
+                    optionLabel="descripcion" optionValue="descripcion"
+                    formControlName="Tipo_dispositivo"
+                    [options]="tipodispos"
+                    [showClear]="true"
+                    placeholder="Tipo Dispositivos">
+                    </p-dropdown>
+                </div>
+                <!-- <div class="field col-12 md:col-6">
+                    <p-dropdown
+                    [showClear]="true"
+                    placeholder="Motivo">
+                    </p-dropdown>
+                </div> -->
+                <div class="field col-12 md:col-6">
+                    <p-dropdown
+                    [ngClass]="{'ng-invalid ng-dirty': formReactivacion.get('Pais')?.errors != null && formReactivacion.get('Pais')?.touched == true}"
+                    formControlName="Pais"
+                    [options]="pais"
+                    [showClear]="true"
+                    placeholder="Pais">
+                    </p-dropdown>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <p-dropdown
+                    [ngClass]="{'ng-invalid ng-dirty': formReactivacion.get('Paquete')?.errors != null && formReactivacion.get('Paquete')?.touched == true}"
+                    formControlName="Paquete"
+                    [options]="paquete"
+                    [showClear]="true"
+                    placeholder="Selecciona Paquete">
+                    </p-dropdown>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <p-dropdown
+                    [ngClass]="{'ng-invalid ng-dirty': formReactivacion.get('Equipos')?.errors != null && formReactivacion.get('Equipos')?.touched == true}"
+                    formControlName="Equipos"
+                    [options]="equipos"
+                    [showClear]="true"
+                    placeholder="Selecciona los Equipos">
+                    </p-dropdown>
+                </div>
+            </div>
+            <div class="grid flex justify-content-center">
+                <div class="col-4 text-center">
+                    <button
+                    (click)="verify()"
+                    pButton
+                    label="Enviar"
+                    style="width:auto;"></button>      
+                </div>
+            </div>
+        </form>
+    </p-panel>
+</div>
+<p-dialog
+  [closable]="closeModal"
+  header="Guardar"
+  [(visible)]="display"
+  [modal]="true"
+  showEffect="fade"
+  [style]="{width: '30vw'}"
+  [breakpoints]="{'960px': '75vw'}">
+  <p class="line-height-3 m-0">
+        Los datos a guardar son los siguientes:
+    </p>
+
+  <ul>
+    <li>Cuenta: <strong>{{formReactivacion.value.Cuenta}}</strong></li>
+    <li>Pais: <strong>{{formReactivacion.value.Pais}}</strong></li>
+    <li>Tipo de Dispositivo <strong>{{formReactivacion.value.Tipo_dispositivo}}</strong></li>
+    <li>Tipo de Paquete <strong>{{formReactivacion.value.Paquete}}</strong></li>
+    <li>Equipos <strong>{{formReactivacion.value.Equipos}}</strong></li>
+  </ul>
+  <ng-template pTemplate="footer">
+
+    <loading-button
+      label="Guardar"
+      labelLoad="Guardando"
+      [loading]="enviando"
+      (click)="sendData()"></loading-button>
+
+  </ng-template>
+</p-dialog>
+
+<p-toast
+  [baseZIndex]="99999"
+  key="tst"></p-toast>
+
+  <div class="row">
+    <div class="cols">
+      <div class="card">
+        <p-table #dt1 [value]="reactivacionDia" dataKey="id" [loading]="loading" [rows]="50" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
+            styleClass="p-datatable-gridlines" [paginator]="true"
+            [globalFilterFields]="['cuenta','tipo_dispositivo','pais','fechaCaptura','fechaCompletado','status','paquete','tipo_Cuenta']" responsiveLayout="scroll">
+            <ng-template pTemplate="caption">
+                <div class="flex justify-content-between flex-column sm:flex-row">
+
+                    <span class="p-input-icon-left mb-2">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Buscar"
+                            class="w-full" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Cuenta
+
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Tipo de Dispositivo
+
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Pais
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Fecha de Captura
+                        </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          Fecha Completado
+                      </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          Estatus
+                      </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          Equipos
+                      </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Paquete
+                        </div>
+                    </th>
+
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Tipo de Cuenta
+                        </div>
+                    </th>
+  
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr>
+                    <td>
+                      {{item.cuenta}}
+                    </td>
+                    <td>
+                        {{item.tipo_dispositivo}}
+                    </td>
+                    <td>
+                        {{item.pais}}
+                    </td>
+                    <td>
+                       {{item.fechaCaptura}}
+                    </td>
+                    <td>
+                      {{item.fechaCompletado}}
+                    </td>
+                    <td>
+                      {{item.status}}
+                    </td>
+                    <td>
+                      {{item.equipos}}
+                    </td>
+                    <td>
+                        {{item.paquete}}
+                    </td>
+                    <td>
+                        {{item.tipo_Cuenta}}
+                    </td>
+    
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">Sin Datos para Mostrar.</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="loadingbody">
+                <tr>
+                    <td colspan="7">Cargando Datos, espere...</td>
+                </tr>
+
+            </ng-template>
+            <ng-template pTemplate="paginatorleft" let-state>
+                Mostrando {{(state.page  * state.rows) + 1}} a {{state.rows * (state.page + 1)}} de {{state.totalRecords}} registros.
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>

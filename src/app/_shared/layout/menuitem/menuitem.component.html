@@ -1,0 +1,59 @@
+<ng-container>
+	<div *ngIf="root && item.visible !== false"
+		class="layout-menuitem-root-text" style="color:#E80084;font-size: 1.3rem;">
+		{{ item.label }}
+	</div>
+	<a *ngIf="(!item.routerLink || item.items) && item.visible !== false"
+		[attr.href]="item.url"
+		[ngClass]="item.class"
+		[attr.target]="item.target"
+		(click)="itemClick($event)"
+		(mouseenter)="onMouseEnter()"
+		tabindex="0"
+		pRipple
+		style="color:balck">
+		<i [ngClass]="item.icon" style="color: #666666; font-size: 2rem;"
+			class="layout-menuitem-icon"></i>
+		<span class="layout-menuitem-text">{{ item.label }}</span>
+		<i *ngIf="item.items" style="color: orange;"
+			class="pi pi-fw pi-angle-down layout-submenu-toggler"></i>
+	</a>
+	<a *ngIf="item.routerLink && !item.items && item.visible !== false"
+		[ngClass]="item.class"
+		style="color:black"
+		[routerLink]="item.routerLink"
+		[routerLinkActiveOptions]="item.routerLinkOptions || { exact: true }"
+		[fragment]="item.fragment"
+		[queryParamsHandling]="item.queryParamsHandling"
+		[preserveFragment]="item.preserveFragment"
+		[skipLocationChange]="item.skipLocationChange"
+		[replaceUrl]="item.replaceUrl"
+		[state]="item.state"
+		[queryParams]="item.queryParams"
+		[attr.target]="item.target"
+		(click)="itemClick($event)"
+		(mouseenter)="onMouseEnter()"
+		routerLinkActive="active-route"
+		tabindex="0"
+		pRipple>
+		<i [ngClass]="item.icon"
+			class="layout-menuitem-icon" style="color: orange; font-size: 2rem;"></i>
+		<span class="layout-menuitem-text">{{ item.label }}</span>
+		<i *ngIf="item.items" 
+			class="pi pi-fw pi-angle-down layout-submenu-toggler"></i>
+	</a>
+
+	<ul *ngIf="item.items && item.visible !== false"
+		[@children]="submenuAnimation">
+		<ng-template [ngForOf]="item.items"
+			ngFor
+			let-child
+			let-i="index">
+			<li [item]="child"
+				[index]="i"
+				[parentKey]="key"
+				[class]="child.badgeClass"
+				menuitem></li>
+		</ng-template>
+	</ul>
+</ng-container>

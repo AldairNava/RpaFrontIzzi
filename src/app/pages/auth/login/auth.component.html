@@ -1,0 +1,95 @@
+<p-button class="home-button" [routerLink]="['/']" styleClass="p-button font-medium p-button-raised">Home</p-button>
+<div class="px-5 min-h-screen flex justify-content-center align-items-center">
+
+	<img src="../../../../assets/cyber/WhatsApp Image 2024-09-05 at 10.27.45 AM.jpeg" alt="Descripción de la imagen" style="width: auto; height: 125%; position:fixed; z-index: -1">
+
+
+	
+	<form [formGroup]="formLogin"
+		class="border-1 surface-border  border-round py-7 px-4 md:px-7 z-1"
+		autocomplete="off"
+		style="background-color: rgba(0,0,0,0.2);">
+
+
+		<div class="mb-4">
+			<img src="../../../../assets/cyber/Logo_Izzi.svg.png"
+				alt="izzi"
+				style="width: 25rem; max-width: 100%">
+			<div class="text-900 text-xl font-bold mb-2"></div>
+			<span class="text-blue-800 text-xl font-bold mb-2" style="margin-left: 2rem;">
+				Ingrese sus credenciales de IZZI
+			</span>
+		</div>
+		<div class="flex flex-column">
+			<!-- ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬CORREO▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ -->
+			<span class="p-input-icon-left w-full  border-primary-600">
+				<i class="pi pi-envelope"></i>
+				<input [class]="'w-full md:w-25rem'"
+					id="email"
+					formControlName="email"
+					type="email"
+					autocomplete="off"
+					pInputText
+					placeholder="Email"
+					style="background-color: rgba(255, 255, 255,0.3); ">
+				<br>
+				<error-message [errors]="formLogin.get('email')?.errors"></error-message>
+
+
+			</span>
+
+      <br>
+
+			<!-- ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬PASSWORD▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ -->
+			<span class="p-input-icon-left w-full  border-primary-600">
+				<i class="pi pi-lock"></i>
+				<input id="pwd"
+					type="password"
+					pInputText
+					autocomplete="off"
+					formControlName="pWd"
+					class="w-full md:w-25rem"
+					placeholder="Contraseña"
+					style="background-color: rgba(8, 128, 207, 0.3); ">
+			</span>
+
+
+
+
+
+
+			<!-- ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬RECORDAR USUARIO▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ -->
+			<div class="mb-4 flex flex-wrap gap-3">
+				<div>
+					<p-checkbox [binary]="true"
+						formControlName="remember"
+						name="checkbox"
+						value="val"
+						styleClass="mr-2"></p-checkbox>
+					<label for="checkbox"
+						class="text-blue-800  font-medium mr-8">
+						Recordar Usuario
+					</label>
+				</div>
+			</div>
+
+
+			<!-- ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬BOTON▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ -->
+
+
+			<button [disabled]="formLogin.invalid"
+				(click)="onSignIn()"
+				pButton
+				pRipple
+				label="Log In"
+				class="w-full"
+				style="background-color: rgba(28, 128, 207, 1); border: 1px solid"></button>
+		</div>
+
+
+	</form>
+</div>
+
+<p-toast
+  [baseZIndex]="99999"
+  key="tst"></p-toast>

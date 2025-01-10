@@ -1,0 +1,230 @@
+<div class="container">
+    <div>
+         <h3 class="recurrentes"> Problemas Recurrentes: </h3>
+         <div class="cards">
+              <div class="card">
+                   <div class="card__left">
+                        <span class="overview-title">
+                             DIFICULTADES TÉCNICAS
+                        </span>
+                        <div class="card__numbers">
+                             <div class="card__numbers--color">
+                                  <i class="pi pi-arrow-down"></i>
+                                  <span>2.6%</span>
+                             </div>
+                             <div class="overview-text">
+                                  12%
+                             </div>
+                        </div>
+                   </div>
+                   <div class="card__img">
+                        <img src="../../../assets/img/speech/value.svg">
+                   </div>
+              </div>
+    
+              <div class="card">
+                   <div class="card__left">
+                        <span class="overview-title">
+                        ERRORES DE FACTURACIÓN
+                        </span>
+                        <div class="card__numbers">
+                             <div class="card__numbers--color up">
+                                  <i class="pi pi-arrow-up"></i>
+                                  <span>3.4%</span>
+                             </div>
+                             <div class="overview-text">
+                                  37%
+                             </div>
+                        </div>
+                   </div>
+                   <div class="card__img">
+                        <img src="../../../assets/img/speech/quantity.svg">
+                   </div>
+              </div>
+    
+              <div class="card">
+                   <div class="card__left">
+                        <span class="overview-title">
+                        FALTA DE SEGUIMIENTO
+                        </span>
+                        <div class="card__numbers">
+                             <div class="card__numbers--color equal">
+                                  <i class="pi pi-minus"></i>
+                                  <span>0.0%</span>
+                             </div>
+                             <div class="overview-text">
+                                  51%
+                             </div>
+                        </div>
+                   </div>
+                   <div class="card__img">
+                        <img src="../../../assets/img/speech/rate.svg">
+                   </div>
+              </div>
+         </div>
+    </div>
+
+    <div class="donas">
+              <div class="dona">
+                   <h3 >Análisis de sentimiento en las llamadas</h3>
+                   <div class="dona">
+                        <p-chart type="doughnut" [data]="sentimientosChart" [options]="sentimientosOptions"></p-chart>
+                   </div>
+              </div>
+              <div class="dona__resume">
+                   <ul>
+                        <li class="elemento__lista">
+                             <div class="info__color info_color--1"></div>
+                             <span class="info__letra">Gratitud</span>
+                             <span>5%</span>
+                        </li>
+                        <li class="elemento__lista">
+                             <div class="info__color info_color--2"></div>
+                             <span class="info__letra">Confusión</span>
+                             <span>5%</span>
+                        </li>
+                        <li class="elemento__lista">
+                             <div class="info__color info__color--3"></div>
+                             <span class="info__letra">Frustración</span>
+                             <span>5%</span>
+                        </li>
+                   </ul>
+              </div>
+
+              <div class="temas__clave">
+
+                   <div class="widget-target">
+                        <div class="card-header">
+                             <h3>Frecuencia de temas clave:</h3>
+                        </div>
+                        
+                        <div class="values">
+                             <div class="item">
+                                  <span>51%</span>
+                                  <p-progressBar 
+                                       [value]="51" 
+                                       [showValue]="false" 
+                                       [style]="{ height: '10px', width: '200px'}"
+                                  >
+                                  </p-progressBar>
+
+                                  <span class="clave">Cambios de Servicio</span>
+                             </div>
+                            
+                             <div class="item">
+                                  <span>51%</span>
+                                  <p-progressBar 
+                                       [value]="51" 
+                                       [showValue]="false" 
+                                       [style]="{ height: '10px', width: '200px'}"
+                                  >
+                                  </p-progressBar>
+
+                                  <span class="clave">Soporte Técnico</span>
+                             </div>
+
+
+                             <div class="item">
+                                  <span>51%</span>
+                                  <p-progressBar 
+                                       [value]="51" 
+                                       [showValue]="false" 
+                                       [style]="{ height: '10px', width: '200px'}"
+                                  >
+                                  </p-progressBar>
+
+                                  <span class="clave">Solicitudes de cancelación</span>
+                             </div>
+
+                             <div class="item">
+                                  <span>51%</span>
+                                  <p-progressBar 
+                                       [value]="51" 
+                                       [showValue]="false" 
+                                       [style]="{ height: '10px', width: '200px'}"
+                                  >
+                                  </p-progressBar>
+
+                                  <span class="clave">Consultas de facturación</span>
+                             </div>
+
+                             <div class="item">
+                                  <span>51%</span>
+                                  <p-progressBar 
+                                       [value]="51" 
+                                       [showValue]="false" 
+                                       [style]="{ height: '10px', width: '200px'}"
+                                  >
+                                  </p-progressBar>
+
+                                  <span class="clave">Problemas de conexión a internet</span>
+                             </div>
+                        </div>
+                   </div>
+
+              </div>
+    </div>
+
+    <div class="resumenes">
+         <div class="resumen">
+              <h3>Recomendaciones para Mejorar el Servicio:</h3>
+
+              <div class="list">
+                   <p class="elemento__resumen">
+                        <span>Capacitación Continua:</span> Entrenar a los agentes en la gestión de quejas y actualización de productos para que puedan ofrecer respuestas efectivas y precisas.
+                   </p>
+                   
+                   <p class="elemento__resumen">
+                        <span>Sistema Proactivo de Notificación</span>: Implementar un sistema que informe a los clientes sobre interrupciones y el estado de sus solicitudes en tiempo real.
+                   </p>
+
+                   <p class="elemento__resumen">
+                        <span>Mejora en la Comunicación sobre Tarifas:</span> Asegurarse de que los clientes sean informados de cambios en sus tarifas y condiciones de servicio antes de que ocurran.
+                   </p>
+
+                   <p class="elemento__resumen">
+                        <span>Gestión Efectiva de Quejas:</span> Crear un protocolo que permita resolver los problemas en la primera llamada, reduciendo la necesidad de múltiples contactos de los clientes.
+                   </p>
+              </div>
+         </div>
+
+         <div class="resumen">
+              <h3>Análisis de sentimiento en llamadas</h3>
+              <p-chart type="bar" [data]="barData" [options]="barOptions"></p-chart>
+          </div>
+    </div>
+
+    <div class="resumenes">
+         <div class="resumen">
+              <h3>Eficiencia del Agente:</h3>
+
+              <div class="list">
+                   <p class="elemento__resumen">
+                        La eficiencia de los agentes varía ampliamente. Algunos logran resolver problemas de forma rápida, mientras que otros no pueden proporcionar soluciones efectivas, lo que lleva a la frustración de los clientes.
+                   </p>
+                   
+                   <p class="elemento__resumen">
+                        La duración de las llamadas sugiere que muchos problemas no se abordan en la primera interacción, lo que incrementa la carga del centro de atención y disminuye la satisfacción general.
+                   </p>
+              </div>
+         </div>
+
+         <div class="resumen">
+              <h3>Problemas Recurrentes:</h3>
+
+              <div class="list">
+                        <p class="elemento__resumen">
+                             <span>Dificultades Técnicas:</span> Incluyen interrupciones frecuentes de Internet, problemas en la señal de televisión y fallos en la activación de servicios de streaming como Netflix.
+                        </p>
+                        
+                        <p class="elemento__resumen">
+                            <span>Errores de Facturación:</span> Repetidas quejas sobre cargos no reconocidos y falta de claridad en los recibos impiden una comprensión clara de los costos.
+                        </p>
+
+                        <p class="elemento__resumen">
+                             <span>Falta de Seguimiento en Solicitudes:</span> Muchos clientes expresan que sus problemas no son seguidos adecuadamente, lo que provoca insatisfacción.
+                        </p>
+              </div>
+         </div>
+    </div>
+</div>

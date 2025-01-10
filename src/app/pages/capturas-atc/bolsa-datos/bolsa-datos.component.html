@@ -1,0 +1,257 @@
+<div class="text-900 font-bold text-2xl mb-4 text-center">Formulario de Bolsa de Datos</div>
+
+<div
+  [formGroup]="formBolsa"
+  class="card">
+
+  <p-panel
+    [toggleable]="mostrandoResultados"
+    header="Datos de Bolsa de Datos"
+    class="line-height-12 m-0">
+    <!-- INICIO DE INPUTS -->
+    <h5>Tipo de Cuenta</h5>
+    <div class="p-fluid p-formgrid grid">
+        <div class="col-12 md:col-6">
+            <div class="field-radiobutton">
+                <p-radioButton
+                [value]="'BTI Single'"
+                [ngClass]="{'ng-invalid ng-dirty': formBolsa.get('tipoCuenta')?.errors != null && formBolsa.get('tipoCuenta')?.touched == true}"
+                formControlName="tipoCuenta"
+                (onClick)="changeCuenta($event.value)"
+                >
+                </p-radioButton>
+                <label>BTI Single</label>
+            </div>
+            <div class="field-radiobutton">
+                <p-radioButton
+                [value]="'Combo SD/HD'"
+                [ngClass]="{'ng-invalid ng-dirty': formBolsa.get('tipoCuenta')?.errors != null && formBolsa.get('tipoCuenta')?.touched == true}"
+                formControlName="tipoCuenta"
+                (onClick)="changeCuenta($event.value)"
+                >
+                </p-radioButton>
+                <label>Combo SD/HD</label>
+            </div>
+            <div class="field-radiobutton">
+                <p-radioButton
+                [value]="'Combo VeTV'"
+                [ngClass]="{'ng-invalid ng-dirty': formBolsa.get('tipoCuenta')?.errors != null && formBolsa.get('tipoCuenta')?.touched == true}"
+                formControlName="tipoCuenta"
+                (onClick)="changeCuenta($event.value)"
+                >
+                </p-radioButton>
+                <label>Combo VeTV</label>
+            </div>
+            <div class="field-radiobutton">
+                <p-radioButton
+                [value]="'BT To Go'"
+                [ngClass]="{'ng-invalid ng-dirty': formBolsa.get('tipoCuenta')?.errors != null && formBolsa.get('tipoCuenta')?.touched == true}"
+                formControlName="tipoCuenta"
+                (onClick)="changeCuenta($event.value)"
+                >
+                </p-radioButton>
+                <label>BT To Go</label>
+            </div>
+        </div>
+        <div class="col-12 md:col-6">
+            <div class="field-radiobutton" style="margin-top: -2.5rem;">
+                <h5>Tipo de Proceso</h5>            
+            </div>
+            <div class="field-radiobutton">
+                <p-radioButton
+                [value]="'Prepago'"
+                [ngClass]="{'ng-invalid ng-dirty': formBolsa.get('tipoProceso')?.errors != null && formBolsa.get('tipoProceso')?.touched == true}"
+                formControlName="tipoProceso"
+                >
+                </p-radioButton>
+                <label>Prepago</label>
+            </div>
+            <div class="field-radiobutton">
+                <p-radioButton
+                [value]="'Postpago'"
+                [ngClass]="{'ng-invalid ng-dirty': formBolsa.get('tipoProceso')?.errors != null && formBolsa.get('tipoProceso')?.touched == true}"
+                formControlName="tipoProceso"
+                >
+                </p-radioButton>
+                <label>Postpago</label>
+            </div>
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <span class="p-float-label">
+                <input
+                    type="text"
+                    [ngClass]="{'ng-invalid ng-dirty': formBolsa.get('cuenta')?.errors != null && formBolsa.get('cuenta')?.touched == true}"
+                    pInputText
+                    formControlName="cuenta"
+                    onlyNumbers>
+                <label>Número de cuenta</label>
+            </span>
+        </div>
+        <div class="field col-12 md:col-6">
+            <p-dropdown
+            [options]="Pais"
+            [showClear]="true"
+            [ngClass]="{'ng-invalid ng-dirty': formBolsa.get('pais')?.errors != null && formBolsa.get('pais')?.touched == true}"
+            placeholder="Seleccione un país"
+            formControlName="pais">
+            </p-dropdown>
+        </div>
+        <div class="field col-12 md:col-6" *ngIf="formBolsa.value.tipoCuenta =='BTI Single' || formBolsa.value.tipoCuenta =='Combo SD/HD' || formBolsa.value.tipoCuenta =='Combo VeTV'">
+            <p-dropdown
+            [options]="paquetesDatos"
+            [showClear]="true"
+            placeholder="Paquete de Datos a Recargar"
+            [ngClass]="{'ng-invalid ng-dirty': formBolsa.get('paqueteDatos')?.errors != null && formBolsa.get('paqueteDatos')?.touched == true}"
+            formControlName="paqueteDatos">
+            </p-dropdown>
+        </div>
+        <div class="field col-12 md:col-6" *ngIf="formBolsa.value.tipoCuenta =='BT To Go'">
+            <p-dropdown
+            [options]="paquetesDatos2"
+            [showClear]="true"
+            placeholder="Paquete de Datos a Recargar"
+            [ngClass]="{'ng-invalid ng-dirty': formBolsa.get('paqueteDatos')?.errors != null && formBolsa.get('paqueteDatos')?.touched == true}"
+            formControlName="paqueteDatos">
+            </p-dropdown>
+        </div>
+
+        </div>
+    <!-- BOTON DE EJECUCION -->
+    <div class="col lg:col-12">
+
+      <div class="grid flex justify-content-center">
+        <div class="col-4 text-center">
+          
+          <button
+            (click)="verify()"
+            pButton
+            label="Enviar"
+            style="width:auto;"></button>
+        </div>
+      </div>
+    </div>
+  </p-panel>
+  <br>
+
+</div>
+
+<p-dialog
+  [closable]="closeModal"
+  header="Guardar Cancelación"
+  [(visible)]="display"
+  [modal]="true"
+  showEffect="fade"
+  [style]="{width: '30vw'}"
+  [breakpoints]="{'960px': '75vw'}">
+  <p class="line-height-3 m-0">
+        Los datos a guardar son los siguientes:
+    </p>
+
+  <ul>
+      <li>Tipo de Cuenta: <strong>{{formBolsa.value.tipoCuenta}}</strong></li>
+      <li>Tipo de Proceso: <strong>{{formBolsa.value.tipoProceso}}</strong></li>
+      <li>Cuenta: <strong>{{formBolsa.value.cuenta}}</strong></li>
+      <li>País: <strong>{{formBolsa.value.pais}}</strong></li>
+      <li>Paquete de Datos a Recargar: <strong>{{formBolsa.value.paqueteDatos}}</strong></li>
+  </ul>
+  <ng-template pTemplate="footer">
+
+    <loading-button
+      label="Guardar"
+      labelLoad="Guardando"
+      [loading]="enviando"
+      (click)="sendData()"></loading-button>
+
+  </ng-template>
+</p-dialog>
+
+<p-toast
+  [baseZIndex]="99999"
+  key="tst"></p-toast>
+
+  <div class="row">
+    <div class="cols">
+      <div class="card">
+        <p-table #dt1 [value]="BolsaDia" dataKey="id" [loading]="loading" [rows]="50" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
+            styleClass="p-datatable-gridlines" [paginator]="true"
+            [globalFilterFields]="['cuenta','pais','tipoCuenta','status','paqueteDatos']" responsiveLayout="scroll">
+            <ng-template pTemplate="caption">
+                <div class="flex justify-content-between flex-column sm:flex-row">
+
+                    <span class="p-input-icon-left mb-2">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Buscar"
+                            class="w-full" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            TipoCuenta
+
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Cuenta
+
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            País
+
+                        </div>
+                    </th>
+                    <th>
+                        <div style="width: 150px;" class="flex justify-content-between align-items-center">
+                            Paquete de Datos
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Estatus
+                        </div>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr>
+                    <td>
+                        {{item.tipoCuenta}}
+                      </td>  
+                    <td>
+                      {{item.cuenta}}
+                    </td>
+                    <td>
+                        {{item.pais}}
+                    </td>
+                    <td>
+                        {{item.paqueteDatos}}
+                    </td>
+                    <td>
+                       {{item.status}}
+                    </td>    
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">Sin Datos para Mostrar.</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="loadingbody">
+                <tr>
+                    <td colspan="7">Cargando Datos, espere...</td>
+                </tr>
+
+            </ng-template>
+            <ng-template pTemplate="paginatorleft" let-state>
+                Mostrando {{(state.page  * state.rows) + 1}} a {{state.rows * (state.page + 1)}} de {{state.totalRecords}} registros.
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>

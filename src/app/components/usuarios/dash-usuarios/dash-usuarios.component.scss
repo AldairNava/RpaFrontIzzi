@@ -1,0 +1,145 @@
+.header--light,
+.td__light {
+     color: #000;
+     background-color: #E1E1E1;
+     text-align: center;
+     border-bottom: 1px solid black;
+}
+.component__content {
+    margin-left: 70px !important;
+    margin-top: 50px !important;
+    margin-right: 80px;
+}
+.header--dark,
+.td__dark {
+  color: #FFF !important;
+  background-color: #181434 !important;
+  text-align: center;
+}
+
+.drop--dark {
+    color: #FFF !important;
+    background-color: #181434 !important;
+    text-align: center;
+  }
+  
+  .drop--light {
+    color: #000 !important;
+    background-color: #FFF !important;
+    text-align: center;
+  }
+  
+
+.users {
+    padding: 0 0 60px 0;
+}
+
+.body--dark {
+     background-color: #151331 !important;
+     color: #FFF !important;
+     text-align: center;
+ }
+ 
+ .body--light {
+     background-color: #E1E1E1;
+     color: #000;
+     text-align: center;
+ }
+
+ .text{
+     text-align: center;
+ }
+
+ .btn {
+     display: flex;
+     justify-content: center;
+ }
+
+ .maincont {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.bord {
+    position: relative;
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+}
+
+.card-result {
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+    background-color: rgba(31, 47, 65, 0.9);
+    padding: 30px;
+    box-sizing: border-box;
+    margin-bottom: 16px;
+    position: relative;
+    border: 2px solid #FFF;
+    margin-bottom: 50px;
+    min-width: 100%;
+}
+
+.middle {
+    margin-top: -10px;
+    width: 80%;
+    position: absolute;
+    top: -5px;
+    background-color: #ffcc04;
+    padding: 5px 0;
+    text-align: center;
+    /* margin: 0 auto; */
+}
+
+.headers {
+    margin: 0;
+    padding: 15px 0;
+}
+
+.headers,
+.td {
+    text-align: center;
+}
+
+.headers h5 {
+    color: #000;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+}
+
+.row {
+    background-color: #dae6e6;
+    color: #000;
+}
+
+.row td p {
+    margin: 0;
+    padding : 0;
+    font-size: 12px;
+}
+
+.filtros {
+    margin-top: 50px;
+    border-bottom: 2px solid white;
+    padding: 20px 0;
+    color: #FFF;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.filtros--dark {
+    background-color: #151331; 
+}
+
+.filtros--light {
+    background-color: #E1E1E1;
+    border-bottom: 1px solid black;
+}
+
+.celda {
+    display: flex;
+    justify-content: center;
+}

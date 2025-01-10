@@ -1,0 +1,94 @@
+<div class="text-900 font-bold text-2xl mb-4 text-center" style="background-color: #00B2A9;color: white !important;">Parámetros de configuracion NotDone</div>
+<div class="row" >
+    <div class="cols">
+      <div class="card">
+        <p-table #dt1 [value]="ajustes" dataKey="id" [rows]="50" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
+            styleClass="p-datatable-gridlines" [paginator]="true"
+            responsiveLayout="scroll" >
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>
+                        <div class="flex justify-content-center align-items-center">
+                            ID
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-center align-items-center">
+                            Días
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-center align-items-center">
+                            Tipo de Caso de Negocio
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-center align-items-center">
+                            Acciones
+                        </div>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr>
+                    <td class="text-center">
+                        {{item.id}}
+                    </td>
+                    <td class="text-center">
+                        {{item.numero}}
+                    </td>
+                    <td class="text-center">
+                        {{item.tipoCasoNegocio}}
+                    </td>
+                    <td class="text-center">
+                        <button pButton pRipple icon="pi pi-pencil" class="mr-2" style="background-color: #00B2A9;border: 0;" (click)="abrirDialogo(item)"></button>
+                        
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">Sin Datos para Mostrar.</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="loadingbody">
+                <tr>
+                    <td colspan="7">Cargando Datos, espere...</td>
+                </tr>
+
+            </ng-template>
+            <ng-template pTemplate="paginatorleft" let-state>
+                Mostrando {{(state.page  * state.rows) + 1}} a {{state.rows * (state.page + 1)}} de {{state.totalRecords}} registros.
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+  <p-toast
+  [baseZIndex]="99999"
+  key="tst"></p-toast>
+
+  <p-dialog header="Header" [closable]="false" [(visible)]="visible" [style]="{ width: '50vw' }">
+    <ng-template pTemplate="header">
+        <span class="text-xl font-bold">Editar el Valor</span>
+    </ng-template>
+    <div>
+        <div class="grid flex justify-content-center pt-2">
+            <div class="col-4 text-center" >
+                <span class="p-float-label">
+                    <input
+                    type="text"
+                    pInputText
+                    [(ngModel)]="itemSeleccionado.numero"
+                    >
+                    <label>Valor</label>
+                </span>
+              </div>
+        </div>
+    </div>
+
+    <ng-template pTemplate="footer" class="justify-content-between">
+        <p-button (click)="visible = false;getTableAjustesNotDone()" label="Cerrar" styleClass="p-button-text"></p-button>
+        <p-button icon="pi pi-save" (click)="save()"  styleClass="p-button-text"></p-button>
+    </ng-template>
+</p-dialog>

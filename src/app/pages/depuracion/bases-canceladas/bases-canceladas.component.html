@@ -1,0 +1,147 @@
+<div class="text-900 font-bold text-2xl mb-4 text-center" style="background-color: #E80084;border: 0;color: white !important;">Bases Cancelación OS</div>
+
+<div class="card">
+    <p-panel header="Importar Excel" class="line-height-12 m-0">
+        <div class="p-fluid p-formgrid grid m-2 flex justify-content-center">
+            <div class="col-6 text-center">
+                <input type="file" id="file" accept=".csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" (change)="readExcel($event)">
+                <p-progressSpinner *ngIf="spinner"></p-progressSpinner>
+            </div>
+        </div>
+        <div class="grid flex justify-content-center">
+            <div class="col-4 text-center">
+                <button
+                mat-button 
+                [disabled]="button"
+                (click)="saveExcel()"
+                pButton
+                label="Importar Base"
+                style="width:auto; background-color: #FF7987;"></button>
+            </div>
+        </div>
+    </p-panel>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+        </div>
+    </div>
+</div>
+
+<p-toast
+  [baseZIndex]="99999"
+  key="tst"></p-toast>
+
+  <div class="row" *ngIf="tabla">
+    <div class="cols">
+      <div class="card">
+        <p-table #dt1 [value]="ExcelData" dataKey="Nº de orden" [rows]="50" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
+            styleClass="p-datatable-gridlines" [paginator]="true"
+            responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Cuenta
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Orden
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Comentarios
+
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Compañia
+
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Creado
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Estado
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            HUB
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Motivo de la Orden
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Nodo
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Tipo
+                        </div>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr>
+                    <td>
+                        {{item['Nº de cuenta']}}
+                    </td>
+                    <td>
+                        {{item['Nº de orden']}}
+                    </td>
+                    <td>
+                        {{item.Comentarios}}
+                    </td>
+                    <td>
+                        {{item['Compañía']}}
+                    </td>
+                    <td>
+                        {{item.Creado}}
+                    </td>
+                    <td>
+                        {{item.Estado}}
+                    </td>
+                    <td>
+                        {{item.Hub}}
+                    </td>
+                    <td>
+                        {{item['Motivo de la orden']}}
+                    </td>
+                    <td>
+                        {{item.Nodo}}
+                    </td>
+                    <td>
+                        {{item.Tipo}}
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">Sin Datos para Mostrar.</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="loadingbody">
+                <tr>
+                    <td colspan="7">Cargando Datos, espere...</td>
+                </tr>
+            </ng-template>
+                <ng-template pTemplate="paginatorleft" let-state>
+                    Mostrando {{(state.page  * state.rows) + 1}} a {{state.rows * (state.page + 1)}} de {{state.totalRecords}} registros.
+                </ng-template>
+            </p-table>
+            </div>
+        </div>
+    </div>

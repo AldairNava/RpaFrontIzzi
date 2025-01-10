@@ -1,0 +1,29 @@
+<div class="component__content">
+    <app-breadcrumb [pageTitle]="'Reporte'"></app-breadcrumb>
+
+    <h3 [style]=" mode ? 'color: white;' : 'color: black;' ">Selecciona dos fechas para generar el reporte:</h3>
+
+    <div class="form">
+        <p-dropdown [style]="{'width':'220px'}" [options]="tipo" [(ngModel)]="tipoSelected" placeholder="Tipo"  optionLabel="name" (ngModelChange)="validaTipo()"></p-dropdown>
+
+        <div class="calendar">
+            <!-- <p-calendar [appendTo]="'body'"  [(ngModel)]="fechas" selectionMode="range" [readonlyInput]="true" [showIcon]="true" (ngModelChange)="seleccionaFechas()"></p-calendar> -->
+            <p-calendar [style]="{'width':'260px'}" #myCalendar [(ngModel)]="fechas"  appendTo="body" selectionMode="range" [showIcon]="true" [readonlyInput]="true" dateFormat="dd-mm-yy" (ngModelChange)="seleccionaFechas()"></p-calendar>
+        </div>
+    </div>
+
+    <div class="contenido__btn" *ngIf="fechasCompletas">
+        <p-button [disabled]="generando" label="Generar Reporte" (click)="generar()"></p-button>
+   </div>
+
+    <div class="generando" *ngIf="generando">
+        <img src="../../../assets/img/gif/reporte.gif" alt="document">
+
+        <h3 *ngIf="!resporteListo" class="blink generando__text">Generando su reporte...</h3>
+
+        <p-button *ngIf="resporteListo" class="generando__btn" label="Descargar" (click)="descargar()"></p-button>
+
+    </div>
+</div>
+
+<p-toast></p-toast>

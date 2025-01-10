@@ -1,0 +1,333 @@
+<div class="text-900 font-bold text-2xl mb-4 text-center">Formulario Solicitud de Cancelación</div>
+
+<div
+  [formGroup]="formSolicitud"
+  class="card">
+
+  <p-panel
+    [toggleable]="mostrandoResultados"
+    header="Datos de Cancelación"
+    class="line-height-12 m-0">
+    <h5>Tipo de cancelación</h5>
+    <!-- INICIO DE INPUTS -->
+    <div class="p-fluid p-formgrid grid">
+        <div class="col-12 md:col-4">
+            <div class="field-radiobutton" >
+              <p-radioButton
+                [value]="'Tradicional / New Era'"
+                [ngClass]="{'ng-invalid ng-dirty': formSolicitud.get('TipoCuenta')?.errors != null && formSolicitud.get('TipoCuenta')?.touched == true}"
+                formControlName="TipoCuenta"
+                (onClick)="tipoCancelacion($event.value)">
+              </p-radioButton>
+              <label>Tradicional / New Era </label>
+            </div>
+            <div class="field-radiobutton">
+              <p-radioButton
+                [value]="'VeTV'"
+                [ngClass]="{'ng-invalid ng-dirty': formSolicitud.get('TipoCuenta')?.errors != null && formSolicitud.get('TipoCuenta')?.touched == true}"
+                formControlName="TipoCuenta"
+                (onClick)="tipoCancelacion($event.value)">
+              </p-radioButton>
+              <label>VeTV</label>
+            </div>
+        </div>
+        <div class="field col-12 md:col-4">
+
+        <span class="p-float-label">
+						<input
+            [ngClass]="{'ng-invalid ng-dirty': formSolicitud.get('Cuenta')?.errors != null && formSolicitud.get('Cuenta')?.touched == true}"
+            type="text"
+            pInputText
+            formControlName="Cuenta"
+            onlyNumbers>
+						<label>Número de cuenta</label>
+
+
+
+					</span>
+
+      </div>
+
+      <div class="field col-12 md:col-4">
+        <div class="p-inputgroup">
+
+          <span class="p-float-label">
+						<input
+              type="text"
+               [ngClass]="{'ng-invalid ng-dirty': formSolicitud.get('SolicitudServicio')?.errors != null && formSolicitud.get('SolicitudServicio')?.touched == true}"
+              pInputText
+              formControlName="SolicitudServicio">
+						<label for="inputnumber">Solicitud de servicio</label>
+					</span>
+        </div>
+      </div>
+
+      <div class="field col-12 md:col-4">
+        <div class="p-inputgroup">
+
+          <span class="p-float-label">
+						<input
+             [ngClass]="{'ng-invalid ng-dirty': formSolicitud.get('Cve_supervisor')?.errors != null && formSolicitud.get('Cve_supervisor')?.touched == true}"
+              inputId="text"
+              pInputText
+              formControlName="Cve_supervisor">
+						<label for="supervisor">Supervisor</label>
+					</span>
+        </div>
+      </div>
+
+      <div class="field col-12 md:col-4">
+        <p-dropdown
+        [ngClass]="{'ng-invalid ng-dirty': formSolicitud.get('Pais')?.errors != null && formSolicitud.get('Pais')?.touched == true}"
+          [options]="Pais"
+          [showClear]="true"
+          placeholder="Seleccione un país"
+          formControlName="Pais">
+        </p-dropdown>
+      </div>
+
+      <div class="field col-12 md:col-4">
+        <p-dropdown
+        [ngClass]="{'ng-invalid ng-dirty': formSolicitud.get('Subestado')?.errors != null && formSolicitud.get('Subestado')?.touched == true}"
+          [options]="Subestado"
+          [showClear]="true"
+          placeholder="Selecciona SubEstado"
+          formControlName="Subestado">
+        </p-dropdown>
+      </div>
+
+      <div class="field col-12 md:col-4"
+      *ngIf="formSolicitud.value.TipoCuenta=='Tradicional / New Era'">
+        <p-dropdown
+        optionLabel="descripcion" optionValue="descripcion"
+         [ngClass]="{'ng-invalid ng-dirty': formSolicitud.get('Id')?.errors != null && formSolicitud.get('Id')?.touched == true}"
+          [options]="processArr2"
+          [showClear]="true"
+          placeholder="Herramienta de Retencion"
+          formControlName="Herramienta_retencion">
+        </p-dropdown>
+      </div>
+
+      <div class="field col-12 md:col-6"
+      *ngIf="formSolicitud.value.TipoCuenta=='Tradicional / New Era'">
+        <p-dropdown
+        optionLabel="descripcion" optionValue="descripcion"
+         [ngClass]="{'ng-invalid ng-dirty': formSolicitud.get('Id')?.errors != null && formSolicitud.get('Id')?.touched == true}"
+          [options]="processArr3"
+          [showClear]="true"
+          placeholder="Motivo de Cancelacion"
+          formControlName="Motivo_cancelacion">
+        </p-dropdown>
+      </div>
+
+      <div class="field col-12 md:col-4"
+      *ngIf="formSolicitud.value.TipoCuenta=='VeTV'">
+        <p-dropdown
+        optionLabel="descripcion" optionValue="descripcion"
+         [ngClass]="{'ng-invalid ng-dirty': formSolicitud.get('Id')?.errors != null && formSolicitud.get('Id')?.touched == true}"
+          [options]="processArr1"
+          [showClear]="true"
+          placeholder="Herramienta de Retencion"
+          formControlName="Herramienta_retencion">
+        </p-dropdown>
+      </div>
+
+      <div class="field col-12 md:col-6"
+      *ngIf="formSolicitud.value.TipoCuenta=='VeTV'">
+        <p-dropdown
+        optionLabel="descripcion" optionValue="descripcion"
+         [ngClass]="{'ng-invalid ng-dirty': formSolicitud.get('Id')?.errors != null && formSolicitud.get('Id')?.touched == true}"
+          [options]="processArr4"
+          [showClear]="true"
+          placeholder="Motivo de Cancelacion"
+          formControlName="Motivo_cancelacion">
+        </p-dropdown>
+      </div>
+
+     
+
+      <!-- BOTON DE VALICACION DE DATOS -->
+
+      <!-- BOTON DE EJECUCION -->
+      <div class="col lg:col-4">
+
+        <div class="grid">
+          <div class="col-12">
+            
+            <button
+              (click)="verify()"
+              pButton
+              label="Enviar"
+              style="width:auto;"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-panel>
+  <br>
+
+</div>
+
+<p-dialog
+  [closable]="closeModal"
+  header="Guardar Solicitud"
+  [(visible)]="display"
+  [modal]="true"
+  showEffect="fade"
+  [style]="{width: '30vw'}"
+  [breakpoints]="{'960px': '75vw'}">
+  <p class="line-height-3 m-0">
+        Los datos a guardar son los siguientes:
+    </p>
+
+  <ul>
+    <li>Tipo de cuenta: <strong>{{formSolicitud.value.TipoCuenta}}</strong></li>
+    <li>Cuenta: <strong>{{formSolicitud.value.Cuenta}}</strong></li>
+    <li>Solicitud de Servicio: <strong>{{formSolicitud.value.SolicitudServicio}}</strong></li>
+    <li>Pais: <strong>{{formSolicitud.value.Pais}}</strong></li>
+    <li>Subestado: <strong>{{formSolicitud.value.Subestado}}</strong></li>
+    <li>Supervisor: <strong>{{formSolicitud.value.Cve_supervisor}}</strong></li>
+    <li>Herramienta Retencion: <strong>{{formSolicitud.value.Herramienta_retencion}}</strong></li>
+    <li>Motivo Cancelacion: <strong>{{formSolicitud.value.Motivo_cancelacion}}</strong></li>
+  </ul>
+  <ng-template pTemplate="footer">
+
+    <loading-button
+      label="Guardar"
+      labelLoad="Guardando"
+      [loading]="enviando"
+      (click)="sendData()"></loading-button>
+
+  </ng-template>
+</p-dialog>
+
+<p-toast
+  [baseZIndex]="99999"
+  key="tst"></p-toast>
+
+  <div class="row">
+    <div class="cols">
+      <div class="card">
+        <p-table #dt1 [value]="solicitudDia" dataKey="id" [loading]="loading" [rows]="50" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
+            styleClass="p-datatable-gridlines" [paginator]="true"
+            [globalFilterFields]="['tipoCuenta','cuenta','solicitudServicio','pais','fechaCaptura','fechaCancelacion','estatus','herramienta_retencion','motivo_cancelacion','subestado']" responsiveLayout="scroll">
+            <ng-template pTemplate="caption">
+                <div class="flex justify-content-between flex-column sm:flex-row">
+
+                    <span class="p-input-icon-left mb-2">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Buscar"
+                            class="w-full" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>
+                        <div style="width:150px ;" class="flex justify-content-between align-items-center">
+                            Tipo de Cuenta
+
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Cuenta
+
+                        </div>
+                    </th>
+                    <th>
+                        <div style="width:150px ;" class="flex justify-content-between align-items-center">
+                            Solicitud de Servicio
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            País
+                        </div>
+                    </th>
+                    <th>
+                      <div style="width:150px ;" class="flex justify-content-between align-items-center">
+                          Fecha de Captura
+                      </div>
+                    </th>
+                    <th>
+                      <div style="width:150px ;" class="flex justify-content-between align-items-center">
+                          Fecha de Cancelación
+                      </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          Estatus
+                      </div>
+                    </th>
+                    <th>
+                        <div style="width:200px ;" class="flex justify-content-between align-items-center">
+                            Herramienta de Retención
+                        </div>
+                    </th>
+                    <th>
+                        <div style="width:200px ;" class="flex justify-content-between align-items-center">
+                            Motivo de Cancelación
+                        </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          Subestado
+                      </div>
+                    </th>
+
+  
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr>
+                    <td>
+                      {{item.tipoCuenta}}
+                    </td>
+                    <td>
+                        {{item.cuenta}}
+                    </td>
+                    <td>
+                        {{item.solicitudServicio}}
+                    </td>
+                    <td>
+                       {{item.pais}}
+                    </td>
+                    <td>
+                      {{item.fechaCaptura}}
+                    </td>
+                    <td>
+                      {{item.fechaCancelacion}}
+                    </td>
+                    <td>
+                      {{item.estatus}}
+                    </td>
+                    <td>
+                        {{item.herramienta_retencion}}
+                    </td>
+                    <td>
+                        {{item.motivo_cancelacion}}
+                    </td>
+                    <td>
+                      {{item.subestado}}
+                  </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">Sin Datos para Mostrar.</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="loadingbody">
+                <tr>
+                    <td colspan="7">Cargando Datos, espere...</td>
+                </tr>
+
+            </ng-template>
+            <ng-template pTemplate="paginatorleft" let-state>
+                Mostrando {{(state.page  * state.rows) + 1}} a {{state.rows * (state.page + 1)}} de {{state.totalRecords}} registros.
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>

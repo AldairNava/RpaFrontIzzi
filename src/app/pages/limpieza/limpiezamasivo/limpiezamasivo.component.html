@@ -1,0 +1,112 @@
+<div class="text-900 font-bold text-2xl mb-4 text-center">Limpieza Series</div>
+<div class="p-fluid p-formgrid grid">
+
+</div>
+<div class="card">
+    <p-panel header="Series de Exclucion" class="line-height-12 m-0">
+        <form>
+            <div class="p-fluid p-formgrid grid m-2 flex justify-content-center">
+                <div class="col-6 text-center">
+                    <input type="file" id="file" accept=".csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" (change)="readExcel($event)">
+                    <p-progressSpinner *ngIf="spinner"></p-progressSpinner>
+                </div>
+            </div>
+            <div class="grid flex justify-content-center">
+                <div class="col-4 text-center">
+                    <button
+                    (click)="guardarExclucion()"
+                    pButton
+                    label="Enviar"
+                    style="width:auto;"></button>      
+                </div>
+            </div>
+        </form>
+    </p-panel>
+</div>
+
+<div class="card">
+    <p-panel header="Base de limpieza" class="line-height-12 m-0">
+        <form>
+            <div class="p-fluid p-formgrid grid m-2 flex justify-content-center">
+                <div class="col-6 text-center">
+                    <input type="file" id="file" accept=".csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" (change)="readExcellimpieza($event)">
+                    <p-progressSpinner *ngIf="spinner"></p-progressSpinner>
+                </div>
+            </div>
+            <div class="grid flex justify-content-center">
+                <div class="col-4 text-center">
+                    <button
+                    (click)="guardar()"
+                    pButton
+                    label="Enviar"
+                    style="width:auto;"></button>      
+                </div>
+            </div>
+        </form>
+    </p-panel>
+</div>
+
+<p-toast
+  [baseZIndex]="99999"
+  key="tst"></p-toast>
+
+  <div class="row">
+    <div class="cols">
+      <div class="card">
+        <p-table #dt1 [value]="TablaSeries" dataKey="id" [loading]="loading" [rows]="50" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
+            styleClass="p-datatable-gridlines" [paginator]="true"
+            [globalFilterFields]="['serie','Cve_usuario','FechaCaptura']" responsiveLayout="scroll">
+            <ng-template pTemplate="caption">
+                <div class="flex justify-content-between flex-column sm:flex-row">
+                    <span class="p-input-icon-left mb-2">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Buscar"
+                            class="w-full" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Serie
+                        </div>
+                    </th>
+                    <th>
+                        <div style="width: 150px;" class="flex justify-content-between align-items-center">
+                            Eliminar
+                        </div>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr>
+                    <td>
+                        {{item.serie}}
+                    </td>
+                    <td>
+                        <button class="delete" (click)="eliminarColumna(item.id)">Eliminar</button>
+                    </td>    
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">Sin Datos para Mostrar.</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="loadingbody">
+                <tr>
+                    <td colspan="7">Cargando Datos, espere...</td>
+                </tr>
+
+            </ng-template>
+            <ng-template pTemplate="paginatorleft" let-state>
+                Mostrando {{(state.page  * state.rows) + 1}} a {{state.rows * (state.page + 1)}} de {{state.totalRecords}} registros.
+          </ng-template>
+        </p-table>
+      </div>
+      <p-confirmDialog header="¿Eliminar Serie?" key="deleteColumn" icon="pi pi-exclamation-triangle"
+        acceptLabel="Sí, Eliminar" rejectLabel="Cancelar" [style]="{width: '350px'}"
+        acceptButtonStyleClass="p-button-danger" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+    </div>
+  </div>

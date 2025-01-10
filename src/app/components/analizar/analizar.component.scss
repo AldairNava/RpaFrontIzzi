@@ -1,0 +1,193 @@
+.component__content {
+    margin-left: 70px !important;
+    margin-top: 50px !important;
+    margin-right: 80px;
+}
+
+.analizar {
+    max-width: 90%;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+
+
+.masivo {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    height: 50px;
+
+}
+
+.masivo__text {
+    margin-left: 10px;
+    width: 200px;
+}
+
+.masivo__btn {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.filtros {
+    margin-top: 50px;
+    border-bottom: 2px solid white;
+    padding: 10px 0;
+    color: #FFF;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.filtros--dark {
+    background-color: #151331; 
+}
+
+.filtros--light {
+    background-color: #E1E1E1;
+    border-bottom: 1px solid black;
+}
+
+.celda {
+    display: flex;
+    justify-content: center;
+
+    /* height: 60px; */
+}
+
+.btn--dark {
+    background-color: transparent;
+}
+
+.btn--light {
+    background-color: #E10FB4;
+    border: 1px solid #E10FB4;
+}
+
+.table {
+    background-color: transparent;
+    height: 100%;
+    padding-bottom: 50px;
+}
+/* 
+.header {
+    border: 2px solid red;
+} */
+
+.header:nth-child(3),
+.header:nth-child(4) {
+    max-width: 200px;
+}
+
+.header--dark {
+    background-color: #151331 !important; 
+    color: #FFF !important;
+    text-align: center;
+}
+
+.header--light {
+    background-color: #E1E1E1 !important; 
+    color: #000 !important;
+    border-bottom: 1px solid black !important;
+    text-align: center;
+}
+
+.body--dark {
+    background-color: #151331 !important;
+    color: #FFF !important;
+}
+
+.body--light {
+    background-color: #E1E1E1 !important;
+    color: #000 !important;
+}
+
+.acciones {
+    width: 250px; 
+}
+
+
+/* Elementos de la tabla */
+.buttons__flex {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    min-height: 100%;
+    min-width: 200px;
+}
+
+.playing__gif {
+    height: 30px;
+    min-width: 30px;
+}
+
+.action {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border: 2px solid red; */
+}
+
+.analizarBtn {
+    width: 60px;
+    height: 55px;
+    /* border: 2px solid red; */
+    margin: 0;
+    padding: 0;
+}
+
+.modal__bot {
+    display: block;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: -30px;
+    width: 100%;
+    height: 105%;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal__bot-content {
+    background-color: #fefefe;
+    color: #000000;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    margin: 200px auto 0px auto;
+}
+  
+.modal__bot__flex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modal__bot__starting {
+    height: 200px;
+}
+
+.progress {
+    width: 100%;
+    border: 1px solid black;
+    border-radius: 50px;
+    margin-top: 50px;
+}
+
+.rotating {
+    display: inline-block;
+    animation: rotateAnimation 4s linear infinite; /* Puedes ajustar la duración y el tipo de animación según tus necesidades */
+}
+  
+@keyframes rotateAnimation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

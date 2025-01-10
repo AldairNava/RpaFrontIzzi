@@ -1,0 +1,197 @@
+<div class="text-900 font-bold text-2xl mb-4 text-center" style="background-color: #E80084;border: 0;color: white !important;">Bases Depuradas</div>
+
+<!-- <div class="card" style="padding-left: 1rem;">
+  <p-panel header=""
+    class="line-height-12 m-0">
+    <div class="p-fluid p-formgrid grid">
+		<div class="field col-12 md:col-12"> -->
+			<!-- <p-fileUpload 
+				chooseLabel="Seleccionar Archivo"
+				[customUpload]="true"
+				(uploadHandler)="uploadfun($event)"
+				[auto]="true"
+        
+        >
+			</p-fileUpload>
+		</div>
+        <div class="field col-12 md:col-10">
+            <p-dropdown
+            [options]="detalle"
+            [showClear]="true"
+            placeholder="Seleccionar Tipo"
+            >
+            </p-dropdown>
+        </div>
+		<div class="field col-12 md:col-2">
+      <button  type="button"
+      pButton
+      label="Guardar"
+      style="width:8rem;background-color: #E80084;border: 0;"></button>
+		</div> -->
+
+        <!-- <div class="field col-12 md:col-6">
+            <p-dropdown
+            [options]="Pais"
+            [showClear]="true"
+            [ngClass]="{'ng-invalid ng-dirty': formBolsa.get('pais')?.errors != null && formBolsa.get('pais')?.touched == true}"
+            placeholder="Seleccione un país"
+            formControlName="pais">
+            </p-dropdown>
+        </div>
+        <div class="field col-12 md:col-6" *ngIf="formBolsa.value.tipoCuenta =='BTI Single' || formBolsa.value.tipoCuenta =='Combo SD/HD' || formBolsa.value.tipoCuenta =='Combo VeTV'">
+            <p-dropdown
+            [options]="paquetesDatos"
+            [showClear]="true"
+            placeholder="Paquete de Datos a Recargar"
+            [ngClass]="{'ng-invalid ng-dirty': formBolsa.get('paqueteDatos')?.errors != null && formBolsa.get('paqueteDatos')?.touched == true}"
+            formControlName="paqueteDatos">
+            </p-dropdown>
+        </div>
+        <div class="field col-12 md:col-6" *ngIf="formBolsa.value.tipoCuenta =='BT To Go'">
+            <p-dropdown
+            [options]="paquetesDatos2"
+            [showClear]="true"
+            placeholder="Paquete de Datos a Recargar"
+            [ngClass]="{'ng-invalid ng-dirty': formBolsa.get('paqueteDatos')?.errors != null && formBolsa.get('paqueteDatos')?.touched == true}"
+            formControlName="paqueteDatos">
+            </p-dropdown>
+        </div> -->
+
+    <!-- </div> -->
+    <!-- BOTON DE EJECUCION -->
+    <!-- <div class="col lg:col-12">
+
+      <div class="grid flex justify-content-center">
+        <div class="col-4 text-center">
+          
+          <button
+            (click)="verify()"
+            pButton
+            label="Enviar"
+            style="width:auto;"></button>
+        </div>
+      </div>
+    </div> -->
+  <!-- </p-panel>
+  <br>
+
+</div> -->
+
+<!-- <p-dialog
+  [closable]="closeModal"
+  header="Guardar Cancelación"
+  [(visible)]="display"
+  [modal]="true"
+  showEffect="fade"
+  [style]="{width: '30vw'}"
+  [breakpoints]="{'960px': '75vw'}">
+  <p class="line-height-3 m-0">
+        Los datos a guardar son los siguientes:
+    </p>
+
+  <ul>
+      <li>Tipo de Cuenta: <strong>{{formBolsa.value.tipoCuenta}}</strong></li>
+      <li>Tipo de Proceso: <strong>{{formBolsa.value.tipoProceso}}</strong></li>
+      <li>Cuenta: <strong>{{formBolsa.value.cuenta}}</strong></li>
+      <li>País: <strong>{{formBolsa.value.pais}}</strong></li>
+      <li>Paquete de Datos a Recargar: <strong>{{formBolsa.value.paqueteDatos}}</strong></li>
+  </ul>
+  <ng-template pTemplate="footer">
+
+    <loading-button
+      label="Guardar"
+      labelLoad="Guardando"
+      [loading]="enviando"
+      (click)="sendData()"></loading-button>
+
+  </ng-template>
+</p-dialog> -->
+
+<p-toast
+  [baseZIndex]="99999"
+  key="tst"></p-toast>
+  <div class="row">
+    <div class="cols">
+      <div class="card">
+        <p-table #dt1 [value]="basesTabla" dataKey="id" [loading]="loading" [rows]="50" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
+            styleClass="p-datatable-gridlines" [paginator]="true"
+            [globalFilterFields]="['horario','fecha_Registro','cantidad','archivo']" responsiveLayout="scroll">
+            <ng-template pTemplate="caption">
+                <div class="flex justify-content-between flex-column sm:flex-row">
+
+                    <span class="p-input-icon-left mb-2">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Buscar"
+                            class="w-full" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>
+                        <div style="width: 150px;" class="flex justify-content-center align-items-center">
+                            Horario
+
+                        </div>
+                    </th>
+                    <th>
+                        <div class="text-center">
+                            Cantidad
+
+                        </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-center align-items-center">
+                        Fecha de Registro
+                      </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-center align-items-center">
+                          Archivo
+                      </div>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr>
+                    <td class="text-center">
+                      {{item.horario}}
+                    </td>
+                    <td class="text-center">
+                        {{item.cantidad}}
+                    </td>
+                    <td class="text-center">
+                       {{dateFormat(item.fecha_Registro)}}
+                    </td>
+                    <td *ngIf="item.archivo" class="text-center">
+                      <!-- {{item.archivo}} -->
+                        <button pButton  style="background-color: #FF7987;border: 0;" label="Descargar" (click)="descargarArchivo(item.archivo)" [loading]="estaSiendoDescargado(item.archivo)"></button>
+                        <!-- <button (click)="descargarArchivo(item.archivo)">Descargar</button> -->
+                      </td>
+                      <td *ngIf="!item.archivo" class="text-center">
+                        <button pButton disabled style="background-color: grey;border: 0;" label="Descargar" (click)="descargarArchivo(item.archivo)"></button>
+                      <!-- {{item.archivo}} -->
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">Sin Datos para Mostrar.</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="loadingbody">
+                <tr>
+                    <td colspan="7">Cargando Datos, espere...</td>
+                </tr>
+
+            </ng-template>
+            <ng-template pTemplate="paginatorleft" let-state>
+                Mostrando {{(state.page  * state.rows) + 1}} a {{state.rows * (state.page + 1)}} de {{state.totalRecords}} registros.
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="show" style="display: none;">
+    <iframe id="report" height="1000" width="1000" [src]="url1 | safeUrl"></iframe>
+  </div>

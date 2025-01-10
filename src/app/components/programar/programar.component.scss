@@ -1,0 +1,103 @@
+.form {
+    padding: 20px 0;
+}
+.component__content {
+    margin-left: 70px !important;
+    margin-top: 50px !important;
+    margin-right: 80px;
+}
+
+.inputs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.cantidades {
+    margin-top: 50px;
+}
+
+
+@media (min-width: 300px) and (max-width: 649px) {
+    .inputs {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .input {
+        margin-bottom: 30px;
+    }
+}
+
+@media (min-width: 650px) and (max-width: 900px) {
+    .inputs {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .input {
+        margin-bottom: 30px;
+    }
+}
+
+@media (min-width: 900px)  {
+    .inputs {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .input {
+        margin-bottom: 30px;
+
+    }
+}
+
+/* @media (min-width: 1200px)  {
+    .inputs {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .input {
+        margin-bottom: 30px;
+
+    }
+} */
+
+
+
+.label__correo {
+    margin-bottom: 19px;
+}
+
+.programar__btn {
+    margin-top: 20px;
+}
+
+.accordion {
+    margin-top: 30px;
+    padding: 20px 0;
+}
+
+.header__light,
+.td__light {
+    color: #000;
+    background-color: #E1E1E1;
+    text-align: center;
+    border-bottom: 1px solid black;
+}
+
+.header__dark,
+.td__dark {
+    color: #FFF;
+    background-color: #181434;
+    text-align: center;
+}
+
+.tablaProgramar__btns {
+    display: flex;
+    gap: 10px;
+}
+
+.table {
+    padding: 60px 0px 100px 0px;
+}

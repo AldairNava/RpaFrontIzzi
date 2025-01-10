@@ -1,0 +1,157 @@
+<div class="component__content">
+    <app-breadcrumb [pageTitle]="'Asignacion de Audios > Individual' "></app-breadcrumb>
+
+
+     <div class="maincont">
+		<div class="card-result bord" style="max-width: 90%; margin: 0 auto 0px auto;">
+			<p class="middle">Datos Generales</p>
+
+			<div class="table">
+				<p-table
+					#dt1
+					[value]="analista"
+					[rowHover]="true"
+				>
+					<ng-template pTemplate="header">
+                        <tr>
+                            <th style="width: 250px; height: 20px" class="headers" *ngFor="let header of headersPrimero">
+                                <h5 class="header__txt"> {{header}} </h5>
+                            </th>
+                        </tr>
+					</ng-template>
+		
+					<ng-template pTemplate="body" let-data>
+                        <tr class="row">
+                            <td class="td">
+                                <p> {{data.id_empleado}} </p>
+                            </td>
+
+                            <td class="td">
+                                <p> {{data.nombre}} </p>
+                            </td>
+
+                                    <td class="td" style="width: 450px;">
+                                <p> {{data.puestoOp}} </p>
+                            </td>
+                        </tr>
+					</ng-template>
+				</p-table>
+
+				<p-table
+				#dt1
+				[value]="analista"
+				[rowHover]="true"
+				>
+					<ng-template pTemplate="header">
+						<tr>
+							<th style="width: 250px;"  class="headers" *ngFor="let header of headersSegundo">
+								<h5 class="header__txt"> {{header}} </h5>
+							</th>
+						</tr>
+					</ng-template>
+
+					<ng-template pTemplate="body" let-data>
+						<tr class="row">
+							<td class="td">
+								<p> {{data.region}} </p>
+							</td>
+
+							<td class="td">
+								<p> {{data.skill}} </p>
+							</td>
+
+							<td class="td" style="width: 450px;">
+								<p> {{data.dpto}} </p>
+							</td>
+						</tr>
+					</ng-template>
+				</p-table>
+            </div>
+		</div>
+	</div>
+
+    <div class="filtros" [class]=" mode ? 'filtros--dark' : 'filtros--light' ">
+        <div class="celda">
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input placeholder="Asesor" [(ngModel)]="asesor" type="text" pInputText (ngModelChange)="filtrando()" />
+            </span>
+        </div>
+
+        <div class="celda">
+            <p-dropdown [options]="tipo" placeholder="Status" [style]="{'width':'200px'}" [(ngModel)]="tipoSeleccioando" optionLabel="name" (ngModelChange)="filtrando()"></p-dropdown>
+        </div>
+
+        <div class="celda">
+            <p-calendar #myCalendar placeholder="Fecha Llamada"  selectionMode="range" [(ngModel)]="fechas" [readonlyInput]="true" [showIcon]="true" (ngModelChange)="filtrando()"></p-calendar>
+        </div>
+
+        <div class="celda">
+            <button [class]=" mode ? 'btn--dark' : 'btn--light' " label="Limpiar" disableRipple pButton severity="danger" icon="pi pi-eraser" iconPos="right" (click)="limpiarFiltros()"></button>
+        </div>
+    </div>
+
+     <div class="table_audios">
+          <p-table
+          #dt1
+          [globalFilterFields]="['name']"
+          [value]="audios"
+          [rows]="10"
+          [rowHover]="true"
+          [paginator]="true"
+          [showCurrentPageReport]="true"
+          currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas">
+              <ng-template pTemplate="header">
+                  <tr>
+                      <th [class]=" mode ? 'header--dark' : 'header--light' " *ngFor="let header of headers" class="header">
+                          <div class="flex justify-content-center align-items-center text">
+                              {{header}}
+                          </div>
+                      </th>
+                  </tr>
+              </ng-template> 
+  
+              <ng-template pTemplate="body" let-audio>
+                  <tr [class]=" mode ? 'body--dark' : 'body--light' ">
+                    <td class="text">
+                        <p>{{audio.audio_name}}</p>
+                    </td>
+                    
+
+                    <td  class="text">
+                         <p>{{audio.tipo}}</p>
+                    </td>
+  
+                    <td  class="text">
+                        <p>{{audio.nomAsesor.toUpperCase()}}</p>
+                    </td>
+
+                    <td  class="text">
+                        <p>{{audio.idAsesor}}</p>
+                    </td>
+
+                    <td  class="text">
+                        <i *ngIf="audio.revisado_analista === '1'" class="pi true-icon pi-check-circle" style="color: #1a8e0b; font-size: 20px"></i>
+                        <i *ngIf="audio.revisado_analista === '0'"  class="pi false-icon pi-times-circle" style="color: rgb(255, 0, 183); font-size: 20px" ></i>
+                    </td>
+
+                      <td >
+                          <p-button
+                              id="openModal"
+                              (click)="actualizaRevisado(audio)"
+                              label="Resultados"
+                              [disabled]="audio.analyzed === 0 ? true : false "
+                              styleClass="p-button-rounded p-button-help"
+                              class="btn"
+                              >
+                          </p-button>
+                      </td>
+  
+  
+                  </tr>
+              </ng-template>
+          </p-table>
+    </div>
+</div>
+
+<p-toast></p-toast>

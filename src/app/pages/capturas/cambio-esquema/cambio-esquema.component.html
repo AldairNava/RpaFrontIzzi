@@ -1,0 +1,211 @@
+<div class="text-900 font-bold text-2xl mb-4 text-center">Formulario Cambio de Esquema VeTV / VeTV HD</div>
+
+<div class="card">
+    <p-panel header="Datos de Cambio de Esquema VeTV / VeTV HD" class="line-height-12 m-0">
+        <form [formGroup]="formCambioEsquema">
+            <div class="p-fluid p-formgrid grid">
+                <div class="col-12 md:col-6">
+                    <h5>Tipo de Cuenta</h5>
+                    <div class="field-radiobutton" >
+                        <p-radioButton
+                            formControlName="tipoCuenta"
+                            [value]="'VETV'"
+                        >
+                        </p-radioButton>
+                        <label>VETV</label>
+                      </div>
+                      <div class="field-radiobutton" >
+                        <p-radioButton
+                            formControlName="tipoCuenta"
+                            [value]="'VETV HD'"
+                         >
+                        </p-radioButton>
+                        <label>VETV HD</label>
+                      </div>
+                    </div>
+                    <div class="col-6"></div>
+                <div class="field col-12 md:col-4">
+                    <span class="p-float-label">
+                        <input
+                        type="text"
+                        pInputText
+                        onlyNumbers
+                        formControlName="cuenta"
+                        >
+                        <label>Número de cuenta</label>
+                    </span>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <p-dropdown
+                    [options]="pais"
+                    [showClear]="true"
+                    placeholder="Pais"
+                    formControlName="pais"
+                    >
+                    </p-dropdown>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <p-dropdown
+                    [options]="cambio"
+                    formControlName="tipoCambio"
+                    [showClear]="true"
+                    placeholder="Tipo de Cambio">
+                    </p-dropdown>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <p-dropdown
+                        [showClear]="true"
+                        [options]="dispo"
+                        formControlName="numDispositivos"
+                        placeholder="Número de Dispositivos">
+                    </p-dropdown>
+                </div>
+            </div>
+            <div class="grid flex justify-content-center">
+                <div class="col-4 text-center">
+                    <button
+                    (click)="verify()"
+                    pButton
+                    label="Enviar"
+                    style="width:auto;"></button>      
+                </div>
+            </div>
+        </form>
+    </p-panel>
+</div>
+<p-dialog
+  [closable]="closeModal"
+  header="Guardar"
+  [(visible)]="display"
+  [modal]="true"
+  showEffect="fade"
+  [style]="{width: '30vw'}"
+  [breakpoints]="{'960px': '75vw'}">
+  <p class="line-height-3 m-0">
+        Los datos a guardar son los siguientes:
+    </p>
+
+  <ul>
+    <li>Tipo de Cuenta: <strong>{{formCambioEsquema.value.tipoCuenta}}</strong></li>
+    <li>Cuenta: <strong>{{formCambioEsquema.value.cuenta}}</strong></li>
+    <li>País: <strong>{{formCambioEsquema.value.pais}}</strong></li>
+    <li>Tipo de Cambio: <strong>{{formCambioEsquema.value.tipoCambio}}</strong></li>
+    <li>Número de Dispositivo: <strong>{{formCambioEsquema.value.numDispositivos}}</strong></li>
+  </ul>
+  <ng-template pTemplate="footer">
+
+    <loading-button
+      label="Guardar"
+      labelLoad="Guardando"
+      [loading]="enviando"
+      (click)="sendData()"></loading-button>
+
+  </ng-template>
+</p-dialog>
+
+<p-toast
+  [baseZIndex]="99999"
+  key="tst"></p-toast>
+
+  <div class="row">
+    <div class="cols">
+      <div class="card">
+        <p-table #dt1 [value]="cambioPaqueteEsquemaDia" dataKey="id" [loading]="loading" [rows]="50" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
+            styleClass="p-datatable-gridlines" [paginator]="true"
+            [globalFilterFields]="['tipoCuenta','cuenta','pais','tipoCambio','numDispositivos','status']" responsiveLayout="scroll">
+            <ng-template pTemplate="caption">
+                <div class="flex justify-content-between flex-column sm:flex-row">
+
+                    <span class="p-input-icon-left mb-2">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Buscar"
+                            class="w-full" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Tipo de Cuenta
+
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Cuenta
+
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Pais
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Tipo de Cambio
+                        </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          Número de Dispositivos
+                      </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          Estatus
+                      </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          Fecha Captura
+                      </div>
+                    </th>
+  
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr>
+                    <td>
+                      {{item.tipoCuenta}}
+                    </td>
+                    <td>
+                        {{item.cuenta}}
+                    </td>
+                    <td>
+                        {{item.pais}}
+                    </td>
+                    <td>
+                       {{item.tipoCambio}}
+                    </td>
+                    <td>
+                      {{item.numDispositivos}}
+                    </td>
+                    <td>
+                      {{item.status}}
+                    </td>
+                    <td>
+                      {{item.fechaCaptura}}
+                    </td>
+    
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">Sin Datos para Mostrar.</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="loadingbody">
+                <tr>
+                    <td colspan="7">Cargando Datos, espere...</td>
+                </tr>
+
+            </ng-template>
+            <ng-template pTemplate="paginatorleft" let-state>
+                Mostrando {{(state.page  * state.rows) + 1}} a {{state.rows * (state.page + 1)}} de {{state.totalRecords}} registros.
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>

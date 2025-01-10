@@ -1,0 +1,200 @@
+<div class="component__content">
+
+    <app-breadcrumb [pageTitle]="'Analizar Audios'"></app-breadcrumb>
+
+    <div class="masivo" *ngIf="!textoMasivo">
+        <p-inputSwitch styleClass="font-size: 5px" [(ngModel)]="masivo" (onChange)="validaMasivo()"></p-inputSwitch> 
+        <h3 class="masivo__text" [style]=" mode ? 'color: #FFF' : 'color: #000' ">Analizar todos</h3>
+    </div>
+
+    <div class="masivo" *ngIf="textoMasivo">
+        <h1 class="blink">Se está analizando masivamente, por favor espera a que termine el proceso</h1>
+    </div>
+
+
+    <div class="filtros" [class]=" mode ? 'filtros--dark' : 'filtros--light' ">
+        <div class="celda">
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input type="text" pInputText [(ngModel)]="filterAudioInput" (ngModelChange)="filtrando()" />
+            </span>
+        </div>
+
+        <div class="celda">
+            <p-dropdown [options]="tipo" placeholder="Status" [(ngModel)]="selectedTipo" optionLabel="name" (ngModelChange)="filtrando()"></p-dropdown>
+        </div>
+
+        <div class="celda">
+            <p-calendar #myCalendar [(ngModel)]="fechas" selectionMode="range" [readonlyInput]="true" [showIcon]="true" (ngModelChange)="filtrando()"></p-calendar>
+        </div>
+
+        <div class="celda">
+            <button [class]=" mode ? 'btn--dark' : 'btn--light' " label="Limpiar" disableRipple pButton severity="danger" icon="pi pi-eraser" iconPos="right" (click)="limpiarFiltros()"></button>
+        </div>
+    </div>
+
+
+    <div class="table">
+        <p-table
+        #dt1
+        [globalFilterFields]="['name']"
+        [value]="audios"
+        [rows]="10"
+        [rowHover]="true"
+        [paginator]="true"
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th [class]=" mode ? 'header--dark' : 'header--light' " *ngFor="let header of headers" class="header">
+                        <div class="flex justify-content-center align-items-center text">
+                            {{header}}
+                        </div>
+                    </th>
+                </tr>
+            </ng-template> <!-- Header de las columnas -->
+
+            <ng-template pTemplate="body" let-audio>
+                <tr [class]=" mode ? 'body--dark' : 'body--light' ">
+                    <td [class]="audio.groserias === 1 ? 'bad-word' : null " style="min-width: 12rem; text-align: center;" class="text">
+                        <i *ngIf="audio.groserias === 1" class="pi pi-exclamation-triangle text-red-500"></i>
+                        <p>{{audio.name}}</p>
+                    </td>
+
+                    <td [class]="audio.groserias === 1 ? 'bad-word' : null ">
+                        <div class="buttons__flex">
+                            <img *ngIf="!audio.isPlaying"  [ngClass]="audio.isPlaying ? 'rotating': '' " (click)="audio.hasInstance ? audioControls(audio) : processAudio(audio)" pTooltip="Reproducir Audio" tooltipPosition="top" class="analizarBtn" alt="icon" src="./../../../assets/img/play.png">
+                            <img *ngIf="audio.isPlaying" (click)="audio.hasInstance ? audioControls(audio) : processAudio(audio)" class="playing__gif" src="../../../assets/img/gif/aqualizer.gif" alt="Loading GIF">
+
+                            <img (click)="analyze(audio)" pTooltip="Analizar Audio" tooltipPosition="top" class="analizarBtn" alt="icon" src="./../../../assets/img/dalle.png">
+
+                    
+
+                            <img (click)="updateDeleted(audio)" pTooltip="Eliminar Audio" class="analizarBtn" src="./../../../assets/img/trash.png" alt="delete">
+                            <!-- <button
+                                pButton
+                                pRipple
+                                (click)="audio.hasInstance ? audioControls(audio) : processAudio(audio)"
+                                class="p-button-primary action"
+                                [pTooltip]=" audio.isPlaying ? 'Pausar' : 'Reproducir' "
+                                tooltipPosition="top"
+                                style="background-color: transparent;"
+                            >
+                                    <ng-container *ngIf="!audio.isPlaying; else gifTemplate" class="margin-center">
+                                        <i class="pi pi-play" [style]=" mode ? 'color: #FFF' : 'color: #000' " ></i>
+                                    </ng-container>
+                                    <ng-template #gifTemplate>
+                                        <img class="playing__gif" src="../../../assets/img/gif/aqualizer.gif" alt="Loading GIF">
+                                    </ng-template>
+                            </button> -->
+
+                            <!-- <button
+                                pButton
+                                pRipple
+                                class="p-button-primary action"
+                                (click)="analyze(audio)"
+                                pTooltip="Analizar Audio"
+                                tooltipPosition="top"
+                                style="background-color: transparent;"
+
+                            > -->
+                                <!-- <i class="pi pi-eye" [style]=" mode ? 'color: #FFF' : 'color: #000' "></i> -->
+                            <!-- </button> -->
+
+                            <!-- <button
+                            pButton
+                            pRipple
+                            class="p-button-primary action"
+                            (click)="updateDeleted(audio)"
+                            pTooltip="Eliminar Audio"
+                            tooltipPosition="top"
+                            style="background-color: transparent;"
+                        >
+                            <i class="pi pi-trash" [style]=" mode ? 'color: #FFF' : 'color: #000' "></i>
+                        </button> -->
+                        </div> <!-- .buttons__flex-->
+                    </td>
+
+                    <td [class]="audio.groserias === 1 ? 'bad-word' : null " style="max-width: 200px; text-align: center;">
+                        <i *ngIf="audio.played === 1" class="pi true-icon pi-check-circle" style="color: #FFF; font-size: 20px"></i>
+                        <i *ngIf="audio.played === 0"  class="pi false-icon pi-times-circle" style="color: rgb(255, 0, 183); font-size: 20px" ></i>
+                    </td>
+                    <!-- MASIVO -->
+                    <td *ngIf="!esMasivo" [class]="audio.groserias === 1 ? 'bad-word' : null " style="max-width: 200px; text-align: center;">
+                        <i *ngIf="audio.analyzed === 1" class="pi true-icon pi-check-circle" style="color: #FFF; font-size: 20px"></i>
+                        <i *ngIf="audio.analyzed === 0"  class="pi false-icon pi-times-circle" style="color: rgb(255, 0, 183); font-size: 20px"></i>
+                    </td>
+                    <td *ngIf="esMasivo" [class]="audio.groserias === 1 ? 'bad-word' : null " style="min-width: 12rem; text-align: center;">
+                        <div class="progress">
+                            <p-toast></p-toast>
+                            <p-progressBar [value]="audio.progress" [style]="{ height: '20px', width: '100%' }"></p-progressBar>
+                        </div>
+                    </td>
+                    <td [class]="audio.groserias === 1 ? 'bad-word' : null " style="min-width: 12rem; text-align: center;">
+                        <p-button
+                            id="openModal"
+                            (click)="redirectFullResults(audio)"
+                            label="Resultados"
+                            [disabled]="audio.analyzed === 0 ? true : false "
+                            styleClass="p-button-rounded p-button-help">
+                        </p-button>
+                    </td>
+
+
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+    <div *ngIf="analyzing" class="modal__bot">
+        <div class="modal__bot-content modal__bot__flex">
+            <img *ngIf="starting" class="modal__bot__starting" src="../../../assets/img/gif/starting.gif" alt="starting">
+            <h1 class="blink" *ngIf="starting">¡Hola! Vamos a iniciar con el proceso de análisis, por favor espera...</h1>
+    
+            <img *ngIf="recovering"  class="modal__bot__starting" src="../../../assets/img/gif/recovering.gif" alt="starting">
+            <h1 class="blink" *ngIf="recovering">Analizando la llamada</h1>
+    
+            <img *ngIf="transcribe" class="modal__bot__starting" src="../../../assets/img/gif/transcribe.gif" alt="starting">
+            <h1 class="blink" *ngIf="transcribe" >Transcribiendo llamada...</h1>
+    
+            <img *ngIf="context" class="modal__bot__starting" src="../../../assets/img/gif/context.gif" alt="starting">
+            <h1 class="blink" *ngIf="context">Analizando contextos...</h1>
+    
+            <img *ngIf="score" class="modal__bot__starting" src="../../../assets/img/gif/score.gif" alt="starting">
+            <h1 class="blink" *ngIf="score">Asignando calificaciones...</h1>
+    
+            <img *ngIf="done || doneFinal" class="modal__bot__starting" src="../../../assets/img/gif/done.gif" alt="starting">
+            <h1 class="blink" *ngIf="done">¡Hemos terminado! Estamos guardando el análisis</h1>
+            <p-button
+                *ngIf="doneFinal"
+                id="openmodal__bot"
+                (click)="redirectFullResultsModal()"
+                label="Resultados"
+                styleClass="p-button-rounded p-button-help"
+            >
+            </p-button>
+    
+            <img *ngIf="error" class="modal__bot__starting" src="../../../assets/img/gif/error.gif" alt="starting">
+            <h1 class="blink" *ngIf="error">Hubo un error durante el análisis. Disculpa los inconvenientes</h1>
+
+    
+            <div class="progress">
+                <p-toast></p-toast>
+                <p-progressBar [value]="value" [style]="{ height: '20px', width: '100%' }"></p-progressBar>
+            </div>
+        </div>
+
+    </div>
+
+    <div *ngIf="analyzingMasivo" class="modal__bot">
+        <div class="modal__bot-content modal__bot__flex">
+            <img *ngIf="analyzingMasivo" class="modal__bot__starting" src="../../../assets/img/gif/starting.gif" alt="starting">
+            <h1 class="blink" *ngIf="analyzingMasivo">¡Hola! Vamos a iniciar con el proceso de análisis masivo, por favor espera...</h1>
+        </div>
+    </div>
+
+
+
+</div>
+
+<p-toast></p-toast>

@@ -1,0 +1,85 @@
+<div class="text-900 font-bold text-2xl mb-4 text-center">Editar Proceso</div>
+
+<div [formGroup]="formNuevoProceso" class="card">
+
+  <p-panel header="Datos del Proceso" class="line-height-12 m-0">
+    <!-- INICIO DE INPUTS -->
+    <br>
+    <div class="p-fluid p-formgrid grid">
+
+      <div class="field col-12 md:col-6">
+
+        <span class="p-float-label">
+          <input
+            [ngClass]="{'ng-invalid ng-dirty': formNuevoProceso.get('name_process')?.errors != null && formNuevoProceso.get('name_process')?.touched == true}"
+            type="text" pInputText  formControlName="name_process">
+          <label>Nombre del Proceso</label>
+
+
+
+        </span>
+
+      </div>
+
+      <div class="field col-12 md:col-6">
+
+        <span class="p-float-label">
+            <input
+            [ngClass]="{'ng-invalid ng-dirty': formNuevoProceso.get('usuario')?.errors != null && formNuevoProceso.get('usuario')?.touched == true}"
+            type="text" pInputText  formControlName="usuario">
+          <label>Usuario</label>
+
+
+
+        </span>
+
+      </div>
+
+      <div class="field col-12 md:col-6">
+
+        <span class="p-float-label">
+            <input
+            [ngClass]="{'ng-invalid ng-dirty': formNuevoProceso.get('password')?.errors != null && formNuevoProceso.get('password')?.touched == true}"
+            type="text" pInputText  formControlName="password">
+          <label>Contraseña</label>
+
+
+
+        </span>
+
+      </div>
+
+
+
+      <div class="field col-12 md:col-6">
+        <p-dropdown optionLabel="label" optionValue="id"
+          [ngClass]="{'ng-invalid ng-dirty': formNuevoProceso.get('status')?.errors != null && formNuevoProceso.get('status')?.touched == true}"
+          [options]="procesoStatus" [showClear]="true" placeholder="Estatus" formControlName="status">
+        </p-dropdown>
+      </div>
+
+
+
+
+
+
+      <!-- BOTON DE VALICACION DE DATOS -->
+
+      <!-- BOTON DE EJECUCION -->
+      <div class="col lg:col-12" >
+
+        <div class="grid flex justify-content-center" >
+          <div class="col-4 text-center" >
+            <p-button label="Editar" icon="pi pi-save" styleClass="mr-2 mb-2" [loading]="guardando"
+              (onClick)="guardarBot()"></p-button>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-panel>
+  <br>
+
+</div>
+<p-toast key="tst" [baseZIndex]="99999"></p-toast>

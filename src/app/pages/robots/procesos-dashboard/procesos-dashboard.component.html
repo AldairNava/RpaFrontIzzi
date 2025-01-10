@@ -1,0 +1,188 @@
+<div class="col-12">
+    <div class="card">
+        <h5>Procesos </h5>
+        <!-- <div class="row">
+            <div class="cols">
+              <div class="card">
+                <p-table #dt1 [value]="statsBots" dataKey="tabla" [loading]="loading1" [rows]="50" [rowHover]="true" 
+                    styleClass="p-datatable-gridlines"
+                    responsiveLayout="scroll">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>
+                                <div class="flex justify-content-between align-items-center">
+                                    Robots
+        
+                                </div>
+                            </th>
+                            <th>
+                                <div class="flex justify-content-between align-items-center">
+                                    Completado
+        
+                                </div>
+                            </th>
+                            <th>
+                                <div style="width: 150px;" class="flex justify-content-between align-items-center">
+                                    Procesando
+                                </div>
+                            </th>
+                            <th>
+                                <div style="width: 150px;" class="flex justify-content-between align-items-center">
+                                    Pendiente
+                                </div>
+                            </th>
+                            <th >
+                              <div style="width: 150px;" style="width:150px;" class="flex justify-content-between align-items-center">
+                                  Error
+                              </div>
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-item let-i="rowIndex">
+                        <tr>
+                            <td>
+                              {{item.tabla}}
+                            </td>
+                            <td>
+                                {{ statsValidation(item.completado)}}
+                            </td>
+                            <td>
+                                {{statsValidation(item.procesando)}}
+                            </td>
+                            <td>
+                               {{statsValidation(item.pendiente)}}
+                            </td>
+                            <td >
+                              {{statsValidation(item.error)}}
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="7">Sin Datos para Mostrar.</td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="loadingbody">
+                        <tr>
+                            <td colspan="7">Cargando Datos, espere...</td>
+                        </tr>
+        
+                    </ng-template>
+                    <ng-template pTemplate="paginatorleft" let-state>
+                        Mostrando {{(state.page  * state.rows) + 1}} a {{state.rows * (state.page + 1)}} de {{state.totalRecords}} registros.
+                  </ng-template>
+                </p-table>
+              </div>
+            </div>
+          </div> -->
+        
+        <p-table #dt1 [value]="dataSource" dataKey="id" [rows]="50" [loading]="loading" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
+            styleClass="p-datatable-gridlines" [paginator]="true"
+            [globalFilterFields]="['name_process','usuario','password','status']" responsiveLayout="scroll">
+            <ng-template pTemplate="caption">
+                <div class="flex justify-content-between flex-column sm:flex-row">
+
+                    <span class="p-input-icon-left mb-2">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Buscar"
+                            class="w-full" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Nombre del Proceso
+
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Usuario
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Contraseña
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Status
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+
+                        </div>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr>
+                    <td>
+                        {{item.name_process}}
+                    </td>
+                    <td>
+                        {{ item.usuario }}
+                     </td> 
+                     <td>
+                        {{ item.password }}
+                     </td> 
+                     <td>
+                        {{ item.status == "1"?"Activo":"Desactivado" }}
+                     </td> 
+                    <td>
+                        <p-splitButton label="Acciones" [model]="items" styleClass="p-button-text mr-2 mb-2"
+                            appendTo="body" (onDropdownClick)="selection(item,i)"></p-splitButton>
+                    </td>
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">Sin datos encontrados.</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="loadingbody">
+                <tr>
+                    <td colspan="7">Cargando robots, espere...</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="paginatorleft" let-state>
+                Mostrando {{(state.page  * state.rows) + 1}} a {{state.rows * (state.page + 1)}} de {{state.totalRecords}} registros.
+          </ng-template>
+        </p-table>
+    </div>
+    <p-toast key="tst" [baseZIndex]="99999"></p-toast>
+    <p-confirmDialog header="Enviar comando" key="senCommand" icon="pi pi-exclamation-triangle" acceptLabel="Si, Enviar"
+        rejectLabel="Cancelar" [style]="{width: '350px'}" acceptButtonStyleClass="p-button-text"
+        rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+
+    <p-confirmDialog header="Cambiar proceso" key="changeProcess" icon="pi pi-exclamation-triangle"
+        acceptLabel="Si, Cambiar" rejectLabel="Cancelar" [style]="{width: '350px'}"
+        acceptButtonStyleClass="p-button-text" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+    <p-confirmDialog header="Eliminar Robot" key="deleteBot" icon="pi pi-exclamation-triangle"
+        acceptLabel="Si, Eliminar" rejectLabel="Cancelar" [style]="{width: '350px'}"
+        acceptButtonStyleClass="p-button-danger" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+    <p-dialog [header]="'Log de Robot '+opcionToAction.hostName +'('  + opcionToAction.ipEquipo+')'"
+        [(visible)]="displayLogDialog" [modal]="true" showEffect="fade" [style]="{width: '30vw'}"
+        [breakpoints]="{'960px': '75vw'}">
+
+        <p *ngIf="loadingLog">
+            Buscando Log ...
+        </p>
+        <p *ngIf="loadingLog">
+            <p-progressSpinner [style]="{width: '20px', height: '20px'}"></p-progressSpinner>
+        </p>
+        <p *ngIf="loadingLog == false && logContent.length == 0">Sin Log encontrado</p>
+        <robot-log-modal *ngIf="loadingLog == false && logContent.length > 0" [datasource]="logContent">
+        </robot-log-modal>
+        <ng-template pTemplate="footer">
+            <button pButton icon="pi pi-check" (click)="displayLogDialog=false" label="Cerrar"
+                class="p-button-outlined"></button>
+        </ng-template>
+    </p-dialog>
+
+</div>

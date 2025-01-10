@@ -1,0 +1,23 @@
+.header__light,
+.td__light {
+     color: #000;
+     background-color: #E1E1E1 !important;
+     text-align: center;
+     border-bottom: 1px solid black !important;
+}
+.component__content {
+     margin-left: 70px !important;
+     margin-top: 50px !important;
+     margin-right: 80px;
+ }
+
+.header__dark,
+.td__dark {
+     color: #FFF !important;
+     background-color: #181434 !important;
+     text-align: center;
+}
+
+.table {
+     padding: 60px 0px 100px 0px;
+}

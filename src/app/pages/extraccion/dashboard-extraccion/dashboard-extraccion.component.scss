@@ -1,0 +1,54 @@
+:host ::ng-deep ::-webkit-scrollbar-thumb:horizontal {
+  background-color: #FFC300;
+  opacity: 0.5;
+}
+:host ::ng-deep ::-webkit-scrollbar-thumb:vertical {
+  background-color: #FFC300;
+  // opacity: 0.5;
+}
+
+::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+  color: white;
+  opacity: 0.5;
+  background-color: #FFC300; /* Cambia el color de la página activa del paginador */
+}
+.p-button:active {
+  box-shadow: #FFC300;
+}
+::ng-deep .p-calendar .p-button-icon-only {
+  background-color: #FFC300 !important;
+}
+
+
+
+
+
+// .p-inputtext.p-component:focus,
+// .p-inputgroup:focus-within {
+//   border-color: #FF5200; /* Cambiar a tu color deseado */
+  
+// }
+
+// .p-inputtext.p-component::selection
+//  {
+//   border-color: red; /* Cambiar a tu color deseado */
+// }
+
+// /* Cambiar el color del borde de los inputs de PrimeNG por defecto */
+// .p-inputtext.p-component,
+// .p-dropdown.p-component .p-dropdown-label,
+// .p-calendar.p-inputtext,
+// .p-inputtextarea.p-inputtext,
+// .p-password.p-inputtext,
+// .p-slider .p-slider-handle,
+// .p-slider .p-slider-range,
+// .p-rating .p-rating-icon {
+//   border-color: red; /* Cambiar a tu color deseado */
+// }
+
+.p-inputtext:hover {
+    border-color: #FFC300; /* Cambiar a tu color deseado para el borde en estado de enfoque */
+  }
+.p-inputtext:focus {
+    border-color: #FFC300 !important; /* Cambiar a tu color deseado para el borde en estado de enfoque */
+  }

@@ -1,0 +1,406 @@
+<div class="dash">
+
+    <div class="dash__title">
+        
+        <div class="page__head">
+            <div class="page">
+                <i class="pi pi-chart-bar" [style]=" mode ? 'color: white;' : 'color: black;' "></i>
+
+                <h3 [class]=" mode ? 'text__w' : 'text__b'">Dashboard</h3>
+            </div>
+
+            <div class="fecha">
+                <h3 class="date"  [class]=" mode ? 'text__w' : 'text__b'"> {{fullFecha}} </h3>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="resume">
+        <div class="resume__saludo">
+            <h3 class="tracking-in-expand-forward-bottom" [class]=" mode ? 'text__w' : 'text__b'"> {{mensajeBienvenida}}, <span>{{userName}}</span>  </h3>
+        </div>
+
+
+        <div class="audios__categorias">
+            <button 
+                class="categorias__btn"         
+                [ngClass]="{'selected': categoria.active, 'text__w': mode, 'text__b': !mode }" 
+                *ngFor="let categoria of botones"
+                (click)="categoriaSelect(categoria)"
+            >    
+                {{categoria.tipo}}: 
+            </button>
+        </div>
+    </div>
+
+    <div class="audios__resumen">
+        <div class="resumen__modulo" *ngFor="let modulo of resumen">
+            <div>
+                <p [class]=" mode ? 'text__w' : 'text__b'"> {{modulo.nombre}}: </p>
+            </div>
+
+            <div class="modulo__info">
+                <div class="info__icon">
+                    <i class="pi {{modulo.icon}} icon__color"  [style]=" mode ? 'color: white;' : 'color: black;' "></i>
+                </div>
+                <div class="info__number">
+                    <h3 *ngIf="reload" class="tracking-in-contract" [class]=" mode ? 'text__w' : 'text__b'"> {{modulo.data}} </h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="filtros">
+            <div>
+                <p [class]=" mode ? 'text__w' : 'text__b'"> Filtros: </p>
+            </div>
+
+            <div class="modulo__info--filtros">
+                <p-calendar class="luna" [(ngModel)]="fechasFiltro" #monthPicker view="month" appendTo="body" selectionMode="range" [readonlyInput]="true" dateFormat="MM" (ngModelChange)="cambiaFechas()"></p-calendar>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="dash" *ngIf="paginaUno">
+    <p [class]=" mode ? 'text__w' : 'text__b'">Indicadores Operativos</p>
+
+    <div class="general">
+        <p [class]=" mode ? 'text__w' : 'text__b'">Indicadores</p>
+
+            <div class="table card__graph">
+                <p-table
+                    #dt1
+                    [globalFilterFields]="['name']"
+                    [value]="dataIndicadorGeneralTabla"
+                    [rowHover]="true"
+                    *ngIf="!fetchingIndicadorGeneral"
+                >
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th class="headers headers__indicador" *ngFor="let header of headersIndicador">
+                                <div class="flex justify-content-center align-items-center text">
+                                    <h5 class="header__txt"> {{header}} </h5>
+                                </div>
+                            </th>
+                        </tr>
+                    </ng-template>
+        
+                    <ng-template pTemplate="body" let-data>
+
+                        <tr class="row__head">
+                            <td style="max-width: 8rem; text-align: center; display: flex;" class="text" >
+                                <i class="pi pi-plus-circle" *ngIf="!data.showInfo && data.Zona != mesActualGrafico" style="font-size: 15px; padding-right: 5px;" (click)="moreInfo(data, 'PT')"></i>
+                                <i class="pi pi-minus-circle" *ngIf="data.showInfo && data.Zona != mesActualGrafico" style="font-size: 15px; padding-right: 5px;" (click)="data.showInfo = !data.showInfo"></i>
+
+                                <p>{{data.zona}}</p>
+                            </td>
+
+                            <td style="max-width: 8rem; text-align: center;" class="text" >
+                                <p>{{data.cargados}}</p>
+                            </td>
+    
+                            <td style="max-width: 8rem; text-align: center;" class="text" >
+                                <p>{{data.analizados}}</p>
+                            </td>
+    
+                            <td style="max-width: 8rem; text-align: center;" class="text" >
+                                <p>{{data.analizadosPorc}}</p>
+                            </td>
+    
+                            <td style="max-width: 8rem; text-align: center;" class="text" >
+                                <p>{{data.noAnalizadosPorc}}</p>
+                            </td>
+                                
+                            <td style="max-width: 8rem; text-align: center;" class="text" >
+                                <p>{{data.ejecutivosEvaluados}}</p>
+                            </td>
+    
+                            <td style="max-width: 8rem; text-align: center;" class="text" >
+                                <p>{{ data.monitoreos }}</p>
+                            </td>
+    
+                            <td style="max-width: 8rem; text-align: center;" class="text" >
+                                <p>{{data.notaCalidad}}</p>
+                            </td>
+    
+                            <td style="max-width: 8rem; text-align: center;" class="text" >
+                                <p> - </p>
+                            </td>
+                        </tr>
+
+                        <tr  *ngFor="let item of fullDataIndicadores" class="row__body" >
+                            <ng-container *ngIf="data.showInfo">
+                                <td>{{item.fecha}}</td>
+                                <td>{{item.total}}</td>
+                                <td>{{item.analizados}}</td>
+                                <td> {{item.analizadosPorc}} %</td>
+                                <td> {{item.noAnalizadosPorc}} %</td>
+                                <td>{{ item.idAsesorUnicos }}</td>
+                                <td>{{ item.analizados / item.idAsesorUnicos }}</td>
+                                <td>{{item.notaCalidad}}</td>
+                                <td> - </td>
+                            </ng-container>
+                        </tr>
+
+                    </ng-template>
+
+                    <h3 class="sinDatos" *ngIf="sinDatos" style="color: #FFF; text-align: center">No hay datos para mostrar</h3>
+
+                </p-table>
+
+                <div *ngIf="fetchingIndicadorGeneral" style="display: flex; justify-content: center;">
+                    <i class="pi pi-spin pi-spinner icon__color" style="font-size: 2rem; margin: 0 auto" [style]=" mode ? 'color: white;' : 'color: black;' "></i>
+                </div>
+            </div>
+        
+
+            <div class="graphs__p1">
+                <div class="card__graph" *ngIf="reload">
+                    <h3 style="color: #FFF">Monitoreo por Divisón</h3>
+                    <h3 class="sinDatos" *ngIf="sinDatos" style="color: #FFF; text-align: center">No hay datos para mostrar</h3>
+
+
+                    <p-chart id="barChart" type="pie" [data]="monitoreoPorDivisionData" [options]="monitoreoPorDivisionOptions"></p-chart>
+
+    
+                </div>
+    
+    
+                <div class="card__graph " *ngIf="reload">
+                    <div>
+                        <p style="color: #FFF">% Llamadas evaluadas</p>
+                        <h3 class="sinDatos" *ngIf="sinDatos" style="color: #FFF; text-align: center">No hay datos para mostrar</h3>
+
+                            <div class="grafico__chart">
+                                <p-chart id="barChart" type="bar" [data]="llamadasEvaluadasData" [options]="llamadasEvaluadasOptions"></p-chart>
+                            </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+
+<div class="dash2" *ngIf="paginaDos">
+    <div class="general">
+        <p [class]=" mode ? 'text__w' : 'text__b'">Indicadores Operativos</p>
+
+        <div class="table card__graph" *ngIf="reload">
+            <p-table
+                #dt1
+                [globalFilterFields]="['name']"
+                [value]="dataIndicadorGeneralTabla"
+                [rowHover]="true"
+            >
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th class="headers headers__indicador" *ngFor="let header of headersOperativos">
+                            <div class="flex justify-content-center align-items-center text">
+                                <h5 class="header__txt"> {{header}} </h5>
+                            </div>
+                        </th>
+                    </tr>
+                </ng-template>
+    
+                <ng-template pTemplate="body" let-data>
+                    <tr class="row__head">
+                        <td style="max-width: 8rem; text-align: center; display: flex;" class="text" >
+                            <i class="pi pi-plus-circle" *ngIf="!data.showInfoST && data.Zona != mesActualGrafico" style="font-size: 15px; padding-right: 5px;" (click)="moreInfo(data, 'ST')"></i>
+                            <i class="pi pi-minus-circle" *ngIf="data.showInfoST && data.Zona != mesActualGrafico" style="font-size: 15px; padding-right: 5px;" (click)="data.showInfoST = !data.showInfoST"></i>
+                            <p>{{data.zona}}</p>
+                        </td>
+
+
+                        <td style="max-width: 8rem; text-align: center;" class="text" >
+                            <p>{{data.notaCalidad}}</p>
+                        </td>
+
+                        <td style="max-width: 8rem; text-align: center;" class="text" >
+                            <p>{{data.analizados}}</p>
+                        </td>
+
+                        <td style="max-width: 8rem; text-align: center;" class="text" >
+                            <p>{{data.reincidentes}}</p>
+                        </td>
+
+                        <td style="max-width: 8rem; text-align: center;" class="text" >
+                            <p>{{data.reincidentesPorc}}</p>
+                        </td>
+                            
+                        <td style="max-width: 8rem; text-align: center;" class="text" >
+                            <p>{{data.insatisfechos}}</p>
+                        </td>
+
+                        <td style="max-width: 8rem; text-align: center;" class="text" >
+                            <p>{{data.insatisfechosPorc}}</p>
+                        </td>
+
+                        <td style="max-width: 8rem; text-align: center;" class="text" >
+                            <p>{{data.negatividad}}</p>
+                        </td>
+
+                        <td style="max-width: 8rem; text-align: center;" class="text" >
+                            <p>{{data.neutralidad}}</p>
+                        </td>
+
+                        <td style="max-width: 8rem; text-align: center;" class="text" >
+                            <p>{{data.positividad}}</p>
+                        </td>
+
+                        <td style="max-width: 8rem; text-align: center;" class="text" >
+                            <p>{{data.puntuacion_general_sentimientos}}</p>
+                        </td>
+                    </tr>
+
+                    <tr  *ngFor="let item of fullDataIndicadores" class="row__body" >
+                        <ng-container *ngIf="data.showInfoST">
+                            <td> {{ item.fecha }}</td>
+                            <td> {{ item.notaCalidad }}</td>
+                            <td> {{ item.analizados }}</td>
+                            <td> {{ item.reincidentes }}</td>
+                            <td> {{ item.reincidentesPorc }}%</td>
+                            <td> {{ item.insatisfechos }} </td>
+                            <td> {{ item.insatisfechosPorc }}% </td>
+                            <td>{{ item.negatividad }}</td>
+                            <td>{{ item.neutralidad }}</td>
+                            <td>{{ item.positividad }}</td>
+                            <td>{{ item.puntuacion_general_sentimientos }}</td>
+                        </ng-container>
+                    </tr>
+
+                </ng-template>
+
+
+            </p-table>
+        </div>
+    </div>
+
+    <div class="general velocims">
+        <p [class]=" mode ? 'text__w' : 'text__b'">Resumen de áreas de oportunidad del mes de {{mesActualGrafico}}</p>
+
+        <div class="card__graph velocims__subcat">
+            <div class="gauge"[style.color]="subcategoria.color" *ngFor="let subcategoria of subcategorias; let i = index">
+                <div>
+                    <h3 style="color: #FFF; font-size: 12px;"> {{subcategoria.short}} </h3>
+                </div>
+                <div class="gauge__body" [style.margin-top]="shortSubs[i].margin + 'px'">
+                    <div class="gauge__fill" [style.background]="subcategoria.color" [style.transform]="'rotate('+ subcategoria.rotate + 'turn)'"></div>
+                  <div class="gauge__cover">{{ subcategoria.calculo }} %</div>
+                </div> 
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<div class="dash" *ngIf="paginaTres">
+        <div class="graficos__grid ">
+            <div class="nivel__calidad card__graph blur-in-expand" *ngIf="reload">
+                <h3 style="color: #FFF">Nivel de calidad: {{porcentajeTotales}}</h3>
+
+                <div class="wrapper">
+                    <div class="cls">
+                        <div class="line" [ngStyle]="{'transform': 'rotate(' + rotationDegrees + 'deg)'}"></div>
+                        <div class="number n0">0%</div>
+                        <div class="number n25">25%</div>
+                        <div class="number n90">50%</div>
+                        <div class="number n75">75%</div>
+                        <div class="number n180">100%</div>
+                        <div class="circle2"></div>
+                        <div class="circle1"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="calidad__monitoreos card__graph blur-in-expand maximo2" *ngIf="reload">
+                <h3 style="color: #FFF">Nota de Calidad y Monitoreos</h3>
+                <h3 class="sinDatos" *ngIf="sinDatos" style="color: #FFF; text-align: center">No hay datos para mostrar</h3>
+                <div class="calidad__monitoreos--graph maximo">
+                    <p-chart id="barChart" type="bar" [data]="notaCalidadData" [options]="notaCalidadOptions"></p-chart>
+                </div>
+            </div>
+
+            <div class="porc__cumpimiento card__graph blur-in-expand" *ngIf="reload">
+                <h3 style="color: #FFF">% de cumplimiento</h3>
+                <h3 class="sinDatos" *ngIf="sinDatos" style="color: #FFF; text-align: center">No hay datos para mostrar</h3>
+                <div class="porc__cumpimiento--graph">
+                    <p-chart id="barChart" type="bar" [data]="cumplimientoData" [options]="cumplimientoOptions"></p-chart>
+                </div>
+            </div>
+
+            <div class="estats__calif card__graph blur-in-expand maximo" *ngIf="reload">
+                <div class="grafico__title">
+                    <h3 style="color: #FFF">Estadísticas de calificaciones</h3>
+                </div>
+                <div  class="estats__calif--graph grafico__chart maximo" >
+                    <h3 class="sinDatos" *ngIf="sinDatos" style="color: #FFF; text-align: center">No hay datos para mostrar</h3>
+                    <p-chart id="barChartestas" type="doughnut" [data]="statsCalifData" [options]="statsCalifOptions"></p-chart>
+                </div>
+            </div>
+
+            <div class="soluc__cliente card__graph blur-in-expand maximo" *ngIf="reload">
+                <div class="grafico__title">
+                    <h3 style="color: #FFF">% Solución al cliente</h3>
+                </div>
+                <div class="soluc__cliente--graph grafico__chart"  >
+                    <h3 class="sinDatos" *ngIf="sinDatos" style="color: #FFF; text-align: center">No hay datos para mostrar</h3>
+                    <p-chart id="barChartestas" type="doughnut" [data]="solucionClienteData" [options]="solucionClienteOptions"></p-chart>
+                </div>
+            </div>
+        </div>
+</div>
+
+
+<div class="dash" *ngIf="paginaCuatro">
+    <div class="graficos__grid__pagina__dos">
+
+        <div>
+            <p style="color: #FFF">Estadísticas de audios cargados y analizados</p>
+           
+
+            <div class="card__graph">
+                <h3 class="sinDatos" *ngIf="sinDatos"> No hay datos para mostrar </h3>
+                <div class="grafico__chart maximo2">
+                    <p-chart id="barChart" type="bar" [data]="cargadosAnalizadosData" [options]="cargadosAnalizadosOptions"></p-chart>
+                </div>
+            </div>
+        </div>
+
+
+        
+        <div class="contenedorancho">
+            <p style="color: #FFF">% Audios analizados</p>
+            <div class="card__graph pastel">
+                <h3 class="sinDatos" *ngIf="sinDatos">No hay datos para mostrar</h3>
+                <div class="grafico__chart pastel__contenedor maximo2">
+                    <p-chart id="barChart" type="doughnut" [data]="cargadosAnalizadosStackedData" [options]="cargadosAnalizadosStackedOptions"></p-chart>
+                </div>
+            </div>
+        </div>
+
+        <div class="two__rows">
+            <p style="color: #FFF">% Emociones y Sentimientos</p>
+            <div class="card__graph">
+                <h3 class="sinDatos" *ngIf="sinDatos">No hay datos para mostrar</h3>
+                <div class="newG">
+                    <canvas id="miGrafica"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="paginador" *ngIf="reload">
+    <div class="arrow" *ngIf="retrocede" (click)="prevPage()">
+        <i class="pi pi-arrow-left" style="color: navy; font-weight: bold; font-size: 20px;"></i>
+    </div>
+
+    <div class="current">
+        <p [class]=" mode ? 'text__w' : 'text__b'">Página {{paginaActual}}</p>
+    </div>
+
+    <div class="arrow" *ngIf="adelanta" (click)="nextPage()">
+        <i class="pi pi-arrow-right" style="color: navy; font-weight: bold; font-size: 20px;"></i>
+    </div>
+</div>

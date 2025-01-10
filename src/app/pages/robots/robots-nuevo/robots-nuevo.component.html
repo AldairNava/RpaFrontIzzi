@@ -1,0 +1,105 @@
+<div class="text-900 font-bold text-2xl mb-4 text-center">Nuevo Robot</div>
+
+<div [formGroup]="formNuevoBot" class="card">
+
+  <p-panel header="Datos de Robot" class="line-height-12 m-0">
+    <!-- INICIO DE INPUTS -->
+    <br>
+    <div class="p-fluid p-formgrid grid">
+
+      <div class="field col-12 md:col-6">
+
+        <span class="p-float-label">
+          <input
+            [ngClass]="{'ng-invalid ng-dirty': formNuevoBot.get('hostName')?.errors != null && formNuevoBot.get('hostName')?.touched == true}"
+            type="text" pInputText  formControlName="hostName">
+          <label>Nombre</label>
+
+
+
+        </span>
+
+      </div>
+
+      <div class="field col-12 md:col-6">
+
+        <span class="p-float-label">
+          <input
+            [ngClass]="{'ng-invalid ng-dirty': formNuevoBot.get('ip')?.errors != null && formNuevoBot.get('ip')?.touched == true}"
+            type="text" pInputText [dropSpecialCharacters]="false" formControlName="ip" mask="IP">
+          <label>Ip de Maquina</label>
+
+
+
+        </span>
+
+      </div>
+
+      <!-- <div class="field col-12 md:col-6">
+
+        <span class="p-float-label">
+          <input
+            [ngClass]="{'ng-invalid ng-dirty': formNuevoBot.get('usuarioBot')?.errors != null && formNuevoBot.get('usuarioBot')?.touched == true}"
+            type="text" pInputText toUpperCase formControlName="usuarioBot">
+          <label>Usuario</label>
+        </span>
+
+      </div>
+      <div class="field col-12 md:col-6">
+
+        <span class="p-float-label">
+          <input
+            [ngClass]="{'ng-invalid ng-dirty': formNuevoBot.get('passwordBot')?.errors != null && formNuevoBot.get('passwordBot')?.touched == true}"
+            type="text" pInputText formControlName="passwordBot">
+          <label>Password</label>
+        </span>
+
+      </div> -->
+
+      <div class="field col-12 md:col-6">
+        <p-dropdown optionLabel="name_process" optionValue="id"
+          [ngClass]="{'ng-invalid ng-dirty': formNuevoBot.get('procesoBotId')?.errors != null && formNuevoBot.get('procesoBotId')?.touched == true}"
+          [options]="processArr" [showClear]="true" placeholder="Proceso asignado" formControlName="procesoBotId">
+        </p-dropdown>
+      </div>
+
+      <div class="field col-12 md:col-6">
+
+        <span class="p-float-label">
+
+
+          <textarea maxlength="150" formControlName="comentarios"
+            [ngClass]="{'ng-invalid ng-dirty': formNuevoBot.get('comentarios')?.errors != null && formNuevoBot.get('comentarios')?.touched == true}"
+            rows="5" cols="30" placeholder="Comentarios" pInputTextarea></textarea>
+          <label>Comentarios</label>
+
+
+
+        </span>
+
+      </div>
+
+
+
+
+
+      <!-- BOTON DE VALICACION DE DATOS -->
+
+      <!-- BOTON DE EJECUCION -->
+      <div class="col lg:col-12" >
+
+        <div class="grid flex justify-content-center" >
+          <div class="col-4 text-center" >
+            <p-button label="Guardar" icon="pi pi-save" styleClass="mr-2 mb-2" [loading]="guardando"
+              (onClick)="guardarBot()"></p-button>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-panel>
+  <br>
+
+</div>
+<p-toast key="tst" [baseZIndex]="99999"></p-toast>

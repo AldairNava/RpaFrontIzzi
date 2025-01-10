@@ -1,0 +1,23 @@
+:host ::ng-deep ::-webkit-scrollbar-thumb:horizontal {
+    background-color: #FFC0CB;
+}
+:host ::ng-deep ::-webkit-scrollbar-thumb:vertical {
+    background-color: #FFC0CB;
+}
+::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    color: white;
+    opacity: 0.8;
+    background-color: #FFC0CB;
+}
+.dropdown-option {
+    display: flex;
+    align-items: center;
+  }
+  .option-buttons {
+    margin-left: auto;
+  }
+  .custom-icon {
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+  }

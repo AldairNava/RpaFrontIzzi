@@ -1,0 +1,61 @@
+:host ::ng-deep ::-webkit-scrollbar-thumb:horizontal {
+    background-color: #FF69B4;
+  }
+  :host ::ng-deep ::-webkit-scrollbar-thumb:vertical {
+    background-color: #FF69B4;
+    // opacity: 0.5;
+  }
+  
+  ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    color: white;
+    background-color: #FF69B4; /* Cambia el color de la página activa del paginador */
+  }
+  .p-button:active {
+    box-shadow: #FF69B4;
+  }
+  ::ng-deep .p-calendar .p-button-icon-only {
+    background-color: #FF69B4 !important;
+  }
+  
+
+
+  // :host ::ng-deep .p-tabview .p-tabview-panels{
+  //   background-color: #FF69B4;
+  // }
+
+  // :host ::ng-deep .p-tabview .p-tabview-nav .p-tabview-nav-link {
+  //   // background-color: red;
+  //   color:red
+  // }
+
+  // :host ::ng-deep .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+  //   color: #FF69B4;
+  //   border-color: #FF69B4;
+  //   transition: none;
+  // } // EL BUENO
+  // :host ::ng-deep .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link: {
+  //   background-color: red;
+  //   color: white;
+  // }
+
+/* not selected */
+// :host ::ng-deep .p-tabview .p-tabview-nav li .p-tabview-nav-link {
+//   border-color: gray;
+//   background: darkgray;
+//   color: navy;
+//   }
+  // /* hover */
+  // :host ::ng-deep .p-tabview .p-tabview-nav li:not(.p-highlight):not(.p-disabled):hover .p-tabview-nav-link {
+  // background: orange;
+  // border-color: brown;
+  // color: navy;
+  // }
+  /* selected */
+  :host ::ng-deep .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+  background: #FF69B4;
+  border-color: #FF69B4;
+  color: white;
+  border: 0;
+  }
+
+ 

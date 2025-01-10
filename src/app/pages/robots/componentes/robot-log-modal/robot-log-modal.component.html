@@ -1,0 +1,56 @@
+
+<p-timeline [value]="datasource"  styleClass="customized-timeline">
+    <ng-template pTemplate="marker" let-event>
+        <span class="flex z-1 w-2rem h-2rem  align-items-center justify-content-center text-white border-circle shadow-2 p-2"
+            [style.backgroundColor]="event.tipo ==2?'#673AB7' :'#607D8B'">
+            <i [ngClass]="event.tipo == 1?'pi pi-cog' :'pi pi-sitemap'"></i>
+        </span>
+    </ng-template>
+    <ng-template pTemplate="content" let-event>
+        <p-card [header]="event.processName" [subheader]=" event.tipo == 2?'Cambio de Proceso':'Comando de Maquina'">
+
+
+    
+
+            <div class="overflow-x-auto">
+                <table class="w-full" style="border-collapse: collapse; table-layout: auto">
+                    
+                    <tbody>
+                        <tr>
+                            <td class="text-left py-3 border-bottom-1 surface-border white-space-nowrap">Fecha</td>
+                            <td class="text-right py-3 border-bottom-1 surface-border px-3"><strong>{{getDate(event.dateTime)}}</strong></td>
+                            
+                        </tr>
+                        <tr>
+                            <td class="text-left py-3 border-bottom-1 surface-border white-space-nowrap" *ngIf="event.userId != 0">Usuario Id</td>
+                            <td class="text-right py-3 border-bottom-1 surface-border px-3" *ngIf="event.userId != 0"><strong>{{event.userId}}</strong></td>
+                            
+                        </tr>
+                        <tr>
+                            <td class="text-left py-3 border-bottom-1 surface-border white-space-nowrap">Usuario</td>
+                            <td class="text-right py-3 border-bottom-1 surface-border px-3"><strong>{{event.userName}}</strong></td>
+                            
+                        </tr>
+                        <tr *ngIf="event.tipo == 2">
+                            <td class="text-left py-3 border-bottom-1 surface-border white-space-nowrap">Proceso Asignado</td>
+                            <td class="text-right py-3 border-bottom-1 surface-border px-3"><strong>{{event.processName}}</strong></td>
+                            
+                        </tr>
+                        <tr *ngIf="event.tipo == 1">
+                            <td class="text-left py-3 border-bottom-1 surface-border white-space-nowrap">Comando Enviado</td>
+                            <td class="text-right py-3 border-bottom-1 surface-border px-3"><strong>{{event.processName}}</strong></td>
+                            
+                        </tr>
+                        <tr *ngIf="event.tipo == 0">
+                            <td class="text-left py-3 border-bottom-1 surface-border white-space-nowrap"><strong>Inicio de Operaciones</strong></td>
+                            <td class="text-right py-3 border-bottom-1 surface-border px-3"><strong></strong></td>
+                            
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </p-card>
+    </ng-template>
+</p-timeline>
+

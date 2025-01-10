@@ -1,0 +1,86 @@
+<div class="text-900 font-bold text-2xl mb-4 text-center" style="background-color: #00B2A9;color: white !important;">Reprocesar Cuentas Casos de Negocio Sin Validacion</div>
+    <div class="grid flex justify-content-center text-center">
+        <div class="col-4" [formGroup]="formReproceso">
+            <p-card header="Fecha de Captura" subheader="Seleccionar un intervalo de fechas" [style]="{ width: '360px' }">
+                <div class="p-fluid p-formgrid grid">
+                    <div class="field col-12 md:col-12" >
+                        <span class="p-float-label"> 
+                        <p-calendar [showIcon]="true" formControlName="fecha" dateFormat="dd-mm-yy" selectionMode="range"  inputId="icon">
+                        </p-calendar>
+                        <label for="inputdate">Fechas de Busqueda</label>
+                        </span>
+                    </div>
+                </div>
+                <ng-template pTemplate="footer">
+                <button mat-button pButton (click)="buscar()" style="width:auto; background-color: #00B2A9;border: 0;" label="Buscar" ></button>
+                </ng-template>
+            </p-card>    
+        </div>
+    </div>
+<div class="row" >
+    <div class="cols">
+      <div class="card">
+        <p-table #dt1 [value]="showtable" dataKey="Caso de negocio" [rows]="50" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
+            styleClass="p-datatable-gridlines" [paginator]="true"
+            responsiveLayout="scroll" [globalFilterFields]="['cuenta','casoNegocio','categoria','estado','motivos']">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th >
+                        <div class="flex justify-content-center align-items-center text-center">
+                            Estatus
+                        </div>
+                    </th>  
+                    <th >
+                        <div class="flex justify-content-center align-items-center text-center">
+                            Total
+                        </div>
+                    </th>
+                    <th >
+                        <div class="flex justify-content-center align-items-center text-center">
+                            Acciones
+                        </div>
+                    </th> 
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr>
+                    <td class="text-center">
+                        {{item.groupedStatus}}
+                    </td>
+                    <td class="text-center">
+                        {{item.totalCount}}
+                    </td>
+                    <td class="text-center">
+                        <button pButton  style="background-color: #00B2A9;border: 0;" label="Reprocesar" (click)="confirm1(item.groupedStatus)" ></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">Sin Datos para Mostrar.</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="loadingbody">
+                <tr>
+                    <td colspan="7">Cargando Datos, espere...</td>
+                </tr>
+
+            </ng-template>
+            <ng-template pTemplate="paginatorleft" let-state>
+                Mostrando {{(state.page  * state.rows) + 1}} a {{state.rows * (state.page + 1)}} de {{state.totalRecords}} registros.
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+</div>
+
+<p-toast
+  [baseZIndex]="99999"
+  key="tst"></p-toast>
+
+  <div class="card flex justify-content-center gap-2">
+    <p-toast></p-toast>
+    <p-confirmDialog [style]="{width: '50vw'}" acceptLabel="Sí" rejectLabel="No" rejectButtonStyleClass="p-button-outlined p-button-warning" acceptButtonStyleClass="p-button-warning"></p-confirmDialog>
+  </div>
+
+

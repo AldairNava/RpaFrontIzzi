@@ -1,0 +1,1522 @@
+<div class="text-900 font-bold text-2xl text-center" style="background-color: #FF671F;color: white !important;">Extracciónes Automatizadas</div>
+<p-accordion [activeIndex]="0">
+  <p-accordionTab header="Agregar Tarea">
+    <div [formGroup]="formExtraccion" class="pb-5">
+        <div class="card" style="padding-left: 1rem;">
+            <p-panel header=""
+              class="line-height-12 m-0">
+              <!-- INICIO DE INPUTS -->
+              <!-- <h5>Tipo de Cuenta</h5> -->
+              <div class="p-fluid p-formgrid grid">
+                <div class="field col-12 md:col-6 justify-content-center align-items-center" >
+                  <div class="grid flex justify-content-center">
+                    <div class="col-8 text-center">
+                      <label for="">El tipo de Programación es: {{formExtraccion.get('tipoProgramacion')?.value == true ? 'Consecutiva':'Fija'}} </label><br>
+                      <p-inputSwitch formControlName="tipoProgramacion"></p-inputSwitch>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="field col-12 md:col-6 justify-content-center align-items-center" >
+                  <div class="grid flex justify-content-center">
+                    <div class="col-8 text-center">
+                      <label for="">El medio de Extracción es: {{formExtraccion.get('medioExtraccion')?.value == true ? 'General':'Vista'}} </label><br>
+                      <p-inputSwitch formControlName="medioExtraccion" (onChange)="medioExtraccionChange($event)"></p-inputSwitch>
+
+                    </div>
+                  </div>
+                </div>
+
+                  <div class="field col-12 md:col-6">
+                      <p-dropdown
+                      [options]="tipoExtraccion"
+                      [showClear]="true"
+                      placeholder="Tipo de Extracción"
+                      formControlName="tipoExtraccion"
+                      class="custom-dropdown"
+                      [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('tipoExtraccion')?.errors != null && formExtraccion.get('tipoExtraccion')?.touched == true}"
+                      (onChange)="cambioTipoExtraccion($event)"
+                      >
+                      </p-dropdown>
+                  </div>
+                  <div class="col-12"></div>
+                  <br><br><br><br><br>
+                  <!-- <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Cuenta' || formExtraccion.controls['tipoExtraccion'].value == 'Casos de negocio' || formExtraccion.controls['tipoExtraccion'].value == 'Actividades' || formExtraccion.controls['tipoExtraccion'].value == 'Ordenes de servicio' || formExtraccion.controls['tipoExtraccion'].value == 'Pagos' || formExtraccion.controls['tipoExtraccion'].value == 'Fallas generales'"> -->
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Casos de negocio' ">
+                    <span class="p-float-label p-input-icon-right">
+                        <i *ngIf="formExtraccion.get('estado') !== null && formExtraccion.get('estado')?.value !== null && formExtraccion?.get('estado')?.value !== ''" class="pi pi-times" (click)="formExtraccion.controls['estado'].reset()"></i>
+                        <input
+                        type="text"
+                        pInputText
+                        [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('estado')?.errors != null && formExtraccion.get('estado')?.touched == true}"
+                        formControlName="estado"
+                        >
+                        <label>Estado</label>
+                    </span>
+                  </div>
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Ordenes de servicio' ">
+                    <p-autoComplete [showClear]="true" formControlName="estado" 
+                    [dropdown]="true" 
+                    [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('estado')?.errors != null && formExtraccion.get('estado')?.touched == true}"
+                     placeholder="Estado" [suggestions]="filterestadoOS" (completeMethod)="filterEstadoOS($event)">
+                    </p-autoComplete>
+
+                  </div>
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Actividades' ">
+                    <p-autoComplete [showClear]="true" formControlName="estado" 
+                    [dropdown]="true" 
+                    [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('estado')?.errors != null && formExtraccion.get('estado')?.touched == true}"
+                     placeholder="Estado" [suggestions]="filterestadoAct" (completeMethod)="filterEstaAct($event)">
+                    </p-autoComplete>
+
+                  </div>
+
+                  <!-- <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Cuenta' || formExtraccion.controls['tipoExtraccion'].value == 'Actividades'">
+                    <span class="p-float-label">
+                        <input
+                        type="text"
+                        pInputText
+                        [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('tipo')?.errors != null && formExtraccion.get('tipo')?.touched == true}"
+                        formControlName="tipo"
+                        >
+                        <label>Tipo</label>
+                    </span>
+                  </div> -->
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Actividades'">
+                    <p-autoComplete [showClear]="true" formControlName="tipo" 
+                    [dropdown]="true" 
+                    [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('tipo')?.errors != null && formExtraccion.get('tipo')?.touched == true}"
+                     placeholder="Tipo" [suggestions]="filtertipoAct" (completeMethod)="filterTipoAct($event)">
+                    </p-autoComplete>
+                  </div>
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Cuenta'">
+                    <span class="p-float-label">
+                        <input
+                        type="text"
+                        pInputText
+                        [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('subtipo')?.errors != null && formExtraccion.get('subtipo')?.touched == true}"
+                        formControlName="subtipo"
+                        >
+                        <label>Sub Tipo</label>
+                    </span>
+                  </div>
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Cuenta'">
+                    <span class="p-float-label">
+                        <input
+                        type="text"
+                        pInputText
+                        [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('canalIngreso')?.errors != null && formExtraccion.get('canalIngreso')?.touched == true}"
+                        formControlName="canalIngreso"
+                        >
+                        <label>Canal de Ingreso</label>
+                    </span>
+                  </div>
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Casos de negocio'">
+                    <!-- <span class="p-float-label">
+                        <p-calendar
+                            [showIcon]="true"
+                            dateFormat="yy-mm-dd"
+                            [showTime]="true" 
+                            [showSeconds]="true"
+                            formControlName="fechaApertura"
+                            [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('fechaApertura')?.errors != null && formExtraccion.get('fechaApertura')?.touched == true}"
+                        >
+                        </p-calendar>
+                        <label for="inputdate">Fecha de Apertura</label>
+                    </span> -->
+                    <span class="p-float-label"> 
+                      <p-calendar [showIcon]="true" [touchUI]="true" [readonlyInput]="true"  
+                      [showTime]="true" [showSeconds]="true" dateFormat="dd-mm-yy" formControlName="fechaApertura" selectionMode="range"  inputId="icon"
+                       (onSelect)="changeFechaApertura($event)" [minDate]="fechaAperturaMin"
+                       [disabledDates]="disabledDates" [showButtonBar]="true"
+                       >
+                      </p-calendar>
+                      <label for="fechaApertura">Fecha de Apertura</label>
+                    </span>
+                    <!-- <span class="p-float-label"> 
+                      <p-calendar [showIcon]="true" [touchUI]="true" [readonlyInput]="true"  
+                      dateFormat="dd-mm-yy" formControlName="fechaApertura" selectionMode="range"  inputId="icon"
+                       >
+                      </p-calendar>
+                      <label for="fechaApertura">Fecha de Apertura</label>
+                    </span> -->
+                    
+                  </div>
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Casos de negocio' || formExtraccion.controls['tipoExtraccion'].value == 'Ordenes de servicio'">
+                    <span class="p-float-label p-input-icon-right">
+                      <i *ngIf="formExtraccion.get('cuenta') !== null && formExtraccion.get('cuenta')?.value !== null && formExtraccion?.get('cuenta')?.value !== ''" class="pi pi-times" (click)="formExtraccion.controls['cuenta'].reset()"></i>
+                        <input
+                        type="text"
+                        pInputText
+                        [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('cuenta')?.errors != null && formExtraccion.get('cuenta')?.touched == true}"
+                        formControlName="cuenta"
+                        >
+                        <label>Cuenta</label>
+                    </span>
+                  </div>
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Casos de negocio'">
+                    <span class="p-float-label p-input-icon-right">
+                      <i *ngIf="formExtraccion.get('medioContacto') !== null && formExtraccion.get('medioContacto')?.value !== null && formExtraccion?.get('medioContacto')?.value !== ''" class="pi pi-times" (click)="formExtraccion.controls['medioContacto'].reset()"></i>
+                        <input
+                        type="text"
+                        pInputText
+                        [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('medioContacto')?.errors != null && formExtraccion.get('medioContacto')?.touched == true}"
+                        formControlName="medioContacto"
+                        >
+                        <label>Medio de Contacto</label>
+                    </span>
+                  </div>
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Casos de negocio'">
+                    <span class="p-float-label p-input-icon-right">
+                      <i *ngIf="formExtraccion.get('casoNegocio') !== null && formExtraccion.get('casoNegocio')?.value !== null && formExtraccion?.get('casoNegocio')?.value !== ''" class="pi pi-times" (click)="formExtraccion.controls['casoNegocio'].reset()"></i>
+                        <input
+                        type="text"
+                        pInputText
+                        [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('casoNegocio')?.errors != null && formExtraccion.get('casoNegocio')?.touched == true}"
+                        formControlName="casoNegocio"
+                        >
+                        <label>Caso de Negocio</label>
+                    </span>
+                  </div>
+                  <!-- <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Casos de negocio' || formExtraccion.controls['tipoExtraccion'].value == 'Fallas generales'">
+                    <span class="p-float-label">
+                        <input
+                        type="text"
+                        pInputText
+                        [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('categoria')?.errors != null && formExtraccion.get('categoria')?.touched == true}"
+                        formControlName="categoria"
+                        >
+                        <label>Categoría</label>
+                    </span>
+                  </div> -->
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Casos de negocio'">
+                    <p-autoComplete [showClear]="true" formControlName="categoria" 
+                    [dropdown]="true" (onSelect)="cambioCategoria($event)" (onClear)="cleanCategoria($event)" (input)="inputCategoria()"
+                    [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('categoria')?.errors != null && formExtraccion.get('categoria')?.touched == true}"
+                     placeholder="Categoría" [suggestions]="filterCat" (completeMethod)="filterCategory($event)">
+                    </p-autoComplete>
+                  </div>
+                  <!-- <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Casos de negocio'">
+                    <p-dropdown
+                    [options]="catego"
+                    [showClear]="true"
+                    placeholder="Categoría"
+                    formControlName="categoria"
+                    class="custom-dropdown"
+                    [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('categoria')?.errors != null && formExtraccion.get('categoria')?.touched == true}"
+                    (onChange)="cambioCategoria($event.value)"
+                    >
+                    </p-dropdown>
+                  </div> -->
+
+
+                  <!-- <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Casos de negocio' && formExtraccion.controls['categoria'].value != null">
+                    <p-dropdown
+                    [options]="mo"
+                    [showClear]="true"
+                    placeholder="Motivo"
+                    formControlName="motivo"
+                    class="custom-dropdown"
+                    [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('motivo')?.errors != null && formExtraccion.get('motivo')?.touched == true}"
+                    (onChange)="cambioMotivo($event.value)"
+                    >
+                    </p-dropdown>
+                  </div> -->
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Casos de negocio'">
+                    <p-autoComplete [showClear]="true" formControlName="motivo" 
+                    [dropdown]="true" (onSelect)="cambioMotivo($event)" (onClear)="cleanMo($event)" (input)="inputMo()"
+                    [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('motivo')?.errors != null && formExtraccion.get('motivo')?.touched == true}"
+                     placeholder="Motivo" [suggestions]="filterMotivo" (completeMethod)="filterMo($event)">
+                    </p-autoComplete>
+                  </div>
+
+
+
+                  <!-- <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Casos de negocio' && formExtraccion.controls['motivo'].value != null">
+                    <p-dropdown
+                    [options]="submo"
+                    [showClear]="true"
+                    placeholder="SubMotivo"
+                    formControlName="subMotivo"
+                    class="custom-dropdown"
+                    [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('subMotivo')?.errors != null && formExtraccion.get('subMotivo')?.touched == true}"
+                    (onChange)="cambioSubmotivo()"
+                    >
+                    </p-dropdown>
+                  </div> -->
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Casos de negocio'">
+                    <p-autoComplete [showClear]="true" formControlName="subMotivo" 
+                    [dropdown]="true" (onSelect)="cambioSubmotivo()" (onClear)="cleanSub($event)" (input)="inputSub()"
+                    [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('subMotivo')?.errors != null && formExtraccion.get('subMotivo')?.touched == true}"
+                     placeholder="SubMotivo" [suggestions]="filterSub" (completeMethod)="filterSubm($event)">
+                    </p-autoComplete>
+                  </div>
+
+
+
+                  <!-- <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Casos de negocio' && formExtraccion.controls['motivo'].value != null && formExtraccion.controls['subMotivo'].value != null  ">
+                    <p-dropdown
+                    [options]="solu"
+                    [showClear]="true"
+                    placeholder="Solución"
+                    formControlName="solucion"
+                    class="custom-dropdown"
+                    [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('solucion')?.errors != null && formExtraccion.get('solucion')?.touched == true}"
+                    (onChange)="cambioSolucion()"
+                    >
+                    </p-dropdown>
+                  </div> -->
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Casos de negocio'">
+                    <p-autoComplete [showClear]="true" formControlName="solucion" 
+                    [dropdown]="true" (onSelect)="cambioSolucion()" (onClear)="cleanSolucion($event)" (input)="inputSol()"
+                    [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('solucion')?.errors != null && formExtraccion.get('solucion')?.touched == true}"
+                     placeholder="Solución" [suggestions]="filterSol" (completeMethod)="filterSolu($event)">
+                    </p-autoComplete>
+                  </div>
+
+                  <!-- <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Casos de negocio' && formExtraccion.controls['motivo'].value != null && formExtraccion.controls['subMotivo'].value != null && formExtraccion.controls['solucion'].value != null">
+                    <p-dropdown
+                    [options]="moClien"
+                    [showClear]="true"
+                    placeholder="Motivo Cliente"
+                    formControlName="motivoCliente"
+                    class="custom-dropdown"
+                    [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('motivoCliente')?.errors != null && formExtraccion.get('motivoCliente')?.touched == true}"
+                    
+                    >
+                    </p-dropdown>
+                  </div> -->
+
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Casos de negocio'">
+                    <p-autoComplete [showClear]="true" formControlName="motivoCliente" 
+                    [dropdown]="true"
+                    [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('motivoCliente')?.errors != null && formExtraccion.get('motivoCliente')?.touched == true}"
+                     placeholder="Motivo Cliente" [suggestions]="filterMotivoCli" (completeMethod)="filterMotivoCl($event)">
+                    </p-autoComplete>
+                  </div>
+
+
+
+ 
+
+        <!--     
+                   <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Casos de negocio' || formExtraccion.controls['tipoExtraccion'].value == 'Fallas generales'">
+                    <span class="p-float-label">
+                        <input
+                        type="text"
+                        pInputText
+                        [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('motivo')?.errors != null && formExtraccion.get('motivo')?.touched == true}"
+                        formControlName="motivo"
+                        >
+                        <label>Motivos</label>
+                    </span>
+                  </div>
+    
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Casos de negocio' || formExtraccion.controls['tipoExtraccion'].value == 'Fallas generales'">
+                    <span class="p-float-label">
+                        <input
+                        type="text"
+                        pInputText
+                        [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('subMotivo')?.errors != null && formExtraccion.get('subMotivo')?.touched == true}"
+                        formControlName="subMotivo"
+                        >
+                        <label>SubMotivo</label>
+                    </span>
+                  </div>
+    
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Casos de negocio' || formExtraccion.controls['tipoExtraccion'].value == 'Fallas generales'">
+                    <span class="p-float-label">
+                        <input
+                        type="text"
+                        [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('solucion')?.errors != null && formExtraccion.get('solucion')?.touched == true}"
+                        pInputText
+                        formControlName="solucion"
+                        >
+                        <label>Solución</label>
+                    </span>
+                  </div>
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Casos de negocio'">
+                    <span class="p-float-label">
+                        <input
+                        type="text"
+                        [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('motivoCliente')?.errors != null && formExtraccion.get('motivoCliente')?.touched == true}"
+                        pInputText
+                        formControlName="motivoCliente"
+                        >
+                        <label>Motivo Cliente</label>
+                    </span>
+                  </div>
+      -->
+                  <!-- <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Actividades'">
+                    <span class="p-float-label">
+                        <input
+                        type="text"
+                        pInputText
+                        [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('areaConocimiento')?.errors != null && formExtraccion.get('areaConocimiento')?.touched == true}"
+                        formControlName="areaConocimiento"
+                        >
+                        <label>Área de Conocimiento</label>
+                    </span>
+                  </div> -->
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Actividades'">
+                    <p-autoComplete [showClear]="true" formControlName="areaConocimiento" 
+                    [dropdown]="true" 
+                    [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('areaConocimiento')?.errors != null && formExtraccion.get('areaConocimiento')?.touched == true}"
+                     placeholder="Área de Conocimiento" [suggestions]="filterareaAct" (completeMethod)="filterAreaAct($event)">
+                    </p-autoComplete>
+
+                  </div>
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Actividades'">
+                    <!-- <span class="p-float-label">
+                        <p-calendar
+                            [showIcon]="true"
+                            dateFormat="yy-mm-dd"
+                            [showTime]="true" 
+                            [showSeconds]="true"
+                            [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('fechaAsignacion')?.errors != null && formExtraccion.get('fechaAsignacion')?.touched == true}"
+                            formControlName="fechaAsignacion">
+                        </p-calendar>
+                        <label for="inputdate">Fecha de Asignación</label>
+                    </span> -->
+                    <span class="p-float-label"> 
+                      <p-calendar [showIcon]="true" [touchUI]="true" [readonlyInput]="true" 
+                      [showTime]="true" [showSeconds]="true" dateFormat="dd-mm-yy" formControlName="fechaAsignacion" selectionMode="range"  
+                      inputId="icon" (onSelect)="changeFechaAsignacion($event)" [minDate]="fechaAsignacionMin"
+                       [disabledDates]="disabledDatesfechaAsignacion" [showButtonBar]="true"
+
+                      >
+                      </p-calendar>
+                      <label for="inputdate">Fecha de Asignacion</label>
+                    </span>
+    
+                  </div>
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Actividades'">
+                    <!-- <span class="p-float-label">
+                        <p-calendar
+                            [showIcon]="true"
+                            dateFormat="yy-mm-dd"
+                            [showTime]="true" 
+                            [showSeconds]="true"
+                            [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('vencimientoActividad')?.errors != null && formExtraccion.get('vencimientoActividad')?.touched == true}"
+                            formControlName="vencimientoActividad">
+                        </p-calendar>
+                        <label for="inputdate">Vencimiento</label>
+                    </span> -->
+                    <span class="p-float-label"> 
+                      <p-calendar [showIcon]="true" [touchUI]="true" [readonlyInput]="true" 
+                      [showTime]="true" [showSeconds]="true" dateFormat="dd-mm-yy" formControlName="vencimientoActividad" 
+                      selectionMode="range"  inputId="icon" (onSelect)="changeFechaVencimiento($event)" [minDate]="fechaVencimientoMin"
+                      [disabledDates]="disabledDatesfechaVencimiento" [showButtonBar]="true"
+                      
+                      >
+                      </p-calendar>
+                      <label for="inputdate">Vencimiento</label>
+                    </span>
+    
+                  </div>
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Actividades'">
+                    <!-- <span class="p-float-label">
+                        <p-calendar
+                            [showIcon]="true"
+                            dateFormat="yy-mm-dd"
+                            [showTime]="true" 
+                            [showSeconds]="true"
+                            [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('vencimientoActividad')?.errors != null && formExtraccion.get('vencimientoActividad')?.touched == true}"
+                            formControlName="vencimientoActividad">
+                        </p-calendar>
+                        <label for="inputdate">Vencimiento</label>
+                    </span> -->
+                    <span class="p-float-label"> 
+                      <p-calendar [showIcon]="true" [touchUI]="true" [readonlyInput]="true" 
+                      [showTime]="true" [showSeconds]="true" dateFormat="dd-mm-yy" formControlName="fechaCreacion" selectionMode="range"  
+                      inputId="icon" (onSelect)="changeFechaCreacion($event)" [minDate]="fechaCreacionMin"
+                      [disabledDates]="disabledDatesfechaCreacion" [showButtonBar]="true"
+                      >
+                      </p-calendar>
+                      <label for="inputdate">Fecha de Creación</label>
+                    </span>
+    
+                  </div>
+                  
+                  <!-- <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Actividades' || formExtraccion.controls['tipoExtraccion'].value == 'Ordenes de servicio'">
+                    <span class="p-float-label">
+                        
+                      <p-calendar [showTime]="true" formControlName="fechaAsignacion" selectionMode="range"  inputId="icon">
+                      </p-calendar>
+                      <label for="inputdate">Rango de Fechas</label>
+                  </span>
+                </div> -->
+                  
+                  <!-- <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Ordenes de servicio'">
+                    <span class="p-float-label">
+                        <input
+                        type="text"
+                        pInputText
+                        formControlName="rpt"
+                        [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('rpt')?.errors != null && formExtraccion.get('rpt')?.touched == true}"
+                        >
+                        <label>RPT</label>
+                    </span>
+                  </div> -->
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Ordenes de servicio' && formExtraccion.controls['medioExtraccion'].value == false">
+                    <span class="p-float-label p-input-icon-right">
+                      <i *ngIf="formExtraccion.get('compania') !== null && formExtraccion.get('compania')?.value !== null && formExtraccion?.get('compania')?.value !== ''" class="pi pi-times" (click)="formExtraccion.controls['compania'].reset()"></i>
+                        <input
+                        type="text"
+                        pInputText
+                        formControlName="compania"
+                        [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('compania')?.errors != null && formExtraccion.get('compania')?.touched == true}"
+                        >
+                        <label>Compañia (Nombre del Titular)</label>
+                    </span>
+                  </div>              
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Ordenes de servicio' && formExtraccion.controls['medioExtraccion'].value == false">
+                    <span class="p-float-label p-input-icon-right">
+                      <i *ngIf="formExtraccion.get('telefonos') !== null && formExtraccion.get('telefonos')?.value !== null && formExtraccion?.get('telefonos')?.value !== ''" class="pi pi-times" (click)="formExtraccion.controls['telefonos'].reset()"></i>
+                        <input
+                        type="text"
+                        pInputText
+                        formControlName="telefonos"
+                        [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('telefonos')?.errors != null && formExtraccion.get('telefonos')?.touched == true}"
+                        >
+                        <label>Telefonos</label>
+                    </span>
+                  </div>
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Ordenes de servicio' || formExtraccion.controls['tipoExtraccion'].value == 'Fallas generales'">
+                    <span class="p-float-label p-input-icon-right">
+                      <i *ngIf="formExtraccion.get('numOrden') !== null && formExtraccion.get('numOrden')?.value !== null && formExtraccion?.get('numOrden')?.value !== ''" class="pi pi-times" (click)="formExtraccion.controls['numOrden'].reset()"></i>
+                        <input
+                        type="text"
+                        pInputText
+                        [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('numOrden')?.errors != null && formExtraccion.get('numOrden')?.touched == true}"
+                        formControlName="numOrden"
+                        >
+                        <label>Número de Orden</label>
+                    </span>
+                  </div>
+                  <!-- <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Ordenes de servicio'">
+                    <span class="p-float-label">
+                        <input
+                        type="text"
+                        pInputText
+                        [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('tipoOrden')?.errors != null && formExtraccion.get('tipoOrden')?.touched == true}"
+                        formControlName="tipoOrden"
+                        >
+                        <label>Tipo de Orden</label>
+                    </span>
+                  </div> -->
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Ordenes de servicio'">
+                    <p-autoComplete [showClear]="true" formControlName="tipoOrden" 
+                    [dropdown]="true" 
+                    [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('tipoOrden')?.errors != null && formExtraccion.get('tipoOrden')?.touched == true}"
+                     placeholder="Tipo de Orden" [suggestions]="filtertipoOrOS" (completeMethod)="filterTipoOrdenOS($event)">
+                    </p-autoComplete>
+
+                  </div>
+
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Ordenes de servicio'">
+                    <!-- <span class="p-float-label">
+                        <p-calendar
+                            [showIcon]="true"
+                            dateFormat="dd-mm-yy"
+                            [showTime]="true" 
+                            [showSeconds]="true"
+                            [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('fechaOrden')?.errors != null && formExtraccion.get('fechaOrden')?.touched == true}"
+                            formControlName="fechaOrden">
+                        </p-calendar>
+                        <label for="inputdate">Fecha de la Orden</label>
+                    </span> -->
+                    <span class="p-float-label"> 
+                      <p-calendar [showIcon]="true" [touchUI]="true" [readonlyInput]="true" 
+                      [showTime]="true" [showSeconds]="true"  dateFormat="dd-mm-yy" 
+                      formControlName="fechaOrden" selectionMode="range"  inputId="icon"
+                      (onSelect)="changeFechaOrden($event)" [minDate]="fechaOrdenMin"
+                      [disabledDates]="disabledDatesfechaOrden" [showButtonBar]="true"
+                      >
+                      </p-calendar>
+                      <label for="inputdate">Fecha de la Orden</label>
+                    </span>
+                  </div>
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Pagos'">
+                    <span class="p-float-label">
+                      <input
+                      type="text"
+                      pInputText
+                      [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('numPago')?.errors != null && formExtraccion.get('numPago')?.touched == true}"
+                      formControlName="numPago"
+                      >
+                      <label>Numero de Pago</label>
+                    </span>
+                  </div>
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Pagos'">
+                    <!-- <span class="p-float-label">
+                        <p-calendar
+                            [showIcon]="true"
+                            dateFormat="yy-mm-dd"
+                            [showTime]="true" 
+                            [showSeconds]="true"
+                            [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('fechaPago')?.errors != null && formExtraccion.get('fechaPago')?.touched == true}"
+                            formControlName="fechaPago">
+                        </p-calendar>
+                        <label for="inputdate">Fecha de Pago</label>
+                    </span> -->
+                    <span class="p-float-label"> 
+                      <p-calendar [showIcon]="true" [touchUI]="true" [readonlyInput]="true" dateFormat="dd-mm-yy" formControlName="fechaPago" selectionMode="range"  inputId="icon">
+                      </p-calendar>
+                      <label for="inputdate">Fecha de Pago</label>
+                    </span>
+    
+                  </div>
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Pagos'">
+                    <span class="p-float-label">
+                      <input
+                      type="text"
+                      pInputText
+                      [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('importe')?.errors != null && formExtraccion.get('importe')?.touched == true}"
+                      formControlName="importe"
+                      >
+                      <label>Importe</label>
+                    </span>
+                  </div>
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Pagos'">
+                    <span class="p-float-label">
+                      <input
+                      type="text"
+                      pInputText
+                      [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('formaPago')?.errors != null && formExtraccion.get('formaPago')?.touched == true}"
+                      formControlName="formaPago"
+                      >
+                      <label>Forma de Pago</label>
+                    </span>
+                  </div>
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Pagos'">
+                    <!-- <span class="p-float-label">
+                        <p-calendar
+                            [showIcon]="true"
+                            dateFormat="yy-mm-dd"
+                            [showTime]="true" 
+                            [showSeconds]="true"
+                            [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('ultimaActualizacion')?.errors != null && formExtraccion.get('ultimaActualizacion')?.touched == true}"
+                            formControlName="ultimaActualizacion">
+                        </p-calendar>
+                        <label for="inputdate">Ultima Actualización</label>
+                    </span> -->
+                    <span class="p-float-label"> 
+                      <p-calendar [showIcon]="true" dateFormat="dd-mm-yy" formControlName="ultimaActualizacion" selectionMode="range"  inputId="icon">
+                      </p-calendar>
+                      <label for="inputdate">Ultima Actualización</label>
+                    </span>
+                  </div>
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Fallas generales'">
+                    <span class="p-float-label">
+                      <input
+                      type="text"
+                      pInputText
+                      [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('vencimiento')?.errors != null && formExtraccion.get('vencimiento')?.touched == true}"
+                      formControlName="vencimiento"
+                      >
+                      <label>Vencimiento</label>
+                    </span>
+                  </div>
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Fallas generales'">
+                    <span class="p-float-label">
+                      <input
+                      type="text"
+                      pInputText
+                      [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('FallaGeneralAsociada')?.errors != null && formExtraccion.get('FallaGeneralAsociada')?.touched == true}"
+                      formControlName="FallaGeneralAsociada"
+                      >
+                      <label>Falla general Asociada</label>
+                    </span>
+                  </div>
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Fallas generales'">
+                    <span class="p-float-label">
+                      <input
+                      type="text"
+                      pInputText
+                      [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('tecnologia')?.errors != null && formExtraccion.get('tecnologia')?.touched == true}"
+                      formControlName="tecnologia"
+                      >
+                      <label>Tecnología</label>
+                    </span>
+                  </div>
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Fallas generales'">
+                    <span class="p-float-label">
+                      <input
+                      type="text"
+                      pInputText
+                      [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('hub')?.errors != null && formExtraccion.get('hub')?.touched == true}"
+                      formControlName="hub"
+                      >
+                      <label>HUB</label>
+                    </span>
+                  </div>
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Fallas generales'">
+                    <span class="p-float-label">
+                      <input
+                      type="text"
+                      pInputText
+                      [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('rama')?.errors != null && formExtraccion.get('rama')?.touched == true}"
+                      formControlName="rama"
+                      >
+                      <label>Rama</label>
+                    </span>
+                  </div>
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Fallas generales'">
+                    <span class="p-float-label">
+                      <input
+                      type="text"
+                      pInputText
+                      [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('nodo')?.errors != null && formExtraccion.get('nodo')?.touched == true}"
+                      formControlName="nodo"
+                      >
+                      <label>Nodo</label>
+                    </span>
+                  </div>
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Fallas generales'">
+                    <span class="p-float-label">
+                      <input
+                      type="text"
+                      pInputText
+                      [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('fiberDeep')?.errors != null && formExtraccion.get('fiberDeep')?.touched == true}"
+                      formControlName="fiberDeep"
+                      >
+                      <label>Fiber Deep</label>
+                    </span>
+                  </div>
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Fallas generales'">
+                    <span class="p-float-label">
+                      <p-calendar
+                          [showIcon]="true"
+                          dateFormat="yy-mm-dd"
+                          
+                          [showSeconds]="true"
+                          [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('fechaInicio')?.errors != null && formExtraccion.get('fechaInicio')?.touched == true}"
+                          formControlName="fechaInicio">
+                      </p-calendar>
+                      <label for="inputdate">Fecha de Inicio</label>
+                    </span>
+                  </div>
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Fallas generales'">
+                    <span class="p-float-label">
+                      <input
+                      type="text"
+                      pInputText
+                      [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('nombreHub')?.errors != null && formExtraccion.get('nombreHub')?.touched == true}"
+                      formControlName="nombreHub"
+                      >
+                      <label>Nombre de HUB</label>
+                    </span>
+                  </div>
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Fallas generales'">
+                    <span class="p-float-label">
+                      <input
+                      type="text"
+                      pInputText
+                      [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('Incidente')?.errors != null && formExtraccion.get('Incidente')?.touched == true}"
+                      formControlName="Incidente"
+                      >
+                      <label>Incidente</label>
+                    </span>
+                  </div>
+
+                  <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Casos de negocio' || formExtraccion.controls['tipoExtraccion'].value == 'Ordenes de servicio' || formExtraccion.controls['tipoExtraccion'].value == 'Actividades'">
+                    <span class="p-float-label p-input-icon-right">
+                      <i *ngIf="formExtraccion.get('correo') !== null && formExtraccion.get('correo')?.value !== null && formExtraccion?.get('correo')?.value !== ''" class="pi pi-times" (click)="formExtraccion.controls['correo'].reset()"></i>
+                        <input
+                        type="text"
+                        pInputText
+                        [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('correo')?.errors != null && formExtraccion.get('correo')?.touched == true}"
+                        formControlName="correo"
+                        >
+                        <label>Correo Electrónico</label>
+                    </span>
+                  </div>
+          
+
+    
+                  <!-- <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Casos de negocio' || formExtraccion.controls['tipoExtraccion'].value == 'Actividades' || formExtraccion.controls['tipoExtraccion'].value == 'Ordenes de servicio'">
+                    <span class="p-float-label">
+                      <p-calendar   [showClear]="true" placeholder="Hora de Programación" [timeOnly]="true" hourFormat="24" inputId="timeonly"
+                        [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('horaProgramacion')?.errors != null && formExtraccion.get('horaProgramacion')?.touched == true}"
+                        formControlName="horaProgramacion"
+                      ></p-calendar>
+    
+                      <label>Hora Programación</label>
+                    </span>
+                  </div> -->
+
+                  <div class="field col-12"></div>
+                  <div class="col-12" style="white-space: pre-line;" >
+                    <span [innerHTML]="getTexto()"></span>
+                  </div>
+                  <div class="field col-12"></div>
+                  <div class="field col-12 md:col-4" >
+                    <p-multiSelect (onChange)="cambioHora($event.value)"  [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('hora')?.errors != null && formExtraccion.get('hora')?.touched == true}"
+                      [options]="horas" [appendTo]="'body'" formControlName="hora" defaultLabel="Selecciona una Hora" optionValue="value" optionLabel="label" >
+                      <ng-template let-value pTemplate="selectedItems">
+                          <div class="flex align-items-center gap-2" *ngFor="let option of formExtraccion.controls['hora'].value">
+                              {{ getHoraLabel(option) }}
+                          </div>
+                          <div *ngIf="!formExtraccion.controls['hora'].value || formExtraccion.controls['hora'].value.length === 0">Selecciona Hora</div>
+                      </ng-template>
+                      <ng-template let-country pTemplate="item">
+                          <div class="flex align-items-center gap-2">
+                              <div>{{ country.label }}</div>
+                          </div>
+                      </ng-template>
+                    </p-multiSelect>
+                  </div>
+                  <div class="field col-12 md:col-4" >
+                    <!-- <p-multiSelect  [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('minuto')?.errors != null && formExtraccion.get('minuto')?.touched == true}"
+                      [options]="min" formControlName="minuto" defaultLabel="Selecciona Minutos" optionValue="value" optionLabel="label" >
+                      <ng-template let-value pTemplate="selectedItems">
+                          <div class="flex align-items-center gap-2" *ngFor="let option of formExtraccion.controls['minuto'].value">
+                              <div>{{ getMinutoLabel(option) }}</div>
+                          </div>
+                          <div *ngIf="!formExtraccion.controls['minuto'].value || formExtraccion.controls['minuto'].value.length === 0">Selecciona Minutos</div>
+                      </ng-template>
+                      <ng-template let-country pTemplate="item">
+                          <div class="flex align-items-center gap-2">
+                              <div>{{ country.label }}</div>
+                          </div>
+                      </ng-template>
+                    </p-multiSelect> -->
+
+                    <p-dropdown (onChange)="cambioMin($event.value)" placeholder="Selecciona Minutos" [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('minuto')?.errors != null && formExtraccion.get('minuto')?.touched == true}" 
+                      [options]="min" optionValue="value" optionLabel="label" formControlName="minuto"
+                    ></p-dropdown>
+
+                  </div>
+          
+            
+                  <div class="field col-12 md:col-4">
+                    <p-multiSelect (onChange)="cambioDias($event.value)" [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('diasSemana')?.errors != null && formExtraccion.get('diasSemana')?.touched == true}"
+                      [options]="diasemanas" formControlName="diasSemana" defaultLabel="Selecciona dia de la Semana" optionValue="value" optionLabel="label" >
+                      <ng-template let-value pTemplate="selectedItems">
+                          <div class="flex align-items-center gap-2" *ngFor="let option of formExtraccion.controls['diasSemana'].value">
+                              <div>{{ getDiaLabel(option) }}</div>
+                          </div>
+                          <div *ngIf="!formExtraccion.controls['diasSemana'].value || formExtraccion.controls['diasSemana'].value.length === 0">Selecciona dia de la Semana</div>
+                      </ng-template>
+                      <ng-template let-country pTemplate="item">
+                          <div class="flex align-items-center gap-2">
+                              <div>{{ country.label }}</div>
+                          </div>
+                      </ng-template>
+                    </p-multiSelect>
+                  </div>
+
+
+
+
+
+
+    
+                  
+    
+                  
+                  <!-- <div class="field col-12 md:col-4" *ngIf="formExtraccion.controls['tipoExtraccion'].value == 'Ordenes de servicio'">
+                    <span class="p-float-label">
+                        <input
+                        type="text"
+                        pInputText
+                        [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('asignada')?.errors != null && formExtraccion.get('asignada')?.touched == true}"
+                        formControlName="asignada"
+                        >
+                        <label>Asignada</label>
+                    </span>
+                  </div> -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+                      
+                  <div class="col-12"></div>
+                 
+                  <!-- <div class="field col-12 md:col-6">
+                      <span class="p-float-label">
+                          <p-calendar
+                              [showIcon]="true"
+                              [minDate]="today"
+                              dateFormat="yy-mm-dd"
+                              [showTime]="true" 
+                              [showSeconds]="true"
+                              formControlName="fechaini"
+                              [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('fechaini')?.errors != null && formExtraccion.get('fechaini')?.touched == true}"
+                          >
+                          </p-calendar>
+                          <label for="inputdate">Fecha Inicio</label>
+                      </span>
+                    </div>
+                    <div class="field col-12 md:col-6">
+                      <span class="p-float-label">
+                          <p-calendar
+                              [showIcon]="true"
+                              [minDate]="today"
+                              dateFormat="yy-mm-dd"
+                              [showTime]="true" 
+                              [showSeconds]="true"
+                              formControlName="fechafin"
+                              [ngClass]="{'ng-invalid ng-dirty': formExtraccion.get('fechafin')?.errors != null && formExtraccion.get('fechafin')?.touched == true}"
+                          >
+                          </p-calendar>
+                          <label for="inputdate">Fecha Fin</label>
+                      </span>
+                    </div> -->
+              </div>
+              <br><br><br><br><br><br><br><br><br>
+              <!-- BOTON DE EJECUCION -->
+              <div class="col lg:col-12">
+          
+                <div class="grid flex justify-content-center">
+                  <div class="col-4 text-center" >
+                    
+                    <button
+                      type="button"
+                      pButton
+                      label="Limpiar"
+                      style="width:8rem;background-color: #FFC300;border: 0;"
+                      (click)="reset()"
+                      ></button>
+                  </div>
+                  <div class="col-4 text-center">
+                      <button
+                      type="button"
+                      (click)="Enviar()"
+                      pButton
+                      [loading]="spinner"
+                      label="Guardar"
+                      style="width:8rem;background-color: #FFC300;border: 0;"></button>
+          
+                  </div>
+                </div>
+                <!-- <div class="col-12 text-center" *ngIf="spinner">
+                  <p-progressSpinner ></p-progressSpinner>
+                </div> -->
+              </div>
+              
+            </p-panel>
+            <br>
+          
+          </div>
+    </div>
+
+  </p-accordionTab>
+</p-accordion>
+
+<p-toast
+  [baseZIndex]="99999"
+  key="tst"></p-toast>
+  <p-accordion>
+    <p-accordionTab header="Tareas programadas">
+        <div class="row ">
+          <div class="cols">
+            <div class="card">
+              <p-table #dt1 [value]="datosExtraccion" dataKey="id" [loading]="loading" [rows]="50" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
+                  styleClass="p-datatable-gridlines" [paginator]="true"
+                  [globalFilterFields]="['tipoExtraccion','archivo','cve_usuario','fechaCompletado','status','procesando']" responsiveLayout="scroll">
+                  <ng-template pTemplate="caption">
+                      <div class="flex justify-content-between flex-column sm:flex-row">
+      
+                          <span class="p-input-icon-left mb-2">
+                              <i class="pi pi-search"></i>
+                              <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Buscar"
+                                  class="w-full" />
+                          </span>
+                      </div>
+                  </ng-template>
+                  <ng-template pTemplate="header">
+                      <tr>
+                          <th>
+                              <div style="width: 150px;" class="flex justify-content-center align-items-center">
+                                  Tipo de Extracción
+      
+                              </div>
+                          </th>
+                          <th>
+                              <div  class="flex justify-content-center align-items-center">
+                                  Fecha de Programación
+      
+                              </div>
+                          </th>
+                          <th>
+                              <div  class="flex justify-content-center align-items-center">
+                                  Parámetros de Programación
+      
+                              </div>
+                          </th>
+                          <th>
+                              <div  class="flex justify-content-center align-items-center">
+                                  Párametros de Extracción
+      
+                              </div>
+                          </th>
+                          <th>
+                              <div  class="flex justify-content-center align-items-center">
+                                  Correo Electrónico
+      
+                              </div>
+                          </th>
+
+                          <th>
+                              <div style="width: 150px;" class="flex justify-content-center align-items-center">
+                                  Acciones
+      
+                              </div>
+                          </th>
+                      </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-item let-i="rowIndex">
+                      <tr>
+                          <td class="text-center">
+                            {{item.tipoExtraccion}}
+                          </td>
+                          <td class="text-center">
+                            {{item.fechaExtraccion ? dateFormat(item.fechaExtraccion):""}}
+                          </td>
+                          <td class="text-center" style="white-space: pre-line;">
+                              <!-- {{item.horaProgramacion}} -->
+                              <span [innerHTML]="item.horaProgramacion"></span>
+                          </td>
+                          <td class="text-left" >
+                              <ng-container *ngFor="let parametro of item.parametrosExtraccion">
+                                  <div *ngFor="let key of getKeys(parametro)">
+                                      <strong>*{{capitalizarFirstLeter(key)}}</strong>: {{parametro[key]}}
+                                  </div>
+                              </ng-container>
+                          </td>
+                          <td class="text-center">
+                            {{ (item.correo == "null" || item.correo== null) ? "":item.correo }}
+                          </td>
+                          <td class="text-center button-container" >
+                              <button
+                                  type="button"
+                                  pButton
+                                  label="Editar"
+                                  style="margin-bottom: 1rem;width:8rem;background-color: #FFC300;border: 0;"
+                                  (click)="editar(item)"
+                              ></button>&nbsp;
+                              <button
+                                  type="button"
+                                  pButton
+                                  label="Eliminar"
+                                  style="margin-bottom: 1rem;width:8rem;background-color: #FFC300;border: 0;"
+                                  (click)="confirm1(item)"
+                              ></button>
+                  
+                          </td>
+        
+                      </tr>
+                  </ng-template>
+                  <ng-template pTemplate="emptymessage">
+                      <tr>
+                          <td colspan="7">Sin Datos para Mostrar.</td>
+                      </tr>
+                  </ng-template>
+                  <ng-template pTemplate="loadingbody">
+                      <tr>
+                          <td colspan="7">Cargando Datos, espere...</td>
+                      </tr>
+      
+                  </ng-template>
+                  <ng-template pTemplate="paginatorleft" let-state>
+                      Mostrando {{(state.page  * state.rows) + 1}} a {{state.rows * (state.page + 1)}} de {{state.totalRecords}} registros.
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </div>
+    </p-accordionTab>
+</p-accordion>
+
+  <div class="row pt-5 pb-5">
+    <div class="cols">
+      <div class="card">
+        <p-table #dt1 [value]="datosExtraccion2" dataKey="id" [loading]="loading" [rows]="50" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
+            styleClass="p-datatable-gridlines" [paginator]="true"
+            [globalFilterFields]="['tipoExtraccion','archivo','cve_usuario','fechaCompletado','status','procesando']" responsiveLayout="scroll">
+            <ng-template pTemplate="caption">
+                <div class="flex justify-content-between flex-column sm:flex-row">
+
+                    <span class="p-input-icon-left mb-2">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Buscar"
+                            class="w-full" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>
+                        <div style="width: 150px;" class="flex justify-content-center align-items-center">
+                            Tipo de Extracción
+
+                        </div>
+                    </th>
+                    <th>
+                        <div style="width: 150px;" class="flex justify-content-center align-items-center">
+                            Fecha de Programación
+
+                        </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-center align-items-center">
+                          Usuario
+                      </div>
+                    </th>
+                    <th>
+                        <div style="width: 150px;" class="flex justify-content-center align-items-center">
+                            Fecha Completado
+                        </div>
+                      </th>
+                      <th>
+                      <div class="flex justify-content-center align-items-center">
+                          Estatus
+                      </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-center align-items-center" style="white-space: pre-line;">
+                          Párametros de Programación
+                      </div>
+                    </th>
+                    <th>
+                      <div  class="flex justify-content-center align-items-center">
+                          Párametros de Extracción
+
+                      </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-center align-items-center">
+                          Archivo
+                      </div>
+                    </th>
+                    <th>
+                      <div style="width: 150px;" class="flex justify-content-center align-items-center">
+                          Progreso
+                      </div>
+                    </th>
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr>
+                    <td class="text-center">
+                      {{item.tipoExtraccion}}
+                    </td>
+                    <td class="text-center">
+                      {{item.fechaExtraccion ? dateFormat(item.fechaExtraccion):""}}
+                    </td>
+                    <td class="text-center">
+                      {{item.cve_usuario}}
+                    </td>
+                    <td class="text-center">
+                      {{item.fechaCompletado ? dateFormat(item.fechaCompletado):""}}
+                    </td>
+                    <td class="text-center">
+                      {{item.status}}
+                    </td> 
+                    <td class="text-center" style="white-space: pre-line;">
+                      <!-- {{item.horaProgramacion}} -->
+                      <span [innerHTML]="item.horaProgramacion"></span>
+                    </td>
+                    <td class="text-left" >
+                      <ng-container *ngFor="let parametro of item.parametrosExtraccion">
+                          <div *ngFor="let key of getKeys(parametro)">
+                              <strong>*{{capitalizarFirstLeter(key)}}</strong>: {{parametro[key]}}
+                          </div>
+                      </ng-container>
+                    </td>
+                    <td *ngIf="(!item.archivo || item.archivo== null || item.archivo =='-') ;else elseArchivo" class="text-center">
+                      <button pButton disabled style="background-color: grey;border: 0;" label="Descargar" (click)="descargarArchivo(item.archivo)"></button>
+                    </td>
+                    <ng-template #elseArchivo>
+                      <td class="text-center">
+                        <button pButton  style="background-color: #FFC300;border: 0;" label="Descargar" (click)="descargarArchivo(item.archivo)" [loading]="estaSiendoDescargado(item.archivo)"></button>
+                      </td>
+                    </ng-template>
+                    <td class="text-center">
+                        <i *ngIf="item.status =='Completado'" class="pi pi-fw pi-check" style="color: green;font-size: 2rem;font-weight: bold;"></i>
+                        <i *ngIf="(item.status =='Error' || item.status =='Error Falla al Extraer' || item.status =='Error Servidor Ocupado' || item.status =='Error Sin Datos' || item.status =='Error Sin Resultados') " class="pi pi-fw pi-times" style="color: red;font-size: 2rem;font-weight: bold;"></i>
+                        <p-progressBar *ngIf="item.status =='Pendiente'|| item.status =='Procesando'" [value]="item.proceso" ></p-progressBar>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">Sin Datos para Mostrar.</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="loadingbody">
+                <tr>
+                    <td colspan="7">Cargando Datos, espere...</td>
+                </tr>
+
+            </ng-template>
+            <ng-template pTemplate="paginatorleft" let-state>
+                Mostrando {{(state.page  * state.rows) + 1}} a {{state.rows * (state.page + 1)}} de {{state.totalRecords}} registros.
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="show" style="display: none;">
+    <iframe id="report" height="1000" width="1000" [src]="url1 | safeUrl"></iframe>
+  </div>
+
+
+<p-dialog header="Header" [(visible)]="modal" [style]="{ width: '90vw',height:'100vw' }">
+    <ng-template pTemplate="header">
+        <span class="text-xl font-bold">Editar Extracción</span>
+    </ng-template>    
+    <div style="position: relative; height: 100%;">
+      <div class="p-fluid p-formgrid grid">
+        <div class="field col-12 md:col-6 justify-content-center align-items-center" >
+          <div class="grid flex justify-content-center">
+            <div class="col-8 text-center">
+              <label>El tipo de Programación es: {{editForm.tipoProgramacion == true ? 'Consecutiva':'Fija'}} </label><br>
+              <p-inputSwitch [(ngModel)]="editForm.tipoProgramacion"></p-inputSwitch>
+
+            </div>
+          </div>
+        </div>
+        <div class="field col-12 md:col-6 justify-content-center align-items-center" >
+          <div class="grid flex justify-content-center">
+            <div class="col-8 text-center">
+              <label for="">El medio de Extracción es: {{editForm.medioExtraccion == true ? 'General':'Vista'}} </label><br>
+              <p-inputSwitch [(ngModel)]="editForm.medioExtraccion" ></p-inputSwitch>
+
+            </div>
+          </div>
+        </div>
+        <div class="field col-12 md:col-6">
+              <p-dropdown
+              [options]="tipoExtraccion"
+              [showClear]="true"
+              placeholder="Tipo de Extracción"
+              [(ngModel)]="editForm.tipoExtraccion"
+              class="custom-dropdown"
+              >
+              </p-dropdown>
+        </div>
+        <br><br><br><br>
+        <!-- caso negocio -->
+        <div class="col-12"></div>
+        <div class="field col-12 md:col-4" *ngIf="editForm.tipoExtraccion == 'Casos de negocio' ">
+          <span class="p-float-label p-input-icon-right">
+            <i *ngIf="editForm.parametrosExtraccion[0].estado !== null && editForm.parametrosExtraccion[0].estado !== null && editForm.parametrosExtraccion[0].estado !== ''" class="pi pi-times" (click)="editForm.parametrosExtraccion[0].estado = null"></i>
+              <input
+              type="text"
+              pInputText
+              [(ngModel)]="editForm.parametrosExtraccion[0].estado"
+              >
+              <label>Estado</label>
+          </span>
+        </div>
+     
+        <div class="field col-12 md:col-4" *ngIf="editForm.tipoExtraccion == 'Casos de negocio'">
+          <span class="p-float-label"> 
+            <p-calendar [showIcon]="true" [touchUI]="true" [readonlyInput]="true"  
+            [showTime]="true" [showSeconds]="true" dateFormat="dd-mm-yy" [(ngModel)]="editForm.parametrosExtraccion[0].fechaApertura"  
+            selectionMode="range"  inputId="icon"
+            (onSelect)="changeFechaAperturaEdit($event)" [minDate]="fechaAperturaMinEdit"
+            [disabledDates]="disabledDatesEdit" [showButtonBar]="true"
+            >
+            </p-calendar>
+            <label>Fecha de Apertura</label>
+          </span>
+        </div>
+        <div class="field col-12 md:col-4" *ngIf="editForm.tipoExtraccion == 'Casos de negocio' || editForm.tipoExtraccion == 'Ordenes de servicio'">
+          <span class="p-float-label p-input-icon-right">
+            <i *ngIf="editForm.parametrosExtraccion[0].cuenta !== null && editForm.parametrosExtraccion[0].cuenta !== null && editForm.parametrosExtraccion[0].cuenta !== ''" class="pi pi-times" (click)="editForm.parametrosExtraccion[0].cuenta = null"></i>
+              <input
+              type="text"
+              pInputText
+              [(ngModel)]="editForm.parametrosExtraccion[0].cuenta"
+              >
+              <label>Cuenta</label>
+          </span>
+        </div>
+        <div class="field col-12 md:col-4" *ngIf="editForm.tipoExtraccion == 'Casos de negocio'">
+          <span class="p-float-label p-input-icon-right">
+            <i *ngIf="editForm.parametrosExtraccion[0].medioContacto !== null && editForm.parametrosExtraccion[0].medioContacto !== null && editForm.parametrosExtraccion[0].medioContacto !== ''" class="pi pi-times" (click)="editForm.parametrosExtraccion[0].medioContacto = null"></i>
+              <input
+              type="text"
+              pInputText
+              [(ngModel)]="editForm.parametrosExtraccion[0].medioContacto"
+              >
+              <label>Medio de Contacto</label>
+          </span>
+        </div>
+        <div class="field col-12 md:col-4" *ngIf="editForm.tipoExtraccion == 'Casos de negocio'">
+          <span class="p-float-label p-input-icon-right">
+            <i *ngIf="editForm.parametrosExtraccion[0].casoNegocio !== null && editForm.parametrosExtraccion[0].casoNegocio !== null && editForm.parametrosExtraccion[0].casoNegocio !== ''" class="pi pi-times" (click)="editForm.parametrosExtraccion[0].casoNegocio = null"></i>
+              <input
+              type="text"
+              pInputText
+              [(ngModel)]="editForm.parametrosExtraccion[0].casoNegocio"
+              >
+              <label>Caso de Negocio</label>
+          </span>
+        </div>
+        <div class="field col-12 md:col-4" *ngIf="editForm.tipoExtraccion == 'Casos de negocio'">
+          <p-autoComplete [showClear]="true" [(ngModel)]="editForm.parametrosExtraccion[0].categoria" 
+          [dropdown]="true" (onSelect)="cambioCategoriaEdit($event)" (onClear)="cleanCategoriaEdit($event)" (input)="inputCategoriaEdit()"
+           placeholder="Categoría" [suggestions]="filterCat" (completeMethod)="filterCategory($event)">
+          </p-autoComplete>
+        </div>
+        
+        <div class="field col-12 md:col-4" *ngIf="editForm.tipoExtraccion == 'Casos de negocio' && editForm.parametrosExtraccion[0].categoria != null">
+          <p-autoComplete [showClear]="true" [(ngModel)]="editForm.parametrosExtraccion[0].motivo" 
+          [dropdown]="true" (onSelect)="cambioMotivoEdit($event)" (onClear)="cleanMoEdit($event)" (input)="inputMoEdit()"
+           placeholder="Motivo" [suggestions]="filterMotivo" (completeMethod)="filterMo($event)">
+          </p-autoComplete>
+        </div>
+        <div class="field col-12 md:col-4" *ngIf="editForm.tipoExtraccion == 'Casos de negocio' && editForm.parametrosExtraccion[0].motivo != null">
+          <p-autoComplete [showClear]="true" [(ngModel)]="editForm.parametrosExtraccion[0].subMotivo" 
+          [dropdown]="true" (onSelect)="cambioSubmotivoEdit()" (onClear)="cleanSubEdit($event)" (input)="inputSubEdit()"
+           placeholder="SubMotivo" [suggestions]="filterSub" (completeMethod)="filterSubm($event)">
+          </p-autoComplete>
+        </div>
+
+        <div class="field col-12 md:col-4" *ngIf="editForm.tipoExtraccion == 'Casos de negocio' && editForm.parametrosExtraccion[0].subMotivo != null">
+          <p-autoComplete [showClear]="true" [(ngModel)]="editForm.parametrosExtraccion[0].solucion" 
+          [dropdown]="true" (onSelect)="cambioSolucionEdit()" (onClear)="cleanSolucionEdit($event)" (input)="inputSolEdit()"
+           placeholder="Solución" [suggestions]="filterSol" (completeMethod)="filterSolu($event)">
+          </p-autoComplete>
+        </div>
+
+        <div class="field col-12 md:col-4" *ngIf="editForm.tipoExtraccion == 'Casos de negocio' && editForm.parametrosExtraccion[0].solucion != null">
+          <p-autoComplete [showClear]="true" [(ngModel)]="editForm.parametrosExtraccion[0].motivoCliente" 
+          [dropdown]="true"
+           placeholder="Motivo Cliente" [suggestions]="filterMotivoCli" (completeMethod)="filterMotivoCl($event)">
+          </p-autoComplete>
+        </div>
+          <!-- actividad -->
+
+        <div class="field col-12 md:col-4" *ngIf="editForm.tipoExtraccion == 'Actividades' ">
+          <p-autoComplete [showClear]="true" [(ngModel)]="editForm.parametrosExtraccion[0].estado" 
+          [dropdown]="true" 
+           placeholder="Estado" [suggestions]="filterestadoAct" (completeMethod)="filterEstaAct($event)">
+          </p-autoComplete>
+
+        </div> 
+        <div class="field col-12 md:col-4" *ngIf="editForm.tipoExtraccion == 'Actividades'">
+          <p-autoComplete [showClear]="true" [(ngModel)]="editForm.parametrosExtraccion[0].tipo" 
+          [dropdown]="true" 
+           placeholder="Tipo" [suggestions]="filtertipoAct" (completeMethod)="filterTipoAct($event)">
+          </p-autoComplete>
+        </div>
+        <div class="field col-12 md:col-4" *ngIf="editForm.tipoExtraccion == 'Actividades'">
+          <p-autoComplete [showClear]="true" [(ngModel)]="editForm.parametrosExtraccion[0].areaConocimiento" 
+          [dropdown]="true" 
+           placeholder="Área de Conocimiento" [suggestions]="filterareaAct" (completeMethod)="filterAreaAct($event)">
+          </p-autoComplete>
+
+        </div>
+        <div class="field col-12 md:col-4" *ngIf="editForm.tipoExtraccion == 'Actividades'">
+          <span class="p-float-label"> 
+            <p-calendar [showIcon]="true" [touchUI]="true" [readonlyInput]="true" dateFormat="dd-mm-yy" 
+            [(ngModel)]="editForm.parametrosExtraccion[0].fechaAsignacion" selectionMode="range"  
+            [showTime]="true" [showSeconds]="true" inputId="icon"  (onSelect)="changeFechaAsignacionEdit($event)" [minDate]="fechaAsignacionMinEdit"
+            [disabledDates]="disabledDatesfechaAsignacionEdit" [showButtonBar]="true"
+            >
+            </p-calendar>
+            <label for="inputdate">Fecha de Asignación</label>
+          </span>
+
+        </div>
+        <div class="field col-12 md:col-4" *ngIf="editForm.tipoExtraccion == 'Actividades'">
+          <span class="p-float-label"> 
+            <p-calendar [showIcon]="true" [touchUI]="true" [readonlyInput]="true" dateFormat="dd-mm-yy" 
+            [(ngModel)]="editForm.parametrosExtraccion[0].vencimientoActividad" selectionMode="range"  
+            [showTime]="true" [showSeconds]="true" inputId="icon"  (onSelect)="changeFechaVencimientoEdit($event)" [minDate]="fechaVencimientoMinEdit"
+            [disabledDates]="disabledDatesfechaVencimientoEdit" [showButtonBar]="true"
+            >
+            </p-calendar>
+            <label for="inputdate">Vencimiento</label>
+          </span>
+        </div>
+        <div class="field col-12 md:col-4" *ngIf="editForm.tipoExtraccion == 'Actividades'">
+          <span class="p-float-label"> 
+            <p-calendar [showIcon]="true" [touchUI]="true" [readonlyInput]="true" dateFormat="dd-mm-yy" 
+            [(ngModel)]="editForm.parametrosExtraccion[0].fechaCreacion" selectionMode="range"  
+            [showTime]="true" [showSeconds]="true" inputId="icon" (onSelect)="changeFechaCreacionEdit($event)" [minDate]="fechaCreacionMinEdit"
+            [disabledDates]="disabledDatesfechaCreacionEdit" [showButtonBar]="true"
+            >
+            </p-calendar>
+            <label for="inputdate">Fecha de Creación</label>
+          </span>
+        </div>
+
+        <!-- orden de servicio -->
+
+        <div class="field col-12 md:col-4" *ngIf="editForm.tipoExtraccion == 'Ordenes de servicio' ">
+          <p-autoComplete [showClear]="true" [(ngModel)]="editForm.parametrosExtraccion[0].estado" 
+          [dropdown]="true" 
+           placeholder="Estado" [suggestions]="filterestadoOS" (completeMethod)="filterEstadoOS($event)">
+          </p-autoComplete>
+
+        </div>
+        <div class="field col-12 md:col-4" *ngIf="editForm.tipoExtraccion == 'Ordenes de servicio' && editForm.medioExtraccion==false">
+          <span class="p-float-label p-input-icon-right">
+            <i *ngIf="editForm.parametrosExtraccion[0].compania !== null && editForm.parametrosExtraccion[0].compania !== null && editForm.parametrosExtraccion[0].compania !== ''" class="pi pi-times" (click)="editForm.parametrosExtraccion[0].compania = null"></i>
+              <input
+              type="text"
+              pInputText
+              [(ngModel)]="editForm.parametrosExtraccion[0].compania"
+              >
+              <label>Compañia (Nombre del Titular)</label>
+          </span>
+        </div>              
+        <div class="field col-12 md:col-4" *ngIf="editForm.tipoExtraccion == 'Ordenes de servicio' && editForm.medioExtraccion==false">
+          <span class="p-float-label p-input-icon-right">
+            <i *ngIf="editForm.parametrosExtraccion[0].telefonos !== null && editForm.parametrosExtraccion[0].telefonos !== null && editForm.parametrosExtraccion[0].telefonos !== ''" class="pi pi-times" (click)="editForm.parametrosExtraccion[0].telefonos = null"></i>
+              <input
+              type="text"
+              pInputText
+              [(ngModel)]="editForm.parametrosExtraccion[0].telefonos"
+              >
+              <label>Telefonos</label>
+          </span>
+        </div>
+
+        <div class="field col-12 md:col-4" *ngIf="editForm.tipoExtraccion == 'Ordenes de servicio' || formExtraccion.controls['tipoExtraccion'].value == 'Fallas generales'">
+          <span class="p-float-label p-input-icon-right">
+            <i *ngIf="editForm.parametrosExtraccion[0].numOrden !== null && editForm.parametrosExtraccion[0].numOrden !== null && editForm.parametrosExtraccion[0].numOrden !== ''" class="pi pi-times" (click)="editForm.parametrosExtraccion[0].numOrden = null"></i>
+              <input
+              type="text"
+              pInputText
+              [(ngModel)]="editForm.parametrosExtraccion[0].numOrden"
+              >
+              <label>Número de Orden</label>
+          </span>
+        </div>
+        <div class="field col-12 md:col-4" *ngIf="editForm.tipoExtraccion == 'Ordenes de servicio'">
+          <p-autoComplete [showClear]="true" [(ngModel)]="editForm.parametrosExtraccion[0].tipoOrden" 
+          [dropdown]="true" 
+           placeholder="Tipo de Orden" [suggestions]="filtertipoOrOS" (completeMethod)="filterTipoOrdenOS($event)">
+          </p-autoComplete>
+
+        </div>
+
+        <div class="field col-12 md:col-4" *ngIf="editForm.tipoExtraccion == 'Ordenes de servicio'">
+          <span class="p-float-label"> 
+            <p-calendar [showIcon]="true" [touchUI]="true" [readonlyInput]="true" [showTime]="true" 
+            [showSeconds]="true" dateFormat="dd-mm-yy" 
+            [(ngModel)]="editForm.parametrosExtraccion[0].fechaOrden" selectionMode="range"  
+            inputId="icon" (onSelect)="changeFechaOrdenEdit($event)" [minDate]="fechaOrdenMinEdit"
+            [disabledDates]="disabledDatesfechaOrdenEdit"
+            >
+            </p-calendar>
+            <label for="inputdate">Fecha de la Orden</label>
+          </span>
+        </div>
+     
+        <div class="field col-12 md:col-4" *ngIf="editForm.tipoExtraccion == 'Casos de negocio' || editForm.tipoExtraccion == 'Ordenes de servicio' || editForm.tipoExtraccion == 'Actividades'">
+          <span class="p-float-label p-input-icon-right">
+            <i *ngIf="editForm.correo !== null && editForm.correo !== ''" class="pi pi-times" (click)="editForm.correo = null"></i>
+              <input
+              type="text"
+              pInputText
+              [(ngModel)]="editForm.correo"
+              >
+              <label>Correo Electrónico</label>
+          </span>
+        </div>
+
+         <div class="field col-12"></div>
+        <div class="col-12" style="white-space: pre-line;" >
+          <span [innerHTML]="getTextoEdit()"></span>
+        </div>
+        <div class="field col-12"></div>
+        
+        <div class="field col-12 md:col-4" >
+          <p-multiSelect (onChange)="cambioHoraEdit($event.value)"  
+            [options]="horas" [appendTo]="'body'" [(ngModel)]="editForm.hora" defaultLabel="Selecciona una Hora" optionValue="value" optionLabel="label" >
+            <ng-template let-value pTemplate="selectedItems">
+                <div class="flex align-items-center gap-2" *ngFor="let option of editForm.hora">
+                    {{ getHoraLabel(option) }}
+                </div>
+                <div *ngIf="!editForm.hora || editForm.hora.length === 0">Selecciona Hora</div>
+            </ng-template>
+            <ng-template let-country pTemplate="item">
+                <div class="flex align-items-center gap-2">
+                    <div>{{ country.label }}</div>
+                </div>
+            </ng-template>
+          </p-multiSelect>
+        </div>
+        <div class="field col-12 md:col-4" >
+           <!-- <p-multiSelect  
+            [options]="min" [(ngModel)]="editForm.minuto" defaultLabel="Selecciona Minutos" optionValue="value" optionLabel="label" >
+            <ng-template let-value pTemplate="selectedItems">
+                <div class="flex align-items-center gap-2" *ngFor="let option of editForm.minuto">
+                    <div>{{ getMinutoLabel(option) }}</div>
+                </div>
+                <div *ngIf="!editForm.minuto || editForm.minuto.length === 0">Selecciona Minutos</div>
+            </ng-template>
+            <ng-template let-country pTemplate="item">
+                <div class="flex align-items-center gap-2">
+                    <div>{{ country.label }}</div>
+                </div>
+            </ng-template>
+          </p-multiSelect> -->
+
+          <p-dropdown (onChange)="cambioMinEdit($event.value)" placeholder="Selecciona Minutos"  
+            [options]="min" optionValue="value" optionLabel="label" [(ngModel)]="editForm.minuto"
+          ></p-dropdown>
+
+        </div>
+
+  
+        <div class="field col-12 md:col-4">
+          <p-multiSelect (onChange)="cambioDiasEdit($event.value)" 
+            [options]="diasemanas" [(ngModel)]="editForm.diaSemana" defaultLabel="Selecciona dia de la Semana" optionValue="value" optionLabel="label" >
+            <ng-template let-value pTemplate="selectedItems">
+                <div class="flex align-items-center gap-2" *ngFor="let option of editForm.diaSemana">
+                    <div>{{ getDiaLabel(option) }}</div>
+                </div>
+                <div *ngIf="!editForm.diaSemana || editForm.diaSemana.length === 0">Selecciona dia de la Semana</div>
+            </ng-template>
+            <ng-template let-country pTemplate="item">
+                <div class="flex align-items-center gap-2">
+                    <div>{{ country.label }}</div>
+                </div>
+            </ng-template>
+          </p-multiSelect>
+        </div>
+
+
+
+
+
+
+
+
+
+
+      </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check" (click)="modal = false" label="Cancelar" styleClass="p-button-text"></p-button>
+        <p-button icon="pi pi-pencil" (click)="editar1()" label="Editar" styleClass="p-button-text"></p-button>
+    </ng-template>
+</p-dialog>
+
+
+
+<div class="card flex justify-content-center gap-2">
+  <p-toast></p-toast>
+  <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+</div>
+
+

@@ -1,0 +1,287 @@
+<div class="text-900 font-bold text-2xl mb-4 text-center" style="background-color: #E80084;border: 0;color: white !important;">Prefijos de Marcación</div>
+<p-toolbar styleClass="mb-4 gap-2">
+    <ng-template pTemplate="left">
+        <button pButton pRipple icon="pi pi-plus" class="mr-2" style="background-color: #FF7987; border: 0;" (click)="nuevo()"></button>
+    </ng-template>
+</p-toolbar>
+<div class="row">
+<div class="cols">
+    <div class="card">
+    <p-table #dt1 [value]="prefijos" dataKey="id" [loading]="loading" [rows]="50" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
+        styleClass="p-datatable-gridlines" [paginator]="true"
+        [globalFilterFields]="['region','subregion','hub','plaza','rpt','hubOrden','prefijo']" responsiveLayout="scroll">
+        <ng-template pTemplate="caption">
+            <div class="flex justify-content-between flex-column sm:flex-row">
+
+                <span class="p-input-icon-left mb-2">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Buscar"
+                        class="w-full" />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>
+                    <div class="flex justify-content-center align-items-center">
+                        Region
+
+                    </div>
+                </th>
+                <th>
+                    <div class="text-center">
+                        Subregion
+
+                    </div>
+                </th>
+                <th>
+                    <div class="flex justify-content-center align-items-center">
+                    Hub
+                    </div>
+                </th>
+                <th>
+                    <div class="flex justify-content-center align-items-center">
+                        Plaza
+                    </div>
+                </th>
+                <th>
+                    <div class="flex justify-content-center align-items-center">
+                        RPT
+                    </div>
+                </th>
+                <th>
+                    <div style="width: 77px;" class="flex justify-content-center align-items-center">
+                        Hub Orden
+                    </div>
+                </th>
+                <th>
+                    <div class="flex justify-content-center align-items-center">
+                        Prefijo
+                    </div>
+                </th>
+                <th>
+                    <div class="flex justify-content-center align-items-center">
+                        Acciones
+                    </div>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item let-i="rowIndex">
+            <tr>
+                <td class="text-center">
+                    {{item.region}}
+                </td>
+                <td class="text-center">
+                    {{item.subregion}}
+                </td>
+                <td class="text-center">
+                    {{item.hub}}
+                </td>
+                <td class="text-center">
+                    {{item.plaza}}
+                    </td>
+                    <td class="text-center">
+                    {{item.rpt}}
+                    </td>
+                    <td class="text-center">
+                    {{item.hubOrden}}
+                    </td>
+                    <td class="text-center">
+                    {{item.prefijo}}
+                    </td>
+                    <td class="text-center" style="display: flex; gap: 5px;">
+                    <button pButton style="background-color: #FF7987;border: 0;" icon="pi pi-pencil" (click)="editar(item)"></button>&nbsp;                        
+                    <button pButton style="background-color: #FF7987;border: 0;" icon="pi pi-trash" (click)="eliminar(item.id)"></button>
+
+                    </td>
+
+
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="7">Sin Datos para Mostrar.</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="loadingbody">
+            <tr>
+                <td colspan="7">Cargando Datos, espere...</td>
+            </tr>
+
+        </ng-template>
+        <ng-template pTemplate="paginatorleft" let-state>
+            Mostrando {{(state.page  * state.rows) + 1}} a {{state.rows * (state.page + 1)}} de {{state.totalRecords}} registros.
+        </ng-template>
+    </p-table>
+    </div>
+</div>
+</div>
+<p-toast
+[baseZIndex]="99999"
+key="tst"></p-toast>
+
+<p-dialog header="Header" [closable]="false" [(visible)]="visible" [style]="{ width: '50vw' }">
+<ng-template pTemplate="header" style="background-color: #FF7987;">
+    <span class="text-xl font-bold">Editar Prefijo</span>
+</ng-template>
+<div class="p-fluid p-formgrid grid" style="padding-top: 1.5rem;">
+    <div class="field col-12 md:col-6" >
+        <span class="p-float-label">
+            <input
+            type="text"
+            pInputText
+            [(ngModel)]="edit.region"
+            >
+            <label>Region</label>
+        </span>
+    </div>
+    <div class="field col-12 md:col-6" >
+        <span class="p-float-label">
+            <input
+            type="text"
+            pInputText
+            [(ngModel)]="edit.subregion"
+            >
+            <label>SubRegion</label>
+        </span>
+    </div>
+    <div class="field col-12 md:col-6" >
+        <span class="p-float-label">
+            <input
+            type="text"
+            pInputText
+            [(ngModel)]="edit.hub"
+            >
+            <label>HUB</label>
+        </span>
+    </div>
+    <div class="field col-12 md:col-6" >
+        <span class="p-float-label">
+            <input
+            type="text"
+            pInputText
+            [(ngModel)]="edit.plaza"
+            >
+            <label>Plaza</label>
+        </span>
+    </div>
+    <div class="field col-12 md:col-6" >
+        <span class="p-float-label">
+            <input
+            type="text"
+            pInputText
+            [(ngModel)]="edit.rpt"
+            >
+            <label>RPT</label>
+        </span>
+    </div>
+    <div class="field col-12 md:col-6" >
+        <span class="p-float-label">
+            <input
+            type="text"
+            pInputText
+            [(ngModel)]="edit.hubOrden"
+            >
+            <label>HUB Orden</label>
+        </span>
+    </div>
+    <div class="field col-12 md:col-6" >
+        <span class="p-float-label">
+            <input
+            type="text"
+            pInputText
+            [(ngModel)]="edit.prefijo"
+            >
+            <label>Prefijo</label>
+        </span>
+    </div>
+</div>
+
+<ng-template pTemplate="footer" class="justify-content-between">
+    <p-button (click)="visible = false" label="Cerrar" styleClass="p-button-text"></p-button>
+    <p-button icon="pi pi-save" (click)="saveEdit()"  styleClass="p-button-text"></p-button>
+</ng-template>
+</p-dialog>
+
+<p-dialog header="Header" [closable]="false" [(visible)]="visible1" [style]="{ width: '50vw' }">
+    <ng-template pTemplate="header" style="background-color: #FF7987;text-align: center;">
+        <span class="text-xl font-bold">Agregar Prefijo</span>
+    </ng-template>
+    <div class="p-fluid p-formgrid grid" style="padding-top: 1.5rem;">
+        <div class="field col-12 md:col-6" >
+            <span class="p-float-label">
+                <input
+                type="text"
+                pInputText
+                [(ngModel)]="new.region"
+                >
+                <label>Region</label>
+            </span>
+        </div>
+        <div class="field col-12 md:col-6" >
+            <span class="p-float-label">
+                <input
+                type="text"
+                pInputText
+                [(ngModel)]="new.subregion"
+                >
+                <label>SubRegion</label>
+            </span>
+        </div>
+        <div class="field col-12 md:col-6" >
+            <span class="p-float-label">
+                <input
+                type="text"
+                pInputText
+                [(ngModel)]="new.hub"
+                >
+                <label>HUB</label>
+            </span>
+        </div>
+        <div class="field col-12 md:col-6" >
+            <span class="p-float-label">
+                <input
+                type="text"
+                pInputText
+                [(ngModel)]="new.plaza"
+                >
+                <label>Plaza</label>
+            </span>
+        </div>
+        <div class="field col-12 md:col-6" >
+            <span class="p-float-label">
+                <input
+                type="text"
+                pInputText
+                [(ngModel)]="new.rpt"
+                >
+                <label>RPT</label>
+            </span>
+        </div>
+        <div class="field col-12 md:col-6" >
+            <span class="p-float-label">
+                <input
+                type="text"
+                pInputText
+                [(ngModel)]="new.hubOrden"
+                >
+                <label>HUB Orden</label>
+            </span>
+        </div>
+        <div class="field col-12 md:col-6" >
+            <span class="p-float-label">
+                <input
+                type="text"
+                pInputText
+                [(ngModel)]="new.prefijo"
+                >
+                <label>Prefijo</label>
+            </span>
+        </div>
+    </div>
+    
+    <ng-template pTemplate="footer" class="justify-content-between">
+        <p-button (click)="visible1 = false;this.new={}" label="Cerrar" styleClass="p-button-text"></p-button>
+        <p-button icon="pi pi-save" (click)="saveNuevo()"  styleClass="p-button-text"></p-button>
+    </ng-template>
+    </p-dialog>

@@ -1,0 +1,303 @@
+<div class="text-900 font-bold text-2xl mb-4 text-center" style="background-color: #00B2A9;color: white !important;">Importar bases NotDone</div>
+
+<div class="card" style="padding-left: 1rem;">
+  <p-panel header=""
+    class="line-height-12 m-0">
+    <!-- INICIO DE INPUTS -->
+    <!-- <h5>Tipo de Cuenta</h5> -->
+      <div class="p-fluid p-formgrid grid m-2 flex justify-content-center">
+        <div class="col-6 text-center">
+            <input type="file" id="file" accept=".csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" (change)="readExcel($event)">
+            <!-- <p-progressSpinner *ngIf="spinner"></p-progressSpinner> -->
+        </div>
+    </div>
+    <div class="grid flex justify-content-center">
+        <div class="col-4 text-center">
+            <button
+            mat-button 
+            (click)="saveExcel()"
+            pButton
+            [disabled]="button"
+            label="Importar Base"
+            style="width:auto; background-color: #93CECB; border: 0;"></button>      
+        </div>
+    </div>
+
+  </p-panel>
+  <br>
+
+</div>
+<p-toast
+  [baseZIndex]="99999"
+  key="tst"></p-toast>
+
+  <div class="row" *ngIf="tabla">
+    <div class="cols">
+      <div class="card">
+        <p-table #dt1 [value]="ExcelData" dataKey="NUMERO_ORDEN" [rows]="50" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
+            styleClass="p-datatable-gridlines" [paginator]="true"
+            responsiveLayout="scroll">
+            <!-- <ng-template pTemplate="caption">
+                <div class="flex justify-content-between flex-column sm:flex-row">
+
+                    <span class="p-input-icon-left mb-2">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Buscar"
+                            class="w-full" />
+                    </span>
+                </div>
+            </ng-template> -->
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Ciudad
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Comentarios
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Creado Por
+
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Cuenta
+
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Dirección
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Estado de la Orden
+                        </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          Fecha de Apertura
+                      </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          Fecha Solicitada
+                      </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            HUB
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Motivo de Cancelación
+                        </div>
+                    </th>  
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Motivo de la Orden
+                        </div>
+                    </th>  
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Motivo Reprogramación
+                        </div>
+                    </th>  
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Nombre del Cliente
+                        </div>
+                    </th>  
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Número de Orden
+                        </div>
+                    </th>  
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Paquete
+                        </div>
+                    </th>  
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Perfil de Pago
+                        </div>
+                    </th>  
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Plaza
+                        </div>
+                    </th>  
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Referido
+                        </div>
+                    </th>  
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            RPT
+                        </div>
+                    </th>  
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Situación anticipo
+                        </div>
+                    </th>  
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            SubTipo Cliente
+                        </div>
+                    </th>  
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            SubTipo Orden
+                        </div>
+                    </th>  
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Técnico
+                        </div>
+                    </th>  
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Teléfono
+                        </div>
+                    </th>  
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Tipo de Cliente
+                        </div>
+                    </th>  
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Tipo de Orden
+                        </div>
+                    </th>  
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Última Modificación Por
+                        </div>
+                    </th>  
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Vendedor
+                        </div>
+                    </th> 
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr>
+                    <td>
+                        {{item.CIUDAD}}
+                    </td>
+                    <td>
+                        {{item.COMENTARIOS}}
+                    </td>
+                    <td>
+                      {{item.CREADO_POR}}
+                    </td>
+                    <td>
+                        {{item.CUENTA}}
+                    </td>
+                    <td>
+                        {{ item.DIRECCION }}
+                    </td>
+                    <td>
+                       {{item.ESTADO_ORDEN }}
+                    </td>
+                    <td>
+                      {{ dateFormat(item.FECHA_APERTURA) }}
+                    </td>
+                    <td>
+                      {{ dateFormat(item.FECHA_SOLICITADA) }}
+                    </td>
+                    <td>
+                      {{item.HUB}}
+                    </td>
+                    <td>
+                        {{item.MOTIVO_CANCELACION}}
+                    </td>
+                    <td>
+                        {{item.MOTIVO_ORDEN}}
+                    </td>
+                    <td>
+                        {{item.MOTIVO_REPROGRAMACION}}
+                    </td>
+                    <td>
+                        {{item.NOMBRE_CLIENTE}}
+                    </td>
+                    <td>
+                        {{item.NUMERO_ORDEN}}
+                    </td>
+                    <td>
+                        {{item.PAQUETE}}
+                    </td>
+                    <td>
+                        {{item.PERFIL_PAGO}}
+                    </td>
+                    <td>
+                        {{item.PLAZA}}
+                    </td>
+                    <td>
+                        {{item.REFERIDO}}
+                    </td>
+                    <td>
+                        {{item.RPT}}
+                    </td>
+                    <td>
+                        {{item.SITUACION_ANTICIPO}}
+                    </td>
+                    <td>
+                        {{item.SUBTIPO_CLIENTE}}
+                    </td>
+                    <td>
+                        {{item.SUBTIPO_ORDEN}}
+                    </td>
+                    <td>
+                        {{item.TECNICO}}
+                    </td>
+                    <td>
+                        {{item.TELEFONO}}
+                    </td>
+                    <td>
+                        {{item.TIPO_CLIENTE}}
+                    </td>
+                    <td>
+                        {{item.TIPO_ORDEN}}
+                    </td>
+                    <td>
+                        {{item.ULTIMA_MOD_POR}}
+                    </td>
+                    <td>
+                        {{item.VENDEDOR}}
+                    </td>
+          
+    
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">Sin Datos para Mostrar.</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="loadingbody">
+                <tr>
+                    <td colspan="7">Cargando Datos, espere...</td>
+                </tr>
+
+            </ng-template>
+            <ng-template pTemplate="paginatorleft" let-state>
+                Mostrando {{(state.page  * state.rows) + 1}} a {{state.rows * (state.page + 1)}} de {{state.totalRecords}} registros.
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>

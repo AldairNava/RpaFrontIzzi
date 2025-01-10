@@ -1,0 +1,40 @@
+@keyframes loading {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.barra-cargando {
+  animation: loading 2s linear infinite;
+  background: linear-gradient(90deg, transparent, white, transparent);
+}
+
+:host ::ng-deep ::-webkit-scrollbar-thumb:horizontal {
+    background-color: #FFC0CB;
+}
+:host ::ng-deep ::-webkit-scrollbar-thumb:vertical {
+    background-color: #FFC0CB;
+}
+::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    color: white;
+    opacity: 0.8;
+    background-color: #FFC0CB; /* Cambia el color de la página activa del paginador */
+}
+
+.dropdown-option {
+    display: flex;
+    align-items: center;
+  }
+  
+  .option-buttons {
+    margin-left: auto;
+  }
+
+  
+  
+  .custom-icon {
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  

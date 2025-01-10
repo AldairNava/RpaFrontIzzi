@@ -1,0 +1,64 @@
+:host ::ng-deep .p-breadcrumb { 
+    background: transparent !important; 
+    color: #FFF;
+    border: none;
+} 
+
+:host ::ng-deep .p-breadcrumb-chevron { 
+    color: #FFF !important;
+} 
+:host ::ng-deep .p-menuitem-text { 
+    color: #FFF;
+}
+.component__content {
+    margin-left: 70px !important;
+    margin-top: 50px !important;
+    margin-right: 80px;
+}
+
+h3 {
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.form {
+    max-width: 60%;
+    margin: 0 auto;
+    margin-top: 20px;
+
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.contenido__btn {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.generando {
+    background-color: #FFF;
+    max-width: 50%;
+    margin: 0 auto;
+    margin-top: 50px;
+    border-radius: 20px;
+    padding: 50px 0px;
+    margin-bottom: 30px;
+    
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.generando__text {
+    margin-top: 25px;
+}
+
+.generando__btn {
+    margin-top: 15px;
+}
+
+img {
+    height: 200px;
+}

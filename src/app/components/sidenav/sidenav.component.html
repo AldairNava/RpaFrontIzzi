@@ -1,0 +1,63 @@
+<div class="main-container">
+    <div [class]="mode ? 'elmenu' : 'elmenulight'">
+        <div class="sidenav" [class]="mode ? 'sidenav' : 'sidenavLight' " [ngClass]="collapsed ? 'sidenav-collapsed' : '' " (mouseover)="collapsed = true" (mouseleave)="collapsed = false">
+            <div class="logo-container">
+                <div  *ngIf="!collapsed">
+                    <img class="logo" src="/assets/img/marIAna__mini.png">
+                </div>
+
+                <div *ngIf="collapsed">
+                    <img class="logo-text" src="/assets/img/marIAna.png" alt="">
+                </div>
+            </div>
+        
+            <div  class="scrollwrap scrollwrap_delayed">
+                <ul class="sidenav-nav">
+                    <li [class]="mode ? 'sidenav-nav-item' : 'sidenav-nav-item__light'  " *ngFor="let data of navData">
+                        <div>
+                            <a class="sidenav-nav-link"
+                                routerLinkActive="active"
+                                [routerLinkActiveOptions]="{exact: true}"
+                                [routerLink]="data.routerLink"
+                                (click)="navigateTo(data)">
+                                <i class="sidenav-link-icon" [class]="data.icon" [style]="mode ? 'color: #FFF' : 'color: #000'"></i>
+                                <span class="sidenav-link-text" [class]="mode ? 'black' : 'light'" *ngIf="collapsed">{{data.Label}}</span>
+                                <i *ngIf="data.items && collapsed" class="menu-collapse-icon"
+                                    [ngClass]="data.expanded ? 'pi pi-angle-down' : 'pi pi-angle-right'"
+                                    [style]="mode ? 'color: #FFF' : 'color: #000'"></i>
+                            </a>
+                        <div *ngIf="collapsed && data.items && data.items.length > 0" >
+                            <app-sublevel-menu
+                                [data]="data"
+                                [collapsed]="collapsed"
+                                [multiple]="multiple" 
+                                [expanded]="data.expanded"
+                            >
+                            </app-sublevel-menu>
+                        </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        
+            <div class="footer">
+                <img class="footer__img" src="/assets/img/id.jpg" alt="profile">
+                <div class="username__container">
+                    <!-- <h3 class="username" [class]=" mode ? 'footer__user' : 'footer__user__light'" *ngIf="collapsed"> {{nombre}}</h3>
+                    <h3 class="username" [class]=" mode ? 'footer__user' : 'footer__user__light'" *ngIf="collapsed"> {{apellidoP}} </h3>
+                    <h3 class="username" [class]=" mode ? 'footer__user' : 'footer__user__light'" *ngIf="collapsed"> {{apellidoM}} </h3> -->
+                </div>
+                <i class="pi pi-sign-out logout" [class]=" mode ? 'footer__user' : 'footer__user__light'" (click)="logout()" *ngIf="collapsed"></i>
+            </div>
+        </div>
+
+        <div class="content" [class.collapsed]="collapsed">
+            <div class="mode">
+                <p-button type="button" class="mr-2" (click)="toggleMode()" [icon]=" mode ? 'pi pi-sun' : 'pi pi-moon'" [pTooltip]=" mode ? 'Modo claro' : 'Modo oscuro' "></p-button>
+            </div>
+            
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>
+

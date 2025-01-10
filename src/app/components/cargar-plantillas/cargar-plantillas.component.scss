@@ -1,0 +1,28 @@
+.component__content {
+    margin-left: 70px !important;
+    margin-top: 50px !important;
+    margin-right: 80px;
+}
+
+.instruct {
+    margin-top: 20px;
+}
+
+.fields {
+    margin-top: 30px;
+}
+
+.actions {
+    display: flex;
+    max-width: 50%;
+    margin: 0 auto;
+    justify-content: space-evenly;
+    margin-top: 30px;
+}
+
+@media (max-width: 600px) {
+    .actions {
+         max-width: 80%;
+
+    }
+  }

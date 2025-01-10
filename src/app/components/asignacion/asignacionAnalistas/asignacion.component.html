@@ -1,0 +1,41 @@
+<div class="component__content">
+     <app-breadcrumb [pageTitle]=" 'Asignacion de Audios' "></app-breadcrumb>
+
+     <div class="table">
+          <p-table 
+              [value]="tableData" 
+              [columns]="cols" 
+              [tableStyle]="{ 'width': '100%' }" 
+              [paginator]="true"
+              [rowHover]="true"
+              [rows]="10"
+              *ngIf="isData"
+              [showCurrentPageReport]="true"
+              currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas"
+          
+          >
+              <ng-template pTemplate="header" let-columns>
+                  <tr>
+                      <th *ngFor="let col of columns" style="width: 200px;" [class]=" mode ? 'header__dark' : 'header__light' " >
+                          {{ col }}
+                      </th>
+                  </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-data let-columns="columns" >
+                  <tr [class]=" mode ? 'td__dark' : 'td__light' " >
+                    <td style="text-align: center; padding: 40px 0px;">{{ data.id_empleado }}</td>
+                    <td style="text-align: center;">{{ data.nombre }}</td>
+
+                    <td style="text-align: center;">{{ data.region }} </td>
+                    <td style="text-align: center;">{{ data.skill }} </td>
+                    <td style="text-align: center;">{{ data.puestoOp }} </td>
+                    <td style="text-align: center; cursor: pointer" (click)="individual(data.id_empleado)">{{ data.conteo }} </td>
+                  </tr>
+              </ng-template>
+          </p-table>
+
+          <h3 *ngIf="!isData" [style]=" mode ? 'color: #FFF;' : 'color: #000' ">
+              No hay datos para mostrar en este momento
+          </h3>
+      </div>
+</div>

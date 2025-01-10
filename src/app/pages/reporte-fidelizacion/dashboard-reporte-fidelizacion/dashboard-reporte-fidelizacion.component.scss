@@ -1,0 +1,12 @@
+// :host ::ng-deep ::-webkit-scrollbar {
+//     width: 12px;
+//     background-color: red;
+//   }
+  
+//   :host ::ng-deep ::-webkit-scrollbar-thumb {
+//     background-color: red;
+//   }
+  
+  :host ::ng-deep ::-webkit-scrollbar-thumb:horizontal {
+    background-color: #ff0000;
+  }

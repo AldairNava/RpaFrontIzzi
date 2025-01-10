@@ -1,0 +1,8 @@
+:host ::ng-deep ::-webkit-scrollbar-thumb:horizontal {
+    background-color: #FF7987;
+}
+::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    color: white;
+    opacity: 0.8;
+    background-color: #FF7987; /* Cambia el color de la página activa del paginador */
+}

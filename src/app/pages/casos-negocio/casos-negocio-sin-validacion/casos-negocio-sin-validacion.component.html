@@ -1,0 +1,126 @@
+<div class="text-900 font-bold text-2xl mb-4 text-center" style="background-color: #00B2A9;color: white !important;">Generación de Casos de Negocio sin Validación</div>
+
+<div class="card" style="padding-left: 1rem;">
+  <p-panel header=""
+    class="line-height-12 m-0">
+    <!-- INICIO DE INPUTS -->
+    <!-- <h5>Tipo de Cuenta</h5> -->
+      <div class="p-fluid p-formgrid grid m-2 flex justify-content-center">
+        <div class="col-6 text-center">
+            <input type="file" id="file" accept=".csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" (change)="readExcel($event)">
+            <!-- <p-progressSpinner *ngIf="spinner"></p-progressSpinner> -->
+        </div>
+    </div>
+    <div class="grid flex justify-content-center">
+        <div class="col-4 text-center">
+            <button
+            mat-button 
+            (click)="saveExcel()"
+            pButton
+            [disabled]="button"
+            label="Importar Base"
+            style="width:auto; background-color: #93CECB; border: 0;"></button>      
+        </div>
+    </div>
+
+  </p-panel>
+  <br>
+
+</div>
+<p-toast
+  [baseZIndex]="99999"
+  key="tst"></p-toast>
+
+  <div class="row" *ngIf="tabla">
+    <div class="cols">
+      <div class="card">
+        <p-table #dt1 [value]="ExcelData" dataKey="Nº de orden" [rows]="50" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
+            styleClass="p-datatable-gridlines" [paginator]="true"
+            responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>
+                        <div class="flex justify-content-center align-items-center">
+                            Cuenta
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-center align-items-center">
+                            Categoría
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-center align-items-center">
+                            Motivos
+
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-center align-items-center">
+                            Submotivo
+
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-center align-items-center">
+                            Solucion
+
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-center align-items-center">
+                            Motivo Cliente
+
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-center align-items-center">
+                            Comentarios
+
+                        </div>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr>
+                    <td class="text-center">
+                        {{item.Cuenta}}
+                    </td>
+                    <td class="text-center">
+                        {{item.Categoria}}
+                    </td>
+                    <td class="text-center">
+                      {{item.Motivos}}
+                    </td>
+                    <td class="text-center">
+                        {{item.Submotivo}}
+                    </td> 
+                    <td class="text-center">
+                        {{item['Solucion']}}
+                    </td>    
+                    <td class="text-center">
+                        {{item['Motivo Cliente']}}
+                    </td>   
+                    <td class="text-center">
+                        {{item['Comentarios']}}
+                    </td>      
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">Sin Datos para Mostrar.</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="loadingbody">
+                <tr>
+                    <td colspan="7">Cargando Datos, espere...</td>
+                </tr>
+
+            </ng-template>
+            <ng-template pTemplate="paginatorleft" let-state>
+                Mostrando {{(state.page  * state.rows) + 1}} a {{state.rows * (state.page + 1)}} de {{state.totalRecords}} registros.
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>

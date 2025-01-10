@@ -1,0 +1,64 @@
+<div class="component__content">
+    <!-- <app-breadcrumb [pageTitle]="'Asignacion de Audios > Individual' "></app-breadcrumb> -->
+
+    <div class="filtros" [class]=" mode ? 'filtros--dark' : 'filtros--light' ">
+        <div class="celda">
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input placeholder="Agente" [(ngModel)]="agente" type="text" pInputText (ngModelChange)="filtrando()" />
+            </span>
+        </div>
+
+        <div class="celda">
+            <p-dropdown [options]="tipo" placeholder="Role" [style]="{'width':'200px'}" [(ngModel)]="tipoSeleccioando" optionLabel="name" (ngModelChange)="filtrando()"></p-dropdown>
+        </div>
+    </div>
+
+    <div class="users">
+        <p-table
+          #dt1
+          [globalFilterFields]="['name']"
+          [value]="usuarios"
+          [rows]="100"
+          [rowHover]="true"
+          [paginator]="true"
+          [showCurrentPageReport]="true"
+          currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas">
+          <ng-template pTemplate="header">
+            <tr>
+              <th [class]="mode ? 'header--dark' : 'header--light'" *ngFor="let header of headers" class="header">
+                <div class="flex justify-content-center align-items-center text">
+                  {{header}}
+                </div>
+              </th>
+            </tr>
+          </ng-template> 
+      
+          <ng-template pTemplate="body" let-audio>
+            <tr [class]="mode ? 'body--dark' : 'body--light'">
+              <td class="text">
+                <p>{{audio.name}}</p>
+              </td>
+              <td class="text">
+                <p>{{audio.rol}}</p>
+              </td>
+              <td class="text">
+                <p>{{audio.email}}</p>
+              </td>
+              <td class="text">
+                <p>{{audio.user}}</p>
+              </td>
+              <td class="text">
+                <p-dropdown 
+                    [style]="mode ? {'background-color': '#181434', 'color': '#FFF', 'text-align': 'center'} : {'background-color': '#FFF', 'color': '#000', 'text-align': 'center'}"
+                    [options]="dropdownItems" 
+                    (onChange)="onDropdownChange($event, audio)">
+                </p-dropdown>                    
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>      
+</div>
+
+<p-toast></p-toast>

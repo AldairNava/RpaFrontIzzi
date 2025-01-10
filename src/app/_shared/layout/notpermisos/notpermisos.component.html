@@ -1,0 +1,55 @@
+<div class="px-5 min-h-screen flex justify-content-center align-items-center">
+    <style>
+        .spacio {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 75%;
+        }
+        .circulo {
+            background-color: rgba(240, 248, 255, 0.85);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 1);
+            border-radius: 50%;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            width: 500px;
+            height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .circulo:hover {
+            transform: scale(1.2);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 1);
+        }
+        .spacio img {
+            transition: transform 0.3s ease;
+            max-width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .spacio img:hover {
+            transform: scale(1.2);
+        }
+        .text-stroke {
+            color: black;
+            text-shadow: 
+                -1px -1px 0 #fff,  
+                2px -1px 0 #fff,
+                -1px 1px 0 #fff,
+                1px 1px 0 #fff;
+        }
+    </style>
+    <img src="../../../../assets/cyber/WhatsApp Image 2024-09-05 at 10.27.45 AM.jpeg" alt="Descripción de la imagen" style="width: auto; height: 125%; position:fixed; z-index: -1">
+<div class="px-5 min-h-screen flex justify-content-center align-items-center">
+    <div class="z-1 text-center">
+        <div class="text-900 font-bold text-8xl mb-4 text-stroke">Oops!</div>
+        <p class="line-height-3 mt-0 mb-5 text-900 text-4xl font-bold text-stroke" style="font-weight: bold; text-transform: uppercase; font-size: 2em;">
+            PERMISOS INSUFICIENTES, INICIA SESIÓN NUEVAMENTE CON UNA CUENTA AUTORIZADA O SOLICITA PERMISOS PARA INGRESAR
+        </p><p-button [routerLink]="['/']" styleClass="p-button font-medium p-button-raised">Home</p-button>
+    </div>
+</div>
+</div>
+<p-toast
+  [baseZIndex]="99999"
+  key="tst"></p-toast>

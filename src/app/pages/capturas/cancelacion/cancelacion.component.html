@@ -1,0 +1,412 @@
+<div class="text-900 font-bold text-2xl mb-4 text-center">Formulario de Cancelación</div>
+
+<div
+  [formGroup]="formCancelacion"
+  class="card">
+
+  <p-panel
+    [toggleable]="mostrandoResultados"
+    header="Datos de Cancelación"
+    class="line-height-12 m-0">
+    <!-- INICIO DE INPUTS -->
+    <h5>Tipo de cancelación (Tradcicional y VeTV)</h5>
+    <div class="p-fluid p-formgrid grid">
+
+      <div class="col-12 md:col-4">
+        <div class="field-radiobutton" >
+          <p-radioButton
+            [value]="'Single Video'"
+            [ngClass]="{'ng-invalid ng-dirty': formCancelacion.get('tipoCancelacion')?.errors != null && formCancelacion.get('tipoCancelacion')?.touched == true}"
+            formControlName="tipoCancelacion"
+            (onClick)="tipoCancelacion($event.value)">
+          </p-radioButton>
+          <label>Baja Total Single Video </label>
+        </div>
+        <div class="field-radiobutton">
+          <p-radioButton
+            [value]="'Modem Combo'"
+            [ngClass]="{'ng-invalid ng-dirty': formCancelacion.get('tipoCancelacion')?.errors != null && formCancelacion.get('tipoCancelacion')?.touched == true}"
+            formControlName="tipoCancelacion"
+            (onClick)="tipoCancelacion($event.value)">
+          </p-radioButton>
+          <label>Baja Combo BTI</label>
+        </div>
+        <div class="field-radiobutton">
+          <p-radioButton
+            [value]="'BTCel Combo'"
+            [ngClass]="{'ng-invalid ng-dirty': formCancelacion.get('tipoCancelacion')?.errors != null && formCancelacion.get('tipoCancelacion')?.touched == true}"
+            formControlName="tipoCancelacion"
+            (onClick)="tipoCancelacion($event.value)">
+          </p-radioButton>
+          <label>Baja BTCel Combo</label>
+        </div>
+        <div class="field-radiobutton">
+          <p-radioButton
+            [value]="'Equipos Adicionales'"
+            [ngClass]="{'ng-invalid ng-dirty': formCancelacion.get('tipoCancelacion')?.errors != null && formCancelacion.get('tipoCancelacion')?.touched == true}"
+            formControlName="tipoCancelacion"
+            (onClick)="tipoCancelacion($event.value)">
+          </p-radioButton>
+          <label>Baja Equipo Adicional (Video)</label>
+        </div>
+      </div>
+      <div class="col-4"></div>
+      <div class="col-12 md:col-4">
+        <div class="field-radiobutton">
+          <p-radioButton
+            [value]="'Combo BTI VeTV'"
+            [ngClass]="{'ng-invalid ng-dirty': formCancelacion.get('tipoCancelacion')?.errors != null && formCancelacion.get('tipoCancelacion')?.touched == true}"
+            formControlName="tipoCancelacion"
+            (onClick)="tipoCancelacion($event.value)">
+          </p-radioButton>
+          <label>Baja Combo BTI VeTV </label>
+        </div>
+        <div class="field-radiobutton">
+          <p-radioButton
+            [value]="'Equipo Adicional VeTV'"
+            [ngClass]="{'ng-invalid ng-dirty': formCancelacion.get('tipoCancelacion')?.errors != null && formCancelacion.get('tipoCancelacion')?.touched == true}"
+            formControlName="tipoCancelacion"
+            (onClick)="tipoCancelacion($event.value)">
+          </p-radioButton>
+          <label>Baja Equipo Adicional (Video) VeTV</label>
+        </div>
+        <div class="field-radiobutton">
+          <p-radioButton
+            [value]="'BTCel Combo VeTV'"
+            [ngClass]="{'ng-invalid ng-dirty': formCancelacion.get('tipoCancelacion')?.errors != null && formCancelacion.get('tipoCancelacion')?.touched == true}"
+            formControlName="tipoCancelacion"
+            (onClick)="tipoCancelacion($event.value)">
+          </p-radioButton>
+          <label>Baja BTCel Combo VeTV</label>
+        </div>
+
+      </div>
+
+      <!-- <div class="field col-4"></div> -->
+
+      <div class="field col-12 md:col-4">
+
+        <span class="p-float-label">
+						<input
+            [ngClass]="{'ng-invalid ng-dirty': formCancelacion.get('cuenta')?.errors != null && formCancelacion.get('cuenta')?.touched == true}"
+            type="text"
+            pInputText
+            formControlName="cuenta"
+            onlyNumbers>
+						<label>Número de cuenta</label>
+
+
+
+					</span>
+
+      </div>
+
+      <div class="field col-12 md:col-4" *ngIf="formCancelacion.value.tipoCancelacion =='Single Video' || formCancelacion.value.tipoCancelacion =='Modem Combo'||formCancelacion.value.tipoCancelacion =='BTCel Combo'||formCancelacion.value.tipoCancelacion =='Equipos Adicionales'">
+        <div class="p-inputgroup">
+
+          <span class="p-float-label">
+						<input
+              type="text"
+               [ngClass]="{'ng-invalid ng-dirty': formCancelacion.get('ordenServicio')?.errors != null && formCancelacion.get('ordenServicio')?.touched == true}"
+              pInputText
+              formControlName="ordenServicio">
+						<label for="inputnumber">Solicitud de servicio</label>
+					</span>
+        </div>
+      </div>
+
+      <!-- <div class="field col-12 md:col-3">
+        <div class="p-inputgroup">
+
+          <span class="p-float-label">
+						<input
+             [ngClass]="{'ng-invalid ng-dirty': formCancelacion.get('cve_supervisor')?.errors != null && formCancelacion.get('cve_supervisor')?.touched == true}"
+              inputId="text"
+              pInputText
+              formControlName="cve_supervisor">
+						<label for="supervisor">Supervisor</label>
+					</span>
+        </div>
+      </div> -->
+
+      <div class="field col-12 md:col-4">
+        <p-dropdown
+        [ngClass]="{'ng-invalid ng-dirty': formCancelacion.get('pais')?.errors != null && formCancelacion.get('pais')?.touched == true}"
+          [options]="Pais"
+          [showClear]="true"
+          placeholder="Seleccione un país"
+          formControlName="pais">
+        </p-dropdown>
+      </div>
+
+      <div class="field col-12 md:col-4">
+        <span class="p-float-label">
+					<p-calendar
+          [ngClass]="{'ng-invalid ng-dirty': formCancelacion.get('fechaCorte')?.errors != null && formCancelacion.get('fechaCorte')?.touched == true}"
+            [showIcon]="true"
+            [minDate]="today"
+            dateFormat="yy-mm-dd"
+            formControlName="fechaCorte"></p-calendar>
+					<label for="inputdate">Fecha de Vencimiento</label>
+				</span>
+      </div>
+
+      <div
+        class="field col-12 md:col-4"
+        *ngIf="formCancelacion.value.tipoCancelacion =='BTCel Combo' || formCancelacion.value.tipoCancelacion =='BTCel Combo VeTV'">
+        <p-chips
+        placeholder="(ICCID) Separe con , "
+        [ngClass]="{'ng-invalid ng-dirty': formCancelacion.get('nd')?.errors != null && formCancelacion.get('nd')?.touched == true}"
+          [(ngModel)]="telefonosNd"
+          separator=","
+          [ngModelOptions]="{standalone: true}"
+          (onAdd)="telefonosMod()"
+          (onRemove)="telefonosMod()"
+          >
+        </p-chips>
+      </div>
+
+      <div
+        class="field col-12 md:col-4"
+        *ngIf="formCancelacion.value.tipoCancelacion =='Equipos Adicionales'">
+        <p-dropdown
+        [ngClass]="{'ng-invalid ng-dirty': formCancelacion.get('Equipos')?.errors != null && formCancelacion.get('equipos')?.touched == true}"
+          [options]="equipos"
+          [showClear]="true"
+          placeholder="Seleccione Equipos"
+          formControlName="equipos">
+        </p-dropdown>
+      </div>
+
+      <div
+        class="field col-12 md:col-4"
+        *ngIf="formCancelacion.value.tipoCancelacion =='Equipos Adicionales'">
+        <p-dropdown
+        [ngClass]="{'ng-invalid ng-dirty': formCancelacion.get('aplicacion')?.errors != null && formCancelacion.get('aplicacion')?.touched == true}"
+          [options]="aplicacion"
+          [showClear]="true"
+          placeholder="Seleccione Fecha aplicacion"
+          formControlName="aplicacion">
+        </p-dropdown>
+      </div>
+      <div class="field col-12 md:col-4" *ngIf="formCancelacion.value.tipoCancelacion =='Equipo Adicional VeTV'">
+        <p-dropdown
+          [ngClass]="{'ng-invalid ng-dirty': formCancelacion.get('recargas')?.errors != null && formCancelacion.get('recargas')?.touched == true}"
+          [options]="recar"
+          [showClear]="true"
+          placeholder="Recargas"
+          formControlName="recargas"
+        >
+        </p-dropdown>
+      </div>
+
+      <!-- <div class="field col-12 md:col-4" *ngIf="formCancelacion.value.tipoCancelacion =='Equipo Adicional VeTV'">
+
+        <span class="p-float-label">
+						<input
+            [ngClass]="{'ng-invalid ng-dirty': formCancelacion.get('deducible')?.errors != null && formCancelacion.get('deducible')?.touched == true}"
+            type="text"
+            pInputText
+            onlyNumbers
+            formControlName="deducible"
+            >
+						<label>Deducible</label>
+
+				</span>
+
+      </div> -->
+
+
+    </div>
+    <!-- BOTON DE EJECUCION -->
+    <div class="col lg:col-12">
+
+      <div class="grid flex justify-content-center">
+        <div class="col-4 text-center">
+          
+          <button
+            (click)="verify()"
+            pButton
+            label="Enviar"
+            style="width:auto;"></button>
+        </div>
+      </div>
+    </div>
+  </p-panel>
+  <br>
+
+</div>
+
+<p-dialog
+  [closable]="closeModal"
+  header="Guardar Cancelación"
+  [(visible)]="display"
+  [modal]="true"
+  showEffect="fade"
+  [style]="{width: '30vw'}"
+  [breakpoints]="{'960px': '75vw'}">
+  <p class="line-height-3 m-0">
+        Los datos a guardar son los siguientes:
+    </p>
+
+  <ul>
+    <li>Tipo de cancelación: <strong>{{formCancelacion.value.tipoCancelacion}}</strong></li>
+    <li>Cuenta: <strong>{{formCancelacion.value.cuenta}}</strong></li>
+    <li>Solicitud de Servicio: <strong>{{formCancelacion.value.ordenServicio}}</strong></li>
+    <li>Pais: <strong>{{formCancelacion.value.pais}}</strong></li>
+    <li>Fecha de vencimiento<strong>{{formCancelacion.value.fechaCorte | date}}</strong></li>
+    <li>ND: <strong>{{formCancelacion.value.nd}}</strong></li>
+    <li>Tipo Aplicacion: <strong>{{formCancelacion.value.aplicacion}}</strong></li>
+    <li>Equipos a desconectar: <strong>{{formCancelacion.value.equipos}}</strong></li>
+    <li>Recargas: <strong>{{formCancelacion.value.recargas}}</strong></li>
+    <li>Deducible: <strong>{{formCancelacion.value.deducible}}</strong></li>
+  </ul>
+  <ng-template pTemplate="footer">
+
+    <loading-button
+      label="Guardar"
+      labelLoad="Guardando"
+      [loading]="enviando"
+      (click)="sendData()"></loading-button>
+
+  </ng-template>
+</p-dialog>
+
+<p-toast
+  [baseZIndex]="99999"
+  key="tst"></p-toast>
+
+  <div class="row">
+    <div class="cols">
+      <div class="card">
+        <p-table #dt1 [value]="cancelacionDia" dataKey="id" [loading]="loading" [rows]="50" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
+            styleClass="p-datatable-gridlines" [paginator]="true"
+            [globalFilterFields]="['tipoCancelacion','cuenta','ordenServicio','pais','fechaCaptura','fechaCorte','fechaCancelacion','estatus','nd','aplicacion']" responsiveLayout="scroll">
+            <ng-template pTemplate="caption">
+                <div class="flex justify-content-between flex-column sm:flex-row">
+
+                    <span class="p-input-icon-left mb-2">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Buscar"
+                            class="w-full" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Tipo de Cancelacion
+
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Cuenta
+
+                        </div>
+                    </th>
+                    <th>
+                        <div style="width: 150px;" class="flex justify-content-between align-items-center">
+                            Solicitud de Servicio
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            País
+                        </div>
+                    </th>
+                    <th>
+                      <div style="width: 150px;" class="flex justify-content-between align-items-center">
+                          Fecha de Captura
+                      </div>
+                    </th>
+                    <th>
+                      <div style="width: 150px;" class="flex justify-content-between align-items-center">
+                          Fecha de Corte
+                      </div>
+                    </th>
+                    <th>
+                      <div style="width: 150px;" class="flex justify-content-between align-items-center">
+                          Fecha de Cancelación
+                      </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Estatus
+                        </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          ICCID
+                      </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          Aplicación
+                      </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          Equipos
+                      </div>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr>
+                    <td>
+                      {{item.tipoCancelacion}}
+                    </td>
+                    <td>
+                        {{item.cuenta}}
+                    </td>
+                    <td>
+                        {{item.ordenServicio}}
+                    </td>
+                    <td>
+                       {{item.pais}}
+                    </td>
+                    <td>
+                      {{item.fechaCaptura}}
+                    </td>
+                    <td>
+                      {{item.fechaCorte}}
+                    </td>
+                    <td>
+                      {{item.fechaCancelacion}}
+                    </td>
+                    <td>
+                        {{item.estatus}}
+                    </td>
+                    <td>
+                      {{item.nd}}
+                    </td>
+                    <td>
+                      {{item.aplicacion}}
+                    </td>
+                    <td>
+                      {{item.equipos}}
+                    </td>
+
+    
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">Sin Datos para Mostrar.</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="loadingbody">
+                <tr>
+                    <td colspan="7">Cargando Datos, espere...</td>
+                </tr>
+
+            </ng-template>
+            <ng-template pTemplate="paginatorleft" let-state>
+                Mostrando {{(state.page  * state.rows) + 1}} a {{state.rows * (state.page + 1)}} de {{state.totalRecords}} registros.
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,142 @@
+.head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.guias {
+    margin-top: 30px;
+    max-width: 90%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.agregar__btn {
+    background-color: #fad85d;
+    border: 1px solid #fad85d;
+    color: #143032;
+}
+
+
+.tabla {
+    padding: 30px 0 50px 0;
+}
+
+.styles {
+    text-align: center; 
+    font-weight: bold; 
+}
+
+.column {
+    color: #FFF; 
+    background-color: #181434;
+}
+
+.column--light {
+    color: #000; 
+}
+
+.row {
+    background-color: #181434;
+    color: #FFF;
+}
+
+.eliminar__btn {
+    background-color: rgba(248, 224, 92, .1);
+    color: #f8e05c;
+    font-weight: bold;
+    border: 1px solid rgba(248, 224, 92, .1);
+}
+
+.eliminar__btn--light {
+    background-color: rgba(248, 224, 92, .5);
+    color: #f9c404;
+
+}
+
+.guardar__btn {
+    margin-top: 20px;
+    background-color: #fad85d;
+    border: 1px solid #fad85d;
+    color: #143032;
+}
+
+.guia__btns {
+    /* border: 1px solid red; */
+    max-width: 40%;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* MODAL */
+
+/* Estilos del modal */
+.modal {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo negro transparente */
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    max-width: 60%;
+    margin: 200px auto 0 auto;
+    height: 250px;
+}
+
+/* Estilos para el botón de cerrar */
+.close__div {
+    max-width: 99%;
+    display: flex;
+    justify-content: right;
+}
+.close {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.campos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+.component__content {
+    margin-left: 70px !important;
+    margin-top: 50px !important;
+    margin-right: 80px;
+}
+
+.acciones {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+}
+
+.modal-btn {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.crear__btn {
+    max-width: 30%;
+}

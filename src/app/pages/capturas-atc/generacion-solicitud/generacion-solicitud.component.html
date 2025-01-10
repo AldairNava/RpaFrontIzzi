@@ -1,0 +1,382 @@
+<div class="text-900 font-bold text-2xl mb-4 text-center">Garantía</div>
+
+<div
+  [formGroup]="formGeneracionSolicitud"
+  class="card">
+
+  <p-panel
+    [toggleable]="mostrandoResultados"
+    header="Datos de Garantía"
+    class="line-height-12 m-0">
+    <!-- <h5>Tipo Servicio:</h5> -->
+    <!-- INICIO DE INPUTS -->
+    <div class="p-fluid p-formgrid grid">
+        <div class="field col-12 md:col-4">
+            <span class="p-float-label">
+                <input
+                [ngClass]="{'ng-invalid ng-dirty': formGeneracionSolicitud.get('Cuenta')?.errors != null && formGeneracionSolicitud.get('Cuenta')?.touched == true}"
+                type="text"
+                pInputText
+                formControlName="Cuenta"
+                onlyNumbers>
+                <label>Número de cuenta</label>
+            </span>
+      </div>
+
+      <div class="field col-12 md:col-4">
+        <p-dropdown
+        [ngClass]="{'ng-invalid ng-dirty': formGeneracionSolicitud.get('Tipo_Cuenta')?.errors != null && formGeneracionSolicitud.get('Tipo_Cuenta')?.touched == true}"
+          [options]="tipoCuenta"
+          [showClear]="true"
+          placeholder="Selecciona Tipo Cuenta"
+          formControlName="Tipo_Cuenta">
+        </p-dropdown>
+      </div>
+
+
+      <div class="field col-12 md:col-4">
+        <div class="p-inputgroup">
+            <span class="p-float-label">
+              <input
+                    [ngClass]="{'ng-invalid ng-dirty': formGeneracionSolicitud.get('Nombre')?.errors != null && formGeneracionSolicitud.get('Nombre')?.touched == true}"
+                    inputId="text"
+                    pInputText
+                    formControlName="Nombre">
+              <label for="Nombre Completo">Nombre(s)</label>
+		        </span>
+        </div>
+      </div>
+      <div class="field col-12 md:col-4">
+        <p-dropdown
+        [ngClass]="{'ng-invalid ng-dirty': formGeneracionSolicitud.get('Pais')?.errors != null && formGeneracionSolicitud.get('Pais')?.touched == true}"
+        formControlName="Pais"
+        [options]="Pais"
+        [showClear]="true"
+        placeholder="Pais">
+        </p-dropdown>
+    </div>
+    <div class="field col-12 md:col-4">
+        <p-dropdown
+        [ngClass]="{'ng-invalid ng-dirty': formGeneracionSolicitud.get('Clasificacion')?.errors != null && formGeneracionSolicitud.get('Clasificacion')?.touched == true}"
+        formControlName="Clasificacion"
+        [options]="clasifica"
+        [showClear]="true"
+        placeholder="SubClasificación"
+        (onChange)="clasificacionChange($event.value)">
+        </p-dropdown>
+    </div>
+    <div class="field col-12 md:col-4" *ngIf="formGeneracionSolicitud.controls['Clasificacion'].value === 'Reparaciones'">
+        <p-dropdown
+        [ngClass]="{'ng-invalid ng-dirty': formGeneracionSolicitud.get('detalle')?.errors != null && formGeneracionSolicitud.get('detalle')?.touched == true}"
+        formControlName="detalle"
+        [options]="detalle1"
+        [showClear]="true"
+        placeholder="Detalle">
+        </p-dropdown>
+    </div>
+    <div class="field col-12 md:col-4" *ngIf="formGeneracionSolicitud.controls['Clasificacion'].value === 'Reparaciones VETV'">
+        <p-dropdown
+        [ngClass]="{'ng-invalid ng-dirty': formGeneracionSolicitud.get('detalle')?.errors != null && formGeneracionSolicitud.get('detalle')?.touched == true}"
+        formControlName="detalle"
+        [options]="detalle2"
+        [showClear]="true"
+        placeholder="Detalle">
+        </p-dropdown>
+    </div>
+    <div class="field col-12 md:col-4" *ngIf="formGeneracionSolicitud.controls['Clasificacion'].value === 'Garantia De Instalacion' 
+                                        || formGeneracionSolicitud.controls['Clasificacion'].value === 'Garantia de Instalacion VETV' 
+                                        || formGeneracionSolicitud.controls['Clasificacion'].value === 'Garantia De Reparacion' 
+                                        || formGeneracionSolicitud.controls['Clasificacion'].value === 'Garantia de Reparacion VETV'">
+        <p-dropdown
+        [ngClass]="{'ng-invalid ng-dirty': formGeneracionSolicitud.get('detalle')?.errors != null && formGeneracionSolicitud.get('detalle')?.touched == true}"
+        formControlName="detalle"
+        [options]="detalle3"
+        [showClear]="true"
+        placeholder="Detalle">
+        </p-dropdown>
+    </div>
+    <div class="field col-12 md:col-4" *ngIf="formGeneracionSolicitud.controls['Clasificacion'].value === 'Queja de Reparaciones Garantia' 
+                                        || formGeneracionSolicitud.controls['Clasificacion'].value === 'Queja de Instalacion Garantia'">
+        <p-dropdown
+        [ngClass]="{'ng-invalid ng-dirty': formGeneracionSolicitud.get('detalle')?.errors != null && formGeneracionSolicitud.get('detalle')?.touched == true}"
+        formControlName="detalle"
+        [options]="detalle4"
+        [showClear]="true"
+        placeholder="Detalle">
+        </p-dropdown>
+    </div>
+    <div class="field col-12 md:col-4" *ngIf="formGeneracionSolicitud.controls['Clasificacion'].value === 'Queja de Rep Garantia VETV' || formGeneracionSolicitud.controls['Clasificacion'].value === 'Queja de Inst Garantia VETV'">
+        <p-dropdown
+        [ngClass]="{'ng-invalid ng-dirty': formGeneracionSolicitud.get('detalle')?.errors != null && formGeneracionSolicitud.get('detalle')?.touched == true}"
+        formControlName="detalle"
+        [options]="detalle5"
+        [showClear]="true"
+        placeholder="Detalle">
+        </p-dropdown>
+    </div>
+    <div class="field col-12 md:col-4" *ngIf="formGeneracionSolicitud.controls['Clasificacion'].value === 'Servicios con costo VETV'">
+      <p-dropdown
+      [ngClass]="{'ng-invalid ng-dirty': formGeneracionSolicitud.get('detalle')?.errors != null && formGeneracionSolicitud.get('detalle')?.touched == true}"
+      formControlName="detalle"
+      [options]="detalle6"
+      [showClear]="true"
+      placeholder="Detalle">
+      </p-dropdown>
+    </div>
+
+
+      <div class="field col-12 md:col-4">
+        <p-dropdown
+        optionLabel="descripcion" optionValue="descripcion"
+        [ngClass]="{'ng-invalid ng-dirty': formGeneracionSolicitud.get('Tipo_falla')?.errors != null && formGeneracionSolicitud.get('Tipo_falla')?.touched == true}"
+          [options]="fallas"
+          [showClear]="true"
+          placeholder="Seleccione Servicio o Falla"
+          formControlName="Tipo_falla">
+        </p-dropdown>
+      </div>
+
+      <!-- <div class="field col-12 md:col-4">
+        <p-dropdown
+        optionLabel="descripcion" optionValue="descripcion"
+        [ngClass]="{'ng-invalid ng-dirty': formGeneracionSolicitud.get('Equipos')?.errors != null && formGeneracionSolicitud.get('Equipos')?.touched == true}"
+          [options]="equipos"
+          [showClear]="true"
+          placeholder="Selecciona Equipos"
+          formControlName="Equipos">
+        </p-dropdown>
+      </div> -->
+
+      <div class="field col-12 md:col-4">
+        <span class="p-float-label">
+		    <p-calendar
+                [ngClass]="{'ng-invalid ng-dirty': formGeneracionSolicitud.get('Fecha_atencion')?.errors != null && formGeneracionSolicitud.get('Fecha_atencion')?.touched == true}"
+                [showIcon]="true"
+                [minDate]="today"
+                dateFormat="yy-mm-dd"
+                formControlName="Fecha_atencion">
+            </p-calendar>
+			<label for="inputdate">Fecha de Atencion</label>
+		</span>
+      </div>
+
+      <div class="field col-12 md:col-4">
+        <p-dropdown
+        [ngClass]="{'ng-invalid ng-dirty': formGeneracionSolicitud.get('Horario')?.errors != null && formGeneracionSolicitud.get('Horario')?.touched == true}"
+          [options]="horarios"
+          [showClear]="true"
+          placeholder="Selecciona horario"
+          formControlName="Horario">
+        </p-dropdown>
+      </div>
+
+      <div class="field col-12 md:col-4">
+        <p-dropdown
+        [ngClass]="{'ng-invalid ng-dirty': formGeneracionSolicitud.get('Zona')?.errors != null && formGeneracionSolicitud.get('Zona')?.touched == true}"
+          [options]="zonas"
+          [showClear]="true"
+          placeholder="Selecciona Zona de Reparacion"
+          formControlName="Zona">
+        </p-dropdown>
+      </div>
+    </div>
+    <!-- BOTON DE VALICACION DE DATOS -->
+    <!-- BOTON DE EJECUCION -->
+    <div class="row">
+
+    <div class="grid flex justify-content-center">
+        <div class="col-4 text-center">
+        
+        <button
+            (click)="verify()"
+            pButton
+            label="Enviar"
+            style="width:auto;"></button>
+        </div>
+    </div>
+    </div>
+    
+  </p-panel>
+  <br>
+
+</div>
+
+<p-dialog
+  [closable]="closeModal"
+  header="Guardar"
+  [(visible)]="display"
+  [modal]="true"
+  showEffect="fade"
+  [style]="{width: '30vw'}"
+  [breakpoints]="{'960px': '75vw'}">
+  <p class="line-height-3 m-0">
+        Los datos a guardar son los siguientes:
+    </p>
+
+  <ul>
+    <li>Cuenta: <strong>{{formGeneracionSolicitud.value.Cuenta}}</strong></li>
+    <li>Tipo Cuenta: <strong>{{formGeneracionSolicitud.value.Tipo_Cuenta}}</strong></li>
+    <li>Nombre Contacto: <strong>{{formGeneracionSolicitud.value.Nombre}}</strong></li>
+    <li>Clasificación: <strong>{{formGeneracionSolicitud.value.Clasificacion}}</strong></li>
+    <li>Detalle: <strong>{{formGeneracionSolicitud.value.detalle}}</strong></li>
+    <li>Tipo Falla: <strong>{{formGeneracionSolicitud.value.Tipo_falla}}</strong></li>
+    <li>Fecha Atencion: <strong>{{dateFormat(formGeneracionSolicitud.value.Fecha_atencion)}}</strong></li>
+    <li>Horario: <strong>{{formGeneracionSolicitud.value.Horario}}</strong></li>
+    <li>Zona Reparación:<strong>{{formGeneracionSolicitud.value.Zona}}</strong></li>
+
+  </ul>
+  <ng-template pTemplate="footer">
+
+    <loading-button
+      label="Guardar"
+      labelLoad="Guardando"
+      [loading]="enviando"
+      (click)="sendData()"></loading-button>
+
+  </ng-template>
+</p-dialog>
+
+<p-toast
+  [baseZIndex]="99999"
+  key="tst"></p-toast>
+
+  <div class="row">
+    <div class="cols">
+      <div class="card">
+        <p-table #dt1 [value]="generacionSolicitudDia" dataKey="id" [loading]="loading" [rows]="50" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
+            styleClass="p-datatable-gridlines" [paginator]="true"
+            [globalFilterFields]="['Cuenta','Tipo_Cuenta','Nombre','Pais','Tipo_falla','Equipos','Horario','Fecha_atencion','Zona','Clasificacion','detalle','status']" responsiveLayout="scroll">
+            <ng-template pTemplate="caption">
+                <div class="flex justify-content-between flex-column sm:flex-row">
+
+                    <span class="p-input-icon-left mb-2">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Buscar"
+                            class="w-full" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>
+                        <div style="width: 150px;" class="flex justify-content-between align-items-center">
+                            Cuenta
+
+                        </div>
+                    </th>
+                    <th>
+                        <div style="width: 150px;" class="flex justify-content-between align-items-center">
+                            Tipo Cuenta
+
+                        </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          Nombre
+                      </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          País
+                      </div>
+                    </th>
+                    <th>
+                        <div style="width: 150px;" class="flex justify-content-between align-items-center">
+                            Tipo de falla
+                        </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          Equipos
+                      </div>
+                    </th>
+                    <th>
+                      <div style="width: 150px;" class="flex justify-content-between align-items-center">
+                          Fecha de Atención
+                      </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          Horario
+                      </div>
+                    </th>
+                    <th>
+                      <div style="width: 150px;" class="flex justify-content-between align-items-center">
+                          Zona
+                      </div>
+                    </th>
+                    <th>
+                      <div style="width: 150px;" class="flex justify-content-between align-items-center">
+                         Clasificación
+                      </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          Detalle
+                      </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          Estatus
+                      </div>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr>
+                    <td>
+                      {{item.cuenta}}
+                    </td>
+                    <td>
+                        {{item.tipo_Cuenta}}
+                    </td>
+                    <td>
+                        {{item.nombre}}
+                    </td>
+                    <td>
+                       {{item.pais}}
+                    </td>
+                    <td>
+                      {{item.tipo_falla}}
+                    </td>
+                    <td>
+                      {{item.equipos}}
+                    </td>
+                    <td>
+                      {{item.fecha_atencion}}
+                    </td>
+                    <td>
+                      {{item.horario}}
+                    </td>
+                    <td>
+                      {{item.zona}}
+                    </td>
+                    <td>
+                      {{item.clasificacion}}
+                    </td>
+                    <td>
+                      {{item.detalle}}
+                    </td>
+                    <td>
+                      {{item.status}}
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">Sin Datos para Mostrar.</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="loadingbody">
+                <tr>
+                    <td colspan="7">Cargando Datos, espere...</td>
+                </tr>
+
+            </ng-template>
+            <ng-template pTemplate="paginatorleft" let-state>
+                Mostrando {{(state.page  * state.rows) + 1}} a {{state.rows * (state.page + 1)}} de {{state.totalRecords}} registros.
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>

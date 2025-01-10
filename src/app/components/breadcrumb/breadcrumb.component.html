@@ -1,0 +1,20 @@
+<div class="breadPage" *ngIf="!multi">
+     <a [routerLink]=" '/mariana' ">
+         <i class="pi pi-home home" style="font-size: 1.5rem" [style]=" mode ? 'color: white;' : 'color: black;' "></i>
+     </a>
+     <i class="pi pi-chevron-right" style="font-size: 1" [style]=" mode ? 'color: white;' : 'color: black;' "></i>
+     <p [style]=" mode ? 'color: white; font-size: 1.2em; font-weight: bold;' : 'color: black; font-size: 1.2em; font-weight: bold;' "> {{pageTitle}} </p>
+ </div>
+
+ <div class="breadPage" *ngIf="multi">
+    <a [routerLink]=" '' ">
+        <i class="pi pi-home home" style="font-size: 1.5rem" [style]=" mode ? 'color: white;' : 'color: black;' "></i>
+    </a>
+    <i class="pi pi-chevron-right" style="font-size: 1" [style]=" mode ? 'color: white;' : 'color: black;' "></i>
+    <ng-container *ngFor="let pa of p; let i = index">
+        <p [style]=" mode ? 'color: white; font-weight: bold;' : 'color: black; font-weight: bold;' ">
+            <ng-container *ngIf="i == 0; else notFirst" style="cursor: pointer;"><a class="noLink" [routerLink]="['/asignacion']">{{pa}}</a></ng-container>
+            <ng-template #notFirst>{{pa}}</ng-template>
+        </p>
+    </ng-container>
+</div>

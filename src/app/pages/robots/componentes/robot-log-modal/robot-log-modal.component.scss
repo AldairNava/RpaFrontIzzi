@@ -1,0 +1,24 @@
+::ng-deep {
+    .customized-timeline {
+        .p-timeline-event{
+            padding-bottom: 10px !important;
+        }
+        .p-timeline-event:nth-child(even) {
+         
+            flex-direction: row !important;
+            
+            .p-timeline-event-content {
+                text-align: left !important;
+            }
+        }
+
+        .p-timeline-event-opposite {
+            flex: 0;
+        }
+
+        .p-card {
+            margin-top: 1rem;
+            max-width: 500px !important;
+        }
+    }
+}

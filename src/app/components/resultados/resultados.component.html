@@ -1,0 +1,319 @@
+<div class="bread">
+	<div class="breadPage" *ngIf="!breadAnalista">
+		<a [routerLink]=" '' ">
+            <i class="pi pi-home home" style="font-size: 1.5rem" [style]=" mode ? 'color: white;' : 'color: black;' "></i>
+        </a>
+		<i class="pi pi-chevron-right" style="font-size: 1" [style]=" mode ? 'color: white;' : 'color: black;' "></i>
+
+		<a>
+			<p class="analizar" [style]=" mode ? 'color: white; font-weight: bold;' : 'color: black; font-weight: bold;' " (click)="redirectAnalizar()">Analizar Audios</p>
+		</a>
+		
+		<i class="pi pi-chevron-right" style="font-size: 1" [style]=" mode ? 'color: white;' : 'color: black;' "></i>
+		<p [style]=" mode ? 'color: white; font-weight: bold;' : 'color: black; font-weight: bold;' ">Resultados</p>
+	</div>
+
+	<div class="breadPage" *ngIf="breadAnalista">
+		<a [routerLink]=" '' ">
+            <i class="pi pi-home home" style="font-size: 1.5rem" [style]=" mode ? 'color: white;' : 'color: black;' "></i>
+        </a>
+		<i class="pi pi-chevron-right" style="font-size: 1" [style]=" mode ? 'color: white;' : 'color: black;' "></i>
+
+		<a>
+			<p class="analizar" [style]=" mode ? 'color: white; font-weight: bold;' : 'color: black; font-weight: bold;' " (click)="redirectAsignacion()">Asignación de Audios</p>
+		</a>
+		
+		<i class="pi pi-chevron-right" style="font-size: 1" [style]=" mode ? 'color: white;' : 'color: black;' "></i>
+		<a>
+			<p class="analizar" [style]=" mode ? 'color: white; font-weight: bold;' : 'color: black; font-weight: bold;' " (click)="redirectIndividual()">Individual</p>
+		</a>
+		<i class="pi pi-chevron-right" style="font-size: 1" [style]=" mode ? 'color: white;' : 'color: black;' "></i>
+		<p class="analizar" [style]=" mode ? 'color: white; font-weight: bold;' : 'color: black; font-weight: bold;' " (click)="redirectAsignacion()">Resultado</p>
+
+	</div>
+
+	
+
+</div>
+
+	<div class="maincont">
+		<div class="card-result bord" style="max-width: 90%; margin: 0 auto 0px auto;">
+			<p class="middle">Resultado de la llamada</p>
+
+			<div class="table">
+                <p-table
+                    #dt1
+                    [value]="dataLlamada"
+                    [rowHover]="true"
+                >
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width: 250px;" class="headers" *ngFor="let header of headersPrimero">
+                                <h5 class="header__txt"> {{header}} </h5>
+                            </th>
+                        </tr>
+                    </ng-template>
+        
+                    <ng-template pTemplate="body" let-data>
+                        <tr class="row">
+                            <td class="td">
+                                <p> {{data.AHT}} </p>
+                            </td>
+
+							<td class="td">
+                                <p> {{data.tipo}} </p>
+                            </td>
+
+							<td class="td" style="width: 450px;">
+                                <p> {{data.asesor}} </p>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+
+
+
+				<p-table
+				#dt1
+				[value]="dataDLlamada"
+				[rowHover]="true"
+				>
+					<ng-template pTemplate="header">
+						<tr>
+							<th style="width: 250px;"  class="headers" *ngFor="let header of headersSegundo">
+								<h5 class="header__txt"> {{header}} </h5>
+							</th>
+						</tr>
+					</ng-template>
+	
+					<ng-template pTemplate="body" let-data>
+						<tr class="row">
+							<td class="td">
+								<p> {{data.supervisor}} </p>
+							</td>
+
+							<td class="td">
+								<p> {{data.monitoreo}} </p>
+							</td>
+
+							<td class="td" style="width: 450px;">
+								<p> {{data.id}} </p>
+							</td>
+						</tr>
+					</ng-template>
+				</p-table>
+
+				<div class="resumen__llamada">
+					<!-- <div class="contenedor__postit">
+						<div class="postit">
+							<p>Resumen de la llamada detectado por MarIAna</p>
+						</div>
+					</div> -->
+
+
+					<div class="resumen">
+						<h5>Resumen de la llamada</h5>
+
+						<p style="font-size: 14px;" *ngFor="let parraf of resumenLlamada"> {{parraf}} </p>
+					</div>
+
+					<div class="sentimiento__general">
+						<h5>Sentimiento General</h5>
+
+						<div class="sentimiento__inf">
+							<p class="sentimiento__txt"> {{ justificacion_sentimiento }} </p>
+						</div>
+						
+						<div class="sentimiento__sup">
+							<div class="gauge">
+								<div class="gauge__body">
+								    <div class="gauge__fill" [style.transform]="'rotate('+ rotacionSentimiento + 'turn)'" [style.background]="colorSentimiento"></div>
+								  <div class="gauge__cover" >
+									<p [style.color]="colorSentimiento">{{sentimientoActual}} </p>
+								  </div>
+								</div> 
+							 </div>
+
+							 <div>
+								<img *ngIf="negatividad" class="emoji__img" alt="negatividad" src="../../../assets/img/negatividad.gif">
+								<img *ngIf="meh" class="emoji__img" alt="negatividad" src="../../../assets/img/meh.gif">
+								<img *ngIf="neutral" class="emoji__img" alt="neutral" src="../../../assets/img/neutral.gif">
+								<img *ngIf="slightly" class="emoji__img" alt="slightly" src="../../../assets/img/slightly.gif">
+								<img *ngIf="positividad" class="emoji__img" alt="positividad" src="../../../assets/img/positividad.gif">
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="divider">
+
+				</div>
+
+				<div class="resultados__grid">
+					<div class="tabla__calificaciones">
+						<div class="calif" *ngFor="let categoria of categoriasIzzi; let i = index">
+							<div class="categoria" >
+								<h5>{{categoria}}</h5>
+							</div>
+		
+							<div class="table__result">
+								<p-table #dt1 [value]="dataLlamada" [rowHover]="true">
+									<ng-template pTemplate="header">
+										<tr>
+										<th class="headers" *ngFor="let header of headersCalificaciones">
+											<h5 class="header__txt"> {{header}} </h5>
+										</th>
+										</tr>
+									</ng-template>
+							  
+									  <ng-template pTemplate="body" let-data>
+										<ng-container *ngFor="let subcat of agrupadosPorCategorias[i]; let indice = index">
+										<!-- Filas Principales -->
+											<tr class="row">
+												<td class="rubro__info">
+													<div class="icon" *ngIf="subcat[0].nombre_punto != 'esperado' ">
+														<div class="icons">
+															<i  class="pi pi-plus-circle" style="font-size: 1rem" (click)="variablesHidden[subcat[0].nombre_subcategoria_guion] = !variablesHidden[subcat[0].nombre_subcategoria_guion]" *ngIf="!variablesHidden[subcat[0].nombre_subcategoria_guion]"></i>
+															<i class="pi pi-minus-circle" style="font-size: 1rem" (click)="variablesHidden[subcat[0].nombre_subcategoria_guion] = !variablesHidden[subcat[0].nombre_subcategoria_guion]" *ngIf="variablesHidden[subcat[0].nombre_subcategoria_guion]"></i>
+														</div>
+
+														<div>
+															<p class="p__icon"> {{ subcat[0].nombre_subcategoria }} </p>
+														</div>
+
+													</div>
+												</td>
+												<td class="td">
+													<p class="fila__info"> {{ subcat[subcat.length - 1].calificacion }} </p>
+												</td>
+												
+											</tr>
+								
+										<ng-container *ngIf="variablesHidden[subcat[0].nombre_subcategoria_guion]">
+												<tr class="desgloce__row row" *ngFor="let element of subcat; let indiceCat = index">
+												<ng-container *ngIf="element.nombre_punto != 'Total'">
+													<td class="desgloce__td">
+													<p>{{ element.procedimiento }}</p>
+													</td>
+													<td class="desgloce__td">
+													<i [ngClass]="element.calificacion === 'pi pi-times' ? 'red' : 'green'" class="{{ element.calificacion }}" style="font-size: 1rem"></i>
+													</td>
+												</ng-container>
+												</tr>
+											
+										</ng-container>
+										</ng-container>
+							  
+										<tr class="row subtotal">
+												<td class="sub__txt">Subtotal:</td>
+												<td class="sub__number">{{totalesCategorias[categoria]}} / {{esperadosCategorias[categoria]}}</td>
+										</tr>
+									</ng-template>
+								</p-table>
+		
+							</div>
+		
+						</div>
+		
+						<div class="total">
+							<h5>TOTAL:</h5>
+		
+							<h6 class="total__number"> {{resultado}} / 100 </h6>
+						</div>
+					</div>
+
+					<div class="resultados__derecha">
+
+						<!-- <div class="reproductor">
+							<h5>Grabación Llamada</h5>
+							<p> {{ filename }} </p>
+							<audio controls>
+								<source src="{{this.rutaAudio}}" type="audio/mp3">
+								    Tu navegador no soporta audio HTML5.
+							 </audio>
+						</div> -->
+
+						<div class="mejoras">
+							<h5>Mejoras recomendadas por MarIAna</h5>
+							<ul>
+								<li class="mejoras__p" *ngFor="let mejora of mejoras">
+									<p style="font-size: 14px;">{{ mejora }}</p>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="grid">
+					<div class="trans">
+						<div class="container">
+							<h5  style="max-width: 90%; margin: auto; color: #000;">Transcripción de la llamada</h5>
+
+							<div class="player" *ngIf="showPlayer">				
+								<audio controls style="margin: 0px auto 0px auto; max-width: 90%;">
+									<source src="{{this.rutaAudio}}" type="audio/mp3">
+									Tu navegador no soporta audio.
+								</audio>
+							</div>
+
+							<div class="card-result--content mx-hg" >
+								<p style="white-space: pre-line; text-align: justify; padding: 10px 0;" class="m-0">
+									{{ transcripcion }}
+								</p>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="chat">
+						<div class="container">
+							<h5>Chat</h5>
+
+							<div class="player">
+								<span class="p-input-icon-left chat-input">
+									<i class="pi pi-search"></i>
+									<input type="text" pInputText (input)="filterChat($event)"  />
+								</span>
+							</div>
+							<div class="card-result--content mx-hg" style="margin-top: 20px;" *ngIf="!search">
+								<div *ngFor="let message of conversation">
+									<p class="body-chat-o" *ngIf="message.AT; else client">AT: {{ message.AT }}</p>
+					
+									<div class="right-chat">
+										<ng-template #client>
+											<p class="body-chat-e">C: {{ message.C }}</p>
+										</ng-template>
+									</div>
+								</div>
+							</div>
+							<div class="card-result--content mx-hg" *ngIf="search">
+								<div *ngFor="let message of filteredChatObject">
+									<p class="body-chat-o" *ngIf="message.AT; else client">AT: {{ message.AT }}</p>
+					
+									<div class="right-chat">
+										<ng-template #client>
+											<p class="body-chat-e">C: {{ message.C }}</p>
+										</ng-template>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
+            </div>
+
+
+		</div>
+
+
+		
+	</div>
+
+<p-toast></p-toast>
+
+	
+

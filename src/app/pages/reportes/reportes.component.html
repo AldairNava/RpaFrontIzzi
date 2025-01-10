@@ -1,0 +1,41 @@
+<!-- <div class="card">
+
+    <p-panel [toggleable]="mostrandoResultados" header="Selecione las configuraciones de su reporte"
+        class="line-height-12 m-0">
+        <div class="p-fluid p-formgrid grid m-2">
+
+            <div class="col-12 md:col-4">
+                <p-dropdown [options]="reportes" [(ngModel)]="selectedDrop" placeholder="Tipo de reporte" optionValue="reporteNombre" optionLabel="reporteNombre"></p-dropdown>
+            </div>
+
+
+            <div class="col-12 md:col-4">
+                <span class="p-float-label">
+                    
+                    <p-calendar [(ngModel)]="rangeDates" selectionMode="range"  inputId="icon">
+                    </p-calendar>
+                    <label for="inputdate">Rango de Fechas</label>
+                </span>
+            </div>
+
+            <div class="col-12 md:col-4">
+                <p-toast></p-toast>
+                <button (click)="confirm2($event)" pButton icon="pi pi-check" label="Confirmar"></button>
+                <p-confirmPopup key="confirm2"></p-confirmPopup>
+            </div>
+            <div *ngIf="show" style="display: none;">
+                <iframe id="report" height="1000" width="1000" [src]="url1 | safeUrl"></iframe>
+            </div>
+            <!-- <a :href="{{url1}}"  class="">Descargar</a> -->
+        </div>
+    </p-panel>
+</div>
+<!-- <div class="grid">
+    <div class="col-12 ">
+        <p-progressBar [value]="value" [showValue]="true"></p-progressBar>
+    </div>
+    <div class="col-12 md:col-4 ">
+        <button pButton pRipple type="button" label="Descargar" icon="pi pi-file" class="p-button-success mr-2 mb-2"></button>
+    </div>
+</div> -->
+ -->

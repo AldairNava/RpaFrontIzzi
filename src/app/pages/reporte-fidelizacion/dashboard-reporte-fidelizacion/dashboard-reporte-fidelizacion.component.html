@@ -1,0 +1,194 @@
+<div class="text-900 font-bold text-2xl mb-4 text-center">Reporte Fidelización</div>
+
+<form [formGroup]="formReporte">
+  <div class="card" style="padding-left: 1rem;">
+      <p-panel header="Datos"
+        class="line-height-12 m-0">
+        <!-- INICIO DE INPUTS -->
+        <!-- <h5>Tipo de Cuenta</h5> -->
+        <div class="p-fluid p-formgrid grid">
+            <!-- <div class="field col-12 md:col-4">
+                <p-dropdown
+                [options]="result"
+                optionValue="list_id"
+                optionLabel="list_name"
+                [showClear]="true"
+                placeholder="Tipo de Extracción"
+                formControlName="reporte"
+                [ngClass]="{'ng-invalid ng-dirty': formReporte.get('reporte')?.errors != null && formReporte.get('reporte')?.touched == true}"
+                
+                >
+                </p-dropdown>
+            </div>     -->
+            <div class="field col-12 md:col-4">
+              <p-dropdown
+              [options]="result1"
+              optionValue="list_description"
+              optionLabel="list_description"
+              [showClear]="true"
+              placeholder="Selecciona la Base"
+              formControlName="reporte"
+              [ngClass]="{'ng-invalid ng-dirty': formReporte.get('base')?.errors != null && formReporte.get('base')?.touched == true}"
+              >
+              </p-dropdown>
+            </div>              
+        
+            <!-- <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                    <p-calendar
+                        [showIcon]="true"
+                        dateFormat="dd-mm-yy"
+                        [showTime]="true" 
+                        [showSeconds]="true"
+                        formControlName="fechaini"
+                        [ngClass]="{'ng-invalid ng-dirty': formReporte.get('fechaini')?.errors != null && formReporte.get('fechaini')?.touched == true}"
+                    >
+                    </p-calendar>
+                    <label for="inputdate">Fecha Inicio</label>
+                </span>
+              </div>
+              <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                    <p-calendar
+                        [showIcon]="true"
+                        dateFormat="dd-mm-yy"
+                        [showTime]="true" 
+                        [showSeconds]="true"
+                        formControlName="fechafin"
+                        [ngClass]="{'ng-invalid ng-dirty': formReporte.get('fechafin')?.errors != null && formReporte.get('fechafin')?.touched == true}"
+                    >
+                    </p-calendar>
+                    <label for="inputdate">Fecha Fin</label>
+                </span>
+              </div> -->
+        </div>
+        <!-- BOTON DE EJECUCION -->
+        <div class="col lg:col-12">
+    
+          <div class="grid flex justify-content-center">
+            <div class="col-4 text-center" *ngIf="spinner">
+              <p-progressSpinner></p-progressSpinner>
+            </div>
+            <div class="col-4 text-center" *ngIf="!spinner">
+                <button
+                type="button"
+                pButton
+                (click)="enviar()"
+                label="Enviar"
+                style="width:auto;"></button>
+    
+            </div>
+          </div>
+        </div>
+        
+      </p-panel>
+      <br>
+    
+    </div>
+</form>
+<p-toast
+[baseZIndex]="99999"
+key="tst"></p-toast>
+
+<div class="row">
+  <div class="cols">
+    <div class="card">
+      <p-table #dt1 [value]="reportes" dataKey="id" [loading]="loading" [rows]="50" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
+          styleClass="p-datatable-gridlines" [paginator]="true"
+          responsiveLayout="scroll">
+          <!-- <ng-template pTemplate="caption">
+              <div class="flex justify-content-between flex-column sm:flex-row">
+
+                  <span class="p-input-icon-left mb-2">
+                      <i class="pi pi-search"></i>
+                      <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Buscar"
+                          class="w-full" />
+                  </span>
+              </div>
+          </ng-template> -->
+          <ng-template pTemplate="header">
+              <tr>
+                  <th>
+                      <div style="width: 150px;" class="flex justify-content-between align-items-center">
+                          Usuario
+
+                      </div>
+                  </th>
+                  <th>
+                    <div style="width: 160px;" class="flex justify-content-between align-items-center">
+                      Fecha de Captura
+                    </div>
+                  </th>
+                  <th>
+                    <div style="width: 160px;" class="flex justify-content-between align-items-center">
+                        Fecha de Completado
+                    </div>
+                  </th>
+                  <th>
+                    <div class="flex justify-content-between align-items-center">
+                          Procesando
+                      </div>
+                  </th>
+                  <th>
+                    <div class="flex justify-content-between align-items-center">
+                      Estatus
+                    </div>
+                  </th>
+                  <th>
+                      <div style="width: 150px;" class="flex justify-content-between align-items-center">
+                          Archivo
+
+                      </div>
+                  </th>
+              </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-item let-i="rowIndex">
+              <tr>
+                  <td class="text-center">
+                    {{item.cve_usuario}}
+                  </td>
+                  <td class="text-center">
+                      {{dateFormat(item.fechaCaptura)}}
+                  </td>
+                  <td class="text-center">
+                     {{dateFormat(item.fechaCompletado)}}
+                  </td>
+                  <td class="text-center">
+                    {{item.procesando != 0 ? "Si":""}}
+                  </td>
+                  <td class="text-center">
+                    {{item.status}}
+                  </td>
+                  <td *ngIf="item.archivo" class="text-center">
+                    <!-- {{item.archivo}} -->
+                      <button pButton  style="background-color: #FFD419;border: 0;" label="Descargar" (click)="descargarArchivo(item.archivo)" [loading]="estaSiendoDescargado(item.archivo)"></button>
+                      <!-- <button (click)="descargarArchivo(item.archivo)">Descargar</button> -->
+                    </td>
+                    <td *ngIf="!item.archivo" class="text-center">
+                      <button pButton disabled style="background-color: grey;border: 0;" label="Descargar" (click)="descargarArchivo(item.archivo)"></button>
+                    <!-- {{item.archivo}} -->
+                  </td>
+              </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+              <tr>
+                  <td colspan="7">Sin Datos para Mostrar.</td>
+              </tr>
+          </ng-template>
+          <ng-template pTemplate="loadingbody">
+              <tr>
+                  <td colspan="7">Cargando Datos, espere...</td>
+              </tr>
+
+          </ng-template>
+          <ng-template pTemplate="paginatorleft" let-state>
+              Mostrando {{(state.page  * state.rows) + 1}} a {{state.rows * (state.page + 1)}} de {{state.totalRecords}} registros.
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>
+<div *ngIf="show" style="display: none;">
+  <iframe id="report" height="1000" width="1000" [src]="url1 | safeUrl"></iframe>
+</div>
+

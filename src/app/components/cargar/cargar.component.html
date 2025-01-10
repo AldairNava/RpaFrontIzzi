@@ -1,0 +1,52 @@
+<div class="component__content breadcrumb">
+
+    <!-- <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb> -->
+    <div class="breadPage">
+        <a [routerLink]=" '' ">
+            <i class="pi pi-home home" style="font-size: 1.5rem" [style]=" mode ? 'color: white;' : 'color: black;' "></i>
+        </a>
+        <i class="pi pi-chevron-right" style="font-size: 1" [style]=" mode ? 'color: white;' : 'color: black;' "></i>
+        <p [style]="mode ? 'color: white; font-size: 1.2em; font-weight: bold;' : 'color: black; font-size: 1.2em; font-weight: bold;'">Cargar Audios</p>
+    </div>
+
+    <div class="guias" *ngIf="showSelects">
+        <p-dropdown *ngIf="!individual" [style]="{'width':'220px'}" [options]="tipo" [(ngModel)]="tipoSelected" placeholder="Tipo"  optionLabel="name" (ngModelChange)="validaTipo()"></p-dropdown>
+        
+        <p-dropdown [style]="{'width':'300px'}" *ngIf="showGuias || !individual" [options]="guia" [(ngModel)]="guiaSelected" placeholder="Guía"  optionLabel="name" (ngModelChange)="validaGuia()"></p-dropdown>
+    </div>
+
+    <div *ngIf="showUploadZone || individual"  (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)"  (drop)="onDrop($event)" [ngClass]="{'bg-white' : !showUploadZone}"  class="uploadZone upload__border" [ngClass]="{ 'drag-over': archivoOn }">
+        <div class="uploadZone__pic">
+            <img src="../../../assets/img/nube.png" alt="">
+        </div>
+
+
+        <div class="uploadZone__text">
+            <h1>Arrastra aquí tus archivos</h1>
+            <h1 class="o">-- o --</h1>
+            <div class="modal__actions">
+                <button class="upload__button" (click)="selectFiles()">+ Selecciónalos</button>
+                <input type="file" id="file-input" accept=".mp3" multiple style="display: none;" (change)="onFilesSelected($event)">
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="uploading" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)"  (drop)="onDrop($event)" class="bg-white ">
+        <div>
+            <img class="uploading__robot" src="../../../../assets/img/gif/robot__upload.gif" alt="robot">
+        </div>
+        <div>
+            <h2 class="modal__title blink">Subiendo información, por favor espere...</h2>
+        </div>
+        <div class="progress">
+            <p-progressBar [value]="value" [style]="{ height: '20px', width: '80%', margin: '0 auto'}"></p-progressBar>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+    
+<p-toast></p-toast>

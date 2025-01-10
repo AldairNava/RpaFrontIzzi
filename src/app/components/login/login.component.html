@@ -1,0 +1,40 @@
+<p-button class="home-button" [routerLink]="['/']" styleClass="p-button font-medium p-button-raised">Home</p-button>
+<div [class.login__dark]="mode" class="login" >
+    <div class="form">
+        <div class="form__logo">
+            <img src="../../../assets/img/marIAna.png" alt="">
+        </div>
+
+        <div class="divider">
+            <p-divider type="solid"></p-divider>
+        </div>
+
+        <form class="login__form" [formGroup]="loginForm" (ngSubmit)="setSession()">
+
+            <div class="inputs">
+                <div class="p-inputgroup input__mail">
+                    <span class="p-inputgroup-addon">
+                        <i class="pi pi-user"></i>
+                    </span>
+                    <input pInputText placeholder="Correo" formControlName="email" />
+                </div>
+    
+                <div class="p-inputgroup input__mail">
+                    <span class="p-inputgroup-addon">
+                        <i class="pi pi-lock"></i>
+                    </span>
+                    <input pInputText placeholder="Contraseña" type="password" formControlName="pass" />
+                </div>
+            </div>
+            <div>
+                <button class="form__btn" styleClass="p-button-warning" pButton type="submit">Iniciar sesión</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="mode">
+        <p-button type="button" class="mr-2" (click)="toggleMode()" [icon]=" mode ? 'pi pi-sun' : 'pi pi-moon'" [pTooltip]=" mode ? 'Modo claro' : 'Modo oscuro' "></p-button>
+    </div>
+</div>
+
+<p-toast></p-toast>

@@ -1,0 +1,200 @@
+<div class="text-900 font-bold text-2xl mb-4 text-center" style="background-color: #E80084;color: white !important;">Depuración/Cierre</div>
+
+<div class="card" style="padding-left: 1rem;">
+  <p-panel header=""
+    class="line-height-12 m-0">
+    <!-- INICIO DE INPUTS -->
+    <div class="p-fluid p-formgrid grid justify-content-center">
+      <div class="field col-12 md:col-4 col-offset-2">
+        <button type="button" (click)="nuevo=true" style="width: 4rem;height: 3rem;background-color: #FF7987; color: white; border-radius: 0.5rem;border: 0;" > <i class="pi pi-plus custom-icon"></i></button>
+      </div>
+      <div class="md:col-12"></div>
+      <div class="field col-12 md:col-4" *ngIf="nuevo">
+        <p-calendar   [showClear]="true" (onSelect)="changeTime2($event)" (onClear)="time = null" placeholder="Ingresar Nuevo Horario" [timeOnly]="true" hourFormat="12" inputId="timeonly"></p-calendar>
+      </div>
+      <div class="field col-12 md:col-4" *ngIf="nuevo">
+        <p-calendar   [showClear]="true" (onSelect)="changeTime3($event)" (onClear)="timeCI = null" placeholder="Ingresar Corte Inicio" [timeOnly]="true" hourFormat="24" [showSeconds]="true" inputId="timeonly"></p-calendar>
+      </div>
+      <div class="field col-12 md:col-4" *ngIf="nuevo">
+        <p-calendar   [showClear]="true" (onSelect)="changeTime4($event)" (onClear)="timeCF = null" placeholder="Ingresar Corte Fin" [timeOnly]="true" hourFormat="24" [showSeconds]="true" inputId="timeonly"></p-calendar>
+      </div>
+
+      <div class="field col-12 md:col-4 col-offset-2" *ngIf="nuevo">
+        <button type="button" (click)="add()" style="width: 5rem;height: 3rem;background-color: #FF7987; color: white; border-radius: 0.5rem;border: 0;" >Agregar</button>
+      </div>
+    </div>
+    <h5 class="text-center">Configuración de Horarios</h5>
+    <div class="p-fluid p-formgrid grid justify-content-center">
+      <div class="field col-12 md:col-6">
+        <p-dropdown
+        [options]="horarios"
+        [showClear]="true"
+        optionLabel="horario" optionValue="id"
+        placeholder="Selecciona un Horario"
+        (onChange)="changeHorarios($event.value)"
+        [(ngModel)]="first"
+        >
+        <ng-template pTemplate="option" let-option>
+          <div class="dropdown-option">
+            <span> <pre>{{ option.horario }}      {{option.corteInicio}}      {{option.corteFin}}</pre> </span>
+            <div class="option-buttons">
+              <button type="button" (click)="eliminar(option.id);$event.stopPropagation()" style="background-color: #FF7987; color: white; border-radius: 0.5rem;border: 0;" > <i class="pi pi-trash custom-icon"></i></button>
+            </div>
+          </div>
+        </ng-template>
+        </p-dropdown>
+      </div>
+      <div class="field col-12 md:col-6" *ngIf="first != null">
+          <p-calendar   [showClear]="true" (onSelect)="changeTime($event)" (onClear)="second = null" placeholder="Editar Horario" [timeOnly]="true" hourFormat="12" inputId="timeonly"></p-calendar>
+      </div>
+      <div class="field col-12 md:col-2 text-center " *ngIf="second != null">
+        <button type="button" style="width: 5rem;height: 3rem;background-color: #FF7987; color: white; border-radius: 0.5rem;border: 0;" (click)="enviar()">Guardar</button>   
+      </div>
+
+
+    </div>
+  </p-panel>
+  <br>
+
+</div>
+
+<p-toast
+  [baseZIndex]="99999"
+  key="tst"></p-toast>
+  <div class="row">
+    <div class="cols">
+      <div class="card">
+        <p-table #dt1 [value]="tablaDepuracion" dataKey="id" [loading]="loading" [rows]="50" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
+            styleClass="p-datatable-gridlines" [paginator]="true"
+            [globalFilterFields]="['tipoExtraccion','fechaExtraccion','archivo','cve_usuario','horarioInicio','fechaCompletado','status','procesando','ip']" responsiveLayout="scroll">
+            <ng-template pTemplate="caption">
+                <div class="flex justify-content-between flex-column sm:flex-row">
+
+                    <span class="p-input-icon-left mb-2">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Buscar"
+                            class="w-full" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>
+                        <div style="width: 150px;" class="flex justify-content-center align-items-center">
+                            Tipo de Extracción
+
+                        </div>
+                    </th>
+                    <th>
+                        <div style="width: 150px;" class="flex justify-content-center align-items-center">
+                            Fecha Extracción
+
+                        </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-center align-items-center">
+                          Usuario
+                      </div>
+                    </th>
+                    <th>
+                        <div style="width: 150px;" class="flex justify-content-center align-items-center">
+                            Horario de Inicio
+                        </div>
+                    </th>
+                    <th>
+                      <div style="width: 160px;" class="flex justify-content-center align-items-center">
+                          Fecha Completado
+                      </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-center align-items-center">
+                          Estatus
+                      </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-center align-items-center">
+                          Procesando
+                      </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-center align-items-center">
+                          Archivo
+                      </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-center align-items-center">
+                          Progreso
+                      </div>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr>
+                    <td class="text-center">
+                      {{item.tipoExtraccion}}
+                    </td>
+                    <td class="text-center">
+                        {{dateFormat(item.fechaExtraccion)}}
+                    </td>
+                    <td class="text-center">
+                       {{item.cve_usuario}}
+                    </td>
+                    <td class="text-center">
+                      {{item.horarioInicio}}
+                    </td>
+                    <td class="text-center">
+                      {{dateFormat(item.fechaCompletado)}}
+                    </td>
+                    <td class="text-center">
+                      {{item.status}}
+                    </td>
+                    <td class="text-center">
+                      {{item.procesando}}
+                    </td>
+                    <td *ngIf="item.archivo" class="text-center">
+                        <button pButton  style="background-color: #FF7987;border: 0;" label="Descargar" (click)="descargarArchivo(item.archivo)" [loading]="estaSiendoDescargado(item.archivo)"></button>
+                      </td>
+                      <td *ngIf="!item.archivo" class="text-center">
+                        <button pButton disabled style="background-color: grey;border: 0;" label="Descargar" (click)="descargarArchivo(item.archivo)"></button>
+                    </td>
+                    <td class="text-center" class="barra-cargando">
+                      <!-- Completado: Muestra una palomita en verde -->
+                      <i *ngIf="item.status =='Completado'" class="pi pi-fw pi-check" style="color: green;font-size: 2rem;font-weight: bold;"></i>
+                      
+                      <!-- Error Descarga: Muestra una X en rojo -->
+                      <i *ngIf="item.status =='Error Descarga'" class="pi pi-fw pi-times" style="color: red;font-size: 2rem;font-weight: bold;"></i>
+                      
+                      <!-- Iniciando: Muestra una barra de progreso al 33% -->
+                      <p-progressBar *ngIf="item.status =='Iniciando Extraccion Canceladas'" [value]="33" class="barra-cargando"></p-progressBar>
+                      
+                      <!-- Descargando: Muestra una barra de progreso al 66% -->
+                      <p-progressBar *ngIf="item.status =='Descargando Archivo Siebel'" [value]="66" class="barra-cargando"></p-progressBar>
+                  </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">Sin Datos para Mostrar.</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="loadingbody">
+                <tr>
+                    <td colspan="7">Cargando Datos, espere...</td>
+                </tr>
+
+            </ng-template>
+            <ng-template pTemplate="paginatorleft" let-state>
+                Mostrando {{(state.page  * state.rows) + 1}} a {{state.rows * (state.page + 1)}} de {{state.totalRecords}} registros.
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="show" style="display: none;">
+    <iframe id="report" height="1000" width="1000" [src]="url1 | safeUrl"></iframe>
+  </div>
+  
+
+
+  <!-- <button pButton  style="background-color: #FF7987;border: 0;" label="Conexion" (click)="con" ></button> -->

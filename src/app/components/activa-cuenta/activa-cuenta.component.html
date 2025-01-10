@@ -1,0 +1,45 @@
+<div [class.login__dark]="mode" class="login" >
+    <div class="form">
+        <div class="form__logo">
+            <img src="../../../assets/img/atlantis_logo_letras-removed.png" alt="">
+        </div>
+
+        <h3 class="form__title">Activa tu cuenta</h3>
+
+
+        <div class="divider">
+            <p-divider type="solid"></p-divider>
+        </div>
+
+        <form class="login__form" [formGroup]="activateForm" (ngSubmit)="onSubmit()">
+            <div class="p-inputgroup input__mail">
+                <span class="p-inputgroup-addon">
+                    <i class="pi pi-envelope"></i>
+                </span>
+                <input pInputText placeholder="Correo electrónico" formControlName="email"  />
+            </div>
+
+            <div class="p-inputgroup input__mail">
+                <span class="p-inputgroup-addon">
+                    <i class="pi pi-lock"></i>
+                </span>
+                <input pInputText placeholder="Elige una contraseña min 6 caract" type="password" formControlName="pass" />
+            </div>
+
+            <div class="p-inputgroup input__mail">
+                <span class="p-inputgroup-addon">
+                    <i class="pi pi-key"></i>
+                </span>
+                <input pInputText placeholder="Token" formControlName="token"  />
+            </div>
+
+            <button class="form__btn" styleClass="p-button-warning" pButton type="submit">Activar</button>
+        </form>
+    </div>
+
+    <div class="mode">
+        <p-button type="button" class="mr-2" (click)="toggleMode()" [icon]=" mode ? 'pi pi-sun' : 'pi pi-moon'" [pTooltip]=" mode ? 'Modo claro' : 'Modo oscuro' "></p-button>
+    </div>
+</div>
+
+<!-- <p-toast></p-toast> -->

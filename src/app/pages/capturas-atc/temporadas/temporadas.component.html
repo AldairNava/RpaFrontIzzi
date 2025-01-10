@@ -1,0 +1,259 @@
+<div class="text-900 font-bold text-2xl mb-4 text-center">Formulario de Temporadas</div>
+
+<div class="card">
+    <p-panel header="Datos de Temporada" class="line-height-12 m-0">
+        <form [formGroup]="formTemporada">
+            <h5>Tipo de Temporada</h5>
+            <div class="p-fluid p-formgrid grid">
+                <div class="col-12 md:col-4">
+                    <div class="field-radiobutton" >
+                      <p-radioButton
+                        [value]="'NFL'"
+                        [ngClass]="{'ng-invalid ng-dirty': formTemporada.get('TipoTemporada')?.errors != null && formTemporada.get('TipoTemporada')?.touched == true}"
+                        formControlName="TipoTemporada">
+                      </p-radioButton>
+                      <label>NFL</label>
+                    </div>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <span class="p-float-label">
+                        <input
+                        [ngClass]="{'ng-invalid ng-dirty': formTemporada.get('Cuenta')?.errors != null && formTemporada.get('Cuenta')?.touched == true}"
+                        type="text"
+                        pInputText
+                        onlyNumbers
+                        formControlName="Cuenta"
+                        >
+                        <label>Número de cuenta</label>
+                    </span>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <p-dropdown
+                    [ngClass]="{'ng-invalid ng-dirty': formTemporada.get('Pais')?.errors != null && formTemporada.get('Pais')?.touched == true}"
+                      [options]="Pais"
+                      [showClear]="true"
+                      placeholder="Seleccione un país"
+                      formControlName="Pais">
+                    </p-dropdown>
+                </div>            
+                <div class="field col-12 md:col-4">
+                    <p-dropdown
+                        [ngClass]="{'ng-invalid ng-dirty': formTemporada.get('Producto')?.errors != null && formTemporada.get('Producto')?.touched == true}"
+                        [showClear]="true"
+                        optionValue="descripcion"
+                        [options]="productos"
+                        optionLabel="descripcion"    
+                        placeholder="Seleccione un Producto"
+                        formControlName="Producto">
+                    </p-dropdown>
+                </div>            
+
+                <div class="field col-12 md:col-4">
+                    <p-dropdown
+                    [ngClass]="{'ng-invalid ng-dirty': formTemporada.get('TipoCuenta')?.errors != null && formTemporada.get('TipoCuenta')?.touched == true}"
+                    [showClear]="true"
+                    [options]="tipoCuenta"
+                    optionValue="descripcion"
+                    optionLabel="descripcion"
+                    placeholder="Seleccione una Cuenta"
+                    formControlName="TipoCuenta"
+                    (onChange)="changeTipoCuenta($event)"
+                    >
+                    </p-dropdown>
+                </div>
+                <div *ngIf="formTemporada.value.TipoCuenta == 'COMERCIAL'" class="field col-12 md:col-4">
+                    <p-dropdown
+                    [ngClass]="{'ng-invalid ng-dirty': formTemporada.get('Dispositivos')?.errors != null && formTemporada.get('Dispositivos')?.touched == true}"
+                    [showClear]="true"
+                    [options]="dispo"
+                    placeholder="Seleccione un Dispostivo"
+                    formControlName="Dispositivos"
+                    >
+                    </p-dropdown>
+                </div>
+                
+                <div class="field col-12 md:col-4">
+                    <p-dropdown
+                    [ngClass]="{'ng-invalid ng-dirty': formTemporada.get('Equipos')?.errors != null && formTemporada.get('Equipos')?.touched == true}"
+                    [showClear]="true"
+                    [options]="equipos"
+                    optionValue="descripcion"
+                    optionLabel="descripcion"
+                    placeholder="Seleccione un Equipos"
+                    formControlName="Equipos">
+                    </p-dropdown>
+                </div>
+            </div>
+            <div class="grid flex justify-content-center">
+                <div class="col-4 text-center">
+                    <button
+                    (click)="verify()"
+                    pButton
+                    label="Enviar"
+                    style="width:auto;"></button>      
+                </div>
+            </div>
+        </form>
+    </p-panel>
+</div>
+<p-dialog
+  [closable]="closeModal"
+  header="Guardar"
+  [(visible)]="display"
+  [modal]="true"
+  showEffect="fade"
+  [style]="{width: '30vw'}"
+  [breakpoints]="{'960px': '75vw'}">
+  <p class="line-height-3 m-0">
+        Los datos a guardar son los siguientes:
+    </p>
+
+  <ul>
+    <li>Cuenta: <strong>{{formTemporada.value.Cuenta}}</strong></li>
+    <li>Pais: <strong>{{formTemporada.value.Pais}}</strong></li>
+    <li>Tipo de Temporada <strong>{{formTemporada.value.TipoTemporada}}</strong></li>
+    <li>Producto: <strong>{{formTemporada.value.Producto}}</strong></li>
+    <li>Tipo de Cuenta <strong>{{formTemporada.value.TipoCuenta}}</strong></li>
+    <li>Tipo de Equipos <strong>{{formTemporada.value.Equipos}}</strong></li>
+    <li *ngIf="formTemporada.value.TipoCuenta == 'COMERCIAL'">Dispositivos: <strong>{{formTemporada.value.Dispositivos}}</strong></li>
+  </ul>
+  <ng-template pTemplate="footer">
+
+    <loading-button
+      label="Guardar"
+      labelLoad="Guardando"
+      [loading]="enviando"
+      (click)="sendData()"></loading-button>
+
+  </ng-template>
+</p-dialog>
+
+<p-toast
+  [baseZIndex]="99999"
+  key="tst"></p-toast>
+
+  <div class="row">
+    <div class="cols">
+      <div class="card">
+        <p-table #dt1 [value]="temporadaDia" dataKey="id" [loading]="loading" [rows]="50" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
+            styleClass="p-datatable-gridlines" [paginator]="true"
+            [globalFilterFields]="['cuenta','pais','tipoTemporada','tipoCuenta','producto','equipos','fechaCaptura','status','dispositivos']" responsiveLayout="scroll">
+            <ng-template pTemplate="caption">
+                <div class="flex justify-content-between flex-column sm:flex-row">
+
+                    <span class="p-input-icon-left mb-2">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Buscar"
+                            class="w-full" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Cuenta
+
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            País
+
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Tipo de Temporada
+                        </div>
+                    </th>
+                    <th>
+                        <div style="width: 150px;" class="flex justify-content-between align-items-center">
+                            Tipo de Cuenta
+                        </div>
+                    </th>
+                    <th >
+                      <div style="width: 150px;" style="width:150px;" class="flex justify-content-between align-items-center">
+                          Producto
+                      </div>
+                    </th>
+                    <th>
+                      <div style="width: 150px;" class="flex justify-content-between align-items-center">
+                          Equipos
+                      </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          Fecha de Captura
+                      </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Fecha Completado
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Estatus
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Dispositivos
+                        </div>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr>
+                    <td>
+                      {{item.cuenta}}
+                    </td>
+                    <td>
+                        {{item.pais}}
+                    </td>
+                    <td>
+                        {{item.tipoTemporada}}
+                    </td>
+                    <td>
+                       {{item.tipoCuenta}}
+                    </td>
+                    <td >
+                      {{item.producto}}
+                    </td>
+                    <td>
+                      {{item.equipos}}
+                    </td>
+                    <td>
+                      {{item.fechaCaptura}}
+                    </td>
+                    <td>
+                        {{item.fechaCompletado}}
+                    </td>
+                    <td>
+                        {{item.status}}
+                    </td>
+                    <td>
+                        {{item.dispositivos}}
+                    </td>
+          
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">Sin Datos para Mostrar.</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="loadingbody">
+                <tr>
+                    <td colspan="7">Cargando Datos, espere...</td>
+                </tr>
+
+            </ng-template>
+            <ng-template pTemplate="paginatorleft" let-state>
+                Mostrando {{(state.page  * state.rows) + 1}} a {{state.rows * (state.page + 1)}} de {{state.totalRecords}} registros.
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>

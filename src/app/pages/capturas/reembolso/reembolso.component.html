@@ -1,0 +1,220 @@
+<div class="text-900 font-bold text-2xl mb-4 text-center">Formulario Reembolso</div>
+
+<div class="card">
+    <p-panel header="Datos de Reembolso" class="line-height-12 m-0">
+        <form [formGroup]="formReembolso">
+            <div class="p-fluid p-formgrid grid">
+                <div class="col-12 md:col-12">
+                  <h5>Tipo de Cuenta</h5>
+                    <div class="field-radiobutton" >
+                      <p-radioButton
+                        [value]="'Residencial'"
+                        [ngClass]="{'ng-invalid ng-dirty': formReembolso.get('TipoCuenta')?.errors != null && formReembolso.get('TipoCuenta')?.touched == true}"
+                        formControlName="TipoCuenta">
+                      </p-radioButton>
+                      <label>Residencial</label>
+                    </div>
+                    <div class="field-radiobutton">
+                      <p-radioButton
+                        [value]="'Comercial'"
+                        [ngClass]="{'ng-invalid ng-dirty': formReembolso.get('TipoCuenta')?.errors != null && formReembolso.get('TipoCuenta')?.touched == true}"
+                        formControlName="TipoCuenta">
+                      </p-radioButton>
+                      <label>Comercial</label>
+                    </div>
+                </div>        
+                <div class="field col-12 md:col-6">
+                    <span class="p-float-label">
+                        <input
+                        [ngClass]="{'ng-invalid ng-dirty': formReembolso.get('Cuenta')?.errors != null && formReembolso.get('Cuenta')?.touched == true}"
+                        type="text"
+                        pInputText
+                        onlyNumbers
+                        formControlName="Cuenta">
+                        <label>Número de cuenta</label>
+                    </span>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <p-dropdown
+                    [ngClass]="{'ng-invalid ng-dirty': formReembolso.get('Pais')?.errors != null && formReembolso.get('Pais')?.touched == true}"
+                    formControlName="Pais"
+                    [options]="pais"
+                    [showClear]="true"
+                    placeholder="Pais">
+                    </p-dropdown>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <span class="p-float-label">
+                        <input
+                        [ngClass]="{'ng-invalid ng-dirty': formReembolso.get('NumeroSolicitud')?.errors != null && formReembolso.get('NumeroSolicitud')?.touched == true}"
+                        type="text"
+                        pInputText
+                        formControlName="NumeroSolicitud"
+                        >
+                        <label>Numero Solicitud</label>
+                    </span>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <p-dropdown 
+                    [ngClass]="{'ng-invalid ng-dirty': formReembolso.get('anios')?.errors != null && formReembolso.get('anios')?.touched == true}"
+                    formControlName="anios"
+                    [options]="anioss"
+                    [showClear]="true"
+                    placeholder="Años">
+                    </p-dropdown>
+                </div>
+            </div>
+            <div class="grid flex justify-content-center">
+                <div class="col-4 text-center">
+                    <button
+                    (click)="verify()"
+                    pButton
+                    label="Enviar"
+                    style="width:auto;"></button>      
+                </div>
+            </div>
+        </form>
+    </p-panel>
+</div>
+<p-dialog
+  [closable]="closeModal"
+  header="Guardar"
+  [(visible)]="display"
+  [modal]="true"
+  showEffect="fade"
+  [style]="{width: '30vw'}"
+  [breakpoints]="{'960px': '75vw'}">
+  <p class="line-height-3 m-0">
+        Los datos a guardar son los siguientes:
+    </p>
+
+  <ul>
+    <li>Tipo de Cuenta: <strong>{{formReembolso.value.TipoCuenta}}</strong></li>
+    <li>Cuenta: <strong>{{formReembolso.value.Cuenta}}</strong></li>
+    <li>Pais: <strong>{{formReembolso.value.Pais}}</strong></li>
+    <li>Numero de Solicitud: <strong>{{formReembolso.value.NumeroSolicitud}}</strong></li>
+    <li>Años: <strong>{{formReembolso.value.anios}}</strong></li>
+  </ul>
+  <ng-template pTemplate="footer">
+
+    <loading-button
+      label="Guardar"
+      labelLoad="Guardando"
+      [loading]="enviando"
+      (click)="sendData()"></loading-button>
+
+  </ng-template>
+</p-dialog>
+
+<p-toast
+  [baseZIndex]="99999"
+  key="tst"></p-toast>
+
+  <div class="row">
+    <div class="cols">
+      <div class="card">
+        <p-table #dt1 [value]="ReembolsoDia" dataKey="id" [loading]="loading" [rows]="50" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
+            styleClass="p-datatable-gridlines" [paginator]="true"
+            [globalFilterFields]="['cuenta','pais','tipoTemporada','tipoCuenta','producto','equipos','fechaCaptura','status','dispositivos']" responsiveLayout="scroll">
+            <ng-template pTemplate="caption">
+                <div class="flex justify-content-between flex-column sm:flex-row">
+
+                    <span class="p-input-icon-left mb-2">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Buscar"
+                            class="w-full" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Cuenta
+
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            País
+
+                        </div>
+                    </th>
+                    <th>
+                        <div style="width: 150px;" class="flex justify-content-between align-items-center">
+                            Fecha de Captura
+                        </div>
+                    </th>
+                    <th>
+                        <div style="width: 150px;" class="flex justify-content-between align-items-center">
+                            Fecha Completado
+                        </div>
+                    </th>
+                    <th >
+                      <div style="width: 150px;" style="width:150px;" class="flex justify-content-between align-items-center">
+                          Estatus
+                      </div>
+                    </th>
+                    <th>
+                      <div style="width: 150px;" class="flex justify-content-between align-items-center">
+                          Número de Solicitud
+                      </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          Años
+                      </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Tipo de Cuenta
+                        </div>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr>
+                    <td>
+                      {{item.cuenta}}
+                    </td>
+                    <td>
+                        {{item.pais}}
+                    </td>
+                    <td>
+                        {{item.fechaCaptura}}
+                    </td>
+                    <td>
+                       {{item.fechaCompletado}}
+                    </td>
+                    <td >
+                      {{item.status}}
+                    </td>
+                    <td>
+                      {{item.numeroSolicitud}}
+                    </td>
+                    <td>
+                      {{item.anios}}
+                    </td>
+                    <td>
+                        {{item.tipoCuenta}}
+                    </td>         
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">Sin Datos para Mostrar.</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="loadingbody">
+                <tr>
+                    <td colspan="7">Cargando Datos, espere...</td>
+                </tr>
+
+            </ng-template>
+            <ng-template pTemplate="paginatorleft" let-state>
+                Mostrando {{(state.page  * state.rows) + 1}} a {{state.rows * (state.page + 1)}} de {{state.totalRecords}} registros.
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>

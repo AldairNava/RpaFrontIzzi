@@ -1,0 +1,312 @@
+<div class="text-900 font-bold text-2xl mb-4 text-center">Formulario Cambio de Paquete</div>
+
+<div class="card">
+    <p-panel header="Datos de Cambio de Paquete" class="line-height-12 m-0">
+        <form [formGroup]="formCambioPaquete">
+            <div class="p-fluid p-formgrid grid">
+                <div class="col-12 md:col-6">
+                    <h5>Tipo de Cuenta</h5>
+                    <div class="field-radiobutton" >
+                        <p-radioButton
+                            formControlName="tipoCuenta"
+                            [value]="'NEW ERA'"
+                            [ngClass]="{'ng-invalid ng-dirty': formCambioPaquete.get('tipoCuenta')?.errors != null && formCambioPaquete.get('tipoCuenta')?.touched == true}"
+                            (onClick)="tipoCuen($event.value)"
+                        >
+                        </p-radioButton>
+                        <label>New Era</label>
+                      </div>
+                      <div class="field-radiobutton" >
+                        <p-radioButton
+                            formControlName="tipoCuenta"
+                            [value]="'TRADICIONAL'"
+                            [ngClass]="{'ng-invalid ng-dirty': formCambioPaquete.get('tipoCuenta')?.errors != null && formCambioPaquete.get('tipoCuenta')?.touched == true}"
+                            (onClick)="tipoCuen($event.value)"
+                         >
+                        </p-radioButton>
+                        <label>Tradicional</label>
+                      </div>
+                    </div>
+                    <div class="col-6"></div>
+                <div class="field col-12 md:col-4">
+                    <span class="p-float-label">
+                        <input
+                        type="text"
+                        pInputText
+                        [ngClass]="{'ng-invalid ng-dirty': formCambioPaquete.get('cuenta')?.errors != null && formCambioPaquete.get('cuenta')?.touched == true}"
+                        onlyNumbers
+                        formControlName="cuenta"
+                        >
+                        <label>Número de cuenta</label>
+                    </span>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <p-dropdown
+                    [options]="pais"
+                    [showClear]="true"
+                    placeholder="Pais"
+                    [ngClass]="{'ng-invalid ng-dirty': formCambioPaquete.get('pais')?.errors != null && formCambioPaquete.get('pais')?.touched == true}"
+                    formControlName="pais"
+                    >
+                    </p-dropdown>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <p-dropdown
+                    [options]="movi"
+                    formControlName="tipoMovimiento"
+                    [showClear]="true"
+                    [ngClass]="{'ng-invalid ng-dirty': formCambioPaquete.get('tipoMovimiento')?.errors != null && formCambioPaquete.get('tipoMovimiento')?.touched == true}"
+                    placeholder="Tipo Movimiento"
+                    (onChange)="cambioTipo($event)"
+                    >
+                    </p-dropdown>
+                </div>
+                <div *ngIf="formCambioPaquete.value.tipoCuenta =='NEW ERA'" class="field col-12 md:col-4">
+                    <p-dropdown
+                        [showClear]="true"
+                        [options]="paquete"
+                        formControlName="paqueteOrigen"
+                        [ngClass]="{'ng-invalid ng-dirty': formCambioPaquete.get('paqueteOrigen')?.errors != null && formCambioPaquete.get('paqueteOrigen')?.touched == true}"
+                        placeholder="Paquete Origen">
+                    </p-dropdown>
+                </div>
+                <div *ngIf="formCambioPaquete.value.tipoCuenta =='TRADICIONAL'"  class="field col-12 md:col-4">
+                    <p-dropdown
+                        [showClear]="true"
+                        [options]="paquete2"
+                        [ngClass]="{'ng-invalid ng-dirty': formCambioPaquete.get('paqueteOrigen1')?.errors != null && formCambioPaquete.get('paqueteOrigen1')?.touched == true}"
+                        formControlName="paqueteOrigen1"
+                        placeholder="Paquete Origen">
+                    </p-dropdown>
+                </div>
+                <div *ngIf="formCambioPaquete.value.tipoCuenta =='NEW ERA'" class="field col-12 md:col-4">
+                    <p-dropdown
+                        [showClear]="true"
+                        [options]="paquete"
+                        [ngClass]="{'ng-invalid ng-dirty': formCambioPaquete.get('paqueteDestino')?.errors != null && formCambioPaquete.get('paqueteDestino')?.touched == true}"
+                        formControlName="paqueteDestino"
+                        placeholder="Paquete Destino">
+                    </p-dropdown>
+                </div>
+                <div *ngIf="formCambioPaquete.value.tipoCuenta =='TRADICIONAL'"  class="field col-12 md:col-4">
+                    <p-dropdown
+                        [showClear]="true"
+                        [options]="paquete2"
+                        [ngClass]="{'ng-invalid ng-dirty': formCambioPaquete.get('paqueteDestino1')?.errors != null && formCambioPaquete.get('paqueteDestino1')?.touched == true}"
+                        formControlName="paqueteDestino1"
+                        placeholder="Paquete Destino">
+                    </p-dropdown>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <p-dropdown
+                        [showClear]="true"
+                        [options]="dispo"
+                        [ngClass]="{'ng-invalid ng-dirty': formCambioPaquete.get('numDispositivos')?.errors != null && formCambioPaquete.get('numDispositivos')?.touched == true}"
+                        formControlName="numDispositivos"
+                        placeholder="Número de Dispositivos">
+                    </p-dropdown>
+                </div>
+                <div class="field col-12 md:col-4" *ngIf="formCambioPaquete.value.tipoMovimiento=='Downgrade'">
+                    <p-dropdown
+                        [showClear]="true"
+                        [options]="cos"
+                        [ngClass]="{'ng-invalid ng-dirty': formCambioPaquete.get('costo')?.errors != null && formCambioPaquete.get('costo')?.touched == true}"
+                        formControlName="costo"
+                        placeholder="Costo">
+                    </p-dropdown>
+                </div>
+                <div *ngIf="formCambioPaquete.value.tipoCuenta =='NEW ERA'" class="field col-12 md:col-4">
+                    <p-dropdown
+                    [options]="tipo"
+                    [showClear]="true"
+                    [ngClass]="{'ng-invalid ng-dirty': formCambioPaquete.get('tipoDispositivos')?.errors != null && formCambioPaquete.get('tipoDispositivos')?.touched == true}"
+                    formControlName="tipoDispositivos" 
+                    placeholder="Tipo Dispositivos">
+                    </p-dropdown>
+                </div>
+
+            </div>
+            <div class="grid flex justify-content-center">
+                <div class="col-4 text-center">
+                    <button
+                    (click)="verify()"
+                    pButton
+                    label="Enviar"
+                    style="width:auto;"></button>      
+                </div>
+            </div>
+        </form>
+    </p-panel>
+</div>
+<p-dialog
+  [closable]="closeModal"
+  header="Guardar"
+  [(visible)]="display"
+  [modal]="true"
+  showEffect="fade"
+  [style]="{width: '30vw'}"
+  [breakpoints]="{'960px': '75vw'}">
+  <p class="line-height-3 m-0">
+        Los datos a guardar son los siguientes:
+    </p>
+
+  <ul>
+    <li>Tipo de Cuenta: <strong>{{formCambioPaquete.value.tipoCuenta}}</strong></li>
+    <li>Cuenta: <strong>{{formCambioPaquete.value.cuenta}}</strong></li>
+    <li>País: <strong>{{formCambioPaquete.value.pais}}</strong></li>
+    <li>Tipo de Movimiento <strong>{{formCambioPaquete.value.tipoMovimiento}}</strong></li>
+    <li>Paquete Origen <strong>{{formCambioPaquete.value.tipoCuenta=='NEW ERA'?formCambioPaquete.value.paqueteOrigen:formCambioPaquete.value.paqueteOrigen1}}</strong></li>
+    <li>Paquete Destino <strong>{{formCambioPaquete.value.tipoCuenta=='TRADICIONAL'?formCambioPaquete.value.paqueteDestino1:formCambioPaquete.value.paqueteDestino}}</strong></li>
+    <li>Número de Dispositivo <strong>{{formCambioPaquete.value.numDispositivos}}</strong></li>
+    <li *ngIf="formCambioPaquete.value.tipoMovimiento=='Downgrade'">Costo <strong>{{formCambioPaquete.value.costo}}</strong></li>
+    <li *ngIf="formCambioPaquete.value.tipoDispositivos">Tipo dispositivos <strong>{{formCambioPaquete.value.tipoDispositivos}}</strong></li>
+  </ul>
+  <ng-template pTemplate="footer">
+
+    <loading-button
+      label="Guardar"
+      labelLoad="Guardando"
+      [loading]="enviando"
+      (click)="sendData()"></loading-button>
+
+  </ng-template>
+</p-dialog>
+
+<p-toast
+  [baseZIndex]="99999"
+  key="tst"></p-toast>
+
+  <div class="row">
+    <div class="cols">
+      <div class="card">
+        <p-table #dt1 [value]="cambioPaqueteDia" dataKey="id" [loading]="loading" [rows]="50" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
+            styleClass="p-datatable-gridlines" [paginator]="true"
+            [globalFilterFields]="['tipoCuenta','cuenta','pais','tipoMovimiento','paqueteOrigen','paqueteDestino','numDispositivos','costo','tipoDispositivos','fechaCaptura','status']" responsiveLayout="scroll">
+            <ng-template pTemplate="caption">
+                <div class="flex justify-content-between flex-column sm:flex-row">
+
+                    <span class="p-input-icon-left mb-2">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Buscar"
+                            class="w-full" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Tipo de Cuenta
+
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Cuenta
+
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Pais
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Tipo de Movimiento
+                        </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          Paquete de Origen
+                      </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          Paquete de Destino
+                      </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          Número de Dispositivos
+                      </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Costo
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Tipo de Dispositivos
+                        </div>
+                    </th>  
+                    <th>
+                        <div style="width: 150px;" class="flex justify-content-between align-items-center">
+                            FechaCaptura
+                        </div>
+                    </th>  
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Estatus
+                        </div>
+                    </th>  
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr>
+                    <td>
+                      {{item.tipoCuenta}}
+                    </td>
+                    <td>
+                        {{item.cuenta}}
+                    </td>
+                    <td>
+                        {{item.pais}}
+                    </td>
+                    <td>
+                       {{item.tipoMovimiento}}
+                    </td>
+                    <td>
+                      {{item.paqueteOrigen}}
+                    </td>
+                    <td>
+                      {{item.paqueteDestino}}
+                    </td>
+                    <td>
+                      {{item.numDispositivos}}
+                    </td>
+                    <td>
+                        {{item.costo}}
+                    </td>
+                    <td>
+                        {{item.tipoDispositivos}}
+                    </td>
+                    <td>
+                        {{item.fechaCaptura}}
+                    </td>
+                    <td>
+                        {{item.status}}
+                    </td>
+    
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">Sin Datos para Mostrar.</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="loadingbody">
+                <tr>
+                    <td colspan="7">Cargando Datos, espere...</td>
+                </tr>
+
+            </ng-template>
+            <ng-template pTemplate="paginatorleft" let-state>
+                Mostrando {{(state.page  * state.rows) + 1}} a {{state.rows * (state.page + 1)}} de {{state.totalRecords}} registros.
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>

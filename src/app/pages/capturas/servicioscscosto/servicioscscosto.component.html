@@ -1,0 +1,370 @@
+<div class="text-900 font-bold text-2xl mb-4 text-center">Formulario Servicios C/S costos.</div>
+
+<div
+  [formGroup]="formServicios"
+  class="card">
+
+  <p-panel
+    [toggleable]="mostrandoResultados"
+    header="Datos de Servicios"
+    class="line-height-12 m-0">
+    <h5>Tipo Servicio:</h5>
+    <!-- INICIO DE INPUTS -->
+    <div class="p-fluid p-formgrid grid">
+        <div class="col-12 md:col-4">
+            <div class="field-radiobutton" >
+              <p-radioButton
+                [value]="'Reparaciones'"
+                [ngClass]="{'ng-invalid ng-dirty': formServicios.get('Tipo_Servicio')?.errors != null && formServicios.get('Tipo_Servicio')?.touched == true}"
+                formControlName="Tipo_Servicio">
+              </p-radioButton>
+              <label>Reparaciones</label>
+            </div>
+            <div class="field-radiobutton">
+              <p-radioButton
+                [value]="'Servicios con costo'"
+                [ngClass]="{'ng-invalid ng-dirty': formServicios.get('Tipo_Servicio')?.errors != null && formServicios.get('Tipo_Servicio')?.touched == true}"
+                formControlName="Tipo_Servicio">
+              </p-radioButton>
+              <label>Servicios c/s costo</label>
+            </div>
+        </div>
+        <div class="field col-12 md:col-4">
+            <span class="p-float-label">
+                <input
+                [ngClass]="{'ng-invalid ng-dirty': formServicios.get('Cuenta')?.errors != null && formServicios.get('Cuenta')?.touched == true}"
+                type="text"
+                pInputText
+                formControlName="Cuenta"
+                onlyNumbers>
+                <label>Número de cuenta</label>
+            </span>
+      </div>
+
+      <div class="field col-12 md:col-4">
+        <p-dropdown
+        [ngClass]="{'ng-invalid ng-dirty': formServicios.get('Tipo_Cuenta')?.errors != null && formServicios.get('Tipo_Cuenta')?.touched == true}"
+          [options]="tipoCuenta"
+          [showClear]="true"
+          placeholder="Selecciona Tipo Cuenta"
+          formControlName="Tipo_Cuenta">
+        </p-dropdown>
+      </div>
+
+
+      <div class="field col-12 md:col-4">
+        <div class="p-inputgroup">
+            <span class="p-float-label">
+              <input
+                    [ngClass]="{'ng-invalid ng-dirty': formServicios.get('Nombre')?.errors != null && formServicios.get('Nombre')?.touched == true}"
+                    inputId="text"
+                    pInputText
+                    formControlName="Nombre">
+              <label for="Nombre Completo">Nombre(s)</label>
+		        </span>
+        </div>
+      </div>
+      <!-- <div class="field col-12 md:col-4">
+        <div class="p-inputgroup">
+            <span class="p-float-label">
+              <input
+                    [ngClass]="{'ng-invalid ng-dirty': formServicios.get('ApellidoP')?.errors != null && formServicios.get('ApellidoP')?.touched == true}"
+                    inputId="text"
+                    pInputText
+                    formControlName="ApellidoP">
+              <label for="ApellidoP">Apellido Paterno</label>
+		        </span>
+        </div>
+      </div>
+      <div class="field col-12 md:col-4">
+        <div class="p-inputgroup">
+            <span class="p-float-label">
+              <input
+                    [ngClass]="{'ng-invalid ng-dirty': formServicios.get('Nombre')?.errors != null && formServicios.get('Nombre')?.touched == true}"
+                    inputId="text"
+                    pInputText
+                    formControlName="ApellidoM">
+              <label for="ApellidoM">Apellido Materno</label>
+		        </span>
+        </div>
+      </div> -->
+      <div class="field col-12 md:col-4">
+        <p-dropdown
+        [ngClass]="{'ng-invalid ng-dirty': formServicios.get('Pais')?.errors != null && formServicios.get('Pais')?.touched == true}"
+        formControlName="Pais"
+        [options]="Pais"
+        [showClear]="true"
+        placeholder="Pais">
+        </p-dropdown>
+    </div>
+
+
+      <div class="field col-12 md:col-4">
+        <p-dropdown
+        optionLabel="descripcion" optionValue="descripcion"
+        [ngClass]="{'ng-invalid ng-dirty': formServicios.get('Tipo_falla')?.errors != null && formServicios.get('Tipo_falla')?.touched == true}"
+          [options]="fallas"
+          [showClear]="true"
+          placeholder="Seleccione Servicio o Falla"
+          formControlName="Tipo_falla">
+        </p-dropdown>
+      </div>
+
+      <div class="field col-12 md:col-4">
+        <p-dropdown
+        optionLabel="descripcion" optionValue="descripcion"
+        [ngClass]="{'ng-invalid ng-dirty': formServicios.get('Equipos')?.errors != null && formServicios.get('Equipos')?.touched == true}"
+          [options]="equipos"
+          [showClear]="true"
+          placeholder="Selecciona Equipos"
+          formControlName="Equipos">
+        </p-dropdown>
+      </div>
+
+      <div class="field col-12 md:col-4">
+        <span class="p-float-label">
+		    <p-calendar
+                [ngClass]="{'ng-invalid ng-dirty': formServicios.get('Fecha_atencion')?.errors != null && formServicios.get('Fecha_atencion')?.touched == true}"
+                [showIcon]="true"
+                [minDate]="today"
+                dateFormat="yy-mm-dd"
+                formControlName="Fecha_atencion">
+            </p-calendar>
+			<label for="inputdate">Fecha de Atencion</label>
+		</span>
+      </div>
+
+      <div class="field col-12 md:col-4">
+        <p-dropdown
+        [ngClass]="{'ng-invalid ng-dirty': formServicios.get('Horario')?.errors != null && formServicios.get('Horario')?.touched == true}"
+          [options]="horarios"
+          [showClear]="true"
+          placeholder="Selecciona horario"
+          formControlName="Horario">
+        </p-dropdown>
+      </div>
+
+      <div class="field col-12 md:col-4">
+        <p-dropdown
+        [ngClass]="{'ng-invalid ng-dirty': formServicios.get('Zona')?.errors != null && formServicios.get('Zona')?.touched == true}"
+          [options]="zonas"
+          [showClear]="true"
+          placeholder="Selecciona Zona de Reparacion"
+          formControlName="Zona">
+        </p-dropdown>
+      </div>
+     
+
+    </div>
+        <!-- BOTON DE VALICACION DE DATOS -->
+
+      <!-- BOTON DE EJECUCION -->
+      <div class="row">
+
+        <div class="grid flex justify-content-center">
+          <div class="col-4" align="center">
+            
+            <button
+              (click)="verify()"
+              pButton
+              label="Enviar"
+              style="width:auto;"></button>
+          </div>
+        </div>
+      </div>
+  
+  </p-panel>
+  <br>
+
+</div>
+
+<p-dialog
+  [closable]="closeModal"
+  header="Guardar"
+  [(visible)]="display"
+  [modal]="true"
+  showEffect="fade"
+  [style]="{width: '30vw'}"
+  [breakpoints]="{'960px': '75vw'}">
+  <p class="line-height-3 m-0">
+        Los datos a guardar son los siguientes:
+    </p>
+
+  <ul>
+    <li>Tipo de Servicio: <strong>{{formServicios.value.Tipo_Servicio}}</strong></li>
+    <li>Cuenta: <strong>{{formServicios.value.Cuenta}}</strong></li>
+    <li>Tipo Cuenta: <strong>{{formServicios.value.Tipo_Cuenta}}</strong></li>
+    <li>Nombre Contacto: <strong>{{formServicios.value.Nombre}}</strong></li>
+    <li>Tipo Falla: <strong>{{formServicios.value.Tipo_falla}}</strong></li>
+    <li>Equipos: <strong>{{formServicios.value.Equipos}}</strong></li>
+    <li>Fecha Atencion: <strong>{{dateFormat(formServicios.value.Fecha_atencion)}}</strong></li>
+    <li>Horario: <strong>{{formServicios.value.Horario}}</strong></li>
+    <li>Zona Reparacion:<strong>{{formServicios.value.Zona}}</strong></li>
+
+  </ul>
+  <ng-template pTemplate="footer">
+
+    <loading-button
+      label="Guardar"
+      labelLoad="Guardando"
+      [loading]="enviando"
+      (click)="sendData()"></loading-button>
+
+  </ng-template>
+</p-dialog>
+
+<p-toast
+  [baseZIndex]="99999"
+  key="tst"></p-toast>
+
+  <div class="row">
+    <div class="cols">
+      <div class="card">
+        <p-table #dt1 [value]="serviciosDia" dataKey="id" [loading]="loading" [rows]="50" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
+            styleClass="p-datatable-gridlines" [paginator]="true"
+            [globalFilterFields]="['cuenta','pais','equipos','nombre','tipo_falla','horario','fecha_atencion','tipo_Cuenta','tipo_Servicio','fechaCaptura','fechaCompletado','status','zona']" responsiveLayout="scroll">
+            <ng-template pTemplate="caption">
+                <div class="flex justify-content-between flex-column sm:flex-row">
+
+                    <span class="p-input-icon-left mb-2">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Buscar"
+                            class="w-full" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Cuenta
+
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            País
+
+                        </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          Equipos
+                      </div>
+                    </th>
+                    <th>
+                      <div style="width: 150px;" class="flex justify-content-between align-items-center">
+                          Nombre
+                      </div>
+                    </th>
+                    <th>
+                        <div style="width: 150px;" class="flex justify-content-between align-items-center">
+                            Tipo de falla
+                        </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          Horario
+                      </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          Fecha de Atención
+                      </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          Tipo de Cuenta
+                      </div>
+                    </th>
+                    <th>
+                      <div style="width: 150px;" class="flex justify-content-between align-items-center">
+                          Tipo de Servicio
+                      </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          Fecha de Captura
+                      </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          Fecha Completado
+                      </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          Estatus
+                      </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          Zona
+                      </div>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr>
+                    <td>
+                      {{item.cuenta}}
+                    </td>
+                    <td>
+                        {{item.pais}}
+                    </td>
+                    <td>
+                        {{item.equipos}}
+                    </td>
+                    <td>
+                       {{item.nombre}}
+                    </td>
+                    <td>
+                      {{item.tipo_falla}}
+                    </td>
+                    <td>
+                      {{item.horario}}
+                    </td>
+                    <td>
+                      {{item.fecha_atencion}}
+                    </td>
+                    <td>
+                      {{item.tipo_Cuenta}}
+                    </td>
+                    <td>
+                      {{item.tipo_Servicio}}
+                    </td>
+                    <td>
+                      {{item.fechaCaptura}}
+                    </td>
+                    <td>
+                      {{item.fechaCompletado}}
+                    </td>
+                    <td>
+                      {{item.status}}
+                    </td>
+                    <td>
+                      {{item.zona}}
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">Sin Datos para Mostrar.</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="loadingbody">
+                <tr>
+                    <td colspan="7">Cargando Datos, espere...</td>
+                </tr>
+
+            </ng-template>
+            <ng-template pTemplate="paginatorleft" let-state>
+                Mostrando {{(state.page  * state.rows) + 1}} a {{state.rows * (state.page + 1)}} de {{state.totalRecords}} registros.
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+
+
+  

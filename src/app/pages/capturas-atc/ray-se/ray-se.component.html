@@ -1,0 +1,204 @@
+<div class="text-900 font-bold text-2xl mb-4 text-center">Formulario de RA y SE Post Pago y Pre pago</div>
+
+<div
+  [formGroup]="formPostPago"
+  class="card">
+
+  <p-panel
+    [toggleable]="mostrandoResultados"
+    header="Datos de RA Y SE PostPago Prepago"
+    class="line-height-12 m-0">
+    <!-- INICIO DE INPUTS -->
+    <h5>Tipo de Proceso</h5>
+    <div class="p-fluid p-formgrid grid">
+      <div class="col-12 md:col-12">
+        <div class="field-radiobutton" >
+          <p-radioButton
+            [value]="'Reenvio de Señal'"
+            [ngClass]="{'ng-invalid ng-dirty': formPostPago.get('Proceso')?.errors != null && formPostPago.get('Proceso')?.touched == true}"
+            formControlName="Proceso"
+            >
+          </p-radioButton>
+          <label>Reenvió de Señal</label>
+        </div>
+        <div class="field-radiobutton">
+          <p-radioButton
+            [value]="'Reautorizacion de Tarjeta'"
+            [ngClass]="{'ng-invalid ng-dirty': formPostPago.get('Proceso')?.errors != null && formPostPago.get('Proceso')?.touched == true}"
+            formControlName="Proceso"
+            >
+          </p-radioButton>
+          <label>Reautorización de Tarjeta</label>
+        </div>
+      </div>
+      <div class="field col-12 md:col-6">
+        <span class="p-float-label">
+            <input
+                type="text"
+                [ngClass]="{'ng-invalid ng-dirty': formPostPago.get('cuenta')?.errors != null && formPostPago.get('cuenta')?.touched == true}"
+                pInputText
+                formControlName="cuenta"
+                onlyNumbers>
+            <label>Número de cuenta</label>
+		</span>
+      </div>
+      <div class="field col-12 md:col-6">
+        <p-dropdown
+          [options]="Pais"
+          [showClear]="true"
+          [ngClass]="{'ng-invalid ng-dirty': formPostPago.get('pais')?.errors != null && formPostPago.get('pais')?.touched == true}"
+          placeholder="Seleccione un país"
+          formControlName="pais">
+        </p-dropdown>
+      </div>
+
+
+
+      <div class="field col-12 md:col-6">
+        <p-dropdown
+          [options]="motivos"
+          [showClear]="true"
+          placeholder="Motivo"
+          [ngClass]="{'ng-invalid ng-dirty': formPostPago.get('motivo')?.errors != null && formPostPago.get('motivo')?.touched == true}"
+          formControlName="motivo">
+        </p-dropdown>
+      </div>
+      <!-- <div class="field col-12 md:col-6">
+        <p-dropdown
+          [options]="tipoProc"
+          [showClear]="true"
+          placeholder="Tipo de Proceso"
+          [ngClass]="{'ng-invalid ng-dirty': formPostPago.get('Proceso')?.errors != null && formPostPago.get('Proceso')?.touched == true}"
+          formControlName="Proceso">
+        </p-dropdown>
+      </div> -->
+
+    </div>
+    <!-- BOTON DE EJECUCION -->
+    <div class="col lg:col-12">
+
+      <div class="grid flex justify-content-center">
+        <div class="col-4 text-center">
+          
+          <button
+            (click)="verify()"
+            pButton
+            label="Enviar"
+            style="width:auto;"></button>
+        </div>
+      </div>
+    </div>
+  </p-panel>
+  <br>
+
+</div>
+
+<p-dialog
+  [closable]="closeModal"
+  header="Guardar Cancelación"
+  [(visible)]="display"
+  [modal]="true"
+  showEffect="fade"
+  [style]="{width: '30vw'}"
+  [breakpoints]="{'960px': '75vw'}">
+  <p class="line-height-3 m-0">
+        Los datos a guardar son los siguientes:
+    </p>
+
+  <ul>
+      <li>Cuenta: <strong>{{formPostPago.value.cuenta}}</strong></li>
+      <li>País: <strong>{{formPostPago.value.pais}}</strong></li>
+      <li>Motivo: <strong>{{formPostPago.value.motivo}}</strong></li>
+      <li>Tipo de Proceso: <strong>{{formPostPago.value.Proceso }}</strong></li>
+  </ul>
+  <ng-template pTemplate="footer">
+
+    <loading-button
+      label="Guardar"
+      labelLoad="Guardando"
+      [loading]="enviando"
+      (click)="sendData()"></loading-button>
+
+  </ng-template>
+</p-dialog>
+
+<p-toast
+  [baseZIndex]="99999"
+  key="tst"></p-toast>
+
+  <div class="row">
+    <div class="cols">
+      <div class="card">
+        <p-table #dt1 [value]="PostPagoDia" dataKey="id" [loading]="loading" [rows]="50" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
+            styleClass="p-datatable-gridlines" [paginator]="true"
+            [globalFilterFields]="['cuenta','pais','motivo','status']" responsiveLayout="scroll">
+            <ng-template pTemplate="caption">
+                <div class="flex justify-content-between flex-column sm:flex-row">
+
+                    <span class="p-input-icon-left mb-2">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Buscar"
+                            class="w-full" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Cuenta
+
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            País
+
+                        </div>
+                    </th>
+                    <th>
+                        <div style="width: 150px;" class="flex justify-content-between align-items-center">
+                            Motivo
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Estatus
+                        </div>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr>
+                    <td>
+                      {{item.cuenta}}
+                    </td>
+                    <td>
+                        {{item.pais}}
+                    </td>
+                    <td>
+                        {{item.motivo}}
+                    </td>
+                    <td>
+                       {{item.status}}
+                    </td>    
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">Sin Datos para Mostrar.</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="loadingbody">
+                <tr>
+                    <td colspan="7">Cargando Datos, espere...</td>
+                </tr>
+
+            </ng-template>
+            <ng-template pTemplate="paginatorleft" let-state>
+                Mostrando {{(state.page  * state.rows) + 1}} a {{state.rows * (state.page + 1)}} de {{state.totalRecords}} registros.
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>

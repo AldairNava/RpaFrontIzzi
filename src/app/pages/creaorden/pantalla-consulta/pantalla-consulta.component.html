@@ -1,0 +1,186 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card" style="margin-left: -1rem;margin-right: -1rem;">
+            <p-panel header="Estadísticas bases Creación de Ordenes" class="line-height-12 m-0" >
+        
+                <div class="p-grid p-dir-col p-nogutter">
+                    <div class="p-col">
+                        <p-table [value]="stats"  [scrollable]="true" [scrollHeight]="'auto'" [responsive]="true" class="flex align-items-center justify-content-center centered-table p-datatable-responsive" >
+                            <ng-template pTemplate="header" >
+                                <tr >
+                                    <th style="background-color: #FF671F; color: white;">Pendientes</th>
+                                    <th style="background-color: #FF671F; color: white;">Procesando</th>
+                                    <th style="background-color: #FF671F; color: white;">Error</th>
+                                    <th style="background-color: #FF671F; color: white;">Completadas</th>
+                                    <th style="background-color: #FF671F; color: white;">Total</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-product>
+                                <tr>
+                                    <td style="justify-content: center;">{{ product.pendientes }}</td>
+                                    <td style="justify-content: center;">{{ product.procesando }}</td>
+                                    <td style="justify-content: center;">{{ product.error }}</td>
+                                    <td style="justify-content: center;">{{ product.completado }}</td>
+                                    <td style="justify-content: center;">{{ product.total }}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+        
+                    </div>
+                  </div>
+        
+            </p-panel>
+        </div>
+        
+    </div>
+</div>
+<div class="row" >
+    <div class="cols">
+      <div class="card">
+        <p-table #dt1 [value]="showtable" dataKey="Caso de negocio" [rows]="50" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
+            styleClass="p-datatable-gridlines" [paginator]="true"
+            responsiveLayout="scroll" [globalFilterFields]="['cuenta','casoNegocio','categoria','estado','motivos']">
+            <ng-template pTemplate="caption">
+                <div class="flex justify-content-between flex-column sm:flex-row">
+
+                    <span class="p-input-icon-left mb-2">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Buscar"
+                            class="w-full" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Cuenta
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Caso de Negocio
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Categoria
+
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Estado
+
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Fecha de Apertura
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Medio de Contacto
+                        </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          Motivo del Cliente
+                      </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          Motivos
+                      </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Solución
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Submotivo
+                        </div>
+                    </th>  
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Estatus
+                        </div>
+                    </th>  
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Fecha Completado
+                        </div>
+                    </th> 
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Estatus Orden
+                        </div>
+                    </th>   
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr>
+                    <td>
+                        {{item.cuenta}}
+                    </td>
+                    <td>
+                        {{item.casoNegocio}}
+                    </td>
+                    <td>
+                      {{item.categoria}}
+                    </td>
+                    <td>
+                        {{item.estado}}
+                    </td>
+                    <td>
+                        {{ dateFormat(item.fechaApertura) }}
+                    </td>
+                    <td>
+                       {{item.mediosContacto}}
+                    </td>
+                    <td>
+                      {{item.motivoCliente}}
+                    </td>
+                    <td>
+                      {{item.motivos}}
+                    </td>
+                    <td>
+                      {{item.solucion}}
+                    </td>
+                    <td>
+                        {{item.submotivo}}
+                    </td>
+                    <td>
+                        {{item.status}}
+                    </td>
+                    <td>
+                          {{dateFormat(item.fechaCompletado)}}
+                    </td>
+                    <td>
+                        {{item.estatusOrden}}
+                  </td>       
+    
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">Sin Datos para Mostrar.</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="loadingbody">
+                <tr>
+                    <td colspan="7">Cargando Datos, espere...</td>
+                </tr>
+
+            </ng-template>
+            <ng-template pTemplate="paginatorleft" let-state>
+                Mostrando {{(state.page  * state.rows) + 1}} a {{state.rows * (state.page + 1)}} de {{state.totalRecords}} registros.
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+  <br><br>

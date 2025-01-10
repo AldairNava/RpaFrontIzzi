@@ -1,0 +1,101 @@
+<div class="component__content">
+
+    <app-breadcrumb [pageTitle]="'Programar'"></app-breadcrumb>
+
+    <h1 style="color: #FFF">EN DESARROLLO, POR FAVOR NO UTILIZAR</h1>
+    <h1 style="color: #FFF">EN DESARROLLO, POR FAVOR NO UTILIZAR</h1>
+    <h1 style="color: #FFF">EN DESARROLLO, POR FAVOR NO UTILIZAR</h1>
+
+    <div class="principal">
+        <form class="form" [formGroup]="formCron">
+            <div class="inputs">
+                <div class="input">
+                    <label style="font-weight: bold;" [style]=" mode ? 'color: #FFF;' : 'color: #000' "> Hora:</label> <br>
+                    <p-dropdown formControlName="hora" [style]="{'width':'220px', 'margin-top': '6px'}" [options]="horas"  optionLabel="value" placeholder="Hora" (ngModelChange)="seleccionando()"></p-dropdown>
+                </div>
+    
+                <div class="input">
+                    <label style="font-weight: bold;" [style]=" mode ? 'color: #FFF;' : 'color: #000' "> Minutos:</label> <br>
+                    <p-dropdown formControlName="minutos" [style]="{'width':'220px', 'margin-top': '6px'}" [options]="minutos"  optionLabel="value" placeholder="Minutos" (ngModelChange)="seleccionando()"></p-dropdown>
+                </div>
+    
+                <div class="input">
+                    <label style="font-weight: bold;" [style]=" mode ? 'color: #FFF;' : 'color: #000' "> Dia:</label> <br>
+                    <p-multiSelect formControlName="dias" [style]="{'width':'220px', 'margin-top': '6px'}" [options]="dias"  optionLabel="name" placeholder="Dia(s)" (ngModelChange)="seleccionando()"></p-multiSelect>
+                </div>        
+                
+
+                <div class="input">
+                    <label style="font-weight: bold;" [style]=" mode ? 'color: #FFF;' : 'color: #000' "> Servicio:</label> <br>
+                    <input formControlName="servicio" pInputText type="number" [style]="{'width':'220px', 'margin-top': '6px'}" placeholder="Servicios" (ngModelChange)="seleccionando()">
+                </div>               
+                
+                <div class="input">
+                    <label style="font-weight: bold;" [style]=" mode ? 'color: #FFF;' : 'color: #000' "> Soporte:</label> <br>
+                    <input formControlName="soporte" pInputText  type="number" [style]="{'width':'220px', 'margin-top': '6px'}" placeholder="Soporte" (ngModelChange)="seleccionando()">
+                </div>
+    
+                <div class="input">
+                    <label style="font-weight: bold;" [style]=" mode ? 'color: #FFF;' : 'color: #000' "> Retenciones:</label> <br>
+                    <input formControlName="retenciones" type="number" pInputText [style]="{'width':'220px', 'margin-top': '6px'}" placeholder="Retencione" (ngModelChange)="seleccionando()">
+                </div>    
+            </div>
+    
+            <div class="inputs ">
+                <div class="programar__btn">
+                    <p-button  label="{{textoBtn}}" [disabled]="!habilitaProgramar" (click)="confirmarGuardar()" styleClass="p-button-rounded p-button-success"></p-button>
+                </div>
+    
+  
+            </div>
+        </form>
+
+        <p [style]=" mode ? 'color: white;' : 'color: black;' ">{{ejecucion}}</p>
+
+    
+
+        <div class="table">
+            <p-table 
+                [value]="tableData" 
+                [columns]="cols" 
+                [tableStyle]="{ 'width': '100%' }" 
+                *ngIf="isData"
+            >
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of columns" style="width: 200px;" [class]=" mode ? 'header__dark' : 'header__light' " >
+                            {{ col }}
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-data let-columns="columns" >
+                    <tr [class]=" mode ? 'td__dark' : 'td__light' " >
+                    <td style="text-align: center; padding: 40px 0px;">{{ data.id }}</td>
+                    <td style="text-align: center;" *ngIf="data.status === 'Finalizado' || data.status === 'Pendiente'">{{ data.status }}</td>
+                    <td  *ngIf="data.status != 'Finalizado' && data.status != 'Pendiente'">
+                        <p-toast></p-toast>
+                        <p-progressBar [value]="data.progreso" [style]="{ height: '20px', width: '100%' }"></p-progressBar>
+                    </td>
+                    <td style="text-align: center;">{{ data.modo_ejecucion }} </td>
+                    <td style="text-align: center;">{{ data.ultima_ejecucion }} </td>
+                    <td style="text-align: center;">
+                        <div class="tablaProgramar__btns">
+                            <p-button icon="pi pi-pencil" class="marginBtn" label="Editar" styleClass="p-button-rounded p-button-help" (onClick)="editarTarea(data)"></p-button>
+                            <p-button icon="pi pi-trash" label="Eliminar" styleClass="p-button-rounded p-button-danger" (onClick)="confirmaEliminar(data)"></p-button>
+                        </div>
+                    </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+
+            <h3 *ngIf="!isData" [style]=" mode ? 'color: #FFF;' : 'color: #000' ">
+                No hay datos para mostrar en este momento
+            </h3>
+        </div>
+
+        <div class="progress" *ngFor="let data of tableData">
+
+        </div>
+
+
+<p-toast></p-toast>
