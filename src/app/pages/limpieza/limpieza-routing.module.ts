@@ -15,8 +15,8 @@ const routes: Routes = [
 		children: [{ path: '', component: SeriesComponent }],
 	},
 	{
-		path: 'limpieza-interna',
-    data: { breadcrumb: 'Limpieza Interna' },
+		path: 'limpieza-Externa',
+    data: { breadcrumb: 'Limpieza Externa' },
 		component: LayoutComponent,
 		children: [{ path: '', component: LimpiezamasivoComponent }],
 	},

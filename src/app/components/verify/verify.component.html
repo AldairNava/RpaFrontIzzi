@@ -1,1 +1,12 @@
-<p>verify works!</p>
+<!-- verify.component.html -->
+<div *ngIf="loading" class="loading-screen">
+    <p>Cargando Verificacion Con Microsoft...</p>
+  </div>
+  <div *ngIf="!loading" class="component__content">
+    <div class="filtros" [class]="mode ? 'filtros--dark' : 'filtros--light'">
+      <div class="celda">
+        <p>Contenido de verificación</p>
+      </div>
+    </div>
+  </div>
+  

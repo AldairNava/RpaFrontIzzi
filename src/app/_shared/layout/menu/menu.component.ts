@@ -217,7 +217,7 @@ export class MenuComponent implements OnInit {
         {
         label: 'Limpieza Externa',
         icon: 'pi pi-fw pi-download',
-          routerLink: ['/limpieza/limpieza-interna'],
+          routerLink: ['/limpieza/limpieza-Externa'],
         },
       {
         label: 'Usuarios Bots',

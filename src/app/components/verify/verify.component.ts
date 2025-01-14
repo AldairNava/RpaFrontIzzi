@@ -6,7 +6,11 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './verify.component.html',
   styleUrls: ['./verify.component.scss']
 })
+// verify.component.ts
+// verify.component.ts
 export class VerifyComponent implements OnInit {
+  mode: boolean = true; // Puedes cambiar esto según tu lógica de modo
+  loading: boolean = true;
 
   constructor(private route: ActivatedRoute, private router: Router) {}
 
@@ -20,7 +24,9 @@ export class VerifyComponent implements OnInit {
           sessionStorage.setItem('user', JSON.stringify({ name: user }));
 
           // Redirigir al componente principal después de guardar el usuario
-          this.router.navigate(['/mariana']);
+          this.router.navigate(['/mariana']).then(() => {
+            this.loading = false;
+          });
         } catch (e) {
           console.error('Error al decodificar o almacenar el usuario:', e);
           window.location.href = 'https://rpabackizzi.azurewebsites.net/Loginsaml/Login';
@@ -31,7 +37,9 @@ export class VerifyComponent implements OnInit {
         if (storedUser) {
           console.log('Usuario encontrado en sessionStorage:', JSON.parse(storedUser)); // Consola de depuración
           // Redirigir directamente a mariana si el usuario ya está en sessionStorage
-          this.router.navigate(['/mariana']);
+          this.router.navigate(['/mariana']).then(() => {
+            this.loading = false;
+          });
         } else {
           window.location.href = 'https://rpabackizzi.azurewebsites.net/Loginsaml/Login';
         }
@@ -39,3 +47,4 @@ export class VerifyComponent implements OnInit {
     });
   }
 }
+
