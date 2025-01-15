@@ -10,8 +10,11 @@
         </div>
 
         <div class="celda">
-            <p-dropdown [options]="tipo" placeholder="Role" [style]="{'width':'200px'}" [(ngModel)]="tipoSeleccioando" optionLabel="name" (ngModelChange)="filtrando()"></p-dropdown>
+          <p-dropdown [options]="roles" placeholder="Rol" [style]="{'width':'200px'}" optionLabel="rol" formControlName="rol"></p-dropdown>
         </div>
+
+        <!-- <i class="pi pi-user-plus" style="font-size: 2rem"
+        pTooltip="Añadir Usuario" tooltipPosition="top"></i> -->
     </div>
 
     <div class="users">
@@ -34,31 +37,65 @@
             </tr>
           </ng-template> 
       
-          <ng-template pTemplate="body" let-audio>
+          <ng-template pTemplate="body" let-user>
             <tr [class]="mode ? 'body--dark' : 'body--light'">
               <td class="text">
-                <p>{{audio.name}}</p>
+                <p>{{user.name}}</p>
               </td>
               <td class="text">
-                <p>{{audio.rol}}</p>
+                <p>{{user.rol}}</p>
               </td>
               <td class="text">
-                <p>{{audio.email}}</p>
+                <p>{{user.email}}</p>
               </td>
               <td class="text">
-                <p>{{audio.user}}</p>
+                <p>{{user.user}}</p>
               </td>
-              <td class="text">
-                <p-dropdown 
-                    [style]="mode ? {'background-color': '#181434', 'color': '#FFF', 'text-align': 'center'} : {'background-color': '#FFF', 'color': '#000', 'text-align': 'center'}"
-                    [options]="dropdownItems" 
-                    (onChange)="onDropdownChange($event, audio)">
-                </p-dropdown>                    
+              <td class="icons">
+                <i class="pi pi-user-edit" style="font-size: 1.8rem"
+                pTooltip="Editar" tooltipPosition="top" (click)="editUserFn(user)"></i>
+
+                <i class="pi pi-trash" style="font-size: 1.8rem"
+                pTooltip="Eliminar" tooltipPosition="top" (click)="confirmaEliminaUsuario(user)"
+                ></i>                  
               </td>
             </tr>
           </ng-template>
         </p-table>
       </div>      
+</div>
+
+<div *ngIf="editUserModal" class="modal__bot">
+  <form class="modal__bot-content"[formGroup]="usuarioEditForm">
+    <div class="close__btn">
+      <div class="close" (click)="editUserModal = !editUserModal; getUsers()">
+        X
+      </div>
+    </div>
+
+    <div class="input__field">
+      <label>Usuario</label>
+      <input pInputText [readonly]="true" aria-describedby="username-help" formControlName="user" />
+    </div>
+
+    <div class="input__field">
+      <label>Correo:</label>
+      <input [readonly]="true" pInputText aria-describedby="username-help" formControlName="email"  />
+    </div>
+
+    <div class="input__field">
+      <label>Nombre:</label>
+      <input pInputText aria-describedby="username-help" formControlName="name"  />
+    </div>
+
+    <div class="input__field">
+      <label>Rol:</label>
+      <p-dropdown [options]="roles" placeholder="Rol" [style]="{'width':'200px'}" optionLabel="rol" formControlName="rol"></p-dropdown>
+    </div>
+
+    <p-button class="generando__btn" label="Guardar" (click)="guardarCAmbioUsuario()" [disabled]="this.usuarioEditForm.invalid" ></p-button>
+  </form>
+
 </div>
 
 <p-toast></p-toast>

@@ -22,6 +22,8 @@ import { ChartModule } from 'primeng/chart';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { FileUploadModule } from 'primeng/fileupload';
+
+
 const modules = [
                   ButtonModule,
                   InputTextModule,
@@ -42,7 +44,7 @@ const modules = [
                   AccordionModule,
                   ChartModule,
                   BrowserAnimationsModule,
-                  MultiSelectModule,
+                  MultiSelectModule
                 ]
 
                 

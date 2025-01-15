@@ -12,28 +12,10 @@ export const navData: INavbarData[]  = [
     {
         routerLink: 'mariana/usuarios',
         icon: 'pi pi-cloud-upload',
-        Label: 'usuarios',
+        Label: 'Usuarios',
         color: '#000',
         light: '#FFF',
-        access: ['admin'],
-
-        items: [
-            {
-                routerLink: 'usuarios/dash-usuarios',
-                icon: 'pi pi-cloud-upload',
-                Label: 'usuarios',
-                color: '#000',
-                light: '#FFF',
-                access: ['admin']
-
-            },
-            {
-                routerLink: 'usuarios/nuevo-usuario',
-                Label: 'nuevo-usuario',
-                icon: 'pi pi-cloud-upload',
-                access: ['admin']
-            }
-        ]
+        access: ['admin']
     },
     {
             routerLink: 'mariana/speech',

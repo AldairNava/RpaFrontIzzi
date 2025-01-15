@@ -8,6 +8,9 @@ import { Calendar } from 'primeng/calendar';
 import { MessageService } from 'primeng/api';
 import * as moment from 'moment';
 import { SelectItem } from 'primeng/api';
+import Swal from 'sweetalert2';
+import { FormBuilder, FormGroup, Validators  } from '@angular/forms';
+
 
 @Component({
   selector: 'dash-usuarios',
@@ -22,71 +25,125 @@ export class DashUsuariosComponent implements OnInit {
 
   constructor(private cors: CorsService, 
               private dark: DarkService, 
-              private router: Router, 
-              private route: ActivatedRoute,
+              private fb: FormBuilder,
               private messageService: MessageService
-             ) {}
+             ) {
+
+              this.usuarioEditForm = this.fb.group({
+                id_users: ['', [Validators.required]], 
+                email: ['', [Validators.required, Validators.email]], 
+                user: ['', [Validators.required, Validators.minLength(3)]], 
+                name: ['', [Validators.required, Validators.minLength(2)]], 
+                rol: [{}, Validators.required] // Campo requerido
+              });
+
+             }
   mode: boolean = false;
   usuarios: any[] = [];
   dropdownItems: SelectItem[] = [];
 
 
-  headers = ['Agente', 'Role','Correo','Usuario','Accion']
+  headers = ['Nombre', 'Rol','Correo','Usuario','Accion']
 
   // Filtros
-  tipo: any[] = [];
   tipoSeleccioando: any = {};
   agente: any = '';
   fechas: any = [];
+  roles: any[] = []
+  editUserModal: boolean = false;
+  usuarioEdit: any;
+  usuarioEditForm: FormGroup;
+
 
   ngOnInit(): void {
-    this.tipo = [
-      { name: 'Revisado', code: 1 },
-      { name: 'Sin revisar', code: 0 },
-    ];
-    this.dropdownItems = [ { label: ' ', value: '' }, { label: 'Editar', value: 'editar' }, { label: 'Eliminar', value: 'eliminar' } ];
-
-    let iduser = '';
+    this.dropdownItems = [ { label: 'Editar', value: 'editar' }, { label: 'Eliminar', value: 'eliminar' } ];
 
     this.darkModeSubscription();
-    this.getusers(iduser)
-  }
-  editar(audio: any) {
-    this.router.navigate(['/usuarios/editar', audio.id_users]);
+    this.getUsers();
+    this.getRoles();
   }
 
-  eliminar(audio: any) {
-    // Lógica para eliminar
-    console.log('Eliminar');
-  }
-
-  getusers(iduser: string) {
+  getUsers() {
     const data = {
       controlador: 'LoginController',
-      metodo: 'getUsers',
-      iduser
+      metodo: 'getUsers'
     };
     this.cors.post(data).subscribe(
       (res: any) => {
         this.usuarios = res.data;
+
+        this.usuarioEdit = res.data[0];
       },
       (err: any) => {
         console.log(err);
       }
     );
   }
-  onDropdownChange(event: any, audio: any) { 
-    if (event.value === 'editar') {
-      this.editar(audio); 
-    } 
-    else if (event.value === 'eliminar') {
-       this.eliminar(audio); 
-      } 
+
+  getRoles() {
+    const data = {
+      controlador: 'LoginController',
+      metodo: 'getRoles'
+    };
+    this.cors.post(data).subscribe(
+      (res: any) => {
+        if(res.status) {
+          this.roles = res.data;
+        }
+      },
+      (err: any) => {
+        console.log(err);
+      }
+    );
+  }
+
+  confirmaEliminaUsuario(user: any) {
+    Swal.fire({
+      title: `¿Desea eliminar al usuario: ${user.user}?`,
+      showDenyButton: true,
+      confirmButtonText: "Eliminar",
+      denyButtonText: `Cancelar`
+    }).then((result) => {
+    /* Read more about isConfirmed, isDenied below */
+    if (result.isConfirmed) {
+      this.eliminarUsuario(user.id_users);
+    }
+    });
+  }
+
+  eliminarUsuario(userId: string) {
+    const data = {
+      controlador: 'LoginController',
+      metodo: 'updateUser',
+      userId: userId, 
+      active: 0
+    };
+
+    this.cors.post(data).subscribe(
+      (res: any) => {
+        if(res.status) {
+          this.showMessage('success', 'Éxito', res.message);
+          this.getUsers()
+        }
+      },
+      (err: any) => {
+        console.log(err)
+
+      }
+    )
+  }
+
+  editUserFn(user: any) {
+    this.editUserModal = true;
+
+    const rol = this.roles.find((rol: any) => user.rol = rol.rol)
+
+    user.rol = rol;
+    this.usuarioEditForm.patchValue(user);
   }
 
 
   filtrando() {
-
     if(this.agente != '') {
       this.filtraragente();  
     }
@@ -100,16 +157,20 @@ export class DashUsuariosComponent implements OnInit {
     letras = /^[a-zA-Z\s]+$/.test(this.agente);
 
     if(numeros) {
-      this.usuarios = this.usuarios.filter((audio: any) => {
-        return audio.idagente.includes(this.agente);
+      this.usuarios = this.usuarios.filter((user: any) => {
+        return user.idagente.includes(this.agente);
       });
     }
 
     if(letras) {
-      this.usuarios = this.usuarios.filter((audio: any) => {
-        return audio.nomagente.toLowerCase().includes(this.agente.toLowerCase());
+      this.usuarios = this.usuarios.filter((user: any) => {
+        return user.nomagente.toLowerCase().includes(this.agente.toLowerCase());
       });
     }
+  }
+
+  guardarCAmbioUsuario() {
+    console.log(this.usuarioEditForm.value)
   }
 
 

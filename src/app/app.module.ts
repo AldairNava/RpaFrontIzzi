@@ -34,8 +34,8 @@ import { HttpErrorInterceptor } from '../app/services/cors/inteerseptor.servise'
 import { CorsService } from '../app/services/cors/cors.service';
 import { SpeechAnalyticsModule } from './components/speech-analytics/speech-analytics.module';
 import { DashUsuariosComponent } from './components/usuarios/dash-usuarios/dash-usuarios.component';
-import { NuevoUsuarioComponent } from './components/usuarios/nuevo-usuario/nuevo-usuario.component';
 import { VerifyComponent } from './components/verify/verify.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -50,7 +50,6 @@ import { VerifyComponent } from './components/verify/verify.component';
     NotfoundComponent,
     NotpermisosComponent,
     DashUsuariosComponent,
-    NuevoUsuarioComponent,
     VerifyComponent,
   ],
   imports: [
@@ -76,6 +75,7 @@ import { VerifyComponent } from './components/verify/verify.component';
     CargarPlantillasModule,
     PagprincipalModule,
     SpeechAnalyticsModule,
+    ReactiveFormsModule
   ],
   providers: [
     CorsService,
