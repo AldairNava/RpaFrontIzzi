@@ -75,8 +75,6 @@ export class DashUsuariosComponent implements OnInit {
         this.usuarios = res.data;
         this.originalUsuarios = res.data;
 
-        console.log(res.data)
-
         this.editUserModal = false;
       },
       (err: any) => {
