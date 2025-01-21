@@ -17,14 +17,14 @@ export const navData: INavbarData[]  = [
         light: '#FFF',
         access: ['Administrador']
     },
-    // {
-    //         routerLink: 'mariana/speech',
-    //         icon: 'pi pi-th-large',
-    //         Label: 'SpeechAnalytics',
-    //         color: '#000',
-    //         light: '#FFF',
-    //         access: ['Administrador']
-    // },
+    {
+            routerLink: 'mariana/speech',
+            icon: 'pi pi-th-large',
+            Label: 'SpeechAnalytics',
+            color: '#000',
+            light: '#FFF',
+            access: ['admin']
+    },
     {
         routerLink: 'mariana/cargar',
         icon: 'pi pi-cloud-upload',

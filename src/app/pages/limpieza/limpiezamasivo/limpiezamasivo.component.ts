@@ -27,7 +27,7 @@ button:boolean=true;
   ExcelData:any=[];
   tabla:boolean=false;
   headers:string[]=[
-    'Serie',
+    'SERIE',
     'PUNTO DE INVENTARIO'
   ];
   headers2:string[]=[
@@ -98,8 +98,9 @@ button:boolean=true;
   
     }
 
-  readExcellimpieza(event: any) {
-      let file = event.target.files[0];
+    readExcellimpieza(event: any) {
+      let fileInput = event.target;  // Guardamos la referencia del input
+      let file = fileInput.files[0];
       let ultimo = file.name.split('.');
       console.log('Inicio de la lectura del archivo:', file.name);
   
@@ -111,6 +112,7 @@ button:boolean=true;
               detail: 'Ingresa un archivo con extensión XLSX!!',
           });
           console.log('Error: La extensión del archivo es incorrecta');
+          fileInput.value = '';  // Limpiar el input de archivo
       } else if (ultimo[ultimo.length - 1] == 'xlsx') {
           let fileReader = new FileReader();
           fileReader.readAsBinaryString(file);
@@ -123,12 +125,28 @@ button:boolean=true;
   
               // Verificar que las columnas 'Serie' y 'PUNTO DE INVENTARIO' estén presentes
               let keys = Object.keys(this.ExcelData[0]);
-              if (keys.includes('Serie') && keys.includes('PUNTO DE INVENTARIO')) {
+              let columnasRequeridas = ['SERIE', 'PUNTO DE INVENTARIO'];
+              let columnasFaltantes = columnasRequeridas.filter(columna => !keys.includes(columna));
+  
+              // Si hay columnas faltantes, mostrar error y no insertar el archivo
+              if (columnasFaltantes.length > 0) {
+                  this.messageService.add({
+                      key: 'tst',
+                      severity: 'error',
+                      summary: 'Error',
+                      detail: `Columna no encontrada: ${columnasFaltantes.join(', ')}!!!`,
+                  });
+                  console.log(`Error: Columna no encontrada: ${columnasFaltantes.join(', ')}!!!`);
+                  
+                  // Limpiar los datos ya cargados
+                  this.ExcelData = [];
+                  fileInput.value = '';  // Limpiar el input de archivo
+              } else {
                   // Mostrar los datos que se van a insertar en la consola antes de procesar
                   console.log('Datos que se van a insertar:', this.ExcelData);
   
                   Object.keys(this.ExcelData).forEach(key => {
-                      this.ExcelData[key]['Serie'] = this.ExcelData[key]['Serie'] || '';
+                      this.ExcelData[key]['SERIE'] = this.ExcelData[key]['SERIE'] || '';
                       this.ExcelData[key]['PUNTO DE INVENTARIO'] = this.ExcelData[key]['PUNTO DE INVENTARIO'] || '';
                   });
   
@@ -141,18 +159,10 @@ button:boolean=true;
                   console.log('Archivo procesado correctamente');
                   this.button = false;
                   this.tabla = true;
-              } else {
-                  this.messageService.add({
-                      key: 'tst',
-                      severity: 'error',
-                      summary: 'Error',
-                      detail: 'El formato del archivo es incorrecto!!!',
-                  });
-                  console.log('Error: El formato del archivo es incorrecto');
               }
           };
       }
-  }
+  }  
   
 
   guardar(){
