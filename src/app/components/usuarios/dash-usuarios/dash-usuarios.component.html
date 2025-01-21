@@ -5,12 +5,16 @@
         <div class="celda">
             <span class="p-input-icon-left">
                 <i class="pi pi-search"></i>
-                <input placeholder="Agente" [(ngModel)]="agente" type="text" pInputText (ngModelChange)="filtrando()" />
+                <input placeholder="Agente" [(ngModel)]="agente" type="text" pInputText (ngModelChange)="filtrarAgente()" />
             </span>
         </div>
 
         <div class="celda">
-          <p-dropdown [options]="roles" placeholder="Rol" [style]="{'width':'200px'}" optionLabel="rol" formControlName="rol"></p-dropdown>
+          <p-dropdown [options]="roles" placeholder="Rol" [style]="{'width':'200px'}" optionLabel="rol" (onChange)="filtrarRol()"  [(ngModel)]="rol"></p-dropdown>
+        </div>
+
+        <div class="celda">
+          <p-button label="Limpiar" (click)="limpiarFiltros()"></p-button>
         </div>
 
         <!-- <i class="pi pi-user-plus" style="font-size: 2rem"
@@ -66,9 +70,9 @@
 </div>
 
 <div *ngIf="editUserModal" class="modal__bot">
-  <form class="modal__bot-content"[formGroup]="usuarioEditForm">
+  <form class="modal__bot-content" [formGroup]="usuarioEditForm">
     <div class="close__btn">
-      <div class="close" (click)="editUserModal = !editUserModal; getUsers()">
+      <div class="close" (click)="editUserModal = !editUserModal">
         X
       </div>
     </div>
@@ -93,7 +97,7 @@
       <p-dropdown [options]="roles" placeholder="Rol" [style]="{'width':'200px'}" optionLabel="rol" formControlName="rol"></p-dropdown>
     </div>
 
-    <p-button class="generando__btn" label="Guardar" (click)="guardarCAmbioUsuario()" [disabled]="this.usuarioEditForm.invalid" ></p-button>
+    <p-button class="generando__btn" label="Guardar" (click)="guardarCambioUsuario()" ></p-button>
   </form>
 
 </div>

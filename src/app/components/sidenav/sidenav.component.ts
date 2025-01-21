@@ -24,17 +24,30 @@ export class SidenavComponent implements OnInit {
   apellidoM: string = '';
 
   ngOnInit(): void {
+    this.getRol();
+  }
+
+  getRol() {
     const storedUser = sessionStorage.getItem('user');
+
     if (storedUser) {
       const user = JSON.parse(storedUser);
-      this.userName = user.name; // Suponiendo que el campo 'name' contiene el nombre completo del usuario
+      
+      // Parseamos el string de 'name' a un objeto
+      let usuarioObj = JSON.parse(user.name);
+
+      this.userName = usuarioObj.Name;
       this.separarNombre();
       this.darkModeSubscription();
 
-      const usuarioRol = user.rol; // Suponiendo que el campo 'rol' contiene el rol del usuario
+      const usuarioRol = usuarioObj.Role; 
+      
       if (usuarioRol) {
-        this.navData = this.navData.filter(option => option.access.includes(usuarioRol!));
+        this.navData = this.navData.filter(section => 
+          section.access.some(access => access.toLowerCase() === usuarioRol.toLowerCase())
+        );
       }
+      
     } else {
       this.router.navigate(['/403']);
     }
@@ -63,18 +76,24 @@ export class SidenavComponent implements OnInit {
   }
 
   separarNombre() {
-    const palabras = this.userName.split(' ');
-
-    this.nombre = palabras[0];
-
-    if (palabras[1]) {
-      this.apellidoP = palabras[1];
-    }
-
-    if (palabras[2]) {
-      this.apellidoM = palabras[2];
+    // Verifica si hay al menos un espacio en blanco
+    if (this.userName.includes(' ')) {
+      const palabras = this.userName.split(' ');
+  
+      this.nombre = palabras[0];
+  
+      if (palabras[1]) {
+        this.apellidoP = palabras[1];
+      }
+  
+      if (palabras[2]) {
+        this.apellidoM = palabras[2];
+      }
+    } else {
+      this.nombre = this.userName;
     }
   }
+  
 
   logout() {
     const idpLogoutUrl = 'https://login.microsoftonline.com/3ad84793-7b5f-4519-84ce-96790471f26a/oauth2/v2.0/logout?post_logout_redirect_uri=https://frontrpaizzi.azurewebsites.net/CyberIdeas-Proyects';

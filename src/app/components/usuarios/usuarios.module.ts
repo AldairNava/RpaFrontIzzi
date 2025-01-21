@@ -20,7 +20,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     FormsModule,
     // UsuariosRoutingModule,
-    SharedModule,FormsModule, ReactiveFormsModule,
+    SharedModule,
+    FormsModule, 
+    ReactiveFormsModule,
     PrimengModule,
     MenuModule,  // Agrega MenuModule aquí
     ButtonModule,  // Agrega ButtonModule aquí

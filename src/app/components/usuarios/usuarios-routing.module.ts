@@ -3,8 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashUsuariosComponent } from './dash-usuarios/dash-usuarios.component';
 
 
-
-
 const routes: Routes = [
   {
     path: '',

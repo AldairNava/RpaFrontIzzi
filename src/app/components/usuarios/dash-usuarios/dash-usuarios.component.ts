@@ -40,6 +40,7 @@ export class DashUsuariosComponent implements OnInit {
              }
   mode: boolean = false;
   usuarios: any[] = [];
+  originalUsuarios: any[] = [];
   dropdownItems: SelectItem[] = [];
 
 
@@ -48,6 +49,7 @@ export class DashUsuariosComponent implements OnInit {
   // Filtros
   tipoSeleccioando: any = {};
   agente: any = '';
+  rol: any = {};
   fechas: any = [];
   roles: any[] = []
   editUserModal: boolean = false;
@@ -71,8 +73,11 @@ export class DashUsuariosComponent implements OnInit {
     this.cors.post(data).subscribe(
       (res: any) => {
         this.usuarios = res.data;
+        this.originalUsuarios = res.data;
 
-        this.usuarioEdit = res.data[0];
+        console.log(res.data)
+
+        this.editUserModal = false;
       },
       (err: any) => {
         console.log(err);
@@ -114,7 +119,7 @@ export class DashUsuariosComponent implements OnInit {
   eliminarUsuario(userId: string) {
     const data = {
       controlador: 'LoginController',
-      metodo: 'updateUser',
+      metodo: 'deleteUser',
       userId: userId, 
       active: 0
     };
@@ -123,7 +128,7 @@ export class DashUsuariosComponent implements OnInit {
       (res: any) => {
         if(res.status) {
           this.showMessage('success', 'Éxito', res.message);
-          this.getUsers()
+          this.getUsers();
         }
       },
       (err: any) => {
@@ -136,41 +141,60 @@ export class DashUsuariosComponent implements OnInit {
   editUserFn(user: any) {
     this.editUserModal = true;
 
-    const rol = this.roles.find((rol: any) => user.rol = rol.rol)
+    // Para evitar modificar user, crear una copia profunda del objeto
+    const copiaUser = JSON.parse(JSON.stringify(user));
 
-    user.rol = rol;
-    this.usuarioEditForm.patchValue(user);
+    copiaUser.rol = this.roles.find((rol: any) => user.rol === rol.rol)
+
+    this.usuarioEditForm.patchValue(copiaUser);
   }
 
 
-  filtrando() {
-    if(this.agente != '') {
-      this.filtraragente();  
-    }
+  filtrarRol() {
+    this.usuarios = this.originalUsuarios.filter((usuario: any) => usuario.rol === this.rol.rol)
   }
 
-  filtraragente() {
-    let numeros: boolean = false;
-    let letras: boolean = false;
-
-    numeros = /\d/.test(this.agente);
-    letras = /^[a-zA-Z\s]+$/.test(this.agente);
-
-    if(numeros) {
-      this.usuarios = this.usuarios.filter((user: any) => {
-        return user.idagente.includes(this.agente);
-      });
-    }
-
-    if(letras) {
-      this.usuarios = this.usuarios.filter((user: any) => {
-        return user.nomagente.toLowerCase().includes(this.agente.toLowerCase());
-      });
-    }
+  filtrarAgente() {
+    this.usuarios = this.originalUsuarios.filter(
+      (usuario: any) =>
+        (usuario.name && usuario.name.toLowerCase().includes(this.agente.toLowerCase())) ||
+        (usuario.email && usuario.email.toLowerCase().includes(this.agente.toLowerCase())) ||
+        (usuario.user && usuario.user.toLowerCase().includes(this.agente.toLowerCase()))
+    );
   }
 
-  guardarCAmbioUsuario() {
-    console.log(this.usuarioEditForm.value)
+  limpiarFiltros() {
+    this.agente = '';
+    this.rol = {};
+
+    this.usuarios = this.originalUsuarios;
+  }
+  
+  
+
+  guardarCambioUsuario() {
+    const data = {
+      controlador: 'LoginController',
+      metodo: 'updateUser',
+      data: this.usuarioEditForm.value
+    };
+
+    this.cors.post(data).subscribe(
+      (res: any) => {
+        if(res.status) {
+          this.showMessage('success', 'Éxito', res.message);
+          this.getUsers();
+          this.editUserModal = false;
+        }
+
+        if(res.status === 'info') {
+          this.showMessage('success', 'Éxito', res.message);
+        }
+      },
+      (err: any) => {
+        this.showMessage('error', 'Error', err.message);
+      }
+    )
   }
 
 

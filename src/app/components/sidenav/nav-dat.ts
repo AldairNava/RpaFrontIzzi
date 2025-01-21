@@ -7,31 +7,31 @@ export const navData: INavbarData[]  = [
         Label: 'Dashboard',
         color: '#000',
         light: '#FFF',
-        access: ['admin']
+        access: ['Administrador', 'Supervisor']
     },
     {
         routerLink: 'mariana/usuarios',
-        icon: 'pi pi-cloud-upload',
+        icon: 'pi pi-user',
         Label: 'Usuarios',
         color: '#000',
         light: '#FFF',
-        access: ['admin']
+        access: ['Administrador']
     },
-    {
-            routerLink: 'mariana/speech',
-            icon: 'pi pi-th-large',
-            Label: 'SpeechAnalytics',
-            color: '#000',
-            light: '#FFF',
-            access: ['admin']
-    },
+    // {
+    //         routerLink: 'mariana/speech',
+    //         icon: 'pi pi-th-large',
+    //         Label: 'SpeechAnalytics',
+    //         color: '#000',
+    //         light: '#FFF',
+    //         access: ['Administrador']
+    // },
     {
         routerLink: 'mariana/cargar',
         icon: 'pi pi-cloud-upload',
         Label: 'Cargar Audios',
         color: '#000',
         light: '#FFF',
-        access: ['admin'],
+        access: ['Administrador', 'Supervisor', 'General'],
 
         items: [
             {
@@ -40,14 +40,14 @@ export const navData: INavbarData[]  = [
                 Label: 'Masiva',
                 color: '#000',
                 light: '#FFF',
-                access: ['admin']
+                access: []
 
             },
             {
                 routerLink: 'cargar/individual',
                 Label: 'Individual',
                 icon: 'pi pi-cloud-upload',
-                access: ['admin']
+                access: []
 
 
             }
@@ -59,16 +59,16 @@ export const navData: INavbarData[]  = [
         Label: 'Analizar Audios',
         color: '#000',
         light: '#FFF',
-        access: ['admin']
+        access: ['Administrador', 'Supervisor', 'General', 'Analista']
 
     },
     {
-        icon: 'pi pi-user-edit',
+        icon: 'pi pi-users',
         Label: 'Cargar Plantilla',
         color: '#000',
         routerLink: 'mariana/cargar-plantilla',
         light: '#FFF',
-        access: ['admin']
+        access: ['Administrador', 'Supervisor']
 
     },
     {
@@ -77,7 +77,7 @@ export const navData: INavbarData[]  = [
         color: '#000',
         routerLink: 'mariana/generar',
         light: '#FFF',
-        access: ['admin']
+        access: ['Administrador', 'Supervisor']
 
     },
     {
@@ -86,7 +86,7 @@ export const navData: INavbarData[]  = [
         Label: 'Asignación Audios',
         color: '#000',
         light: '#FFF',
-        access: ['analista','admin']
+        access: ['analista','Administrador']
 
     },
     {
@@ -95,7 +95,7 @@ export const navData: INavbarData[]  = [
         Label: 'Parámetros',
         color: '#000',
         light: '#FFF',
-        access: ['admin'],
+        access: ['Administrador'],
         items: [
             {
                 routerLink: 'parametros',
@@ -103,14 +103,14 @@ export const navData: INavbarData[]  = [
                 Label: 'Guías de calidad',
                 color: '#000',
                 light: '#FFF',
-                access: ['admin']
+                access: ['Administrador']
 
             },
             {
                 routerLink: 'subcategorias',
                 Label: 'Subcategorías',
                 icon: 'pi pi-pencil',
-                access: ['admin']
+                access: ['Administrador']
                 
             }
         ]
@@ -121,6 +121,6 @@ export const navData: INavbarData[]  = [
         Label: 'Programar',
         color: '#000',
         light: '#FFF',
-        access: ['admin']
+        access: ['Administrador']
     },
 ]
