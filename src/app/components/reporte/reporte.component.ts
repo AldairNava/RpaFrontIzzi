@@ -110,7 +110,9 @@ export class ReporteComponent implements OnInit {
       owner: this.userName,
       ini: fechaIni,
       fin: fechaFin,
-      tipo: this.tipoSelected.name.toLowerCase()
+      tipo: this.tipoSelected.name.toLowerCase(),
+      controlador: 'ReportesDinamicoController',
+      metodo: 'validaLlamarReporte'
     }
 
     this.generateVentas(data);
