@@ -39,7 +39,7 @@ export class ReporteComponent implements OnInit {
 
   resporteListo: boolean = false;
 
-  owner: string = 'Izzi';
+  owner: string = 'izzi';
 
   base64Data: any;
 
@@ -107,7 +107,7 @@ export class ReporteComponent implements OnInit {
     this.generando = true;
 
     const data = {
-      owner: this.userName,
+      owner: 'izzi',
       ini: fechaIni,
       fin: fechaFin,
       tipo: this.tipoSelected.name.toLowerCase(),
