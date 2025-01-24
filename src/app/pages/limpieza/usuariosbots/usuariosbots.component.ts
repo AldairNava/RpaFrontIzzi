@@ -72,14 +72,21 @@ selectedUser: any; // Aquí se almacenará el usuario seleccionado
   }
 
   openUserSelectionDialog() {
-    this.buscaBots(); // Aquí cargas la lista de usuarios desde tu función
+    this.buscaBots();
     this.displayUserSelectionDialog = true;
   }
 
-  onUserSelected() {
-    this.displayUserSelectionDialog = false;
-    this.router.navigate([`/limpieza/usuariosbots/editar/${this.opcionToAction.botId}`]);
-  }
+  onUserSelectedFromButton() {
+    if (this.selectedUser) {
+        this.displayUserSelectionDialog = false;
+        this.router.navigate([`/limpieza/usuariosbots/editar/${this.selectedUser.id}`]); // Usa el id del selectedUser
+    } else {
+        this.showToastError('No se ha seleccionado ningún usuario');
+    }
+}
+
+
+
 
   enviarCorreo(dias: number, usuario: string, proceso: string) {
     const correos = ['bnava@cyberideas.com.mx', 'egarcia@cyberideas.com.mx'];
@@ -120,9 +127,8 @@ selectedUser: any; // Aquí se almacenará el usuario seleccionado
       return result
     }
   }
-  selection(item: any, index: any) {
+  selection(item: any) {
     this.opcionToAction = item;
-    this.opcionIndex = index;
   }
 
   ngOnInit() {
@@ -264,10 +270,10 @@ selectedUser: any; // Aquí se almacenará el usuario seleccionado
       }else{
         this.dataSource = response;
         for (let bot of this.dataSource) {
-          let dias = this.getDays(bot.procesoFechaActualizacion);
+          let dias = this.getDays(bot.fechaActualizacion);
           if (typeof dias === 'number') {
             if (dias <= 5) {
-              this.enviarCorreo(dias, bot.ProcesoUser, bot.ProcesoName);
+              // this.enviarCorreo(dias, bot.ProcesoUser, bot.ProcesoName);
             }
           } else {
             console.log('dias no es un número:', dias);
@@ -301,7 +307,7 @@ selectedUser: any; // Aquí se almacenará el usuario seleccionado
     this.service.add({ key: 'tst', severity: 'success', summary: 'Correcto!!', detail: mensaje, });
   }
   showToastError(mensaje: any) {
-    this.service.add({ key: 'tst', severity: 'error', summary: 'Correcto!!', detail: mensaje, });
+    this.service.add({ key: 'tst', severity: 'error', summary: 'Error', detail: mensaje, });
   }
   
   getProcessText(process: any) {
@@ -334,28 +340,29 @@ selectedUser: any; // Aquí se almacenará el usuario seleccionado
     })
   }
 
-  obtenerProcesos(){
-      this.cors.get('Bots/getCatProcesosLimpieza').then((response) => {
-        if(response[0] == 'SIN INFO'){
-          this.processArr = [];
-        }else{
-          this.processArr=[];
-          for(var b=0;b<response.length;b++){
-            if(response[b].status == "1"){
-              let bb = {
-                id:response[b].id,
-                name_process:response[b].name_process
-              }
-              this.processArr.push(bb)
+  obtenerProcesos() {
+    this.cors.get('Bots/getCatProcesosLimpieza').then((response) => {
+        if(response[0] == 'SIN INFO') {
+            this.processArr = [];
+        } else {
+            this.processArr = [];
+            for(var b = 0; b < response.length; b++) {
+                if(response[b].status == "1") {
+                    let bb = {
+                        id: response[b].id,
+                        name_process: response[b].name_process,
+                        name_usuario: response[b].name_usuario  // Incluyendo name_usuario
+                    }
+                    this.processArr.push(bb);
+                }
             }
-          }
-          this.validacionProceso();
+            this.validacionProceso();
         }
-      }).catch((error) => {
+    }).catch((error) => {
         console.log(error);
-        this.showToastError(`No se logro traer la lista de procesos`)
-      })
-  }
+        this.showToastError(`No se logró traer la lista de procesos`);
+    });
+}
 
   obtenerBotsEstados(){
     this.cors.get('Bots/getBotsEstadoLimpieza').then((response) => {

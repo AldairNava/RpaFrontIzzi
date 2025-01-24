@@ -57,18 +57,18 @@
             <ng-template pTemplate="body" let-item let-i="rowIndex">
                 <tr *ngIf="i === 0">
                     <td>
-                        {{item.botHostName}}
+                        {{item.hostName}}
                     </td>
                     <td>
                        <strong *ngIf="getDays(item.procesoFechaActualizacion) <= 5" style="color:red">  {{getDays(item.procesoFechaActualizacion)}}</strong> <strong *ngIf="getDays(item.procesoFechaActualizacion) > 5">{{getDays(item.procesoFechaActualizacion)}}</strong> dias
                     </td>
                     <td>
-                        {{ item.botIp }}
+                        {{ item.ip }}
                      </td> 
                     <td>
                         <p-dropdown optionLabel="name_process" optionValue="id" appendTo="body" [options]="processArr1"
                             [disabled]="item.sendingComand == true || item.sendingProcess ==true"
-                            [(ngModel)]="item.procesoId" [showClear]="false" placeholder="Seleccione un processo"
+                            [(ngModel)]="item.procesoBotId" [showClear]="false" placeholder="Seleccione un processo"
                             (onChange)="preguntarCambiarProceso($event.value,item)">
                         </p-dropdown>
                         <p-progressSpinner [style]="{width: '30px', height: '30px'}" *ngIf="item.sendingProcess">
@@ -92,7 +92,7 @@
                     </td>
                     <td>
                         <p-splitButton label="Acciones" [model]="items" styleClass="p-button-text mr-2 mb-2"
-                          appendTo="body" (onDropdownClick)="selection(item,i)"></p-splitButton>
+                          appendTo="body" (onDropdownClick)="selection(item)"></p-splitButton>
                       </td>
                       
 
@@ -119,18 +119,18 @@
         rejectButtonStyleClass="p-button-text"></p-confirmDialog>
 
         <p-dialog header="Seleccionar usuario a editar" [(visible)]="displayUserSelectionDialog" [modal]="true" [style]="{width: '50vw'}">
-            <p-listbox [options]="dataSource" [(ngModel)]="selectedUser" optionLabel="botHostName" style="width:100%" (dblclick)="onUserSelected()">
-              <ng-template let-user pTemplate="item">
-                <div class="p-clearfix">
-                  <div style="font-size:1em;float:right;margin-top:15px">{{user.procesonombreuser}}</div>
-                </div>
-              </ng-template>
+            <p-listbox [options]="processArr" [(ngModel)]="selectedUser" optionLabel="name_usuario" style="width:100%">
+                <ng-template let-user pTemplate="item">
+                    <div class="p-clearfix">
+                        <div style="font-size:1em;float:right;margin-top:15px">{{user.name_usuario}}</div>
+                    </div>
+                </ng-template>
             </p-listbox>
             <p-footer>
-              <button type="button" pButton icon="pi pi-check" (click)="onUserSelected()" label="Seleccionar"></button>
+                <button type="button" pButton icon="pi pi-check" (click)="onUserSelectedFromButton()" label="Seleccionar"></button>
             </p-footer>
-          </p-dialog>
-
+        </p-dialog>
+                
     <p-confirmDialog header="Cambiar proceso" key="changeProcess" icon="pi pi-exclamation-triangle"
         acceptLabel="Si, Cambiar" rejectLabel="Cancelar" [style]="{width: '350px'}"
         acceptButtonStyleClass="p-button-text" rejectButtonStyleClass="p-button-text"></p-confirmDialog>

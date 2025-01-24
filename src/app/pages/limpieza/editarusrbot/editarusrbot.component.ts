@@ -29,7 +29,6 @@ export class EditarusrbotComponent implements OnInit {
       hostName: [null, Validators.required],
       ip: [null, [Validators.required, Validators.pattern('(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)')]],
       procesoId: [null],
-      comentarios: [null, Validators.required],
       usuarioBot: [null, Validators.required],
       passwordBot: [null, Validators.required],
       // id: [null, Validators.required],
@@ -38,16 +37,15 @@ export class EditarusrbotComponent implements OnInit {
     this.routeSub = this.route.params.subscribe((params: any) => {
       // console.log(params);
       if (params['idRobot'] != undefined) {
-        this.cors.get(`Bots/getBotByIdLimpieza/${params['idRobot']}`)
+        this.cors.get(`Bots/getProcesoById/${params['idRobot']}`)
           .then((response: any) => {
-            // console.log(response);
+            console.log(response);
             this.item=response;
             this.formNuevoBot.patchValue({
-              hostName:response.botHostName,
-              comentarios:response.botComentarios,
-              passwordBot:response.procesoPassword,
-              usuarioBot:response.procesoUser,
-              ip:response.botIp,
+              hostName:response.name_process,
+              passwordBot:response.password,
+              usuarioBot:response.name_usuario,
+              ip: "192.168.49.21",
               procesoId:response.botProcesoId
             });
 
@@ -66,23 +64,13 @@ export class EditarusrbotComponent implements OnInit {
     if (this.formNuevoBot.valid) {
         this.guardando = true;
         let a = {
-            "id": this.item.botId,
-            "comentarios": this.formNuevoBot.controls['comentarios'].value,
-            "hostName": this.formNuevoBot.controls['hostName'].value,
-            "ip": this.formNuevoBot.controls['ip'].value,
-            "fechaActualizacion": null,
-            "procesoBotId": this.formNuevoBot.controls['procesoId'].value,
-            "procesoBot": {
-                "id": this.formNuevoBot.controls['procesoId'].value,
-                "name_process": null,
-                "usuario": this.formNuevoBot.controls['usuarioBot'].value,
-                "password": this.formNuevoBot.controls['passwordBot'].value,
-                "update_At": null,
-                "status": null
-            }
+            "id": this.item.id,
+            "Name_usuario": this.formNuevoBot.controls['usuarioBot'].value,
+            "password": this.formNuevoBot.controls['passwordBot'].value,
+            "update_At": new Date().toISOString()
         };
 
-        this.cors.put(`Bots/ActualizarBotLimpieza?id=${this.item.botId}`, a)
+        this.cors.put(`Bots/ActualizarBotLimpieza?id=${this.item.id}`, a)
             .then((response) => {
                 this.showToastSuccess('Datos Guardados');
                 setTimeout(() => {
@@ -100,6 +88,8 @@ export class EditarusrbotComponent implements OnInit {
 
     this.guardando = false;
 }
+
+
   getCats() {
     this.cors.get('Bots/getCatProcesosLimpieza').then((response) => {
       // console.log(response);
@@ -130,7 +120,7 @@ export class EditarusrbotComponent implements OnInit {
     this.service.add({ key: 'tst', severity: 'success', summary: 'Correcto!!', detail: mensaje, });
   }
   showToastError(mensaje: any) {
-    this.service.add({ key: 'tst', severity: 'error', summary: 'Correcto!!', detail: mensaje, });
+    this.service.add({ key: 'tst', severity: 'error', summary: 'Error!!', detail: mensaje, });
   }
 
   changeProcess(item:any){
