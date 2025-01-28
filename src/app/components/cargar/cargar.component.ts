@@ -340,7 +340,7 @@ export class CargarComponent implements OnInit {
                               instance: '',
                               played: 0,
                               analyzed: 0,
-                              owner: this.currentSession,
+                              owner: 'izzi',
                               guia: this.guiaSelected.tabla,
                               tipo: this.tipoSelected.name.toLowerCase()
                             };
