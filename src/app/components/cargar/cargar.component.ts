@@ -255,7 +255,7 @@ export class CargarComponent implements OnInit {
             this.showMessage('success', 'Éxito', 'Se han cargado sus audios correctamente, redirigiendo');
 
             setTimeout(() => {
-              this.router.navigate(['/analizar']);
+              this.router.navigate(['mariana/analizar']);
             }, 3000);
           }
         },
