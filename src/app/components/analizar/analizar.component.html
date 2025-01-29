@@ -7,6 +7,12 @@
         <h3 class="masivo__text" [style]=" mode ? 'color: #FFF' : 'color: #000' ">Analizar todos</h3>
     </div>
 
+    <div class="masivo">
+        <p-inputSwitch styleClass="font-size: 5px" [(ngModel)]="tipoCarga" (onChange)="validaAudios($event)"></p-inputSwitch> 
+        <h3 class="masivo__text" [style]=" mode ? 'color: #FFF' : 'color: #000' " *ngIf="cargaAutomatica">Cargados Automáticamente</h3>
+        <h3 class="masivo__text" [style]=" mode ? 'color: #FFF' : 'color: #000' " *ngIf="!cargaAutomatica">Cargados Manual</h3>
+    </div>
+
     <div class="masivo" *ngIf="textoMasivo">
         <h1 class="blink">Se está analizando masivamente, por favor espera a que termine el proceso</h1>
     </div>
@@ -16,7 +22,7 @@
         <div class="celda">
             <span class="p-input-icon-left">
                 <i class="pi pi-search"></i>
-                <input type="text" pInputText [(ngModel)]="filterAudioInput" (ngModelChange)="filtrando()" />
+                <input type="text" pInputText [(ngModel)]="filterAudioInput" (ngModelChange)="filtrarNombre()" />
             </span>
         </div>
 
@@ -25,13 +31,14 @@
         </div>
 
         <div class="celda">
-            <p-calendar #myCalendar [(ngModel)]="fechas" selectionMode="range" [readonlyInput]="true" [showIcon]="true" (ngModelChange)="filtrando()"></p-calendar>
+            <p-calendar #myCalendar [(ngModel)]="fechas" selectionMode="range" [readonlyInput]="true" [showIcon]="true" dateFormat="dd/mm/yy" (ngModelChange)="filtrando()" ></p-calendar>
         </div>
 
         <div class="celda">
             <button [class]=" mode ? 'btn--dark' : 'btn--light' " label="Limpiar" disableRipple pButton severity="danger" icon="pi pi-eraser" iconPos="right" (click)="limpiarFiltros()"></button>
         </div>
     </div>
+
 
 
     <div class="table">
@@ -144,6 +151,7 @@
                 </tr>
             </ng-template>
         </p-table>
+
     </div>
 
     <div *ngIf="analyzing" class="modal__bot">

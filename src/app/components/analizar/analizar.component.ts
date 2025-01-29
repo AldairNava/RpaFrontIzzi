@@ -9,8 +9,11 @@ import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { Calendar } from 'primeng/calendar';
+import { DatePipe } from '@angular/common';
+
 
 import Swal from 'sweetalert2'
+
 
 interface Tipo {
   name: string;
@@ -21,8 +24,9 @@ interface Tipo {
   selector: 'app-analizar',
   templateUrl: './analizar.component.html',
   styleUrls: ['./analizar.component.scss'],
-  providers: [MessageService, ProgressBarModule]
+  providers: [MessageService, ProgressBarModule, DatePipe]
 })
+
 export class AnalizarComponent implements OnInit {
   @ViewChild('myCalendar', { static: true }) myCalendar!: Calendar;
 
@@ -34,11 +38,14 @@ export class AnalizarComponent implements OnInit {
 
   headers: any[] | undefined;
 
+  tipoCarga: boolean = false;
 
   constructor(private cors: CorsService, 
               private messageService: MessageService,
               private dark: DarkService,
-              private router: Router) {}
+              private router: Router,
+              private datePipe: DatePipe
+            ) {}
 
   ngOnInit(): void {
     this.darkModeSubscription();
@@ -47,22 +54,13 @@ export class AnalizarComponent implements OnInit {
 
     this.home = { icon: 'pi pi-home', routerLink: '/' };
 
-    const user = sessionStorage.getItem('user_id');
-
-    if(user) {
-      this.user = user;
-
-      this.fetchData(this.user)
-    }
-
-    this.tipo = [
-      { name: 'Analizado', code: 1 },
-      { name: 'No Analizado', code: 0 },
-    ];
-
-    
+    const user = 'izzi';
 
     this.selectedTipo = this.tipo[1];
+
+    this.asignaFechasIniciales();
+
+    this.filtrando();
 
     this.headers = [
       'Nombre del Archivo',
@@ -143,7 +141,10 @@ export class AnalizarComponent implements OnInit {
   filteredArray: any[] = [];
   filterAudioInput: string = '';
 
-  tipo: Tipo[] = [];
+  tipo: Tipo[] = [
+    { name: 'Analizado', code: 1 },
+    { name: 'No Analizado', code: 0 },
+  ];
 
   selectedTipo: any = '';
 
@@ -155,11 +156,11 @@ export class AnalizarComponent implements OnInit {
   switchDisabled: boolean = false;
 
 
- fetchData(owner: any) {
+  fetchData(owner: any) {
     const data = {
       controlador: 'AudiosController',
       metodo: 'index',
-      owner: owner
+      owner: 'izzi'
     }
     this.cors.post(data).subscribe(
       (response: any) => {
@@ -178,12 +179,12 @@ export class AnalizarComponent implements OnInit {
   }
 
   fetchDataMasivo() {
-    const currentSession = sessionStorage.getItem('user_id');
+    const currentSession = 'izzi';
 
     const data = {
+      owner: currentSession,
       controlador: 'AudiosController',
-      metodo: 'returnArrayMasivo',
-      owner: currentSession
+      metodo: 'returnArrayMasivo'
     }
     this.cors.post(data).subscribe(
       (response: any) => {
@@ -283,6 +284,7 @@ export class AnalizarComponent implements OnInit {
     updateAnalyzed(data: any) {
       data.controlador = 'AudiosController';
       data.metodo = 'updateAnalyzed';
+
       this.cors.post(data)
       .subscribe(
         (response) => {
@@ -297,6 +299,7 @@ export class AnalizarComponent implements OnInit {
     updatePlayed(data: any) {
       data.controlador = 'AudiosController';
       data.metodo = 'updatePlayed';
+
       this.cors.post(data)
       .subscribe(
         (response) => {
@@ -501,7 +504,7 @@ export class AnalizarComponent implements OnInit {
 
     getStatus(data: any) {
       data.controlador = 'AudiosController';
-      data.metodo = 'getStatus';
+      data.metodo = 'getStatus;'
       this.cors.post(data).subscribe(
         (response: any) => {
           this.audioStatus = response.status;
@@ -535,9 +538,9 @@ export class AnalizarComponent implements OnInit {
 
     updateDeleted(audio: any) {
       const data = {
+        name: audio.name,
         controlador: 'AudiosController',
-        metodo: 'updateDeleted',
-        name: audio.name
+        metodo: 'updateDeleted'
       }
 
       this.cors.post(data).subscribe(
@@ -596,7 +599,7 @@ export class AnalizarComponent implements OnInit {
 
     const data = {
       controlador: 'AudiosController',
-      modelo: 'deleteFiles',
+      metodo: 'deleteFiles',
       name: nombreSinExtension
     }
 
@@ -619,7 +622,7 @@ export class AnalizarComponent implements OnInit {
       }, 500);
     } else {
       this.esMasivo = false;
-      const currentSession = sessionStorage.getItem('user_id');
+      const currentSession = 'izzi';
       this.unsetMasivo();
       setTimeout(() => {
         this.fetchData(currentSession);
@@ -631,11 +634,11 @@ export class AnalizarComponent implements OnInit {
   analizaMasivo() {
     this.startingMasivo = true;
     this.ejecutandoMasivo = true;
-    const owner = sessionStorage.getItem('user_id');
+    const owner = 'izzi';
 
     const data = {
       controlador: 'AudiosController',
-      modelo: 'returnNoAnalyzed',
+      metodo: 'returnNoAnalyzed',
       owner
     }
 
@@ -669,7 +672,7 @@ export class AnalizarComponent implements OnInit {
 
     const data = {
       controlador: 'AudiosController',
-      modelo: 'analyzarPython',
+      metodo: 'analyzarPython',
       'names': names, 
       'type': 'masivo'
     }
@@ -728,11 +731,11 @@ export class AnalizarComponent implements OnInit {
   }
 
   setMasivo() {
-    const owner = sessionStorage.getItem('user_id');
+    const owner = 'izzi';
 
     const data = {
       controlador: 'AudiosController',
-      modelo: 'updateMasivo',
+      metodo: 'updateMasivo',
       owner: owner, 
       audios: this.audios
     }
@@ -750,12 +753,10 @@ export class AnalizarComponent implements OnInit {
   }
 
   unsetMasivo() {
-    const owner = sessionStorage.getItem('user_id');
-
     const data = {
+      owner: 'izzi',
       controlador: 'AudiosController',
-      metodo: 'unsetMasivo',
-      owner: owner
+      metodo: 'unsetMasivo'
     }
 
     this.cors.post(data).subscribe(
@@ -768,12 +769,11 @@ export class AnalizarComponent implements OnInit {
     )
   }
 
-
   contadorFuera: number = 0;
 
   checkStatusMasivo(names: any) {
     console.log(names)
-      const owner = sessionStorage.getItem('user_id');
+      const owner = 'izzi';
       let audios: any;
 
       let contadorCompletados = 0;
@@ -786,7 +786,7 @@ export class AnalizarComponent implements OnInit {
         const data = {
           controlador: 'AudiosController',
           metodo: 'returnStatusMasivo',
-          owner: owner, 
+          owner: 'izzi', 
           names: names
         }
         this.cors.post(data).subscribe(
@@ -887,9 +887,6 @@ export class AnalizarComponent implements OnInit {
   }
 
 
-
-
-
   validaMasivo() {
     Swal.fire({
       title: '¿Deseas analizar todos los audios?',
@@ -909,72 +906,99 @@ export class AnalizarComponent implements OnInit {
     })
   }
 
+  cargaAutomatica: boolean = true;
+
+  analyzed: number = 0;
+  tareaProgramada: number = 1;
+
+  validaAudios(e: any) {
+    this.cargaAutomatica = !this.cargaAutomatica;
+
+    // e.checked = CARGA MANUAL
+    if(e.checked) {
+      this.tareaProgramada = 0;
+    } else {
+      this.tareaProgramada = 1;
+    }
+    this.filtrando();
+  }
+
+  arrayOriginal: any;
 
   filtrando() {
-
-    const name: string = this.filterAudioInput.trim().toUpperCase();
-    const status: any = this.selectedTipo;
-    const fechas = this.fechas;
-
-    // console.log(name);
-    // console.log(status);
-    // console.log(fechas);
-    
-    // No hay nada que filtrar
-    if(name === '' || status === '' && fechas.length === 0) {
-      this.audios = this.originalArray;
+    console.log('entrando');
+    let data: any = {
+      'owner': this.user,
+      'analyzed': this.selectedTipo.code,
+      'tarea_programada': this.tareaProgramada
     }
 
-    // Solo se filtra por nombre
-    if(name != '' && status === '' && fechas.length === 0) {
-      this.filtrarNombre(name);
+    if(this.fechas[1] != null) {
+      this.myCalendar.hideOverlay();  // Oculta el calendario
     }
 
-    // Solo se filtra por status
-    if(name === '' && status != '' && fechas.length === 0) {
-      this.filtrarStatus(status);
+    if (this.fechas.length === 2) {
+      let fechaIni = this.convertirFecha(this.fechas[0], 'ini');
+      let fechaFin = this.convertirFecha(this.fechas[1], 'fin');
+
+      data['ini'] = fechaIni;
+      data['fin'] = fechaFin;
+
+      this.getAudios(data);
     }
 
-    // Solo se filtra por fecha de carga
-    if(name === '' && status === '' && fechas.length != 0) {
-      this.filtrarFecha(fechas);
-    }
-
-    // Se filtra por nombre y status
-    if(name != '' && status != '' && fechas.length === 0) {
-      this.filtrarNombreyStatus(name, status);
-    }
-
-    // Se filtra por nombre y fecha
-    if(name != '' && status === '' && fechas.length != 0) {
-      this.filtrarNombreyFecha(name, fechas);
-    }
-
-    // Se filtra por status y fecha
-    if(name === '' && status != '' && fechas.length != 0) {
-      this.filtrarStatusyFecha(status, fechas);
-    }
-
-    // Se filtra por nombre, status y fecha de carga
-    if(name != '' && status != '' && fechas.length != 0) {
-      console.log('todos los filtros')
-    }
+    // console.log(this.fechas);
+  
   }
 
-  filtrarNombre(name: string) {
-    this.filteredArray = [];
+  getAudios(data: any) {
+    data.controlador = 'AudiosController';
+    data.metodo = 'indexAudios';
 
-    this.audios.forEach((audio) => {
+    this.audios = [];
+    this.cors.post(data).subscribe(
+      (res: any) => {
+        if(res.status) {
+          this.audios = res.data;
+          this.arrayOriginal = [...this.audios];
+          this.showMessage('success', 'Excelente', `Se han encontrado ${res.total} registros`);
 
-      if (audio.name.toUpperCase().includes(name) || audio.name === name) { // Replace 'someProperty' with the actual property to filter by
-        this.filteredArray.push(audio);
+        } else {
+          this.audios = [];
+          this.showMessage('warn', 'Aviso', 'No hay audios que coincidan con los filtros');
+
+        }
+      },
+      (err: any) => {
+        console.log(err)
       }
-    });
+    )
+  }
+
+  asignaFechasIniciales() {
+    this.fechas = [];
+    const hoy = new Date();
+    const primerDiaDelMes = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
+    const ultimoDiaDelMes = new Date(hoy.getFullYear(), hoy.getMonth() + 1, 0);
+    
+    this.fechas = [primerDiaDelMes, ultimoDiaDelMes];
+  }
+
+  filtrarNombre() {
+    const name: string = this.filterAudioInput.trim().toUpperCase();
+
+    this.audios = this.arrayOriginal;
+    // Filtra el array `audios` basándote en el nombre y guarda el resultado en `filteredArray`
+    this.filteredArray = this.audios.filter((audio) => 
+        audio.name.toUpperCase().includes(name.toUpperCase())
+    );
 
     this.audios = this.filteredArray;
-    this.filteredArray = [];
 
-  }
+
+    // Si deseas, puedes limpiar `filteredArray` más tarde cuando ya no lo necesites
+    // this.filteredArray = [];
+}
 
   filtrarStatus(status: any) {
     this.filteredArray = [];
@@ -992,6 +1016,7 @@ export class AnalizarComponent implements OnInit {
 
   filtrarFecha(fechas: any) {
     this.filteredArray = [];
+    console.log('hola')
 
     if(fechas[1] != null) {
       this.myCalendar.hideOverlay();  // Oculta el calendario
@@ -999,6 +1024,9 @@ export class AnalizarComponent implements OnInit {
 
     let fechaIni = this.convertirFecha(fechas[0], 'ini');
     let fechaFin = this.convertirFecha(fechas[1], 'fin');
+
+    console.log(fechaIni)
+    console.log(fechaFin)
 
     this.audios.forEach((audio) => {
       if (audio.fecha_carga >= fechaIni && audio.fecha_carga <= fechaFin) { 
@@ -1083,6 +1111,31 @@ export class AnalizarComponent implements OnInit {
     this.filteredArray = [];
 
     const analyzed = status.code;
+    let ini = this.convertirFecha(fechas[0], 'ini');
+    let fin = this.convertirFecha(fechas[1], 'fin');
+
+    const data = {
+      controlador: 'AudiosController',
+      metodo: 'indexAnalyzed',
+      owner: 'izzi',
+      analyzed,
+      ini,
+      fin
+    }
+
+    this.cors.post(data).subscribe(
+      (res: any) => {
+        if( res.status ) {
+          console.log(res.data)
+          this.audios = res.data;
+        } else {
+          this.audios = []
+        }
+      },
+      (err: any) => {
+        console.log(err)
+      }
+    )
 
     if(status != '') {
       this.audios.forEach((audio) => {
@@ -1095,34 +1148,21 @@ export class AnalizarComponent implements OnInit {
       this.filteredArray = [];
 
     }
-
-    if(fechas.length != 0) {
-      let fechaIni = this.convertirFecha(fechas[0], 'ini');
-      let fechaFin = this.convertirFecha(fechas[1], 'fin');
-
-      if(fechas[1] != null) {
-        this.myCalendar.hideOverlay();
-      }
-  
-      this.audios.forEach((audio) => {
-        if (audio.fecha_carga >= fechaIni && audio.fecha_carga <= fechaFin) { 
-          this.filteredArray.push(audio)
-        }
-      });
-  
-      this.audios = this.filteredArray;
-      this.filteredArray = [];
-
-    }
   }
 
   limpiarFiltros() {
+    this.audios = [];
     this.filterAudioInput = '';
     this.selectedTipo = '';
     this.fechas = [];
+    this.asignaFechasIniciales();
     this.filteredArray = [];
 
-    this.audios = this.originalArray;
+    // this.audios = this.originalArray;
+    this.tareaProgramada = 1;
+    this.tipoCarga = false;
+
+    this.filtrando();
   }
 
   showMessage(severity: string, summary: string, detail: string) {
@@ -1131,20 +1171,12 @@ export class AnalizarComponent implements OnInit {
   }
 
   convertirFecha(fecha: any, tipo: string) {
-    const fechaOriginal = new Date(fecha);
-  
-    const nuevaFecha = new Date(fechaOriginal);
-    nuevaFecha.setDate(fechaOriginal.getDate());
-  
-    // Paso 3: Formatear la nueva fecha en el formato "yyyy-MM-dd"
-    const año = nuevaFecha.getFullYear();
-    const mes = String(nuevaFecha.getMonth() + 1).padStart(2, '0');
-    const dia = String(nuevaFecha.getDate()).padStart(2, '0');
+    let fechaFormateada = this.datePipe.transform(fecha, 'yyyy-MM-dd');
   
     if(tipo === 'ini') {
-      return `${año}-${mes}-${dia} 00:00:00`;
+      return `${fechaFormateada} 00:00:00`;
     } else {
-      return `${año}-${mes}-${dia} 23:59:59`;
+      return `${fechaFormateada} 23:59:59`;
     }
   }
 
@@ -1155,3 +1187,4 @@ export class AnalizarComponent implements OnInit {
   }
 
 }
+
