@@ -13,6 +13,7 @@ import { RouterModule } from '@angular/router';
 import { DropdownModule } from 'primeng/dropdown';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { BreadcrumbModule } from '../breadcrumb/bread.module';
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { BreadcrumbModule } from '../breadcrumb/bread.module';
     RouterModule,
     ProgressBarModule,
     DropdownModule,
-    BreadcrumbModule
+    BreadcrumbModule,
+    InputSwitchModule
   ],
   exports:[
     AnalizarComponent
