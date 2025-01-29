@@ -924,9 +924,11 @@ export class AnalizarComponent implements OnInit {
   }
 
   arrayOriginal: any;
+  noAudios: boolean = false;
 
   filtrando() {
-    console.log('entrando');
+    this.audios = [];
+
     let data: any = {
       'owner': this.user,
       'analyzed': this.selectedTipo.code,
@@ -966,6 +968,7 @@ export class AnalizarComponent implements OnInit {
         } else {
           this.audios = [];
           this.showMessage('warn', 'Aviso', 'No hay audios que coincidan con los filtros');
+          this.noAudios = true;
 
         }
       },
@@ -1130,6 +1133,7 @@ export class AnalizarComponent implements OnInit {
           this.audios = res.data;
         } else {
           this.audios = []
+          this.noAudios = true;
         }
       },
       (err: any) => {

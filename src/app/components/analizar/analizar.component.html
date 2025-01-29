@@ -2,16 +2,7 @@
 
     <app-breadcrumb [pageTitle]="'Analizar Audios'"></app-breadcrumb>
 
-    <div class="masivo" *ngIf="!textoMasivo">
-        <p-inputSwitch styleClass="font-size: 5px" [(ngModel)]="masivo" (onChange)="validaMasivo()"></p-inputSwitch> 
-        <h3 class="masivo__text" [style]=" mode ? 'color: #FFF' : 'color: #000' ">Analizar todos</h3>
-    </div>
 
-    <div class="masivo">
-        <p-inputSwitch styleClass="font-size: 5px" [(ngModel)]="tipoCarga" (onChange)="validaAudios($event)"></p-inputSwitch> 
-        <h3 class="masivo__text" [style]=" mode ? 'color: #FFF' : 'color: #000' " *ngIf="cargaAutomatica">Cargados Automáticamente</h3>
-        <h3 class="masivo__text" [style]=" mode ? 'color: #FFF' : 'color: #000' " *ngIf="!cargaAutomatica">Cargados Manual</h3>
-    </div>
 
     <div class="masivo" *ngIf="textoMasivo">
         <h1 class="blink">Se está analizando masivamente, por favor espera a que termine el proceso</h1>
@@ -22,7 +13,7 @@
         <div class="celda">
             <span class="p-input-icon-left">
                 <i class="pi pi-search"></i>
-                <input type="text" pInputText [(ngModel)]="filterAudioInput" (ngModelChange)="filtrarNombre()" />
+                <input style="height: 100%;" type="text" pInputText [(ngModel)]="filterAudioInput" (ngModelChange)="filtrarNombre()" />
             </span>
         </div>
 
@@ -41,7 +32,7 @@
 
 
 
-    <div class="table">
+    <div class="table" *ngIf="audios.length > 0">
         <p-table
         #dt1
         [globalFilterFields]="['name']"
@@ -152,6 +143,22 @@
             </ng-template>
         </p-table>
 
+    </div>
+
+
+    <div class="loader" *ngIf="audios.length === 0 && !noAudios">
+        <div class="sk-chase">
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+        </div>
+    </div>
+
+    <div class="loader" *ngIf="audios.length === 0 && noAudios">
+        <h1>No hay audios para mostrar</h1>
     </div>
 
     <div *ngIf="analyzing" class="modal__bot">
