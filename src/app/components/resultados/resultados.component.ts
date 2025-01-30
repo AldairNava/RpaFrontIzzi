@@ -245,7 +245,12 @@ export class ResultadosComponent implements OnInit {
   }
 
   fetchCategorias() {
-    this.cors.get('resultadosController/fetchCategorias').subscribe(
+    const data = {
+      controlador: 'ResultadosController',
+      metodo: 'fetchCategorias',
+    }
+
+    this.cors.post(data).subscribe(
       (res: any) => {
         let categorias = res.data;
 
@@ -299,7 +304,7 @@ export class ResultadosComponent implements OnInit {
     
     this.cors.post(data).subscribe(
       (res: any) => {
-
+        console.log(res)
         if(res.status) {
           this.separaPuntos(res.row.punto_de_vista)
           this.resultado = Number(res.row.resultado);
@@ -354,7 +359,7 @@ export class ResultadosComponent implements OnInit {
       metodo: 'getGuia',
       'guia': guia
     }
-    this.cors.post('', ).subscribe(
+    this.cors.post(data).subscribe(
       (res: any) => {
         if(res.status) {
           this.puntosCategorias = res.row;
@@ -481,7 +486,12 @@ export class ResultadosComponent implements OnInit {
   calificacionesAgrupadasSinG: any[] = [];
 
   addCategoria() {
-    this.cors.get('resultadosController/fetchSubcategorias').subscribe(
+    const data = {
+      controlador: 'ResultadosController',
+      metodo: 'fetchSubcategorias',
+    }
+
+    this.cors.post(data).subscribe(
       (res: any) => {
         let subcategorias = res.data;
 

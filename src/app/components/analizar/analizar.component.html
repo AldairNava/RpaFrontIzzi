@@ -3,14 +3,22 @@
     <app-breadcrumb [pageTitle]="'Analizar Audios'"></app-breadcrumb>
 
     <div class="masivo" *ngIf="!textoMasivo">
-        <p-inputSwitch styleClass="font-size: 5px" [(ngModel)]="masivo" (onChange)="validaMasivo()"></p-inputSwitch> 
-        <h3 class="masivo__text" [style]=" mode ? 'color: #FFF' : 'color: #000' ">Analizar todos</h3>
+        <div>
+            <p-inputSwitch styleClass="font-size: 5px" [(ngModel)]="masivo" (onChange)="validaMasivo()"></p-inputSwitch> 
+        </div>
+        <div>
+            <h3 class="masivo__text" [style]=" mode ? 'color: #FFF' : 'color: #000' ">Analizar todos</h3>
+        </div>
     </div>
 
     <div class="masivo">
-        <p-inputSwitch styleClass="font-size: 5px; border: 2px solid red;" [(ngModel)]="tipoCarga" (onChange)="validaAudios($event)"></p-inputSwitch> 
-        <h3 class="masivo__text" [style]=" mode ? 'color: #FFF' : 'color: #000' " *ngIf="cargaAutomatica">Cargados Automáticamente</h3>
-        <h3 class="masivo__text" [style]=" mode ? 'color: #FFF' : 'color: #000' " *ngIf="!cargaAutomatica">Cargados Manual</h3>
+        <div>
+            <p-inputSwitch styleClass="font-size: 5px; border: 2px solid red;" [(ngModel)]="tipoCarga" (onChange)="validaAudios($event)"></p-inputSwitch> 
+        </div>
+        <div>
+            <h3 class="masivo__text" [style]=" mode ? 'color: #FFF' : 'color: #000' " *ngIf="cargaAutomatica">Cargados Automáticamente</h3>
+            <h3 class="masivo__text" [style]=" mode ? 'color: #FFF' : 'color: #000' " *ngIf="!cargaAutomatica">Cargados Manual</h3>
+        </div>
     </div>
 
     <div class="masivo" *ngIf="textoMasivo">

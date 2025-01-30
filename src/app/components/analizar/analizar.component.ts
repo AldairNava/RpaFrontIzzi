@@ -516,7 +516,7 @@ export class AnalizarComponent implements OnInit {
 
     redirectFullResults(audio: any) {
       if(audio.analyzed === 1) {
-        this.router.navigate(['/analizar/resultados', audio.name, audio.guia, 'main']);
+        this.router.navigate(['mariana/analizar/resultados', audio.name, audio.guia, 'main']);
       }
     }
 
@@ -528,7 +528,7 @@ export class AnalizarComponent implements OnInit {
       }
       this.cors.post(data).subscribe(
         (res: any) => {
-          this.router.navigate(['/analizar/resultados', this.tempName, res.res]);
+          this.router.navigate(['mariana/analizar/resultados', this.tempName, res.res, 'main']);
         },
         (err: any) => {
           console.log(err)

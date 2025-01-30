@@ -40,12 +40,22 @@
                 <p [class]=" mode ? 'text__w' : 'text__b'"> {{modulo.nombre}}: </p>
             </div>
 
-            <div class="modulo__info">
+            <div class="modulo__info" >
                 <div class="info__icon">
                     <i class="pi {{modulo.icon}} icon__color"  [style]=" mode ? 'color: white;' : 'color: black;' "></i>
                 </div>
-                <div class="info__number">
-                    <h3 *ngIf="reload" class="tracking-in-contract" [class]=" mode ? 'text__w' : 'text__b'"> {{modulo.data}} </h3>
+                <div class="info__number" *ngIf="!fetchingResumen && (modulo.data?.toString().includes('%'))">
+
+                    <h3 *ngIf="reload" class="tracking-in-contract" [class]=" mode ? 'text__w' : 'text__b'"> {{modulo.data }} </h3>
+                </div>
+
+                <div class="info__number" *ngIf="!fetchingResumen && !(modulo.data?.toString().includes('%'))">
+
+                    <h3 *ngIf="reload" class="tracking-in-contract" [class]=" mode ? 'text__w' : 'text__b'"> {{modulo.data | number }} </h3>
+                </div>
+
+                <div class="info__number" *ngIf="fetchingResumen">
+                    <i class="pi pi-spin pi-spinner icon__color" [style]=" mode ? 'color: white;' : 'color: black;' "></i>
                 </div>
             </div>
         </div>
@@ -66,6 +76,7 @@
     <p [class]=" mode ? 'text__w' : 'text__b'">Indicadores Operativos</p>
 
     <div class="general">
+        <!-- INDICADOR GENERAL -->
         <p [class]=" mode ? 'text__w' : 'text__b'">Indicadores</p>
 
             <div class="table card__graph">
@@ -155,35 +166,26 @@
             </div>
         
 
-            <div class="graphs__p1">
-                <div class="card__graph" *ngIf="reload">
-                    <h3 style="color: #FFF">Monitoreo por Divisón</h3>
-                    <h3 class="sinDatos" *ngIf="sinDatos" style="color: #FFF; text-align: center">No hay datos para mostrar</h3>
-
-
-                    <p-chart id="barChart" type="pie" [data]="monitoreoPorDivisionData" [options]="monitoreoPorDivisionOptions"></p-chart>
-
-    
+            <div class="contenedor-graficas">
+                <div class="grafica-container">
+                  <h1>Monitoreos por División</h1>
+                  <canvas id="graficaMonitoreosDivision"></canvas>
                 </div>
-    
-    
-                <div class="card__graph " *ngIf="reload">
-                    <div>
-                        <p style="color: #FFF">% Llamadas evaluadas</p>
-                        <h3 class="sinDatos" *ngIf="sinDatos" style="color: #FFF; text-align: center">No hay datos para mostrar</h3>
-
-                            <div class="grafico__chart">
-                                <p-chart id="barChart" type="bar" [data]="llamadasEvaluadasData" [options]="llamadasEvaluadasOptions"></p-chart>
-                            </div>
-                    </div>
+                <div class="grafica-container">
+                  <h1>Llamadas Evaluadas</h1>
+                  <canvas id="graficaLlamadasEvaluadas"></canvas>
                 </div>
-            </div>
+              </div>
+              
+              
+              
+              
     </div>
 </div>
 
 <div class="dash2" *ngIf="paginaDos">
     <div class="general">
-        <p [class]=" mode ? 'text__w' : 'text__b'">Indicadores Operativos</p>
+        <p [class]=" mode ? 'text__w' : 'text__b'">Indicadores Operativos 2</p>
 
         <div class="table card__graph" *ngIf="reload">
             <p-table
@@ -294,7 +296,7 @@
 
 </div>
 
-<div class="dash" *ngIf="paginaTres">
+<div class="dash altura" *ngIf="paginaTres">
         <div class="graficos__grid ">
             <div class="nivel__calidad card__graph blur-in-expand" *ngIf="reload">
                 <h3 style="color: #FFF">Nivel de calidad: {{porcentajeTotales}}</h3>
@@ -313,40 +315,55 @@
                 </div>
             </div>
 
-            <div class="calidad__monitoreos card__graph blur-in-expand maximo2" *ngIf="reload">
+            <div class="calidad__monitoreos card__graph blur-in-expand" *ngIf="reload">
                 <h3 style="color: #FFF">Nota de Calidad y Monitoreos</h3>
                 <h3 class="sinDatos" *ngIf="sinDatos" style="color: #FFF; text-align: center">No hay datos para mostrar</h3>
-                <div class="calidad__monitoreos--graph maximo">
-                    <p-chart id="barChart" type="bar" [data]="notaCalidadData" [options]="notaCalidadOptions"></p-chart>
+
+                <div class="calidad__monitoreos--graph ">
+                    <div class="calidad__monitoreos--graph">
+                        <canvas id="graficaCalidadMonitoreo"></canvas>
+                </div>
+                    
                 </div>
             </div>
 
             <div class="porc__cumpimiento card__graph blur-in-expand" *ngIf="reload">
                 <h3 style="color: #FFF">% de cumplimiento</h3>
                 <h3 class="sinDatos" *ngIf="sinDatos" style="color: #FFF; text-align: center">No hay datos para mostrar</h3>
+
+
                 <div class="porc__cumpimiento--graph">
-                    <p-chart id="barChart" type="bar" [data]="cumplimientoData" [options]="cumplimientoOptions"></p-chart>
+                    <canvas id="graficaCumplimiento"></canvas>
                 </div>
             </div>
 
-            <div class="estats__calif card__graph blur-in-expand maximo" *ngIf="reload">
+            <div class="estats__calif card__graph blur-in-expand" *ngIf="reload">
                 <div class="grafico__title">
                     <h3 style="color: #FFF">Estadísticas de calificaciones</h3>
-                </div>
-                <div  class="estats__calif--graph grafico__chart maximo" >
-                    <h3 class="sinDatos" *ngIf="sinDatos" style="color: #FFF; text-align: center">No hay datos para mostrar</h3>
-                    <p-chart id="barChartestas" type="doughnut" [data]="statsCalifData" [options]="statsCalifOptions"></p-chart>
-                </div>
-            </div>
+                    
 
-            <div class="soluc__cliente card__graph blur-in-expand maximo" *ngIf="reload">
+                </div>
+                <div class="estats__calif--graph grafico__chart" >
+                    <h3 class="sinDatos" *ngIf="sinDatos" style="color: #FFF; text-align: center">No hay datos para mostrar</h3>
+
+                    <canvas id="graficaCalificaciones"></canvas>
+                </div>
+
+               
+            </div>
+        
+            <div class="soluc__cliente card__graph blur-in-expand" *ngIf="reload">
                 <div class="grafico__title">
                     <h3 style="color: #FFF">% Solución al cliente</h3>
+                    
+                    <canvas id="graficaSolucionCliente"></canvas>
                 </div>
                 <div class="soluc__cliente--graph grafico__chart"  >
                     <h3 class="sinDatos" *ngIf="sinDatos" style="color: #FFF; text-align: center">No hay datos para mostrar</h3>
-                    <p-chart id="barChartestas" type="doughnut" [data]="solucionClienteData" [options]="solucionClienteOptions"></p-chart>
+
                 </div>
+
+                
             </div>
         </div>
 </div>
@@ -361,20 +378,20 @@
 
             <div class="card__graph">
                 <h3 class="sinDatos" *ngIf="sinDatos"> No hay datos para mostrar </h3>
-                <div class="grafico__chart maximo2">
-                    <p-chart id="barChart" type="bar" [data]="cargadosAnalizadosData" [options]="cargadosAnalizadosOptions"></p-chart>
+                <div class="grafico__chart">
+
                 </div>
             </div>
         </div>
 
 
         
-        <div class="contenedorancho">
+        <div>
             <p style="color: #FFF">% Audios analizados</p>
             <div class="card__graph pastel">
                 <h3 class="sinDatos" *ngIf="sinDatos">No hay datos para mostrar</h3>
-                <div class="grafico__chart pastel__contenedor maximo2">
-                    <p-chart id="barChart" type="doughnut" [data]="cargadosAnalizadosStackedData" [options]="cargadosAnalizadosStackedOptions"></p-chart>
+                <div class="grafico__chart pastel__contenedor">
+
                 </div>
             </div>
         </div>
@@ -384,7 +401,7 @@
             <div class="card__graph">
                 <h3 class="sinDatos" *ngIf="sinDatos">No hay datos para mostrar</h3>
                 <div class="newG">
-                    <canvas id="miGrafica"></canvas>
+
                 </div>
             </div>
         </div>
@@ -404,3 +421,11 @@
         <i class="pi pi-arrow-right" style="color: navy; font-weight: bold; font-size: 20px;"></i>
     </div>
 </div>
+
+<style>
+.grafica-monitoreos-container {
+  height: 300px;
+  position: relative;
+  width: 100%;
+}
+</style>

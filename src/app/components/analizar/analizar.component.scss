@@ -10,18 +10,25 @@
     margin-top: 50px;
 }
 
-
-.masivo {
-    margin-top: 20px;
+.masivo__container {
     display: flex;
     align-items: center;
+    gap: 10px;
+}
+
+
+.masivo {
+    display: flex;
+    justify-content: left;
+    align-items: center;
     height: 50px;
+    max-width: 50%;
+    padding: 10px 0;
 
 }
 
 .masivo__text {
-    margin-left: 10px;
-    width: 200px;
+    font-size: 16px;
 }
 
 .masivo__btn {

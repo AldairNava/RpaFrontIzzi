@@ -3,7 +3,8 @@ import { DarkService } from '../../services/darkmode/dark.service';
 import { CorsService } from '../../services/cors/cors.service';
 import {Chart, registerables } from "chart.js";
 import { Calendar } from 'primeng/calendar';
-// Chart.register(...registerables);
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { BaseChartDirective } from 'ng2-charts';
 
 
 @Component({
@@ -13,11 +14,7 @@ import { Calendar } from 'primeng/calendar';
 })
 export class DashboardComponent implements OnInit {
     @ViewChild('monthPicker') myCalendar?: Calendar;
-    public cumplimientoOptions: any;
-    public cumplimientoData: any;
-    public cumplimientoLegend: boolean;
-    public sinDatos: boolean = false;
-    public reload: boolean = true;
+
 
     fechasFiltro: any[] = [];
     fechaIni: string = '';
@@ -30,7 +27,7 @@ export class DashboardComponent implements OnInit {
     anhoIni: any;
     anhoFin: any;
     /* Resumen */
-    // totalAudiosCargados: number = 0;
+    totalAudiosCargados: number = 0;
 
     /* Páginador */
     paginaUno: boolean = true;
@@ -50,12 +47,13 @@ export class DashboardComponent implements OnInit {
                         {tipo: 'Servicios',
                         active: true},
                         {tipo: 'soporte'},
-                        {tipo: 'retenciones'}
+                        {tipo: 'retenciones'},
+                        {tipo: 'redes'}
                     ];
 
     categoria: string = 'Servicios';
 
-    public resumen: any[] = [
+    resumen: any[] = [
                         {
                             nombre: 'Audios cargados',
                             icon: 'pi-cloud-upload',
@@ -83,7 +81,7 @@ export class DashboardComponent implements OnInit {
                         }
                     ];
 
-    // fetchingResumen: boolean = true;
+    fetchingResumen: boolean = true;
     fetchingIndicadorGeneral: boolean = true;
 
     headersIndicador: string[] = [
@@ -98,7 +96,7 @@ export class DashboardComponent implements OnInit {
         '% Precisión/Calibrado'
     ];
 
-    // llamadasEvaluadasData: any[] = [];
+    llamadasEvaluadasData: any[] = [];
     llamadasEvaluadasLabels: any[] = [];
     llamadasEvaluadasOptions: any;
 
@@ -134,32 +132,35 @@ export class DashboardComponent implements OnInit {
 
 
 
-    
+    /* Gráficas */
+    cumplimientoOptions: any = {};
     cumplimientoLabels: string[] = [];
-    // cumplimientoLegend: boolean = false;
-    // cumplimientoData: any[] = [];
+    cumplimientoLegend: boolean = false;
+    cumplimientoData: any[] = [];
 
-    // cargadosAnalizadosOptions: any;
-    // public cargadosAnalizadosLabels: any;
+    cargadosAnalizadosOptions: any;
+    cargadosAnalizadosLabels: any[] = [];
     cargadosAnalizadosLegend: boolean = true;
-    // cargadosAnalizadosData: any[] = [];
+    cargadosAnalizadosData: any[] = [];
 
-    // cargadosAnalizadosStackedOptions: any = {};
-    // cargadosAnalizadosStackedLabels: any[] = [];
+    cargadosAnalizadosStackedOptions: any = {};
+    cargadosAnalizadosStackedLabels: any[] = [];
     cargadosAnalizadosStackedLegend: boolean = false;
-    // cargadosAnalizadosStackedData: any;
-    // notaCalidadData: any[] = [];
+    cargadosAnalizadosStackedData: any;
+    notaCalidadData: any[] = [];
 
-    // statsCalifData: any = [];
-    // statsCalifOptions: any ;
+    statsCalifData: any = [];
+    statsCalifOptions: any ;
 
-    // solucionClienteData: any = [];
-    // solucionClienteOptions: any = [];
+    solucionClienteData: any = [];
+    solucionClienteOptions: any = [];
 
     monitoreoPorDivisionData: any = [];
     monitoreoPorDivisionOptions: any = [];
 
-    // notaCalidadLabels: string[] = [];
+    notaCalidadOptions: any = [];
+
+    notaCalidadLabels: string[] = [];
     notaCalidadLegend: boolean = true;
 
     headersIndicadorGeneral: any[] = ["Año","Cargados", "Analizados", "%Analizados", "Nota", "Ejecutivos", ">80", "%>80", "70-80", "%70-80", "60-69", "%60-69", "<60", "%<60", "%No Solución"];
@@ -167,6 +168,10 @@ export class DashboardComponent implements OnInit {
     headersEmociones: any[] = ["Año", "Negatividad", "Neutralidad", "Positividad", "Sentimiento General"];
 
     audios: any[] = [{anho: '2023', cargados: 1500}];
+
+    reload: boolean = true;
+
+    sinDatos: boolean = false;
 
     mesesLetra: string[] = ['nada', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
     mesesNum: string[] = ['nada', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
@@ -192,13 +197,12 @@ export class DashboardComponent implements OnInit {
     fechaIniTab: string = '';
     fechaFinTab: string = '';
 
-    subcategorias: any;
+    subcategorias: any[] = [];
 
-    
+    rotationDegrees: any = 90;
 
     constructor(private dark: DarkService, private cors: CorsService) {
-        this.cumplimientoLegend = true;
-        this.sinDatos = false;
+
     }
 
     ngAfterViewInit() {
@@ -206,16 +210,6 @@ export class DashboardComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.cumplimento([
-            { label: 'Apertura y Cierre', value: 80 },
-            { label: 'Habilidades de Escucha', value: 70 },
-            { label: 'Cortesía y Etiqueta', value: 90 },
-            { label: 'Validación de Datos', value: 60 },
-            { label: 'Manejo de Tiempos', value: 75 },
-            { label: 'Sondeo y Análisis', value: 85 },
-            { label: 'Sol y Conf de Acuerdos', value: 95 },
-            { label: 'Manejo de Información', value: 65 }
-        ]);
         this.getFecha();
 
         this.darkModeSubscription();
@@ -223,26 +217,24 @@ export class DashboardComponent implements OnInit {
 
         this.fetchCumplimiento();
 
-
         this.detectarPagina();
 
         this.fetchAudiosUploaded();
 
-        this.fetchIndicadorGeneral();
-
+        // Para gráfica Estadísticas de calificaciones
         this.fetchStatsCalif();
+
+        this.fetchIndicadorGeneral();
 
         this.fetchSolucionCliente();
 
         this.fetchCalidadMonitoreo();
 
-        // this.fetchcargadosAnalizados();
-
-
-
         this.fetchShortSubs();
 
         this.fetchTotalesZonas();
+
+        this.getFullDataEmocionesSentimientos();
 
         this.labelStacked = [this.mesActualGrafico];
 
@@ -264,73 +256,85 @@ export class DashboardComponent implements OnInit {
 
     }
 
-    public fetchingResumen: boolean = true;
-    public totalAudiosCargados: number = 0;
-//     public resumen: any[] = [
-//     { data: 0 },
-//     { data: '0%' },
-//     { data: '0%' },
-//     { data: 0 },
-//     { data: 0 }
-// ];
-rotationDegrees: any = 90;
-fetchAudiosUploaded() {
-    this.fetchingResumen = true;
+    fetchAudiosUploaded() {
+        this.fetchingResumen = true;
 
-    const data = {
-        controlador: 'DashboardController',
-        metodo: 'fetchAudiosUploaded',
-        ini: this.fechaIni,
-        fin: this.fechaFin,
-        tipo: this.tipo,
-        owner: this.userName
-    }
-
-    this.cors.post(data).subscribe(
-        (res: any) => {
-            if (res.status) {
-                this.fetchingResumen = false;
-                this.sinDatos = false;
-                this.totalAudiosCargados = 0;
-
-                this.resumen[0].data = res.data.cargados;
-                this.totalAudiosCargados = res.data.cargados;
-                this.resumen[1].data = res.data.analizadosPorc.toFixed(2) + '%';
-                this.resumen[2].data = res.data.notaCalidadCalculada.toFixed(2);
-                this.resumen[3].data = res.data.ejecutivosEvaluados;
-                this.resumen[4].data = res.data.monitoreos.toFixed(2);
-                this.porcentajeTotales = parseFloat(res.data.notaCalidadCalculada.toFixed(2));
-
-                // Velocímetro : 180 deg = 100%
-                this.rotationDegrees = (this.porcentajeTotales * 180) / 100;
-                this.audiosCargados = res.data.cargados;
-                this.audiosAnalizados = res.data.analizados;
-                this.cargadosAnalizados();
-                const noAnalizadosPorc = 100 - res.data.analizadosPorc;
-                this.cargadosAnalizadosStacked(res.data.analizadosPorc.toFixed(2), noAnalizadosPorc);
-
-            } else {
-                this.resumen[0].data = 0;
-                this.resumen[1].data = 0 + '%';
-                this.resumen[2].data = 0 + '%';
-                this.resumen[3].data = 0;
-                this.resumen[4].data = 0;
-                this.porcentajeTotales = 0;
-                this.rotationDegrees = 90;
-            }
-        },
-        (err: any) => {
-            console.log(err)
+        const data = {
+            controlador: 'DashboardController',
+            metodo: 'fetchAudiosUploaded',
+            ini: this.fechaIni,
+            fin: this.fechaFin,
+            tipo: this.tipo,
+            owner: this.userName
         }
-    )
-}
+
+        this.cors.post(data).subscribe(
+            (res: any) => {
+                if(res.status) {
+                    this.fetchingResumen = false;
+
+                    this.sinDatos = false;
+
+                    this.totalAudiosCargados = 0;
+
+                    this.resumen[0].data = res.data.cargados;
+                    this.totalAudiosCargados = res.data.cargados;
+                    this.resumen[1].data = res.data.analizadosPorc.toFixed(2) + '%';
+                    this.resumen[2].data = res.data.notaCalidadCalculada.toFixed(2);
+                    this.resumen[3].data = res.data.ejecutivosEvaluados;
+                    this.resumen[4].data = res.data.monitoreos.toFixed(2);
+                    this.porcentajeTotales = res.data.notaCalidadCalculada.toFixed(2);
+                    
+                    // Velocímetro : 270 deg = 100%
+                    this.rotationDegrees = (this.porcentajeTotales * 270) / 100;
+                    this.audiosCargados = res.data.cargados;
+                    this.audiosAnalizados = res.data.analizados;
+                    this.cargadosAnalizados();
+                    const noAnalizadosPorc = 100 - res.data.analizadosPorc;
+                    this.cargadosAnalizadosStacked(res.data.analizadosPorc.toFixed(2), noAnalizadosPorc);
+
+                } else {
+                    this.resumen[0].data = 0;
+                    this.resumen[1].data = 0 + '%';
+                    this.resumen[2].data = 0 + '%';
+                    this.resumen[3].data = 0;
+                    this.resumen[4].data = 0;
+                    this.porcentajeTotales = 0;
+                    this.rotationDegrees = 90;
+                }
+            },
+            (err: any) => {
+                console.log(err)
+            }
+        )
+    }
 
     sumaTotales: number = 0
     porcentajeTotales: any = 0;
-    
+
+    fetchStatsCalif() {
+        const data = {
+            controlador: 'DashboardController',
+            metodo: 'getStatsCalif',
+            ini: this.fechaIni,
+            fin: this.fechaFin,
+            tipo: this.tipo,
+            owner: this.userName
+        }
+
+        this.cors.post(data).subscribe(
+            (res: any) => {
+                this.statsCalif(res);
+            },
+            (err: any) => {
+                console.log(err)
+            }
+        )
+    }
+
     getFullDataEmocionesSentimientos() {
         const data = {
-            controlador: 'dashboardController',
+            controlador: 'DashboardController',
             metodo: 'getFullDataEmocionesSentimientos',
             ini: this.fechaIni,
             fin: this.fechaFin,
@@ -349,194 +353,163 @@ fetchAudiosUploaded() {
         )
     }
 
-    fetchStatsCalif() {
-        const data = {
-            controlador: 'dashboardController',
-            metodo: 'getStatsCalif',
-            ini: this.fechaIni,
-            fin: this.fechaFin,
-            tipo: this.tipo,
-            owner: this.userName
+    /* Genera la gráfica */
+    statsCalif(res: any) {
+        let mayor80 = 0;
+        let entre7080 = 0;
+        let entre6069 = 0;
+        let menor60 = 0;
+
+        if(res.status) {
+            const rangos = res.rangos;
+            this.sinDatos = false;
+            mayor80 = rangos.mayor80;
+            entre7080 = rangos.entre7080;
+            entre6069 = rangos.entre6069;
+            menor60 = rangos.menorigual59;
+        } else {
+            this.sinDatos = true;
         }
 
-        this.cors.post(data).subscribe(
-            (res: any) => {
-                this.statsCalif(res);
-            },
-            (err: any) => {
-                console.log(err)
-            }
-        )
-    }
-
-    /* Genera la gráfica */
-    public statsCalifData: any;
-    public statsCalifOptions: any;
-    // public sinDatos: boolean;
-
-statsCalif(res: any) {
-    let mayor80 = 0;
-    let entre7080 = 0;
-    let entre6069 = 0;
-    let menor60 = 0;
-
-    if (res.status) {
-        const rangos = res.rangos;
-        this.sinDatos = false;
-        mayor80 = rangos.mayor80;
-        entre7080 = rangos.entre7080;
-        entre6069 = rangos.entre6069;
-        menor60 = rangos.menorigual59;
-    } else {
-        this.sinDatos = true;
-    }
-
-    this.statsCalifData = {
-        labels: ['Mayor a 80', 'Entre 70 y 80', 'Entre 60 y 70', 'Menor de 60'],
-        datasets: [
-            {
-                data: [mayor80, entre7080, entre6069, menor60],
-                backgroundColor: ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)', 'rgba(75, 192, 192, 0.5)'],
-                borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)'],
-                borderWidth: 1
-            }
-        ]
-    };
-
-    this.statsCalifOptions = {
-        plugins: {
-            legend: {
-                labels: {
-                    color: 'white'
+        this.statsCalifData = {
+            labels: ['Mayor a 80', 'Entre 70 y 80', 'Entre 60 y 70', 'Menor de 60'],
+            datasets: [
+                {
+                  data: [mayor80, entre7080, entre6069, menor60], // Datos inventados
+                  backgroundColor: ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)', 'rgba(75, 192, 192, 0.5)'], // Colores pastel
+                  borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)'], // Bordes del mismo color que el relleno
+                  borderWidth: 1 // Grosor del borde
                 }
-            },
-            tooltip: {
+            ]
+        };
+
+        this.statsCalifOptions = {
+            plugins: {
+              legend: {
+                labels: {
+                  color: 'white', // Color de texto para las leyendas
+                }
+              },
+              tooltip: {
                 titleFont: {
-                    size: 16,
-                    weight: 'bold'
+                  size: 16,
+                  weight: 'bold',
                 },
                 bodyFont: {
-                    size: 14
+                  size: 14,
                 },
-                bodyColor: 'white',
+                bodyColor: 'white', // Color de texto para los tooltips
                 titleColor: 'white'
+              }
             }
-        }
-    };
-}
+        };
 
-crearGrafica(res: any) {
-    console.log(res.labels.length);
-    console.log(res.neutralidad.length);
-    console.log(res.negatividad.length);
-    console.log(res.positividad.length);
 
-    const neutralidadData = res.neutralidad.map(Number);
-    const negatividadData = res.negatividad.map(Number);
-    const positividadData = res.positividad.map(Number);
+    }
+
+    crearGrafica(res: any) {
+        console.log(res.labels.length);
+        console.log(res.neutralidad.length);
+        console.log(res.negatividad.length);
+        console.log(res.positividad.length);
+
+        const neutralidadData = res.neutralidad.map(Number);
+        const negatividadData = res.negatividad.map(Number);
+        const positividadData = res.positividad.map(Number);
 
     // Normalizar los datos si es necesario para que se muestren en porcentaje
     const normalize = (data: number[], max: number) => data.map(value => (value / max) * 100);
-    this.emocionesDataG = {
-        labels: res.labels,
-        datasets: [
-            {
-                label: '% Negatividad',
-                data: negatividadData,
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderColor: 'rgba(255, 99, 132, 1)',
-                borderWidth: 1
-            },
-            {
-                label: '% Neutralidad',
-                data: neutralidadData,
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            },
-            {
-                label: '% Positividad',
-                data: positividadData,
-                backgroundColor: 'rgba(4, 182, 100, 0.2)',
-                borderColor: 'rgba(4, 182, 100, 1)',
-                borderWidth: 1
-            },
-            // {
-            //     label: '% Sentimiento general',
-            //     data: datosSentimientoGeneral,
-            //     backgroundColor: 'rgba(128, 128, 128, 0.3)',
-            //     borderColor: 'rgba(128, 128, 128, 1)',
-            //     borderWidth: 1,
-            //     fill: 'start'
-            // }
-        ]
-    }
+        this.emocionesDataG = {
+            labels: res.labels,
+            datasets: [
+                {
+                    label: '% Negatividad',
+                    data: negatividadData,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: '% Neutralidad',
+                    data: neutralidadData,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: '% Positividad',
+                    data: positividadData,
+                    backgroundColor: 'rgba(4, 182, 100, 0.2)',
+                    borderColor: 'rgba(4, 182, 100, 1)',
+                    borderWidth: 1
+                },
+                // {
+                //     label: '% Sentimiento general',
+                //     data: datosSentimientoGeneral,
+                //     backgroundColor: 'rgba(128, 128, 128, 0.3)',
+                //     borderColor: 'rgba(128, 128, 128, 1)',
+                //     borderWidth: 1,
+                //     fill: 'start'
+                // }
+            ]
+        }
 
-    this.emocionesOptions = {
-        scales: {
-            y: {
-                stacked: false,
-                ticks: {
-                    callback: function(value: any) {
-                        return value.toFixed(0) + '%';
+        this.emocionesOptions = {
+            scales: {
+                y: {
+                    stacked: false,
+                    ticks: {
+                        callback: function(value: any) {
+                            return value.toFixed(0) + '%';
+                        },
+                        color: 'white'
                     },
-                    color: 'white'
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.1)'
+                    }
                 },
-                grid: {
-                    color: 'rgba(255, 255, 255, 0.1)'
+                x: {
+                    ticks: {
+                        color: 'white'
+                    },
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.1)'
+                    }
                 }
             },
-            x: {
-                ticks: {
-                    color: 'white'
+            plugins: {
+                legend: {
+                    labels: {
+                        color: 'white'
+                    }
                 },
-                grid: {
-                    color: 'rgba(255, 255, 255, 0.1)'
-                }
-            }
-        },
-        plugins: {
-            legend: {
-                labels: {
-                    color: 'white'
-                }
-            },
-            tooltip: {
-                callbacks: {
-                    label: function(context: any) {
-                        let label = context.dataset.label || '';
+                tooltip: {
+                    callbacks: {
+                        label: function(context: any) {
+                            let label = context.dataset.label || '';
 
-                        if (label) {
-                            label += ': ';
+                            if (label) {
+                                label += ': ';
+                            }
+                            if (context.parsed.y !== null) {
+                                label += context.parsed.y.toFixed(2) + '%';
+                            }
+                            return label;
                         }
-                        if (context.parsed.y !== null) {
-                            label += context.parsed.y.toFixed(2) + '%';
-                        }
-                        return label;
                     }
                 }
             }
         }
     }
 
-    const canvas = document.getElementById('miGrafica') as HTMLCanvasElement;
-    if (!canvas) return;
-
-    const ctxTres = canvas.getContext('2d');
-    if (!ctxTres) return;
-
-    const miGrafica = new Chart(ctxTres, {
-        type: 'line',
-        data: this.emocionesDataG,
-        options: this.emocionesOptions
-    });
-}
     emocionesOptions: any;
     emocionesDataG: any;
+    
+    solucionClienteGraph: any;
 
     fetchSolucionCliente() {
         const data = {
-            controlador: 'dashboardController',
+            controlador: 'DashboardController',
             metodo: 'fetchSolucionCliente',
             ini: this.fechaIni,
             fin: this.fechaFin,
@@ -546,7 +519,12 @@ crearGrafica(res: any) {
 
         this.cors.post(data).subscribe(
             (res: any) => {
-                this.solucionCliente(res)
+                if(res.status) {
+                    this.solucionClienteGraph = res;
+                    this.crearGraficaSolucionCliente();
+                    this.crearGraficaCumplimiento();
+                }
+                
             },
             (err: any) => {
                 console.log(err)
@@ -554,53 +532,50 @@ crearGrafica(res: any) {
         )
     }
 
-    public solucionClienteData: any;
-    public solucionClienteOptions: any;
+    solucionCliente(res: any) {
+        const totalAudiosAn = res.res;
+        const noSolucion = Math.round((res.noSolucion * 100) / totalAudiosAn);
+        const solucion = Math.round((res.solucion * 100) / totalAudiosAn);
 
-solucionCliente(res: any) {
-    const totalAudiosAn = res.res;
-    const noSolucion = Math.round((res.noSolucion * 100) / totalAudiosAn);
-    const solucion = Math.round((res.solucion * 100) / totalAudiosAn);
-
-    this.solucionClienteData = {
-        labels: ['No Solución', 'Solución'],
-        datasets: [
+        this.solucionClienteData = {
+          labels: ['No Solución', 'Solución'],
+          datasets: [
             {
-                data: [noSolucion, solucion],
-                backgroundColor: ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)'],
-                borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'],
-                borderWidth: 1,
+              data: [noSolucion, solucion],
+              backgroundColor: ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)'],
+              borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'],
+              borderWidth: 1,
             },
-        ],
-    };
+          ],
+        };
 
-    this.solucionClienteOptions = {
-        plugins: {
+        this.solucionClienteOptions = {
+          plugins: {
             legend: {
-                labels: {
-                    color: 'white',
-                },
+              labels: {
+                color: 'white',
+              },
             },
             tooltip: {
-                callbacks: {
-                    label: (tooltipItem: any) => {
-                        const value = tooltipItem.formattedValue;
-                        return value + '%'; // Agrega el símbolo '%' al valor del tooltip
-                    },
+              callbacks: {
+                label: (tooltipItem: any) => {
+                  const value = tooltipItem.formattedValue
+                  return value + '%'; // Agrega el símbolo '%' al valor del tooltip
                 },
-                titleFont: {
-                    size: 16,
-                    weight: 'bold',
-                },
-                bodyFont: {
-                    size: 14,
-                },
-                bodyColor: 'white',
-                titleColor: 'white',
+              },
+              titleFont: {
+                size: 16,
+                weight: 'bold',
+              },
+              bodyFont: {
+                size: 14,
+              },
+              bodyColor: 'white',
+              titleColor: 'white',
             },
-        },
-    };
-}
+          },
+        };
+    }
 
 
     async fetchCalidadMonitoreo() {
@@ -610,12 +585,10 @@ solucionCliente(res: any) {
         this.mesesCalidadMonitoreoLetra = this.mesesLetra.slice(this.mesIni, this.mesFin + 1);
         this.mesesCalidadMonitoreoNumero = this.mesesNum.slice(this.mesIni, this.mesFin + 1);
 
-
-
         try {
             for (const mes of this.mesesCalidadMonitoreoNumero) {
                 const data = {
-                    controlador: 'dashboardController',
+                    controlador: 'DashboardController',
                     metodo: 'fetchCalidadMonitoreo',
                     ini: `${this.anhoIni}-${mes}-01 00:00:00`,
                     fin: `${this.anhoFin}-${mes}-${this.obtenerDiasEnElMes(Number(mes) - 1)} 23:59:59`,
@@ -638,56 +611,30 @@ solucionCliente(res: any) {
             console.log(error);
         }
     }
-    public notaCalidadLabels: string[] = [];
-    public notaCalidadData: any;
-    public notaCalidadOptions: any;
 
     calidadyMonitoreo() {
         this.notaCalidadLabels = this.mesesCalidadMonitoreoLetra;
-        this.notaCalidadData = {
-            labels: this.notaCalidadLabels,
-            datasets: [
-                {
-                    data: this.calidadMonitoreoNota,
-                    label: 'Nota',
-                    type: 'bar',
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
-                },
-                {
-                    data: this.calidadMonitoreoMonitoreo,
-                    label: 'Monitoreo',
-                    type: 'line',
-                    fill: true,
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    borderWidth: 1
-                }
-            ]
-        };
-    
+        this.notaCalidadData = [
+            {
+              data: this.calidadMonitoreoNota,
+              label: 'Nota',
+              type: 'bar'
+            },
+            {
+              data: this.calidadMonitoreoMonitoreo,
+              label: 'Monitoreo',
+              type: 'line',
+              fill: true
+            }
+        ];
+
         this.notaCalidadOptions = {
             responsive: true,
             maintainAspectRatio: true,
             plugins: {
                 legend: {
-                    display: true,
-                    position: 'top', // Coloca las leyendas en la parte superior de la gráfica
                     labels: {
-                        color: 'white', // Color de las leyendas (si es necesario)
-                        boxWidth: 10, // Ancho de la caja de la leyenda
-                        padding: 10, // Espaciado entre las leyendas
-                        // usePointStyle: true, // Usa el estilo de punto para las leyendas
-                        font: {
-                            size: 8 // Tamaño de la fuente de las leyendas
-                        }
-                    },
-                    align: 'start', // Alinea las leyendas al inicio
-                    layout: {
-                        padding: {
-                            bottom: 10
-                        }
+                        color: 'white' // Color de las leyendas (si es necesario)
                     }
                 }
             },
@@ -706,86 +653,85 @@ solucionCliente(res: any) {
         };
     }
 
-fetchCumplimiento() {
-    const data = {
-        controlador: 'dashboardController',
-        metodo: 'fetchCumplimiento',
-        ini: this.fechaIni,
-        fin: this.fechaFin,
-        tipo: this.tipo,
-        owner: this.userName
+    porcCumplimientoData: any[] = [];
+
+    fetchCumplimiento() {
+        const data = {
+            controlador: 'DashboardController',
+            metodo: 'fetchCumplimiento',
+            ini: this.fechaIni,
+            fin: this.fechaFin,
+            tipo: this.tipo,
+            owner: this.userName
+        }
+
+        this.cumplimientoLabels = [];
+
+        this.cors.post(data).subscribe(
+            (res: any) => {
+                const subs = res.subcat;
+
+                // CON ESTO SE CREAN LAS GRÁFICAS SEMICIRCULARES VELOCIMETRO DE LAS SUBCATEGORIAS
+                this.subcategorias = res.subcat;
+
+                let porcCumplimientoData: any[] = [];
+
+                this.subcategorias.forEach( (subcat: any) => {
+                    porcCumplimientoData.push(subcat.calculo);
+                    this.cumplimientoLabels.push(subcat.short)
+                } )
+
+                this.porcCumplimientoData = porcCumplimientoData
+            },
+            (err: any) => {
+                console.log(err);
+            }
+        );
+
     }
 
-    this.cumplimientoLabels = [];
 
-    this.cors.post(data).subscribe(
-        (res: any) => {
-            const subs = res.subcat;
-
-            // CON ESTO SE CREAN LAS GRÁFICAS SEMICIRCULARES VELOCIMETRO DE LAS SUBCATEGORIAS
-            this.subcategorias = res.subcat;
-
-            let porcCumplimientoData: any[] = [];
-
-            this.subcategorias.forEach( (subcat: any) => {
-                porcCumplimientoData.push(subcat.calculo);
-                this.cumplimientoLabels.push(subcat.short)
-            } )
-
-            this.cumplimento(porcCumplimientoData);
-        },
-        (err: any) => {
-            console.log(err);
-        }
-    );
-
-}
 
     cumplimento(porcCumplimientoData: any[]) {
         this.cumplimientoOptions = {
-        scales: {
-            y: {
-            ticks: {
-                color: 'white' // Cambia el color de las etiquetas del eje Y a blanco
-            }
+            scales: {
+                x: {
+                    ticks: {
+                        color: 'white' // Cambia el color de las etiquetas del eje X a blanco
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: 'white' // Cambia el color de las etiquetas del eje Y a blanco
+                    }
+                }
             },
-            x: {
-            ticks: {
-                color: 'white' // Cambia el color de las etiquetas del eje X a blanco
+            responsive: true,
+            maintainAspectRatio: false,
+            indexAxis: 'y',
+            barPercentage: 0.2,
+            categoryPercentage: 1,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: 'white'
+                    }
+                }
             }
-            }
-        },
-        responsive: true,
-        maintainAspectRatio: false,
-        indexAxis: 'y',
-        barPercentage: 0.2,
-        categoryPercentage: 1,
-        plugins: {
-            legend: {
-            labels: {
-                color: 'white'
-            }
-            }
-        }
         };
+
 
         this.cumplimientoLegend = true;
 
-        this.cumplimientoData = {
-        labels: porcCumplimientoData.map(item => item.label),
-        datasets: [
+        this.cumplimientoData = [
             {
-            data: porcCumplimientoData.map(item => item.value),
-            label: '% de cumplimiento',
-            backgroundColor: 'rgba(255, 99, 132, 1)'
+                data: porcCumplimientoData,
+                label: '% de cumplimiento',
+                backgroundColor: 'rgba(255, 99, 132, 1)'
             }
-        ]
-        };
-    }
+        ];
 
-    public cargadosAnalizadosLabels: string[] = [];
-    public cargadosAnalizadosData: any;
-    public cargadosAnalizadosOptions: any;
+    }
 
     cargadosAnalizados() {
         this.cargadosAnalizadosOptions = {
@@ -803,30 +749,26 @@ fetchCumplimiento() {
                 }
             },
             plugins: {
-                legend: {
-                    labels: {
-                        color: 'white'
-                    }
+              legend: {
+                labels: {
+                  color: 'white'
                 }
+              }
             }
         };
-    
+
         this.cargadosAnalizadosLabels = this.mesesCalidadMonitoreoLetra;
-    
+
         this.cargadosAnalizadosLegend = true;
-    
+
         this.cargadosAnalizadosData = [
-            { data: this.audiosCargados, label: 'Audios Cargados' },
-            { data: this.audiosAnalizados, label: 'Audios Analizados' }
+            { data: [this.audiosCargados], label: 'Audios Cargados' },
+            { data: [this.audiosAnalizados], label: 'Audios Analizados' }
         ];
-    
-        // LLAMAR EN FETCHAUDIOSUPLOADED
+
+         // LLAMAR EN FETCHAUDIOSUPLOADED
     }
 
-    public cargadosAnalizadosStackedLabels: string[] = [];
-    public cargadosAnalizadosStackedData: any;
-    public cargadosAnalizadosStackedOptions: any;
-    
     cargadosAnalizadosStacked(analizadosPorc: any, noAnalizadosPorc: any) {
         // const sinAnalizar = Number(this.audiosCargados[0]) - Number(this.audiosAnalizados[0]);
 
@@ -970,29 +912,28 @@ fetchCumplimiento() {
         )
     }
 
-    fetchAreasOportunidad(data: any) {
-        this.areasOportunidadData = data;
-
-        this.areasOportunidadData.unshift('2023');
-    }
-
     emocionesData: any[] = [];
 
-
-
     zonaToFetch: string = '';
+    concentradoMesCompleto: any[] = [];
 
     moreInfo(data: any, tabla: string) {
-        const posicion = data.Zona; // Asegúrate de que 'Zona' es la propiedad correcta para identificar la posición
-        this.fullDataResumenIndicadores = this.concentradoMesCompleto[posicion]['datos'];
-    
-        if (tabla === 'PT') {
-            data['showInfo'] = !data['showInfo'];
+        const posicion = data.zona;
+        this.fullDataIndicadores = this.concentradoMesCompleto[posicion]['datos'];
+
+        if(tabla === 'PT') {
+            data['showInfo'] = true;
         }
-    
-        if (tabla === 'ST') {
-            data['showInfoST'] = !data['showInfoST'];
+
+        if(tabla === 'ST') {
+            data['showInfoST'] = true;
         }
+    }
+
+    moreInfo2(data: any) {
+        data.showInfo = !data.showInfo;
+        const posicion = data.zona;
+        this.fullDataIndicadores = this.concentradoMesCompleto[posicion]['datos'];
     }
 
     fullDataIndicadores: any[] = [];
@@ -1037,11 +978,66 @@ fetchCumplimiento() {
             zona: this.zonaToFetch,
             iteraciones
         }
+
+        // this.cors.post('dashboardController/fetchDataResumenIndicadorMesCompleto', data).subscribe(
+        //     (res: any) => {
+        //         let reincidentes = res.reincidentes;
+
+        //         this.fullDataResumenIndicadores.forEach((element: any, index: number) => {
+        //             element.reincidentes = Number(reincidentes[index]);
+
+        //             element.insatisfechos = res.insatisfechos[index];
+
+        //             if(reincidentes[index] > 0) {
+        //                 let reincidenciaPorc = (reincidentes[index] * 100) / element.Total;
+        //                 element.reincidentesPorc = (reincidenciaPorc).toFixed(2) + '%';
+        //             }
+
+        //             if(res.insatisfechos[index] > 0) {
+        //                 let insatisfechosPorc = (res.insatisfechos[index] * 100) / element.Total;
+        //                 element.insatisfechosPorc = (insatisfechosPorc).toFixed(2) + '%';
+        //             }
+
+        //             element.neutro = res.neutralidad[index];
+        //             element.positivo = res.positividad[index];
+        //             element.negativo = res.negatividad[index];
+        //             element.general = res.general[index];
+        //         })
+        //     },
+        //     (err: any) => {
+        //         console.log(err)
+        //     }
+        // )
+
+        // this.fullDataIndicadores.forEach( (data: any) => {
+
+        //     let row = data[0];
+
+        //     let obj = {
+        //         'Zona': row.Zona,
+        //         'Total': row.Total,
+        //         'nota': row.nota,
+        //         'MarIAna': row.Alizzia,
+        //         'reincidentes': 0,
+        //         'reincidentesPorc': 0,
+        //         'insatisfechos': 0,
+        //         'insatisfechosPorc': 0,
+        //         'negativo': 0,
+        //         'neutro': 0,
+        //         'positivo': 0,
+        //         'general': 0
+        //     }
+
+        //     this.fullDataResumenIndicadores.push(obj);
+
+        // })
     }
 
     generarMonitoreosPorDivision() {
         let labelsMonitoreoPorDivison: string[] = [];
         let dataMonitoreoPorDivison: string[] = [];
+
+        this.crearGraficaMonitoreosDivision();
 
         this.dataIndicadorGeneralTabla.forEach((data: any, index: number ) => {
 
@@ -1129,14 +1125,11 @@ fetchCumplimiento() {
             },
         };
     }
-    public llamadasEvaluadasData: any;
 
     generarLlamadasEvaluadas(dataDB: any) {
-        this.llamadasEvaluadasData = {
-            labels: [this.mesActualGrafico],
-            datasets: []
-        };
-    
+        this.llamadasEvaluadasData = [];
+        this.llamadasEvaluadasLabels = [];
+
         this.llamadasEvaluadasOptions = {
             responsive: true,
             scales: {
@@ -1152,31 +1145,34 @@ fetchCumplimiento() {
                 }
             },
             plugins: {
-                legend: {
-                    labels: {
-                        color: 'white'
-                    }
+              legend: {
+                labels: {
+                  color: 'white'
                 }
+              }
             }
         };
-    
-        let colors = ['#CC0494', '#32CBCB', '#EE7D30', '#FDCC03'];
-    
+
+        this.llamadasEvaluadasLabels.push(this.mesActualGrafico);
+
+        let colors = ['x', '#CC0494', '#32CBCB', '#EE7D30', '#FDCC03'];
+
         dataDB.forEach((element: any, index: number) => {
-            if (element.Zona != this.mesActualGrafico) {
+            if(element.Zona != this.mesActualGrafico) {
                 let obj = {
                     data: [element.cargados],
                     label: element.zona,
-                    backgroundColor: colors[index % colors.length],
-                    borderColor: colors[index % colors.length],
-                    borderWidth: 1
-                };
-    
-                this.llamadasEvaluadasData.datasets.push(obj);
+                    backgroundColor: colors[index],
+                    borderColor:colors[index],
+                }
+
+                this.llamadasEvaluadasData.push(obj);
             }
+
         });
+
     }
-    
+
     getFecha() {
         this.fechasFiltro[0] = new Date();
         const fechaActual = new Date();
@@ -1322,6 +1318,12 @@ fetchCumplimiento() {
             this.adelanta = true;
 
             this.paginaActual = '3';
+
+            setTimeout(() => {
+                this.crearGraficaCalidadMonitoreo();
+                this.crearGraficaEstadisticasCalificaciones();
+                this.fetchSolucionCliente();
+            }, 0);
         }
 
         if(pagina === 'tres') {
@@ -1333,6 +1335,8 @@ fetchCumplimiento() {
             this.adelanta = false;
 
             this.paginaActual = '4';
+
+
         }
     }
 
@@ -1438,7 +1442,8 @@ fetchCumplimiento() {
                 this.generarMonitoreosPorDivision()
 
                 // Genera la gráfica % Llamadas evaluadas
-                this.generarLlamadasEvaluadas(res.data)
+                this.crearGraficaLlamadasEvaluadas(res.data)
+
 
                 // Llama los datos para el mes completo
                 this.getIndicadorDiario();
@@ -1451,8 +1456,7 @@ fetchCumplimiento() {
 
     }
 
-    dataResumenIndicadorGeneral: any[] = [];
-
+    // DATOS DIARIOS DE LA PRIMER TABLA
     getIndicadorDiario() {
         const data = {
             controlador: 'DashboardController',
@@ -1468,7 +1472,7 @@ fetchCumplimiento() {
             }
         )
     }
-    concentradoMesCompleto: any[] = [];
+    dataResumenIndicadorGeneral: any[] = [];
 
 
     // agruparResumenIndicadores y fetchZonasResumen construyen los datos de la tabla
@@ -1484,10 +1488,10 @@ fetchCumplimiento() {
         // this.dataIndicadorGeneralTabla.forEach((element: any) => {
         //     if(element.Zona != this.mesActualGrafico) {
         //         let Obj = {
-        //             'Zona': element.Zona,
-        //             'cargados': element.Total,
+        //             'zona': element.zona,
+        //             'cargados': element.total,
         //             'notaCalidad': element.nota,
-        //             'Alizzia': element.Alizzia,
+        //             'analizados': element.analizados,
         //             'reincidentes': 0,
         //             'reincidentesPorc': 0 + '%',
         //             'insatisfechos': 0,
@@ -1573,6 +1577,7 @@ fetchCumplimiento() {
 
         this.fetchCalidadMonitoreo();
 
+        this.getFullDataEmocionesSentimientos()
         // this.fetchcargadosAnalizados();
 
         this.fetchIndicadorGeneral();
@@ -1590,7 +1595,7 @@ fetchCumplimiento() {
 
     fetchShortSubs() {
         const data = {
-            controlador: 'dashboardController',
+            controlador: 'DashboardController',
             metodo: 'fetchShortSubs'
         }
         this.cors.post(data).subscribe(
@@ -1618,6 +1623,491 @@ fetchCumplimiento() {
                 console.log(err);
             }
         )
+    }
+
+    crearGraficaMonitoreosDivision(): void {
+        const canvas = document.getElementById('graficaMonitoreosDivision') as HTMLCanvasElement;
+        if (!canvas) {
+          console.error('Canvas element not found');
+          return;
+        }
+    
+        const labels = this.dataIndicadorGeneralTabla.map((obj: any) => obj.zona);
+        const values = this.dataIndicadorGeneralTabla.map((obj: any) => obj.analizados);
+
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+          console.error('Failed to get 2D context');
+          return;
+        }
+        
+        const colors = [
+          "#ffd414", // yellow
+          "#d80474", // pink
+          "#08b4ac", // aqua
+          "#404040", // gris
+          "#FFFFFF", // blanco
+          "#a2d729", // verde
+          "#9b59b6", // morado
+          "#3b8cff", // azul
+          "#ff5e57", // rojo
+          "#4eb3a7"  // menta
+      ];
+      
+        new Chart(ctx, {
+          type: 'pie',
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: 'Porcentaje',
+                data: values,
+                backgroundColor: colors,
+                borderColor: colors.map(color => this.shadeColor(color, -20)),
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: 'right',
+                display: true,
+                labels: {
+                  color: '#fff',
+                  font: {
+                    size: 12,
+                    weight: 'bold'
+                  },
+                  boxWidth: 15,
+                },
+              },
+              tooltip: { enabled: true },
+              title: {
+                display: false,
+                text: 'Motivos de Llamada',
+                color: '#fff',
+                font: { size: 16 },
+              },
+              datalabels: {
+                display: false,
+                color: '#fff',
+                font: { weight: 'bold', size: 14 },
+              },
+            },
+          },
+          plugins: [ChartDataLabels],
+        });
+    }
+
+    crearGraficaLlamadasEvaluadas(data: any): void {
+        const canvas = document.getElementById('graficaLlamadasEvaluadas') as HTMLCanvasElement;
+        if (!canvas) {
+          console.error('Canvas element not found');
+          return;
+        }
+      
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+          console.error('Failed to get 2D context');
+          return;
+        }
+
+      
+        const labels = data.map((obj: any) => obj.zona);
+        const values = data.map((obj: any) => obj.analizados);
+
+        const colors = [
+          "#f87c2c",
+          "#ffd414",
+          "#d80474",
+          "#08b4ac",
+          "#404040",
+          "#FFFFFF",
+          "#a2d729",
+          "#9b59b6",
+          "#3b8cff",
+          "#ff5e57",
+          "#4eb3a7"
+        ];
+      
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: 'Volumen',
+                data: values,
+                backgroundColor: colors,
+                borderColor: colors.map(color => this.shadeColor(color, -20)),
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: { enabled: true },
+              title: {
+                display: false,
+                text: 'Volumen de llamadas mensual',
+                color: 'white',
+                font: { size: 16 },
+                padding: { top: 10, bottom: 10 }
+              },
+              datalabels: {
+                color: 'white',
+                anchor: 'end',
+                align: 'top',
+                font: { weight: 'bold', size: 12 },
+              },
+            },
+            scales: {
+              x: {
+                ticks: { color: 'white' },
+                grid: { display: false },
+              },
+              y: {
+                ticks: { color: 'white' },
+                grid: { color: 'rgba(255, 255, 255, 0.2)' },
+                beginAtZero: true
+              },
+            },
+            layout: {
+              padding: {
+                left: 10,
+                right: 10,
+                top: 20,
+                bottom: 10
+              }
+            }
+          },
+          plugins: [ChartDataLabels],
+        });
+    }
+
+    crearGraficaCalidadMonitoreo(): void {
+        console.log('graficaCalidadMonitoreo');
+        const canvas = document.getElementById('graficaCalidadMonitoreo') as HTMLCanvasElement;
+        if (!canvas) {
+            console.error('Canvas element not found');
+            return;
+        }
+    
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+            console.error('Failed to get 2D context');
+            return;
+        }
+    
+        // Ajustar tamaño del canvas
+        const container = canvas.parentElement;
+        if (container) {
+            canvas.style.width = '100%';
+            canvas.style.height = '100%';
+        }
+    
+        // Datos de la gráfica
+        const labels = this.mesesCalidadMonitoreoLetra; // Mismos labels
+        const calidadData = this.calidadMonitoreoNota;
+        const monitoreoData = this.calidadMonitoreoMonitoreo;
+    
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Nota',
+                        data: calidadData,
+                        type: 'bar',
+                        backgroundColor: 'rgba(248, 124, 44, 0.7)', // Hacer transparente (0.2 de opacidad)
+                        borderColor: 'rgba(248, 124, 44, 0.5)', // Hacer el borde más visible con opacidad
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Monitoreo',
+                        data: monitoreoData,
+                        type: 'line',
+                        borderColor: '#08b4ac', // Color de la línea
+                        backgroundColor: 'rgba(8, 180, 172, 0.2)', // Color de relleno con opacidad baja
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 5, // Tamaño del punto
+                        pointBackgroundColor: '#08b4ac', // Color de los puntos
+                        pointBorderColor: '#fff', // Borde blanco para los puntos
+                        pointBorderWidth: 2 // Ancho del borde de los puntos
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true, // Mismo aspecto que la versión anterior
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'white' // Color de las leyendas
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: 'white' // Etiquetas del eje X en blanco
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: 'white' // Etiquetas del eje Y en blanco
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    crearGraficaEstadisticasCalificaciones(): void {
+        console.log('graficaCalificaciones');
+        const canvas = document.getElementById('graficaCalificaciones') as HTMLCanvasElement;
+        if (!canvas) {
+            console.error('Canvas element not found');
+            return;
+        }
+    
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+            console.error('Failed to get 2D context');
+            return;
+        }
+    
+
+    
+        const data = [10, 20, 30, 40];
+        const labels = ['Mayor a 80', 'Entre 70 y 80', 'Entre 60 y 70', 'Menor de 60'];
+        const backgroundColors = [
+            'rgba(255, 99, 132, 0.5)', 
+            'rgba(54, 162, 235, 0.5)', 
+            'rgba(255, 206, 86, 0.5)', 
+            'rgba(75, 192, 192, 0.5)'
+        ];
+        const borderColors = [
+            'rgba(255, 99, 132, 1)', 
+            'rgba(54, 162, 235, 1)', 
+            'rgba(255, 206, 86, 1)', 
+            'rgba(75, 192, 192, 1)'
+        ];
+    
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        data: data,
+                        backgroundColor: backgroundColors,
+                        borderColor: borderColors,
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'white', // Color de las leyendas
+                        }
+                    },
+                    tooltip: {
+                        titleFont: {
+                            size: 16,
+                            weight: 'bold',
+                        },
+                        bodyFont: {
+                            size: 14,
+                        },
+                        bodyColor: 'white', // Color de texto para los tooltips
+                        titleColor: 'white'
+                    }
+                }
+            }
+        });
+    }
+
+    crearGraficaSolucionCliente(): void {
+        console.log('graficaSolucionCliente');
+        const canvas = document.getElementById('graficaSolucionCliente') as HTMLCanvasElement;
+        if (!canvas) {
+            console.error('Canvas element not found');
+            return;
+        }
+    
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+            console.error('Failed to get 2D context');
+            return;
+        }
+
+        console.log(this.solucionClienteGraph);
+        // Datos de la gráfica
+        const totalAudiosAn = this.solucionClienteGraph.res;
+        const noSolucion = Math.round((this.solucionClienteGraph.noSolucion * 100) / totalAudiosAn);
+        const solucion = Math.round((this.solucionClienteGraph.solucion * 100) / totalAudiosAn);
+    
+        const data = [noSolucion, solucion];
+        const labels = ['No Solución', 'Solución'];
+        const backgroundColors = [
+            'rgba(255, 99, 132, 0.5)', 
+            'rgba(54, 162, 235, 0.5)'
+        ];
+        const borderColors = [
+            'rgba(255, 99, 132, 1)', 
+            'rgba(54, 162, 235, 1)'
+        ];
+    
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        data: data,
+                        backgroundColor: backgroundColors,
+                        borderColor: borderColors,
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'white', // Color de las leyendas
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: (tooltipItem: any) => {
+                                const value = tooltipItem.formattedValue;
+                                return value + '%'; // Agrega el símbolo '%' al valor del tooltip
+                            },
+                        },
+                        titleFont: {
+                            size: 16,
+                            weight: 'bold',
+                        },
+                        bodyFont: {
+                            size: 14,
+                        },
+                        bodyColor: 'white', // Color de texto para los tooltips
+                        titleColor: 'white'
+                    }
+                }
+            }
+        });
+    }
+
+    crearGraficaCumplimiento(): void {
+        console.log('graficaCumplimiento');
+        const canvas = document.getElementById('graficaCumplimiento') as HTMLCanvasElement;
+        if (!canvas) {
+            console.error('Canvas element not found');
+            return;
+        }
+    
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+            console.error('Failed to get 2D context');
+            return;
+        }
+    
+        // Ajustar tamaño del canvas
+        const container = canvas.parentElement;
+        if (container) {
+            canvas.style.width = '100%';
+            canvas.style.height = '100%';
+        }
+    
+        // Datos de la gráfica
+        const labels = this.cumplimientoLabels; // Etiquetas del eje Y
+        const data = this.porcCumplimientoData; // Datos de cumplimiento
+    
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: '% de cumplimiento',
+                        data: data,
+                        backgroundColor: 'rgba(255, 99, 132, 0.5)', // Color con transparencia
+                        borderColor: 'rgba(255, 99, 132, 1)', // Borde más sólido
+                        borderWidth: 1,
+                        barPercentage: 0.2,
+                        categoryPercentage: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y', // Barras horizontales
+                scales: {
+                    x: {
+                        ticks: {
+                            color: 'white' // Etiquetas del eje X en blanco
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: 'white' // Etiquetas del eje Y en blanco
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'white' // Color de leyendas
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+    
+    
+    
+    
+    
+
+    // Función auxiliar para oscurecer los colores
+    shadeColor(color: string, percent: number): string {
+        const f = parseInt(color.slice(1), 16),
+        t = percent < 0 ? 0 : 255,
+        p = percent < 0 ? percent * -1 : percent,
+        R = f >> 16,
+        G = (f >> 8) & 0x00ff,
+        B = f & 0x0000ff;
+        return (
+        '#' +
+        (
+            0x1000000 +
+            (Math.round((t - R) * p) + R) * 0x10000 +
+            (Math.round((t - G) * p) + G) * 0x100 +
+            (Math.round((t - B) * p) + B)
+        )
+            .toString(16)
+            .slice(1)
+        );
     }
 
 
