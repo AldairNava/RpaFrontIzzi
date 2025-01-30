@@ -342,10 +342,12 @@ export class DashboardComponent implements OnInit {
             owner: this.userName
         }
 
+        console.log('getFullDataEmocionesSentimientos');
+
         this.cors.post(data).subscribe(
             (res: any) => {
                 console.log(res)
-                this.crearGrafica(res);
+                this.crearGraficaEmociones(res);
             },
             (err: any) => {
                 console.log(err)
@@ -1336,6 +1338,12 @@ export class DashboardComponent implements OnInit {
 
             this.paginaActual = '4';
 
+            setTimeout(() => {
+                this.crearGraficaCargadosAnalizados();
+                
+                this.getFullDataEmocionesSentimientos();
+            }, 0);
+
 
         }
     }
@@ -2082,7 +2090,176 @@ export class DashboardComponent implements OnInit {
             }
         });
     }
+
+    crearGraficaCargadosAnalizados(): void {
+        console.log('graficaCargadosAnalizados');
+        const canvas = document.getElementById('graficaCargadosAnalizados') as HTMLCanvasElement;
+        if (!canvas) {
+            console.error('Canvas element not found');
+            return;
+        }
     
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+            console.error('Failed to get 2D context');
+            return;
+        }
+    
+        // Datos de la gráfica
+        const labels = this.mesesCalidadMonitoreoLetra; // Etiquetas del eje X (meses)
+        const cargadosData = Array(labels.length).fill(this.audiosCargados); 
+        const analizadosData = Array(labels.length).fill(this.audiosAnalizados);
+    
+    
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Audios Cargados',
+                        data: cargadosData,
+                        backgroundColor: 'rgba(255, 99, 132, 0.5)', // Rojo transparente
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Audios Analizados',
+                        data: analizadosData,
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)', // Azul transparente
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        ticks: {
+                            color: 'white' // Etiquetas del eje X en blanco
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: 'white' // Etiquetas del eje Y en blanco
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'white' // Color de leyendas
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+    crearGraficaEmociones(res: any): void {
+        console.log(res);
+        console.log('graficaEmociones');
+
+        const canvas = document.getElementById('graficaEmociones') as HTMLCanvasElement;
+        if (!canvas) {
+            console.error('Canvas element not found');
+            return;
+        }
+    
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+            console.error('Failed to get 2D context');
+            return;
+        }
+
+    
+        // Datos de la gráfica
+       const labels = res.labels // Etiquetas del eje X (meses)
+        const negatividadData = res.negatividad;
+        const neutralidadData = res.neutralidad;
+        const positividadData = res.positividad;
+    
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: '% Negatividad',
+                        data: negatividadData,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 2
+                    },
+                    {
+                        label: '% Neutralidad',
+                        data: neutralidadData,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 2
+                    },
+                    {
+                        label: '% Positividad',
+                        data: positividadData,
+                        backgroundColor: 'rgba(4, 182, 100, 0.2)',
+                        borderColor: 'rgba(4, 182, 100, 1)',
+                        borderWidth: 2
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        ticks: {
+                            color: 'white' // Etiquetas del eje X en blanco
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            callback: function (value: any) {
+                                return value.toFixed(0) + '%';
+                            },
+                            color: 'white' // Etiquetas del eje Y en blanco
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'white' // Color de leyendas
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context: any) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += context.parsed.y.toFixed(2) + '%';
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+    
+
     
     
     
