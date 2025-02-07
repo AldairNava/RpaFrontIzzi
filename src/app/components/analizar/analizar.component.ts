@@ -500,11 +500,10 @@ export class AnalizarComponent implements OnInit {
       this.visibleModal = true;
     }
 
-
-
     getStatus(data: any) {
       data.controlador = 'AudiosController';
-      data.metodo = 'getStatus;'
+      data.metodo = 'getStatus'
+
       this.cors.post(data).subscribe(
         (response: any) => {
           this.audioStatus = response.status;
@@ -928,6 +927,7 @@ export class AnalizarComponent implements OnInit {
 
   filtrando() {
     this.audios = [];
+    this.noAudios = false;
 
     let data: any = {
       'owner': this.user,
@@ -988,6 +988,8 @@ export class AnalizarComponent implements OnInit {
   }
 
   filtrarNombre() {
+    this.noAudios = false;
+
     const name: string = this.filterAudioInput.trim().toUpperCase();
 
     this.audios = this.arrayOriginal;
@@ -996,14 +998,21 @@ export class AnalizarComponent implements OnInit {
         audio.name.toUpperCase().includes(name.toUpperCase())
     );
 
+
+
     this.audios = this.filteredArray;
 
+    if(this.audios.length === 0) {
+      this.noAudios = true;
+     }
 
     // Si deseas, puedes limpiar `filteredArray` más tarde cuando ya no lo necesites
     // this.filteredArray = [];
 }
 
   filtrarStatus(status: any) {
+    this.noAudios = false;
+
     this.filteredArray = [];
 
     const audioStatusSelected = status.code
@@ -1018,6 +1027,8 @@ export class AnalizarComponent implements OnInit {
   }
 
   filtrarFecha(fechas: any) {
+    this.noAudios = false;
+
     this.filteredArray = [];
     console.log('hola')
 
@@ -1043,6 +1054,8 @@ export class AnalizarComponent implements OnInit {
   }
 
   filtrarNombreyStatus(name: string, status: any) {
+    this.noAudios = false;
+
     this.audios = this.originalArray;
     this.filteredArray = [];
 

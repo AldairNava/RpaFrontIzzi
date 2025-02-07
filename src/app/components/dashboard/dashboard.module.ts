@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DashboardComponent } from './dashboard.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -10,6 +10,7 @@ import { ChartModule } from 'primeng/chart';
 import { FormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { CalendarModule } from 'primeng/calendar';
+import { ZingchartAngularModule } from 'zingchart-angular';
 
 
 @NgModule({
@@ -26,10 +27,12 @@ import { CalendarModule } from 'primeng/calendar';
     ToastModule,
     DividerModule,
     ButtonModule,
-    ChartModule
+    ChartModule,
+    ZingchartAngularModule
   ],
   exports : [
     DashboardComponent
-  ]
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class DashboardModule { }

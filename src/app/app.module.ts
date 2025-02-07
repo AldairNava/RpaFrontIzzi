@@ -36,6 +36,7 @@ import { SpeechAnalyticsModule } from './components/speech-analytics/speech-anal
 import { DashUsuariosComponent } from './components/usuarios/dash-usuarios/dash-usuarios.component';
 import { VerifyComponent } from './components/verify/verify.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ZingchartAngularModule } from 'zingchart-angular';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     CargarPlantillasModule,
     PagprincipalModule,
     SpeechAnalyticsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ZingchartAngularModule
   ],
   providers: [
     CorsService,

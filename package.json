@@ -53,6 +53,8 @@
     "tslib": "^2.3.0",
     "web-animations-js": "^2.3.2",
     "xlsx": "^0.18.5",
+    "zingchart": "^2.9.16-1",
+    "zingchart-angular": "^2.0.2",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {

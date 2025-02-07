@@ -1,3 +1,15 @@
+<!-- <div class="gauge" [style.color]="'#ff0000'">
+    <div style="text-align: center;">
+        <h3 style="color: #FFF; font-size: 12px;">Short Name</h3>
+    </div>
+    <div class="gauge__body" [style.margin-top]="'10px'">
+        <div class="gauge__fill" [style.background]="'#ff0000'" [style.transform]="'rotate(' + nivelCalidadGraph.rotacion + 'turn)'"></div>
+        <div class="gauge__cover"> {{nivelCalidadGraph.valor}}% </div>
+    </div>
+</div> -->
+
+
+
 <div class="dash">
 
     <div class="dash__title">
@@ -72,7 +84,8 @@
     </div>
 </div>
 
-<div class="dash" *ngIf="paginaUno">
+
+<div class="dash" *ngIf="paginaActual === 1">
     <p [class]=" mode ? 'text__w' : 'text__b'">Indicadores Operativos</p>
 
     <div class="general">
@@ -183,7 +196,7 @@
     </div>
 </div>
 
-<div class="dash2" *ngIf="paginaDos">
+<div class="dash2" *ngIf="paginaActual === 2">
     <div class="general">
         <p [class]=" mode ? 'text__w' : 'text__b'">Indicadores Operativos 2</p>
 
@@ -296,23 +309,12 @@
 
 </div>
 
-<div class="dash altura" *ngIf="paginaTres">
+<div class="dash altura" *ngIf="paginaActual === 3">
         <div class="graficos__grid ">
-            <div class="nivel__calidad card__graph blur-in-expand" *ngIf="reload">
+            <div class="nivel__calidad card__graph blur-in-expand">
                 <h3 style="color: #FFF">Nivel de calidad: {{porcentajeTotales}}</h3>
 
-                <div class="wrapper">
-                    <div class="cls">
-                        <div class="line" [ngStyle]="{'transform': 'rotate(' + rotationDegrees + 'deg)'}"></div>
-                        <div class="number n0">0%</div>
-                        <div class="number n25">25%</div>
-                        <div class="number n90">50%</div>
-                        <div class="number n75">75%</div>
-                        <div class="number n180">100%</div>
-                        <div class="circle2"></div>
-                        <div class="circle1"></div>
-                    </div>
-                </div>
+                <canvas id="graficaNivelCalidad"></canvas>
             </div>
 
             <div class="calidad__monitoreos card__graph blur-in-expand" *ngIf="reload">
@@ -369,7 +371,7 @@
 </div>
 
 
-<div class="dash" *ngIf="paginaCuatro">
+<div class="dash" *ngIf="paginaActual === 4">
     <div class="graficos__grid__pagina__dos">
 
         <div>

@@ -4,7 +4,7 @@ import { CorsService } from '../../services/cors/cors.service';
 import {Chart, registerables } from "chart.js";
 import { Calendar } from 'primeng/calendar';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { BaseChartDirective } from 'ng2-charts';
+
 
 
 @Component({
@@ -14,6 +14,8 @@ import { BaseChartDirective } from 'ng2-charts';
 })
 export class DashboardComponent implements OnInit {
     @ViewChild('monthPicker') myCalendar?: Calendar;
+
+   
 
 
     fechasFiltro: any[] = [];
@@ -30,15 +32,10 @@ export class DashboardComponent implements OnInit {
     totalAudiosCargados: number = 0;
 
     /* Páginador */
-    paginaUno: boolean = true;
-    paginaDos: boolean = false;
-    paginaTres: boolean = false;
-    paginaCuatro: boolean = false;
-
+    paginaActual: number = 1;
+    totalPaginas: number = 4;
     retrocede: boolean = false;
     adelanta: boolean = true;
-
-    paginaActual: string = '';
 
     mode: boolean = false;
     userName: any;
@@ -202,12 +199,10 @@ export class DashboardComponent implements OnInit {
     rotationDegrees: any = 90;
 
     constructor(private dark: DarkService, private cors: CorsService) {
-
+        
     }
 
-    ngAfterViewInit() {
 
-    }
 
     ngOnInit(): void {
         this.getFecha();
@@ -287,6 +282,12 @@ export class DashboardComponent implements OnInit {
                     
                     // Velocímetro : 270 deg = 100%
                     this.rotationDegrees = (this.porcentajeTotales * 270) / 100;
+
+                    this.nivelCalidadGraph.valor = this.porcentajeTotales;
+
+                    this.nivelCalidadGraph.rotacion = (this.porcentajeTotales * 0.5) / 100
+
+
                     this.audiosCargados = res.data.cargados;
                     this.audiosAnalizados = res.data.analizados;
                     this.cargadosAnalizados();
@@ -311,6 +312,11 @@ export class DashboardComponent implements OnInit {
 
     sumaTotales: number = 0
     porcentajeTotales: any = 0;
+    nivelCalidadGraph = {
+        valor: 0,
+        rotacion: 0,
+        color: '#FFF'
+    }
 
     fetchStatsCalif() {
         const data = {
@@ -525,6 +531,11 @@ export class DashboardComponent implements OnInit {
                     this.solucionClienteGraph = res;
                     this.crearGraficaSolucionCliente();
                     this.crearGraficaCumplimiento();
+                    this.crearGraficaEstadisticasCalificaciones();
+                    this.crearGraficaNivelCalidad();
+                    setTimeout(() => {
+                        this.crearGraficaCalidadMonitoreo();
+                    }, 1000);
                 }
                 
             },
@@ -1278,20 +1289,19 @@ export class DashboardComponent implements OnInit {
     }
 
     detectarPagina() {
-        if(this.paginaUno) {
-            this.paginaActual = '1';
+        if(this.paginaActual === 1) {
             return 'uno';
         }
 
-        if(this.paginaDos) {
+        if(this.paginaActual === 2) {
             return 'dos';
         }
 
-        if(this.paginaTres) {
+        if(this.paginaActual === 3) {
             return 'tres';
         }
 
-        if(this.paginaCuatro) {
+        if(this.paginaActual === 4) {
             return 'cuatro';
         }
 
@@ -1299,88 +1309,55 @@ export class DashboardComponent implements OnInit {
     }
 
     nextPage() {
-        const pagina = this.detectarPagina();
-
-        // Cambia a página 2
-        if(pagina === 'uno') {
-            this.paginaUno = false;
-            this.paginaDos = true;
-            this.paginaTres = false;
-            this.retrocede = true;
-
-            this.paginaActual = '2';
-
-        }
-
-        if(pagina === 'dos') {
-            this.paginaUno = false;
-            this.paginaDos = false;
-            this.paginaTres = true;
-            this.retrocede = true;
-            this.adelanta = true;
-
-            this.paginaActual = '3';
-
-            setTimeout(() => {
-                this.crearGraficaCalidadMonitoreo();
-                this.crearGraficaEstadisticasCalificaciones();
-                this.fetchSolucionCliente();
-            }, 0);
-        }
-
-        if(pagina === 'tres') {
-            this.paginaUno = false;
-            this.paginaDos = false;
-            this.paginaTres = false;
-            this.paginaCuatro = true;
-            this.retrocede = true;
-            this.adelanta = false;
-
-            this.paginaActual = '4';
-
-            setTimeout(() => {
-                this.crearGraficaCargadosAnalizados();
-                
-                this.getFullDataEmocionesSentimientos();
-            }, 0);
-
-
+        if (this.paginaActual < this.totalPaginas) {
+            this.paginaActual++;
+            this.actualizarBotonesPaginador();
+            this.cargarDatosPagina();
         }
     }
 
     prevPage() {
-        const pagina = this.detectarPagina();
-        if(pagina === 'cuatro') {
-            this.paginaUno = false;
-            this.paginaDos = false;
-            this.paginaTres = true;
-            this.paginaCuatro = false;
-            this.retrocede = true;
-            this.adelanta = true;
-
-            this.paginaActual = '3';
+        if (this.paginaActual > 1) {
+            this.paginaActual--;
+            this.actualizarBotonesPaginador();
+            this.cargarDatosPagina();
         }
+    }
 
-        // Cambia a página 2
-        if(pagina === 'tres') {
-            this.paginaUno = false;
-            this.paginaDos = true;
-            this.paginaTres = false;
-            this.retrocede = true;
-            this.adelanta = true;
+    private actualizarBotonesPaginador() {
+        this.retrocede = this.paginaActual > 1;
+        this.adelanta = this.paginaActual < this.totalPaginas;
+    }
 
-            this.paginaActual = '2';
+    private cargarDatosPagina() {
+        // Limpiar estado anterior
+        this.limpiarGraficas();
+        
+        // Cargar datos según la página actual
+        switch(this.paginaActual) {
+            case 1:
+                // Datos página 1
+                break;
+            case 2:
+                // Datos página 2
+                break;
+            case 3:
+                setTimeout(() => {
+                    this.fetchSolucionCliente();
+                }, 0);
+                break;
+            case 4:
+                setTimeout(() => {
+                    this.crearGraficaCargadosAnalizados();
+                    this.getFullDataEmocionesSentimientos();
+                }, 0);
+                break;
         }
+    }
 
-        if(pagina === 'dos') {
-            this.paginaUno = true;
-            this.paginaDos = false;
-            this.paginaTres = false;
-            this.retrocede = false;
-            this.adelanta = true;
-
-            this.paginaActual = '1';
-        }
+    private limpiarGraficas() {
+        // Limpiar gráficas anteriores si es necesario
+        // Esto evita problemas de memoria y renderizado
     }
 
     cambiaFechas() {
@@ -1710,6 +1687,82 @@ export class DashboardComponent implements OnInit {
         });
     }
 
+    crearGraficaNivelCalidad(): void {
+        const canvas = document.getElementById('graficaNivelCalidad') as HTMLCanvasElement;
+        if (!canvas) {
+          console.error('Canvas element not found');
+          return;
+        }
+    
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+          console.error('Failed to get 2D context');
+          return;
+        }
+    
+        const valor = 60.41;
+        const restante = 100 - valor;
+    
+        const COLORS = ['#8CD610', '#EAEAEA']; // Verde brillante y gris claro
+    
+        // 🔵 **Configuración de la gráfica**
+        new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            datasets: [
+              {
+                data: [valor, restante],
+                backgroundColor: COLORS,
+                borderWidth: 0,
+              },
+            ],
+          },
+          options: {
+            responsive: false,
+            maintainAspectRatio: true,
+            cutout: '70%', // Ajusta el tamaño del agujero central
+            rotation: -90, // Empieza desde la izquierda
+            circumference: 180, // Semicírculo
+            plugins: {
+                legend: { display: false }, // Ocultar leyenda
+                tooltip: { enabled: false }, // Desactivar tooltips
+                datalabels: { display: false }, // Ocultar etiquetas de datos en los segmentos
+            },
+          },
+          plugins: [
+            {
+              id: 'centerText',
+              afterDraw: (chart) => {
+                const { ctx, chartArea } = chart;
+                if (!chartArea) return;
+          
+                const centerX = (chartArea.left + chartArea.right) / 2;
+                const centerY = (chartArea.top + chartArea.bottom) / 2;
+          
+                // Asegurar que el valor esté definido
+                const nivelCalidad = 60.41; // Definirlo dentro del scope si es necesario
+          
+                ctx.save();
+                ctx.font = 'bold 40px Arial';
+                ctx.fillStyle = '#8CD610'; // Verde brillante
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(`${nivelCalidad.toFixed(2)}%`, centerX, centerY - 10);
+                
+                ctx.font = '20px Arial';
+                ctx.fillStyle = 'white';
+                ctx.fillText('Nivel de Calidad', centerX, centerY + 20);
+                ctx.restore();
+              },
+            },
+          ],
+          
+          
+          
+        });
+    }
+    
+
     crearGraficaLlamadasEvaluadas(data: any): void {
         const canvas = document.getElementById('graficaLlamadasEvaluadas') as HTMLCanvasElement;
         if (!canvas) {
@@ -1855,7 +1908,7 @@ export class DashboardComponent implements OnInit {
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: true, // Mismo aspecto que la versión anterior
+                maintainAspectRatio: false, // Mismo aspecto que la versión anterior
                 plugins: {
                     legend: {
                         labels: {
@@ -1947,6 +2000,7 @@ export class DashboardComponent implements OnInit {
             }
         });
     }
+
 
     crearGraficaSolucionCliente(): void {
         console.log('graficaSolucionCliente');

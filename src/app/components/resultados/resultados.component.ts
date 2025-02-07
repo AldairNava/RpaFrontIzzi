@@ -125,8 +125,6 @@ export class ResultadosComponent implements OnInit {
     if(tempName) {
       this.fetchAHT(tempName);
       this.rutaAudio = this.cors.audio(tempName);
-
-      console.log(this.rutaAudio)
     }
 
     const guia = this.route.snapshot.paramMap.get('guia');
@@ -304,7 +302,6 @@ export class ResultadosComponent implements OnInit {
     
     this.cors.post(data).subscribe(
       (res: any) => {
-        console.log(res)
         if(res.status) {
           this.separaPuntos(res.row.punto_de_vista)
           this.resultado = Number(res.row.resultado);
@@ -618,63 +615,52 @@ export class ResultadosComponent implements OnInit {
     
     this.cors.post(data).subscribe(
       (response: any) => {
-        const calidad = response['row'];
-        let negatividad = parseFloat(calidad.Negatividad);
-        let neutralidad = parseFloat(calidad.Neutralidad);
-        let positividad = parseFloat(calidad.Positividad);
+          const calidad = response['row'];
 
-        if(negatividad === 0 && neutralidad === 0 && positividad === 0) {
-          this.neutral = true;
-          this.calcularRotacion(10);
-          this.colorSentimiento = 'red';
-          this.sentimientoActual = 'Negativo';
-        }
-        if (negatividad > 0 && neutralidad > 0 && positividad === 0 ) {
-          this.meh = true;
-          this.calcularRotacion(25);
-          this.colorSentimiento = 'red';
-          this.sentimientoActual = 'Neutro--'
-        }
-        if (negatividad > 0 && neutralidad === 0 && positividad === 0 ) {
-          this.negatividad = true;
-          this.colorSentimiento = 'red';
-          this.calcularRotacion(10);
-          this.colorSentimiento = 'red'
-          this.sentimientoActual = 'Negativo';
-        }
-        if(negatividad === 0 && neutralidad > 0 && positividad === 0) {
-          this.neutral = true;
-          this.calcularRotacion(50);
-          this.colorSentimiento = '#ffcc04';
-          this.sentimientoActual = 'Neutro';
-        }
-        if(negatividad === 0 && neutralidad > 0 && positividad > 0) {
-          this.slightly = true;
-          this.calcularRotacion(75);
-          this.colorSentimiento = '#ffcc04'
-          this.sentimientoActual = 'Neutro++';
-        }
-        if(negatividad === 0 && neutralidad === 0 && positividad > 0) {
-          this.positividad = true;
-          this.calcularRotacion(100);
-          this.colorSentimiento = 'green';
-          this.sentimientoActual = 'Positivo';
-        }
-        
-        this.transcripcion = calidad.transcripcion;
-        console.log(this.transcripcion)
-        this.chat = [calidad.chat][0];
+          console.log(calidad)
 
-        /* CHAT */
-        this.conversation = this.parseConversationText(this.chat);
+          const puntuacion = calidad.Puntuacion_general_sentimientos;
 
-        let justificacion = calidad.justificacion_emociones;
-        let splice = justificacion.split('Justificación:')
+          if (puntuacion <= 0) {
+            this.negatividad = true;
+            this.colorSentimiento = 'red';
+            this.calcularRotacion(10);
+            this.sentimientoActual = 'Negativo';
+          } else if (puntuacion <= 0.25) {
+            this.meh = true;
+            this.colorSentimiento = '#ffcc04';
+            this.calcularRotacion(25);
+            this.sentimientoActual = 'Neutro';
+          } else if (puntuacion <= 0.5) {
+            this.neutral = true;
+            this.colorSentimiento = '#ffcc04';
+            this.calcularRotacion(50);
+            this.sentimientoActual = 'Neutro';
+          } else { 
+            this.positividad = true;
+            this.colorSentimiento = 'green';
+            this.calcularRotacion(100);
+            this.sentimientoActual = 'Positivo';
+          }
+          
+          
+          
 
-        this.justificacion_sentimiento = splice[1];
+          this.transcripcion = calidad.transcripcion;
+          this.chat = [calidad.chat][0];
 
-        console.log('AQUI VA LA TRANSCRIPCION')
-        
+          /* CHAT */
+          this.conversation = this.parseConversationText(this.chat);
+
+          let justificacion = calidad.justificacion_emociones;
+
+          let splice = justificacion.split('Justificación:')
+
+          if(splice.length >= 2) {
+            this.justificacion_sentimiento = splice[1];
+          } else {
+            this.justificacion_sentimiento = splice[0];
+          }
 
       }, (error) => {
         console.log(error);
