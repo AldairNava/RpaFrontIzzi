@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./procesos-edit.component.scss']
 })
 export class ProcesosEditComponent implements OnInit {
+  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
   routeSub: Subscription;
   formNuevoProceso: UntypedFormGroup;
   procesoStatus:any[]=[
@@ -78,32 +79,37 @@ export class ProcesosEditComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  guardarBot(){
-    this.guardando=true;
+  guardarBot() {
+    this.guardando = true;
     this.formNuevoProceso.markAllAsTouched();
-    if(this.formNuevoProceso.valid){
-      let a = `${this.formNuevoProceso.controls['status'].value}`;
-      let b ={
-        "Id": this.formNuevoProceso.controls['id'].value,
-        "Name_process": this.formNuevoProceso.controls['name_process'].value,
-        "usuario": this.formNuevoProceso.controls['usuario'].value,
-        "password": this.formNuevoProceso.controls['password'].value,
-        // "update_At": null,
-        "status": a
-      }
-      this.cors.put(`Bots/ActualizarProceso?id=${b.Id}`, b).then((response) => {
-        // console.log(response)
-        this.showToastSuccess('Proceso editado correctamente.' );
-        setTimeout(() => {
-          this.router.navigate(["/robots/proceso"])
-        }, 1000);
-      }).catch((error) => {
-        console.log(error);
-        this.showToastError('No se logro editar, intente de nuevo.');
-      })
+    if (this.formNuevoProceso.valid) {
+        let a = `${this.formNuevoProceso.controls['status'].value}`;
+        let b = {
+            "Id": this.formNuevoProceso.controls['id'].value,
+            "Name_process": this.formNuevoProceso.controls['name_process'].value,
+            "usuario": this.formNuevoProceso.controls['usuario'].value,
+            "password": this.formNuevoProceso.controls['password'].value,
+            "status": a
+        };
+
+        // Obtener el usuario actualizador desde el localStorage
+        let usuarioActualizador = this.usuario ? this.usuario.email  : "Desconocido";
+
+        this.cors.put(`Bots/ActualizarProceso?id=${b.Id}&usuarioActualizador=${usuarioActualizador}`, b)
+            .then((response) => {
+                // console.log(response)
+                this.showToastSuccess('Proceso editado correctamente.');
+                setTimeout(() => {
+                    this.router.navigate(["/robots/proceso"]);
+                }, 1000);
+            })
+            .catch((error) => {
+                console.log(error);
+                this.showToastError('No se logró editar, intente de nuevo.');
+            });
 
     }
-  }
+}
 
 
 }
