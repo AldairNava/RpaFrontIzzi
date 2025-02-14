@@ -4,14 +4,14 @@
 
 export const environment = {
     production: false,
-	API_URL: 'https://rpabackizzi.azurewebsites.net/',
-    // API_URL: 'https://10.251.58.11/api/',
-    // API_URL: "https://localhost:44372/",
+    API_URL: 'https://localhost:7198/',
     SCOCKET_URL: 'https://rpabackizzi.azurewebsites.net:3000',
     user: 'mavilas@sky.com.mx',
     password: 'mik4asa2022/',
-    postLogoutUrl:"http:localhost:4200"
+    postLogoutUrl: 'http:localhost:4200'
 };
+
+
 
 /*
  * For easier debugging in development mode, you can import the following file

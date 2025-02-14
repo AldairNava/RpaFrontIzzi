@@ -14,14 +14,21 @@
     <div class="grid flex justify-content-center">
         <div class="col-4 text-center">
             <button
-            mat-button 
-            (click)="saveExcel()"
-            pButton
-            [disabled]="button"
-            label="Importar Base"
-            style="width:auto; background-color: #FFD966;border: 0;"></button>      
+                mat-button
+                (click)="saveExcel()"
+                pButton
+                [disabled]="button"
+                label="Importar Base"
+                style="width:auto; background-color: #FFD966;border: 0; margin-right: 10px;"></button>
+            <button
+                mat-button
+                (click)="resetFileInput()"
+                pButton
+                label="Vaciar"
+                style="width:auto; background-color: #FF6666;border: 0;"></button>
         </div>
-    </div>
+    </div>    
+    
 
   </p-panel>
   <br>
@@ -76,6 +83,11 @@
                             Tipo de Ajuste
                         </div>
                     </th>
+                    <th>
+                        <div class="flex justify-content-center align-items-center">
+                            Status
+                        </div>
+                    </th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-item let-i="rowIndex">
@@ -94,6 +106,9 @@
                     </td>
                     <td class="text-center">
                         {{ item['Tipo de Ajuste'] }}
+                    </td>
+                    <td class="text-center">
+                        {{ item['Status'] }}
                     </td>
                 </tr>
             </ng-template>
