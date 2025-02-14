@@ -102,7 +102,7 @@ export class ReporteComponent implements OnInit {
 
   generar() {
     const fechaIni = this.convertirFecha(this.fechas[0], 'ini');
-    const fechaFin = this.convertirFecha(this.fechas[1], 'ini');
+    const fechaFin = this.convertirFecha(this.fechas[1], 'fin');
 
     this.generando = true;
 
@@ -213,9 +213,7 @@ export class ReporteComponent implements OnInit {
     if(tipo === 'ini') {
       return `${año}-${mes}-${dia} 00:00:00`;
     } else {
-      let lastDayOfMonth = new Date(fecha.getFullYear(), fecha.getMonth() + 1, 0);
-      let dayOfMonth = lastDayOfMonth.getDate();
-      return `${año}-${mes}-${dayOfMonth} 23:59:59`;
+      return `${año}-${mes}-${dia} 23:59:59`;
     }
   }
 
