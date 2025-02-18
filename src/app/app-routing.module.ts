@@ -20,7 +20,6 @@ import { CargarPlantillasComponent } from './components/cargar-plantillas/cargar
 import { PagprincipalComponent } from './pages/inicio/pagprincipal/pagprincipal.component';
 import { NotpermisosComponent } from './_shared/layout/notpermisos/notpermisos.component';
 import { SpeechAnalyticsComponent } from './components/speech-analytics/speech-analytics.component';
-import { MsalGuard } from '@azure/msal-angular';
 import { VerifyComponent } from './components/verify/verify.component';
 
 
@@ -110,6 +109,13 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     loadChildren: () =>
       import('./pages/ajustes-ycambio-servicios/ajustes-ycambio-servicios.module').then((m) => m.AjustesYcambioServiciosModule),
+  },
+  {
+    path: 'okcliente',
+    data: { breadcrumb: 'ok-cliente'},
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./pages/ok-cliente/ok-cliente.module').then((m) => m.OkClienteModule),
   },
   {
     path: 'ordenes',

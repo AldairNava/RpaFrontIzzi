@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate {
 
 
     let permisos: any = {
-    "admin":['extraccion','izzi-rpacx','ajustes','notDone','depuracion','limpieza','reporteFidelizacion','reportes','ajustesYcambioServicio','robots','ordenes'],
+    "admin":['extraccion','izzi-rpacx','ajustes','notDone','depuracion','limpieza','reporteFidelizacion','reportes','ajustesYcambioServicio','robots','ordenes','okcliente'],
     "Reporte":['izzi-rpacx','reporteFidelizacion'],
     "Extraccion":['izzi-rpacx','extraccion'],
     "Depuracion":['izzi-rpacx','depuracion','reportes'],

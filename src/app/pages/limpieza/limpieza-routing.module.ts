@@ -8,9 +8,9 @@ import { EditarusrbotComponent } from './editarusrbot/editarusrbot.component';
 import { LimpiezamasivoComponent } from './limpiezamasivo/limpiezamasivo.component';
 
 const routes: Routes = [
-  {
+  	{
 		path: 'series',
-    data: { breadcrumb: 'series' },
+    	data: { breadcrumb: 'series' },
 		component: LayoutComponent,
 		children: [{ path: '', component: SeriesComponent }],
 	},

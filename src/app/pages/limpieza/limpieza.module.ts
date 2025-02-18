@@ -9,9 +9,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { UsuariosbotsComponent } from './usuariosbots/usuariosbots.component';
 import { EditarusrbotComponent } from './editarusrbot/editarusrbot.component';
-import { ListboxModule } from 'primeng/listbox'; // Importa el módulo de Listbox
+import { ListboxModule } from 'primeng/listbox';
 import { DialogModule } from 'primeng/dialog';
-import { LimpiezamasivoComponent } from './limpiezamasivo/limpiezamasivo.component'; // Importa el módulo de Dialog
+import { LimpiezamasivoComponent } from './limpiezamasivo/limpiezamasivo.component';
 
 
 @NgModule({
@@ -29,8 +29,8 @@ import { LimpiezamasivoComponent } from './limpiezamasivo/limpiezamasivo.compone
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
-    ListboxModule, // Añade el módulo de Listbox a las importaciones
-    DialogModule, // Añade el módulo de Dialog a las importaciones
+    ListboxModule,
+    DialogModule,
   ],
   providers: [
     ConfirmationService,MessageService,

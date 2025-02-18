@@ -32,7 +32,7 @@ export class AuthComponent {
     onSignIn() {
         this.formLogin.markAllAsTouched();
         if(this.formLogin.valid){
-            if((this.formLogin.value.email =='admin' && this.formLogin.value.pWd =='admin_2023')
+            if((this.formLogin.value.email =='admin' && this.formLogin.value.pWd =='inmotv.01')
                 || (this.formLogin.value.email =='usuario1' && this.formLogin.value.pWd =='usuario1_2023')
                 || (this.formLogin.value.email =='testExtraccion' && this.formLogin.value.pWd =='testExtraccion_2023')
                 || (this.formLogin.value.email =='testDepuracion' && this.formLogin.value.pWd =='testDepuracion_2023') 
@@ -61,42 +61,42 @@ export class AuthComponent {
                         "lastName":"admin",
                         "email":"admin@test.com"
                     }
-                }else if(this.formLogin.value.email =='usuario1'){ //reporte fidelizacion reporte
+                }else if(this.formLogin.value.email =='usuario1'){ 
                     a={
                         "role":"Reporte",
                         "firstName":"Persona1",
                         "lastName":"Persona1",
                         "email":"usuario1@test.com"
                     }
-                }else if(this.formLogin.value.email =='testExtraccion'){ //reporte extraccion
+                }else if(this.formLogin.value.email =='testExtraccion'){
                     a={
                         "role":"Extraccion",
                         "firstName":"extraccion",
                         "lastName":"extraccion",
                         "email":"testExtraccion@test.com"
                     }
-                }else if(this.formLogin.value.email =='testDepuracion'){ //reporte Depuracion
+                }else if(this.formLogin.value.email =='testDepuracion'){
                     a={
                         "role":"Depuracion",
                         "firstName":"depuracion",
                         "lastName":"depuracion",
                         "email":"testDepuracion@test.com"
                     }
-                }else if(this.formLogin.value.email =='testAjustes'){ //reporte Depuracion
+                }else if(this.formLogin.value.email =='testAjustes'){ 
                     a={
                         "role":"Ajustes",
                         "firstName":"Ajustes",
                         "lastName":"Ajustes",
                         "email":"testAjustes@test.com"
                     }
-                }else if(this.formLogin.value.email =='testAjustesNotDone'){ //reporte Depuracion
+                }else if(this.formLogin.value.email =='testAjustesNotDone'){
                     a={
                         "role":"AjustesNotDone",
                         "firstName":"AjustesNotDone",
                         "lastName":"AjustesNotDone",
                         "email":"AjustesNotDone@test.com"
                     }
-                }else if(this.formLogin.value.email =='testAjustes1'){ //reporte Depuracion
+                }else if(this.formLogin.value.email =='testAjustes1'){
                     a={
                         "role":"testAjustes1",
                         "firstName":"testAjustes1",

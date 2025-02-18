@@ -39,6 +39,22 @@ export class MenuComponent implements OnInit {
         },
       ]
     },
+    {
+      label: 'ok-cleinte',
+      key: "ajustes",
+      items: [
+        {
+          label: 'Importar Base',
+          icon: 'pi pi-fw pi-database',
+          routerLink: ['/okcliente/InportarOkCliente'],
+        },
+        {
+          label: 'Pantalla Consulta',
+          icon: 'pi pi-fw pi-search',
+          routerLink: ['/okcliente/ConsultaOKCliente'],
+        },
+      ]
+    },
 	{
 		label: 'Ajustes',
 		key: "ajustes",
