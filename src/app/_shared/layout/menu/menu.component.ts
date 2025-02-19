@@ -40,7 +40,7 @@ export class MenuComponent implements OnInit {
       ]
     },
     {
-      label: 'ok-cleinte',
+      label: 'ok-cliente',
       key: "ajustes",
       items: [
         {
@@ -365,7 +365,7 @@ export class MenuComponent implements OnInit {
 
 
     let permisos: any = {
-      "admin":['extraccion','home','ajustes','notDone','depuracion','reporteFidelizacion','limpieza','reportes','ajustesYcambioServicio','robots','ordenes'],
+      "administrador":['extraccion','home','ajustes','notDone','depuracion','reporteFidelizacion','limpieza','reportes','ajustesYcambioServicio','robots','ordenes'],
       "Reporte":['home','reporteFidelizacion'],
       "Extraccion":['home','extraccion'],
       "Depuracion":['home','depuracion','reportes'],

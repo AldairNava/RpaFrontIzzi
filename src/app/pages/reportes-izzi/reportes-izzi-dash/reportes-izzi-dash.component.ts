@@ -101,24 +101,28 @@ export class ReportesIzziDashComponent implements OnInit {
           nomArchivo="Reporte_NotDone_SinValidacion"
           // console.log(`${url}?${para}`)
         }else if(this.formReporte.value.tipoReporte =='Creacion OS'){
-          console.log("Creacion OS")
           url = `ReportesIzzi/getReporteCreacionOrden`;
           para =`fecha1=${fechaini}&fecha2=${fechafin}`
           nomArchivo="Reporte_Creacion_OS"
         }else if(this.formReporte.value.tipoReporte =='Orden Call Trouble'){
-          console.log("Creacion OS")
           url = `ReportesIzzi/ReporteOrdenesCallTrouble`;
           para =`fecha1=${fechaini}&fecha2=${fechafin}`
           nomArchivo="Reporte_Ordenes_Call_Trouble"
-        }  
+        }else if(this.formReporte.value.tipoReporte =='Ok Cliente'){
+          url = `ReportesIzzi/ReporteOkCliente`;
+          para =`fecha1=${fechaini}&fecha2=${fechafin}`
+          nomArchivo="Reporte_Ok-Cleinte"
+        }
         try {
           const headers = new HttpHeaders({
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': 'https://rpabackizzi.azurewebsites.net/',
+            // 'Access-Control-Allow-Origin': 'https://localhost:7198/',
             'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
             'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
           });
           const response: any = await this.httpClient.get(`https://rpabackizzi.azurewebsites.net/${url}?${para}`, {
+          // const response: any = await this.httpClient.get(`https://localhost:7198/${url}?${para}`, {
           headers:headers,  
           responseType: 'arraybuffer',
             observe: 'response'

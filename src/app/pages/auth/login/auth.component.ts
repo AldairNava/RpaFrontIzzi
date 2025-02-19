@@ -32,7 +32,7 @@ export class AuthComponent {
     onSignIn() {
         this.formLogin.markAllAsTouched();
         if(this.formLogin.valid){
-            if((this.formLogin.value.email =='admin' && this.formLogin.value.pWd =='inmotv.01')
+            if((this.formLogin.value.email =='administrador' && this.formLogin.value.pWd =='administrador.01')
                 || (this.formLogin.value.email =='usuario1' && this.formLogin.value.pWd =='usuario1_2023')
                 || (this.formLogin.value.email =='testExtraccion' && this.formLogin.value.pWd =='testExtraccion_2023')
                 || (this.formLogin.value.email =='testDepuracion' && this.formLogin.value.pWd =='testDepuracion_2023') 
@@ -54,12 +54,12 @@ export class AuthComponent {
                 || (this.formLogin.value.email =='mvillalobos' && this.formLogin.value.pWd =='mvillalobos_2024')
                 || (this.formLogin.value.email =='alramirezb' && this.formLogin.value.pWd =='alramirezb_2024')){
                 let a=null;
-                if(this.formLogin.value.email =='admin'){
+                if(this.formLogin.value.email =='administrador'){
                     a={
-                        "role":"admin",
+                        "role":"administrador",
                         "firstName":"admin",
                         "lastName":"admin",
-                        "email":"admin@test.com"
+                        "email":"administrador@izzi.com.mx"
                     }
                 }else if(this.formLogin.value.email =='usuario1'){ 
                     a={
@@ -105,7 +105,7 @@ export class AuthComponent {
                     }
                 }else if(this.formLogin.value.email =='eBarrera'){ 
                     a={
-                        "role":"eBarrera",
+                        "role":"administrador",
                         "firstName":"eBarrera",
                         "lastName":"eBarrera",
                         "email":"eBarrera@test.com"
@@ -172,28 +172,28 @@ export class AuthComponent {
                     }
                 }else if(this.formLogin.value.email =='omartinezh'){
                     a={
-                        "role":"admin",
+                        "role":"administrador",
                         "firstName":"Oscar",
                         "lastName":"Marines Huerta",
                         "email":"omartinezh@sky.com.mx"
                     }
                 }else if(this.formLogin.value.email =='evazquezg'){
                     a={
-                        "role":"admin",
+                        "role":"administrador",
                         "firstName":"Edgar",
                         "lastName":"Vazquez Guzman",
                         "email":"evazquezg@sky.com.mx"
                     }
                 }else if(this.formLogin.value.email =='oavila'){
                     a={
-                        "role":"admin",
+                        "role":"administrador",
                         "firstName":"Oscar Dennys",
                         "lastName":"Avila Santiago",
                         "email":"oavila@sky.com.mx"
                     }
                 }else if(this.formLogin.value.email =='mvillalobos'){
                     a={
-                        "role":"admin",
+                        "role":"administrador",
                         "firstName":"Marco Antonio",
                         "lastName":"Villalobos Gomez",
                         "email":"mvillalobos@sky.com.mx"

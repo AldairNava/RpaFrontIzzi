@@ -14,14 +14,14 @@ export class AuthGuard implements CanActivate {
 
 
     let permisos: any = {
-    "admin":['extraccion','izzi-rpacx','ajustes','notDone','depuracion','limpieza','reporteFidelizacion','reportes','ajustesYcambioServicio','robots','ordenes','okcliente'],
+    "administrador":['extraccion','izzi-rpacx','ajustes','notDone','depuracion','limpieza','reporteFidelizacion','reportes','ajustesYcambioServicio','robots','ordenes','okcliente'],
     "Reporte":['izzi-rpacx','reporteFidelizacion'],
     "Extraccion":['izzi-rpacx','extraccion'],
     "Depuracion":['izzi-rpacx','depuracion','reportes'],
     "Ajustes":['izzi-rpacx','ajustesYcambioServicio','reportes'],
     "AjustesNotDone":['izzi-rpacx','notDone','reportes'],
     "testAjustes1":['izzi-rpacx','ajustes','reportes','ordenes'],
-    "eBarrera":['extraccion','izzi-rpacx','ajustes','notDone','depuracion','reporteFidelizacion','reportes','robots'],
+    "eBarrera":['extraccion','izzi-rpacx','ajustes','notDone','depuracion','reporteFidelizacion','reportes','robots','okcliente'],
     "testReportes":['izzi-rpacx','reportes'],
     "ACS":['izzi-rpacx','ajustesYcambioServicio'],
     "recuperadores":['izzi-rpacx','limpieza'],
