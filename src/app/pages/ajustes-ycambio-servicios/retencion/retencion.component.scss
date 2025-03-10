@@ -1,0 +1,55 @@
+#file::file-selector-button{
+    background-color: #3CB371;
+    color: white;
+    margin-right: 20px;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background .2s ease-in-out;
+}
+#file{
+    width: 350px;
+    max-width: 100%;
+    color: #444;
+    padding: 5px;
+    background: #fff;
+    border-radius: 10px;
+    // border: 1px solid #555;
+}
+
+:host ::ng-deep .custom-spinner .p-progress-spinner-circle {
+    animation: custom-progress-spinner-dash 1.5s ease-in-out infinite, custom-progress-spinner-color 6s ease-in-out infinite;
+}
+
+@keyframes custom-progress-spinner-color {
+    100%,
+    0% {
+        stroke: #3B82F6;
+    }
+    40% {
+        stroke: #3B82F6;
+    }
+    66% {
+        stroke: #3B82F6;
+    }
+    80%,
+    90% {
+        stroke: #3B82F6;
+    }
+}
+
+:host ::ng-deep ::-webkit-scrollbar-thumb:horizontal {
+    background-color: #FF7F7F;
+  }
+  :host ::ng-deep ::-webkit-scrollbar-thumb:vertical {
+    background-color: #FF7F7F;
+  }
+  
+  ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    color: white;
+    background-color: #FF7F7F; /* Cambia el color de la página activa del paginador */
+  }
+  .p-button:active {
+    box-shadow: #FF7F7F;
+  }

@@ -21,13 +21,20 @@ export class AuthComponent {
     formLogin: UntypedFormGroup;
     constructor(private messageService: MessageService,private cors: CorsService, private formBuilder: UntypedFormBuilder, private router: Router) {
         this.formLogin = this.formBuilder.group({
-            // email: [environment.user, Validators.required],
-            // pWd: [environment.password, Validators.required],
             email: [null, Validators.required],
             pWd: [null, Validators.required],
             remember: [null],
         });
     }
+    ngOnInit() {
+        const storedUser = localStorage.getItem('userData');
+        if (storedUser) {
+            const user = JSON.parse(storedUser);
+            console.log('Usuario restaurado:', user);
+            this.router.navigate(['/izzi-rpacx']);
+        }
+    }
+    
 
     onSignIn() {
         this.formLogin.markAllAsTouched();
@@ -52,6 +59,7 @@ export class AuthComponent {
                 || (this.formLogin.value.email =='evazquezg' && this.formLogin.value.pWd =='evazquezg_2024')
                 || (this.formLogin.value.email =='oavila' && this.formLogin.value.pWd =='oavila_2024')
                 || (this.formLogin.value.email =='mvillalobos' && this.formLogin.value.pWd =='mvillalobos_2024')
+                || (this.formLogin.value.email =='CSuarez' && this.formLogin.value.pWd =='CSuarez_2025')
                 || (this.formLogin.value.email =='alramirezb' && this.formLogin.value.pWd =='alramirezb_2024')){
                 let a=null;
                 if(this.formLogin.value.email =='administrador'){
@@ -60,6 +68,13 @@ export class AuthComponent {
                         "firstName":"admin",
                         "lastName":"admin",
                         "email":"administrador@izzi.com.mx"
+                    }
+                }else if(this.formLogin.value.email =='CSuarez'){ 
+                    a={
+                        "role":"administrador",
+                        "firstName":"Christofer",
+                        "lastName":"Suarez",
+                        "email":"CSuarez@wincall.com.mx"
                     }
                 }else if(this.formLogin.value.email =='usuario1'){ 
                     a={

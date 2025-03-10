@@ -3,10 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from 'app/_shared/layout/layout/layout.component';
 import { BaseDatosAjustesComponent } from './base-datos-ajustes/base-datos-ajustes.component';
 import { EstadisticasComponent } from './estadisticas/estadisticas.component';
-import { ReporteComponent } from './reporte/reporte.component';
 import { PantallaConsultaComponent } from './pantalla-consulta/pantalla-consulta.component';
 import { MigracionesLinealesComponent } from './migraciones-lineales/migraciones-lineales.component';
 import { ConsultaMigracionesComponent } from './consulta-migraciones/consulta-migraciones.component';
+import { RetencionComponent } from './retencion/retencion.component';
+import { ConsultarRetencionComponent } from './consultar-retencion/consultar-retencion.component';
+import { ReportesComponent } from './reportes/reportes.component';
+import { BotsComponent } from './bots/bots.component';
 
 const routes: Routes = [
   {
@@ -15,18 +18,18 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [{ path: '', component: BaseDatosAjustesComponent }],
   },
-  // {
-  //   path: 'estadisticas', 
-  //   data: { breadcrumb: 'Estadisticas' },
-  //   component: LayoutComponent,
-  //   children: [{ path: '', component: EstadisticasComponent }],
-  // },
-  // {
-  //   path: 'reporte', 
-  //   data: { breadcrumb: 'Reportes' },
-  //   component: LayoutComponent,
-  //   children: [{ path: '', component: ReporteComponent }],
-  // },
+  {
+    path: 'consultaretencion', 
+    data: { breadcrumb: 'Consulta Retencion' },
+    component: LayoutComponent,
+    children: [{ path: '', component: ConsultarRetencionComponent }],
+  },
+  {
+    path: 'Retencion', 
+    data: { breadcrumb: 'Retencion 0' },
+    component: LayoutComponent,
+    children: [{ path: '', component: RetencionComponent }],
+  },
   {
     path: 'consulta', 
     data: { breadcrumb: 'Pantalla Consulta' },
@@ -44,6 +47,18 @@ const routes: Routes = [
     data: { breadcrumb: 'Pantalla Consulta de Migraciones Lineales' },
     component: LayoutComponent,
     children: [{ path: '', component: ConsultaMigracionesComponent }],
+  },
+  {
+    path: 'Reportes', 
+    data: { breadcrumb: 'Reportes' },
+    component: LayoutComponent,
+    children: [{ path: '', component: ReportesComponent }],
+  },
+  {
+    path: 'actividad-rpa', 
+    data: { breadcrumb: 'Actividad-RPA' },
+    component: LayoutComponent,
+    children: [{ path: '', component: BotsComponent }],
   },
 
 ];

@@ -1,0 +1,30 @@
+<div class="card" [formGroup]="formReporte">
+
+    <p-panel [toggleable]="mostrandoResultados" header="Selecione las configuraciones de su Reporte"
+        class="line-height-12 m-0">
+        <div class="p-fluid p-formgrid grid m-2">
+
+            <div class="col-12 md:col-4">
+                <p-dropdown [options]="reportes" optionValue="nombreReporte" optionLabel="nombreReporte" formControlName="tipoReporte" placeholder="Tipo de reporte" ></p-dropdown>
+            </div>
+
+
+            <div class="col-12 md:col-4">
+                <span class="p-float-label">
+                    
+                    <p-calendar formControlName="fechas" selectionMode="range"  inputId="icon">
+                    </p-calendar>
+                    <label for="inputdate">Rango de Fechas</label>
+                </span>
+            </div>
+
+            <div class="col-12 md:col-4">
+                <p-toast></p-toast>
+                <button (click)="confirm2($event)" pButton icon="pi pi-check" label="Confirmar" [loading]="button"></button>
+                <p-confirmPopup key="confirm2"></p-confirmPopup>
+            </div>
+        </div>
+    </p-panel>
+</div>
+
+

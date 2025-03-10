@@ -267,30 +267,60 @@ export class MenuComponent implements OnInit {
       ]
       },
       {
-        label: 'Ajustes y Cambios de Servicios',
-        key: "ajustesYcambioServicio",
+        label: 'Ajustes, Cambios de Servicios y Retencion',
+        key: "ajustesCambioServicioRetencion",
         icon: 'pi pi-fw pi-compass',
         items: [
-          {
-          label: 'Base de Datos Ajustes',
-          icon: 'pi pi-fw pi-database',
-            routerLink: ['/ajustesYcambioServicio/BDajustes'],
-          },
-          {
-            label: 'Consulta Ajustes',
-            icon: 'pi pi-fw pi-search',
-            routerLink: ['/ajustesYcambioServicio/consulta'],
-          },
-          {
-            label: 'Migraciones Lineales',
-            icon: 'pi pi-fw pi-database',
-            routerLink: ['/ajustesYcambioServicio/migracionesLineales'],
-          },
-          {
-            label: 'Consulta Migraciones Lineales',
-            icon: 'pi pi-fw pi-search',
-            routerLink: ['/ajustesYcambioServicio/consultaMigracionesLineales'],
-          },
+                {
+                  label: 'Ajuste y Cambio de Servicios',
+                  items:[        
+                          {
+                          label: 'Base de Datos Ajustes',
+                          icon: 'pi pi-fw pi-database',
+                            routerLink: ['/ajustesCambioServicioRetencion/BDajustes'],
+                          },
+                          {
+                            label: 'Consulta Ajustes',
+                            icon: 'pi pi-fw pi-search',
+                            routerLink: ['/ajustesCambioServicioRetencion/consulta'],
+                          },
+                          {
+                            label: 'Migraciones Lineales',
+                            icon: 'pi pi-fw pi-database',
+                            routerLink: ['/ajustesCambioServicioRetencion/migracionesLineales'],
+                          },
+                          {
+                            label: 'Consulta Migraciones Lineales',
+                            icon: 'pi pi-fw pi-search',
+                            routerLink: ['/ajustesCambioServicioRetencion/consultaMigracionesLineales'],
+                          },
+                        ],
+                },
+                {
+                        label:'Retencion',
+                        items:[
+                          {
+                          label: 'Retencion 0',
+                          icon: 'pi pi-fw pi-chart-bar',
+                          routerLink: ['/ajustesCambioServicioRetencion/Retencion'],
+                          },
+                          {
+                            label: 'Consulta',
+                            icon: 'pi pi-fw pi-search',
+                            routerLink: ['/ajustesCambioServicioRetencion/consultaretencion'],
+                          },
+                      ]
+                },
+                {
+                  label: 'Reportes',
+                  icon: 'pi pi-fw pi-file-pdf',
+                    routerLink: ['/ajustesCambioServicioRetencion/Reportes'],
+                },
+                {
+                  label: 'Actividad',
+                  icon: 'pi pi-fw pi-list',
+                    routerLink: ['/ajustesCambioServicioRetencion/actividad-rpa'],
+                },
         ]
         },
         {
@@ -365,16 +395,16 @@ export class MenuComponent implements OnInit {
 
 
     let permisos: any = {
-      "administrador":['extraccion','home','ajustes','notDone','depuracion','reporteFidelizacion','limpieza','reportes','ajustesYcambioServicio','robots','ordenes'],
+      "administrador":['extraccion','home','ajustes','notDone','depuracion','reporteFidelizacion','limpieza','reportes','ajustesCambioServicioRetencion','robots','ordenes'],
       "Reporte":['home','reporteFidelizacion'],
       "Extraccion":['home','extraccion'],
       "Depuracion":['home','depuracion','reportes'],
-      "Ajustes":['home','ajustesYcambioServicio','reportes'],
+      "Ajustes":['home','ajustesCambioServicioRetencion','reportes'],
       "AjustesNotDone":['home','notDone','reportes'],
       "testAjustes1":['home','ajustes','reportes','ordenes'],
       "eBarrera":['extraccion','home','ajustes','notDone','depuracion','reporteFidelizacion','reportes','robots'],
       "testReportes":['home','reportes'],
-      "ACS":['home','ajustesYcambioServicio'],
+      "ACS":['home','ajustesCambioServicioRetencion'],
       "recuperadores":['home','limpieza'],
     }
     this.model = [];

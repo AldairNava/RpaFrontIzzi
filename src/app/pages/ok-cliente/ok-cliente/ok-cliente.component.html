@@ -61,6 +61,31 @@
                     </th>
                     <th>
                         <div class="flex justify-content-between align-items-center">
+                            Fecha Encuesta
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Nombre
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Telefono
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Hub
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Tipo Oferta
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
                             Status
                         </div>
                     </th>
@@ -75,8 +100,23 @@
                         {{item['numeroOrden']}}
                     </td>
                     <td>
+                        {{item.FechaEncuesta}}
+                    </td>
+                    <td>
+                        {{item.Nombre}}
+                    </td>
+                    <td>
+                        {{item.Telefono}}
+                    </td>
+                    <td>
+                        {{item.Hub}}
+                    </td>
+                    <td>
+                        {{item.TipoOferta}}
+                    </td>
+                    <td>
                         {{item.Status}}
-                      </td>
+                    </td>
                 </tr>
             </ng-template>
             <ng-template pTemplate="emptymessage">

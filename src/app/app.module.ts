@@ -37,6 +37,7 @@ import { DashUsuariosComponent } from './components/usuarios/dash-usuarios/dash-
 import { VerifyComponent } from './components/verify/verify.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ZingchartAngularModule } from 'zingchart-angular';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { ZingchartAngularModule } from 'zingchart-angular';
     RegistrarUsuarioModule,
     ActivaCuentaModule,
     SidenavModule,
+    ConfirmDialogModule,
     DashboardModule,
     CargarModule,
     AnalizarModule,

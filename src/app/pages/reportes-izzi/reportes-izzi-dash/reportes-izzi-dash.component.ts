@@ -82,13 +82,15 @@ export class ReportesIzziDashComponent implements OnInit {
           para =`fecha1=${fechaini}&fecha2=${fechafin}`
           nomArchivo="Reporte_NotDone"
           // console.log(`${url}?${para}`)
-        }else if(this.formReporte.value.tipoReporte =='Ajustes Sucursales'){
-          console.log("Ajustes Sucursales")
-          url = `ReportesIzzi/getReporteAjustesCambioServicios`;
-          para =`fecha1=${fechaini}&fecha2=${fechafin}`
-          nomArchivo="Reporte_Ajustes_Sucursales"
-          // console.log(`${url}?${para}`)
-        }else if(this.formReporte.value.tipoReporte =='Ajustes Sin Validacion'){
+        }
+        // else if(this.formReporte.value.tipoReporte =='Ajustes Sucursales'){
+        //   console.log("Ajustes Sucursales")
+        //   url = `ReportesIzzi/getReporteAjustesCambioServicios`;
+        //   para =`fecha1=${fechaini}&fecha2=${fechafin}`
+        //   nomArchivo="Reporte_Ajustes_Sucursales"
+        //   // console.log(`${url}?${para}`)
+        // }
+        else if(this.formReporte.value.tipoReporte =='Ajustes Sin Validacion'){
           console.log("Ajustes Sin Validacion")
           url = `ReportesIzzi/getReporteAjustesCasoNegocioCobranzaSinValidacion`;
           para =`fecha1=${fechaini}&fecha2=${fechafin}`
@@ -113,6 +115,11 @@ export class ReportesIzziDashComponent implements OnInit {
           para =`fecha1=${fechaini}&fecha2=${fechafin}`
           nomArchivo="Reporte_Ok-Cleinte"
         }
+        // else if(this.formReporte.value.tipoReporte =='Retencion 0'){
+        //   url = `ReportesIzzi/ReporteRetencion0`;
+        //   para =`fecha1=${fechaini}&fecha2=${fechafin}`
+        //   nomArchivo="Reporte_Retencion_0"
+        // }
         try {
           const headers = new HttpHeaders({
             'Content-Type': 'application/json',
@@ -165,13 +172,4 @@ export class ReportesIzziDashComponent implements OnInit {
       console.log("Error",error)
     })
   }
-  
-
-
-
-
-
-
-
-
 }

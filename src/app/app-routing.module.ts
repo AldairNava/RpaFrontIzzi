@@ -104,8 +104,8 @@ const routes: Routes = [
       import('./pages/reportes-izzi/reportes-izzi.module').then((m) => m.ReportesIzziModule),
   },
   {
-    path: 'ajustesYcambioServicio',
-    data: { breadcrumb: 'Ajustes y Cambio de Servicio'},
+    path: 'ajustesCambioServicioRetencion',
+    data: { breadcrumb: 'Ajustes, Cambio de Servicio y Retencion'},
     canActivate: [AuthGuard],
     loadChildren: () =>
       import('./pages/ajustes-ycambio-servicios/ajustes-ycambio-servicios.module').then((m) => m.AjustesYcambioServiciosModule),
