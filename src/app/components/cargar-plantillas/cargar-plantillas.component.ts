@@ -51,7 +51,7 @@ export class CargarPlantillasComponent implements OnInit {
     'Antiguedad',
     'Agent Login',
     'No Empleado',
-    'Región',
+    'Region',
     'Departamento',
     'Puesto OP',
     'SKILL A EVALUAR'
