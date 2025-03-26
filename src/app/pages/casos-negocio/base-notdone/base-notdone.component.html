@@ -1,0 +1,104 @@
+<div class="text-900 font-bold text-2xl mb-4 text-center" style="background-color: #00B2A9;color: white !important;">Bases NotDone</div>
+
+<p-toast
+  [baseZIndex]="99999"
+  key="tst"></p-toast>
+  <div class="row">
+    <div class="cols">
+      <div class="card">
+        <p-table #dt1 [value]="tablaArchivos" dataKey="id" [loading]="loading" [rows]="50" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
+            styleClass="p-datatable-gridlines" [paginator]="true"
+            [globalFilterFields]="['tipoExtraccion','fechaCreacion','archivo','cve_usuario','horarioInicio','fechaCompletado','status','procesando','ip']" responsiveLayout="scroll">
+            <ng-template pTemplate="caption">
+                <div class="flex justify-content-between flex-column sm:flex-row">
+
+                    <span class="p-input-icon-left mb-2">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Buscar"
+                            class="w-full" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>
+                        <div style="width: 150px;" class="flex justify-content-center align-items-center">
+                            Nombre del Archivo
+
+                        </div>
+                    </th>
+                    <th>
+                      <div style="width: 150px;" class="flex justify-content-center align-items-center">
+                          Tipo de Archivo
+                      </div>
+                  </th>
+                    <th>
+                        <div style="width: 150px;" class="flex justify-content-center align-items-center">
+                            Fecha Captura
+                        </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-center align-items-center">
+                          Usuario
+                      </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-center align-items-center">
+                          Estatus
+                      </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-center align-items-center">
+                          Archivo
+                      </div>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr>
+                    <td class="text-center">
+                      {{item.nombreArchivo}}
+                    </td>
+                    <td class="text-center">
+                      {{item.tipoArchivo}}
+                    </td>
+                    <td class="text-center">
+                        {{dateFormat(item.fechaCaptura)}}
+                    </td>
+                    <td class="text-center">
+                       {{item.cve_usuario}}
+                    </td>
+                    <td class="text-center">
+                      {{item.status}}
+                    </td>
+                    <td *ngIf="item.archivo" class="text-center">
+                        <button pButton  style="background-color: #00B2A9;border: 0;" label="Descargar" (click)="descargarArchivo(item.archivo)" [loading]="estaSiendoDescargado(item.archivo)"></button>
+                      </td>
+                      <td *ngIf="!item.archivo" class="text-center">
+                        <button pButton disabled style="background-color: #93CECB;border: 0;" label="Descargar" (click)="descargarArchivo(item.archivo)"></button>
+                    </td>  
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">Sin Datos para Mostrar.</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="loadingbody">
+                <tr>
+                    <td colspan="7">Cargando Datos, espere...</td>
+                </tr>
+
+            </ng-template>
+            <ng-template pTemplate="paginatorleft" let-state>
+                Mostrando {{(state.page  * state.rows) + 1}} a {{state.rows * (state.page + 1)}} de {{state.totalRecords}} registros.
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="show" style="display: none;">
+    <iframe id="report" height="1000" width="1000" [src]="url1 | safeUrl"></iframe>
+  </div>
+  

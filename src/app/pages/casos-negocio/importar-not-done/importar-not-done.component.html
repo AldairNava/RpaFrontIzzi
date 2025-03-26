@@ -1,0 +1,43 @@
+<div class="text-900 font-bold text-2xl mb-4 text-center" style="background-color: #FF0000; color: white;">
+    Importar Bases - Dos Excel
+  </div>
+  
+  <div class="card" style="padding: 1rem;">
+    <p-panel header="">
+      <!-- Primer input: siempre visible -->
+      <div class="p-fluid p-formgrid grid m-2 flex justify-content-center">
+        <div class="col-6 text-center">
+          <label>Primer Archivo Excel</label>
+          <input type="file"
+                 accept=".csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                 (change)="readFirstExcel($event)">
+        </div>
+      </div>
+  
+      <!-- Segundo input: solo visible cuando el primer archivo se ha cargado -->
+      <div class="p-fluid p-formgrid grid m-2 flex justify-content-center" *ngIf="firstFileLoaded">
+        <div class="col-6 text-center">
+          <label>Segundo Archivo Excel</label>
+          <input type="file"
+                 accept=".csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                 (change)="readSecondExcel($event)">
+        </div>
+      </div>
+  
+      <!-- Botón para enviar datos, se habilita cuando ambos archivos están cargados -->
+      <div class="grid flex justify-content-center m-2">
+        <div class="col-4 text-center">
+          <button mat-button
+                  (click)="sendData()"
+                  pButton
+                  [disabled]="sendButtonDisabled"
+                  label="Enviar Datos"
+                  style="background-color: #FF7F7F; border: 0;">
+          </button>
+        </div>
+      </div>
+    </p-panel>
+  </div>
+  
+  <p-toast [baseZIndex]="99999" key="tst"></p-toast>
+  

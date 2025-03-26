@@ -43,8 +43,8 @@ export class UsuariosbotsComponent implements OnInit {
   statsBots:any=[];
   loading1: boolean = false
   excluir:any=[];
-  displayUserSelectionDialog: boolean = false;// Aquí deberías cargar la lista de usuarios
-selectedUser: any; // Aquí se almacenará el usuario seleccionado
+  displayUserSelectionDialog: boolean = false;
+selectedUser: any;
 
   constructor(
     private router: Router,

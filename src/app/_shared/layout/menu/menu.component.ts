@@ -171,6 +171,16 @@ export class MenuComponent implements OnInit {
           }
         ]
 		  },
+      // {
+		  //   label: 'Imporrtar NotDone',
+		  //   icon: 'pi pi-fw pi-database',
+		  //   routerLink: ['/notDone/ImportarNotDone'],
+		  // },
+      // {
+		  //   label: 'Archivos NotDone',
+		  //   icon: 'pi pi-fw pi-file-pdf',
+		  //   routerLink: ['/notDone/BasesNotDone'],
+		  // },
 		]
 	  },
 	  {

@@ -51,23 +51,41 @@ export class RetencionComponent implements OnInit {
         var workBook = XLSX.read(fileReader.result, { type: 'binary', cellDates: true });
         var sheetNames = workBook.SheetNames;
         this.ExcelData = XLSX.utils.sheet_to_json(workBook.Sheets[sheetNames[0]], { defval: '' });
-        let extraHeaders = [];
-        for (let [key, value] of Object.entries(this.ExcelData[0])) {
-          if (!this.headers.includes(key)) {
+        
+        // Construir el arreglo de encabezados esperados según el proceso seleccionado
+        let expectedHeaders = [...this.headers];
+        if (this.procesoSeleccionado === 'retencion 0') {
+          expectedHeaders.push('EQUIPO');
+        }
+        
+        // Convertir los encabezados del archivo y los esperados a minúsculas para compararlos sin distinción de mayúsculas/minúsculas
+        const fileHeaders = Object.keys(this.ExcelData[0]).map(header => header.toLowerCase());
+        const expectedHeadersLower = expectedHeaders.map(header => header.toLowerCase());
+    
+        // Verificar encabezados adicionales (se mostrarán advertencias)
+        let extraHeaders: string[] = [];
+        for (let key of Object.keys(this.ExcelData[0])) {
+          if (!expectedHeadersLower.includes(key.toLowerCase())) {
             extraHeaders.push(key);
           }
         }
+        // Si la única columna extra es "EQUIPO" y se seleccionó retencion 0, no se muestra el mensaje
         if (extraHeaders.length > 0) {
-          this.messageService.add({
-            key: 'tst',
-            severity: 'warn',
-            summary: 'Advertencia',
-            detail: 'El archivo contiene ' + extraHeaders.length + ' columnas adicionales: (' + extraHeaders.join(', ') + '). Serán ignoradas.',
-          });
+          if (!(this.procesoSeleccionado === 'retencion 0' && extraHeaders.length === 1 && extraHeaders[0].toLowerCase() === 'equipo')) {
+            this.messageService.add({
+              key: 'tst',
+              severity: 'warn',
+              summary: 'Advertencia',
+              detail: 'El archivo contiene ' + extraHeaders.length + ' columnas adicionales: (' + extraHeaders.join(', ') + '). Serán ignoradas.',
+            });
+          }
         }
-  
-        let missingHeaders = this.headers.filter(header => !Object.keys(this.ExcelData[0]).includes(header));
-  
+    
+        // Verificar que no falten encabezados requeridos (comparación insensible a mayúsculas/minúsculas)
+        let missingHeaders = expectedHeaders.filter(header => {
+          return !Object.keys(this.ExcelData[0]).some(key => key.toLowerCase() === header.toLowerCase());
+        });
+    
         if (missingHeaders.length > 0) {
           this.messageService.add({
             key: 'tst',
@@ -77,7 +95,7 @@ export class RetencionComponent implements OnInit {
           });
           fileInput.value = '';
         } else {
-          // Procesar cada fila y agregar la columna "Proceso"
+          // Procesar cada fila y agregar la columna "Proceso" y el valor de "EQUIPO" según corresponda
           this.ExcelData.forEach((row: any, index: number) => {
             let conflict = false;
             let conflictColumn = '';
@@ -98,8 +116,14 @@ export class RetencionComponent implements OnInit {
             row["fechaCaptura"] = moment(Date.now()).format('yyyy-MM-DD HH:mm:ss');
             // Agregar la columna "Proceso" con el valor seleccionado
             row["Proceso"] = this.procesoSeleccionado;
+            
+            // Si el proceso es Convenio Cobranza, asignar null a "EQUIPO"
+            if (this.procesoSeleccionado === 'Convenio Cobranza') {
+              row["EQUIPO"] = null;
+            }
+            // Si el proceso es retencion 0, se conserva el valor leído del Excel en "EQUIPO"
           });
-  
+    
           this.messageService.add({
             key: 'tst',
             severity: 'success',
@@ -112,6 +136,13 @@ export class RetencionComponent implements OnInit {
       }
     }
   }
+  
+  getEquipoValue(row: any): any {
+    // Busca dentro de 'row' una propiedad que, en minúsculas, sea 'equipo'
+    const equipoKey = Object.keys(row).find(k => k.toLowerCase() === 'equipo');
+    return equipoKey ? row[equipoKey] : '';
+  }
+  
   
   resetFileInput() {
     const inputElement = document.getElementById("file") as HTMLInputElement;

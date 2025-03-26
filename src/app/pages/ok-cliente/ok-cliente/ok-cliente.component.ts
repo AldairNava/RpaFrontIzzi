@@ -44,10 +44,10 @@ usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
             summary: 'La extensión del archivo es incorrecta',
             detail: 'Ingresa un archivo con extensión XLSX!!',
         });
-        fileInput.value = ''; // Limpiar el input
+        fileInput.value = '';
     } else if (ultimo[ultimo.length - 1] == 'xlsx') {
         let fileReader = new FileReader();
-        var pattern = /[^0-9a-zA-Z-]/g; // Patrón para encontrar caracteres no permitidos
+        var pattern = /[^0-9a-zA-Z-]/g;
         fileReader.readAsBinaryString(file);
         fileReader.onload = (e) => {
             var workBook = XLSX.read(fileReader.result, { type: 'binary', cellDates: true });
@@ -98,7 +98,6 @@ usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
                     row["FechaCaptura"] = moment(Date.now()).format('yyyy-MM-DD HH:mm:ss');
                 });
 
-                // Cambiar los nombres de los encabezados después de validarlos
                 this.ExcelData = this.ExcelData.map((row: any) => {
                     return {
                         Cuenta: row["No de Cuenta"],

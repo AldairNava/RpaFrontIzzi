@@ -11,6 +11,8 @@ import { ConsultacasosNegocioSinValidacionComponent } from './consultacasos-nego
 import { ReprocesarComponent } from './reprocesar/reprocesar.component';
 import { ReprocesarsinvalidacionComponent } from './reprocesarsinvalidacion/reprocesarsinvalidacion.component';
 import { ReprocesarCasosnegociosinvalidacionComponent } from './reprocesar-casosnegociosinvalidacion/reprocesar-casosnegociosinvalidacion.component';
+import { BaseNotdoneComponent } from './base-notdone/base-notdone.component';
+import { ImportarNotDoneComponent } from './importar-not-done/importar-not-done.component';
 
 const routes: Routes = [
 	{
@@ -62,6 +64,16 @@ const routes: Routes = [
 		path: 'reprocesarcasosnegociosinvalidacion',
 		component: LayoutComponent,
 		children: [{ path: '', component: ReprocesarCasosnegociosinvalidacionComponent }],
+	},
+	{
+		path: 'ImportarNotDone',
+		component: LayoutComponent,
+		children: [{ path: '', component: ImportarNotDoneComponent }],
+	},
+	{
+		path: 'BasesNotDone',
+		component: LayoutComponent,
+		children: [{ path: '', component: BaseNotdoneComponent }],
 	},
 
 ];

@@ -14,8 +14,11 @@ import { ConsultacasosNegocioSinValidacionComponent } from './consultacasos-nego
 import { ReprocesarComponent } from './reprocesar/reprocesar.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
+import { SafeUrlPipe } from './safeUrl.pipe';
 import { ReprocesarsinvalidacionComponent } from './reprocesarsinvalidacion/reprocesarsinvalidacion.component';
 import { ReprocesarCasosnegociosinvalidacionComponent } from './reprocesar-casosnegociosinvalidacion/reprocesar-casosnegociosinvalidacion.component';
+import { BaseNotdoneComponent } from './base-notdone/base-notdone.component';
+import { ImportarNotDoneComponent } from './importar-not-done/importar-not-done.component';
 
 
 @NgModule({
@@ -29,7 +32,10 @@ import { ReprocesarCasosnegociosinvalidacionComponent } from './reprocesar-casos
     ConsultacasosNegocioSinValidacionComponent,
     ReprocesarComponent,
     ReprocesarsinvalidacionComponent,
-    ReprocesarCasosnegociosinvalidacionComponent
+    ReprocesarCasosnegociosinvalidacionComponent,
+    BaseNotdoneComponent,
+    SafeUrlPipe,
+    ImportarNotDoneComponent,
   ],
   imports: [
     CommonModule,
