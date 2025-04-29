@@ -1,5 +1,5 @@
-<div class="text-900 font-bold text-2xl mb-4 text-center" style="background-color: #FF0000; color: white;">
-    Importar Bases - Dos Excel
+<div class="text-900 font-bold text-2xl mb-4 text-center" style="background-color: #00B2A9; color: white;">
+    Importar Bases - NotDone
   </div>
   
   <div class="card" style="padding: 1rem;">
@@ -7,20 +7,40 @@
       <!-- Primer input: siempre visible -->
       <div class="p-fluid p-formgrid grid m-2 flex justify-content-center">
         <div class="col-6 text-center">
-          <label>Primer Archivo Excel</label>
-          <input type="file"
-                 accept=".csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                 (change)="readFirstExcel($event)">
+          <label>Base ND &amp; C</label>
+          <br><br>
+          <label style="background-color: #00B2A9; color: white; margin-right: 20px; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer; transition: background 0.2s ease-in-out;">
+            Seleccionar Archivo
+            <input type="file"
+                   accept=".csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                   (change)="readSecondExcel($event)"
+                   style="display: none;">
+          </label>
+          <!-- Spinner para el archivo mientras se lee -->
+          <div *ngIf="readingSecondExcel" class="mt-2">
+            <p-progressSpinner></p-progressSpinner>
+            <p>Leyendo archivo...</p>
+          </div>
         </div>
       </div>
   
       <!-- Segundo input: solo visible cuando el primer archivo se ha cargado -->
-      <div class="p-fluid p-formgrid grid m-2 flex justify-content-center" *ngIf="firstFileLoaded">
+      <div class="p-fluid p-formgrid grid m-2 flex justify-content-center" *ngIf="secondFileLoaded">
         <div class="col-6 text-center">
-          <label>Segundo Archivo Excel</label>
-          <input type="file"
-                 accept=".csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                 (change)="readSecondExcel($event)">
+          <label>Ordenes NotDone</label>
+          <br><br>
+          <label style="background-color: #00B2A9; color: white; margin-right: 20px; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer; transition: background 0.2s ease-in-out;">
+            Seleccionar Archivo
+            <input type="file"
+                   accept=".csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                   (change)="readFirstExcel($event)"
+                   style="display: none;">
+          </label>
+          <!-- Spinner para el archivo mientras se lee -->
+          <div *ngIf="readingFirstExcel" class="mt-2">
+            <p-progressSpinner></p-progressSpinner>
+            <p>Leyendo archivo...</p>
+          </div>
         </div>
       </div>
   
@@ -30,12 +50,18 @@
           <button mat-button
                   (click)="sendData()"
                   pButton
-                  [disabled]="sendButtonDisabled"
+                  [disabled]="sendButtonDisabled || loading"
                   label="Enviar Datos"
-                  style="background-color: #FF7F7F; border: 0;">
+                  [ngStyle]="{'background-color': (!sendButtonDisabled && !loading) ? '#00B2A9' : '#93CECB', 'border': '0'}">
           </button>
         </div>
       </div>
+  
+      <!-- Spinner de carga mientras se envían los datos -->
+      <div class="grid flex justify-content-center m-2" *ngIf="loading">
+        <p-progressSpinner></p-progressSpinner>
+      </div>
+  
     </p-panel>
   </div>
   

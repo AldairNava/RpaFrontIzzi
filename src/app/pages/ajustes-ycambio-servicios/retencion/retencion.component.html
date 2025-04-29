@@ -78,7 +78,6 @@
                           Status
                       </div>
                   </th>
-                  <!-- Columna Sin Equipo visible solo para retencion 0 -->
                   <th *ngIf="procesoSeleccionado === 'retencion 0'">
                       <div class="flex justify-content-between align-items-center">
                           Equipo
@@ -100,7 +99,6 @@
                   <td>
                       {{item.Status}}
                   </td>
-                  <!-- Valor de Sin Equipo solo para retencion 0 -->
                   <td *ngIf="procesoSeleccionado === 'retencion 0'">
                     {{ getEquipoValue(item) }}
                   </td>

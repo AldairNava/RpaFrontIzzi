@@ -37,16 +37,6 @@
         <p-table #dt1 [value]="ExcelData" dataKey="Caso de negocio" [rows]="50" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
             styleClass="p-datatable-gridlines" [paginator]="true"
             responsiveLayout="scroll">
-            <!-- <ng-template pTemplate="caption">
-                <div class="flex justify-content-between flex-column sm:flex-row">
-
-                    <span class="p-input-icon-left mb-2">
-                        <i class="pi pi-search"></i>
-                        <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Buscar"
-                            class="w-full" />
-                    </span>
-                </div>
-            </ng-template> -->
             <ng-template pTemplate="header">
                 <tr>
                     <th>
