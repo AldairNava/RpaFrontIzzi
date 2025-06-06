@@ -110,21 +110,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/ajustes-ycambio-servicios/ajustes-ycambio-servicios.module').then((m) => m.AjustesYcambioServiciosModule),
   },
-  {
-    path: 'okcliente',
-    data: { breadcrumb: 'ok-cliente'},
-    canActivate: [AuthGuard],
-    loadChildren: () =>
-      import('./pages/ok-cliente/ok-cliente.module').then((m) => m.OkClienteModule),
-  },
-  {
-    path: 'ordenes',
-    data: { breadcrumb: 'Creación de Ordenes'},
-    canActivate: [AuthGuard],
-    loadChildren: () =>
-      import('./pages/creaorden/creaorden.module').then((m) => m.CreaordenModule),
-  },
-  { path: 'robots', data: { breadcrumb: 'Robots' }, loadChildren: () => import('./pages/robots/robots.module').then(m => m.RobotsModule) },
+  {path: 'okcliente',data: { breadcrumb: 'ok-cliente'},canActivate: [AuthGuard],loadChildren: () =>import('./pages/ok-cliente/ok-cliente.module').then((m) => m.OkClienteModule),},
+
+  {path: 'ordenes',data: { breadcrumb: 'Creación de Ordenes'},canActivate: [AuthGuard],loadChildren: () =>import('./pages/creaorden/creaorden.module').then((m) => m.CreaordenModule),},
+
+  { path: 'robots', data: { breadcrumb: 'Robots' }, canActivate: [AuthGuard],loadChildren: () => import('./pages/robots/robots.module').then(m => m.RobotsModule) },
+
+  { path: 'AgenciasExternas', data: { breadcrumb: 'Agencias Externas' }, canActivate: [AuthGuard],loadChildren: () => import('./pages/agencias-externas/agencias-externas.module').then(m => m.AgenciasExternasModule) },
 
   //componentes de Mariana
   {path: 'login-Mariana', component: LoginComponent},

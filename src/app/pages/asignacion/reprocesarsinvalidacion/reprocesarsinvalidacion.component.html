@@ -74,6 +74,260 @@
     </div>
 </div>
 
+ <div class="card mt-4" *ngIf="isAdmin">
+    <p-tabView>
+        <p-tabPanel header="Resproceso">
+            -<div class="flex flex-column align-items-center justify-content-center" style="min-height: 150px;">
+                    <p-selectButton 
+                    [options]="tipoReprocesoOptions" 
+                    [(ngModel)]="tipoReproceso" 
+                    optionLabel="label"
+                    optionValue="value"
+                    styleClass="mb-3">
+                    </p-selectButton>
+                    <div *ngIf="tipoReproceso === 'individual'" class="mt-3 w-25 flex flex-column align-items-center">
+                        <label for="idInput" class="mb-2 font-bold">ID</label>
+                        <input
+                            pInputText
+                            id="idInput"
+                            [(ngModel)]="idIndividual"
+                            pattern="[0-9]*"
+                            onlyNumbers
+                            maxlength="20"
+                        />
+                        <button
+                            pButton
+                            label="Reprocesar"
+                            class="mt-3"
+                            style="background-color:rgb(51, 133, 241);border: 0;"
+                            [disabled]="!idIndividual"
+                            (click)="confirmarReprocesoIndividual()"
+                        ></button>
+                        </div>
+                <p-dialog
+                    header="Confirmación"
+                    [(visible)]="displayConfirm"
+                    [modal]="true"
+                    [closable]="false"
+                    [baseZIndex]="10000"
+                    >
+                    <div class="flex flex-column align-items-center">
+                        <i class="pi pi-question-circle mb-3" style="font-size: 2rem"></i>
+                        <div class="mb-3">
+                        ¿La cuenta a reprocesar es correcta?
+                        <strong>{{ idIndividual || '' }}</strong>
+                        </div>
+                        <div class="flex gap-2 justify-content-center">
+                        <button
+                            pButton
+                            label="No"
+                            icon="pi pi-times"
+                            class="p-button-text"
+                            (click)="displayConfirm = false"
+                        ></button>
+                        <button
+                            pButton
+                            label="Sí"
+                            icon="pi pi-check"
+                            (click)="reprocesarIndividual()"
+                            autofocus
+                        ></button>
+                        </div>
+                    </div>
+                </p-dialog>
+                
+                <div *ngIf="tipoReproceso === 'masivo'" class="mt-3 w-25 flex flex-column align-items-center">
+                    <label for="fileInput" class="mb-2 font-bold">Archivo a Reprocesar</label>
+                    <label for="fileInput" 
+                        style="background-color:rgb(51, 133, 241); color:white; border-radius:4px; padding:8px 16px; cursor:pointer; display:inline-block; margin-bottom: 10px;">
+                        Seleccionar archivo
+                        <input
+                            type="file"
+                            id="fileInput"
+                            accept=".xlsx,.csv"
+                            (change)="onFileChange($event)"
+                            style="display:none"
+                        />
+                    </label>
+                    <button
+                        pButton
+                        label="Reprocesar Masivo"
+                        class="mt-3"
+                        style="background-color:rgb(51, 133, 241);border: 0;"
+                        [disabled]="!fileToUpload"
+                        (click)="confirmarReprocesoMasivo()"
+                    ></button>
+                    </div>
+
+                    <p-dialog
+                    header="Confirmación Masiva"
+                    [(visible)]="displayConfirmMasivo"
+                    [modal]="true"
+                    [closable]="false"
+                    [baseZIndex]="10000"
+                    >
+                    <div class="flex flex-column align-items-center">
+                        <i class="pi pi-question-circle mb-3" style="font-size: 2rem"></i>
+                        <div class="mb-3">
+                        ¿Deseas reprocesar <strong>{{ idsFromFile.length }}</strong> cuentas?
+                        </div>
+                        <div class="flex gap-2 justify-content-center">
+                        <button
+                            pButton
+                            label="No"
+                            icon="pi pi-times"
+                            class="p-button-text"
+                            (click)="displayConfirmMasivo = false"
+                        ></button>
+                        <button
+                            pButton
+                            label="Sí"
+                            icon="pi pi-check"
+                            (click)="reprocesarMasivo()"
+                            autofocus
+                        ></button>
+                        </div>
+                    </div>
+                </p-dialog>
+
+            </div>
+        </p-tabPanel>
+      <p-tabPanel header="Cambio Status">
+        <!-- ...dentro de <p-tabPanel header="Cambio Status"> ... -->
+        <div class="flex flex-column align-items-center justify-content-center" style="min-height: 150px;">
+        <p-selectButton
+            [options]="tipoCambioStatusOptions"
+            [(ngModel)]="tipoCambioStatus"
+            optionLabel="label"
+            optionValue="value"
+            styleClass="mb-3"
+        ></p-selectButton>
+
+        <!-- Individual -->
+        <div *ngIf="tipoCambioStatus === 'individual'" class="mt-3 w-25 flex flex-column align-items-center">
+            <label for="idStatusInput" class="mb-2 font-bold">ID</label>
+            <input
+            pInputText
+            id="idStatusInput"
+            [(ngModel)]="idCambioStatus"
+            pattern="[0-9]*"
+            inputmode="numeric"
+            maxlength="20"
+            onlyNumbers
+            />
+            <label for="statusDropdown" class="mb-2 font-bold mt-3">Estatus</label>
+            <p-dropdown
+            id="statusDropdown"
+            [options]="estatusOptions"
+            [(ngModel)]="estatusSeleccionado"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Selecciona un estatus"
+            style="width: 100%;"
+            class="mb-3"
+            ></p-dropdown>
+            <button
+            pButton
+            label="Cambiar Status"
+            class="mt-3"
+            style="background-color:rgb(51, 133, 241);border: 0;"
+            [disabled]="!idCambioStatus || !estatusSeleccionado"
+            (click)="confirmarCambioStatusIndividual()"
+            ></button>
+        </div>
+
+        <!-- Dialogo Confirmación Individual -->
+        <p-dialog
+            header="Confirmación"
+            [(visible)]="displayConfirmCambioStatus"
+            [modal]="true"
+            [closable]="false"
+            [baseZIndex]="10000"
+        >
+            <div class="flex flex-column align-items-center">
+            <i class="pi pi-question-circle mb-3" style="font-size: 2rem"></i>
+            <div class="mb-3">
+                ¿Cambiar el status de la cuenta <strong>{{ idCambioStatus }}</strong> a <strong>{{ estatusSeleccionado }}</strong>?
+            </div>
+            <div class="flex gap-2 justify-content-center">
+                <button
+                pButton
+                label="No"
+                icon="pi pi-times"
+                class="p-button-text"
+                (click)="displayConfirmCambioStatus = false"
+                ></button>
+                <button
+                pButton
+                label="Sí"
+                icon="pi pi-check"
+                (click)="cambiarStatusIndividual()"
+                autofocus
+                ></button>
+            </div>
+            </div>
+        </p-dialog>
+
+        <!-- Masivo -->
+        <div *ngIf="tipoCambioStatus === 'masivo'" class="mt-3 w-25 flex flex-column align-items-center">
+            <label for="fileInputStatus" class="mb-2 font-bold">Archivo a Procesar</label>
+            <label for="fileInputStatus"
+            style="background-color:rgb(51, 133, 241); color:white; border-radius:4px; padding:8px 16px; cursor:pointer; display:inline-block; margin-bottom: 10px;">
+            Seleccionar archivo
+            <input
+                type="file"
+                id="fileInputStatus"
+                accept=".xlsx,.csv"
+                (change)="onFileChangeStatus($event)"
+                style="display:none"
+            />
+            </label>
+            <button
+            pButton
+            label="Cambiar Status Masivo"
+            class="mt-3"
+            style="background-color:rgb(51, 133, 241);border: 0;"
+            [disabled]="!fileToUploadStatus"
+            (click)="confirmarCambioStatusMasivo()"
+            ></button>
+        </div>
+
+        <!-- Dialogo Confirmación Masivo -->
+        <p-dialog
+            header="Confirmación Masiva"
+            [(visible)]="displayConfirmCambioStatusMasivo"
+            [modal]="true"
+            [closable]="false"
+            [baseZIndex]="10000"
+        >
+            <div class="flex flex-column align-items-center">
+            <i class="pi pi-question-circle mb-3" style="font-size: 2rem"></i>
+            <div class="mb-3">
+                ¿Deseas cambiar el status de <strong>{{ idsStatusFromFile.length }}</strong> cuentas?
+            </div>
+            <div class="flex gap-2 justify-content-center">
+                <button
+                pButton
+                label="No"
+                icon="pi pi-times"
+                class="p-button-text"
+                (click)="displayConfirmCambioStatusMasivo = false"
+                ></button>
+                <button
+                pButton
+                label="Sí"
+                icon="pi pi-check"
+                (click)="cambiarStatusMasivo()"
+                autofocus
+                ></button>
+            </div>
+            </div>
+        </p-dialog>
+        </div>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+
 <p-toast
   [baseZIndex]="99999"
   key="tst"></p-toast>

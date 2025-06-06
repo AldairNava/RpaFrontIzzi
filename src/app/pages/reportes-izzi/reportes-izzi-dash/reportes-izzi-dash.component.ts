@@ -23,6 +23,7 @@ export class ReportesIzziDashComponent implements OnInit {
   url1:string='';
   show:boolean=false;
   button:boolean=false;
+  reportesFiltrados: any[] = [];
 
   constructor(
     private cors: CorsService,
@@ -41,6 +42,15 @@ export class ReportesIzziDashComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTipoReporte();
+
+  //   const user = JSON.parse(localStorage.getItem('userData') || '{}');
+  //   if (user?.role === 'administrador') {
+  //     this.reportesFiltrados = this.reportes;
+  //   } else if (user?.role === 'recuperadores') {
+  //     this.reportesFiltrados = this.reportes.filter((r: any) => r.nombreReporte === 'Creacion CNs');
+  //   } else {
+  //     this.reportesFiltrados = [];
+  // }
   }
   
   confirm2(event: Event) {
@@ -114,6 +124,10 @@ export class ReportesIzziDashComponent implements OnInit {
           url = `ReportesIzzi/ReporteOkCliente`;
           para =`fecha1=${fechaini}&fecha2=${fechafin}`
           nomArchivo="Reporte_Ok-Cleinte"
+        }else if(this.formReporte.value.tipoReporte =='Creacion CNs'){
+          url = `ReportesIzzi/ReporteCreacionCNs`;
+          para =`fecha1=${fechaini}&fecha2=${fechafin}`
+          nomArchivo="Reporte_CReacion_CNs"
         }
         // else if(this.formReporte.value.tipoReporte =='Retencion 0'){
         //   url = `ReportesIzzi/ReporteRetencion0`;
@@ -161,15 +175,53 @@ export class ReportesIzziDashComponent implements OnInit {
     
   }
 
-  getTipoReporte(){
-    this.cors.get('ReportesIzzi/getTipoReportes').then((response) => {
-      if(response[0]=='SIN INFO'){
-        this.reportes=[];
-      }else{
-        this.reportes=response;
+  getTipoReporte() {
+  this.cors.get('ReportesIzzi/getTipoReportes').then((response) => {
+    if (response[0] == 'SIN INFO') {
+      this.reportes = [];
+      this.reportesFiltrados = [];
+    } else {
+      this.reportes = response;
+      const user = JSON.parse(localStorage.getItem('userData') || '{}');
+      switch (user?.role) {
+        case 'administrador':
+        case 'eBarrera':
+        case 'testReportes':
+          this.reportesFiltrados = this.reportes;
+          break;
+        case 'Depuracion':
+          this.reportesFiltrados = this.reportes.filter((r: any) => r.nombreReporte === 'Depuracion OS');
+          break;
+        case 'Ajustes':
+          this.reportesFiltrados = this.reportes.filter((r: any) =>
+            r.nombreReporte === 'Retencion 0' || r.nombreReporte === 'Ajustes Sucursales'
+          );
+          break;
+        case 'AjustesNotDone':
+          this.reportesFiltrados = this.reportes.filter((r: any) =>
+            r.nombreReporte === 'Ajustes (Cobranza y Late fee)' || r.nombreReporte === 'Ajustes Sin Validacion'
+          || r.nombreReporte === 'NotDone' || r.nombreReporte === 'NotDone Sin Validacion'
+          );
+          break;
+        case 'testAjustes1':
+          this.reportesFiltrados = this.reportes.filter((r: any) =>
+            r.nombreReporte === 'Ajustes (Cobranza y Late fee)' || r.nombreReporte === 'Creacion OS'
+            || r.nombreReporte === 'Ajustes Sin Validacion'
+          );
+          break;
+        case 'ACS':
+          this.reportesFiltrados = this.reportes.filter((r: any) => r.nombreReporte === 'Retencion 0');
+          break;
+        case 'recuperadores':
+          this.reportesFiltrados = this.reportes.filter((r: any) => r.nombreReporte === 'Creacion CNs');
+          break;
+        default:
+          this.reportesFiltrados = [];
       }
-    }).catch((error) => {
-      console.log("Error",error)
-    })
-  }
+    }
+  }).catch((error) => {
+    console.log("Error", error)
+    this.reportesFiltrados = [];
+  })
+}
 }

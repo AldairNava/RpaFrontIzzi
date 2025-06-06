@@ -13,6 +13,7 @@ import { ReprocesarComponent } from './reprocesar/reprocesar.component';
 import { ReprocesarsinvalidacionComponent } from './reprocesarsinvalidacion/reprocesarsinvalidacion.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
+import { SelectButtonModule } from 'primeng/selectbutton';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { ConfirmationService } from 'primeng/api';
     FormsModule,
     ReactiveFormsModule,
     ConfirmDialogModule,
+    SelectButtonModule
   ],
   providers: [ConfirmationService], 
 })

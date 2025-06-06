@@ -254,6 +254,7 @@ export class BotsComponent implements OnInit {
   }
 
   preguntarEnviar(command: any, item: any) {
+    console.log('Contenido de item en preguntarEnviar:', item);
     this.confirmationService.confirm({
       key: 'senCommand',
       message: '¿Está seguro que desea enviar el comando?',
@@ -268,42 +269,41 @@ export class BotsComponent implements OnInit {
   }
 
   sendCommand(item: any, command: any) {
-    item.sendingComand = true;
-    let a = "";
-    if (command == 'STARTED') {
-      a = '1';
-    } else if (command == 'STOPED') {
-      a = '0';
-    }
-    this.cors.get('AjustesCambiosServicios/cambiarProcesosIzziRetencion', {
-      ip: `${item.botIp}`,
-      proceso: `${item.procesoId}`,
-      status: `${command}`
-    })
-      .then((response: any) => {
-        console.log(response);
-        this.cors.get('AjustesCambiosServicios/updateProcessStatusBotsRetencion', {
-          ip: `${item.botIp}`,
-          estado: `${a}`
-        }).then((response1: any) => {
-          console.log(response1);
-        }).catch((error: any) => {
-          console.log(error);
-        });
-      })
-      .catch((error: any) => {
-        console.log(error);
-        this.cors.get('AjustesCambiosServicios/updateProcessStatusBotsRetencion', {
-          ip: `${item.botIp}`,
-          estado: `3`
-        }).then((response1: any) => {
-          console.log(response1);
-        }).catch((error: any) => {
-          console.log(error);
-        });
-      });
-    item.sendingComand = false;
+  item.sendingComand = true;
+  let a = "";
+  if (command == 'STARTED') {
+    a = '1';
+  } else if (command == 'STOPED') {
+    a = '0';
   }
+  this.cors.get('AjustesCambiosServicios/cambiarProcesosIzziRetencion', {
+    ip: `${item.ip}`,
+    proceso: `${item.procesoBotId}`,
+    status: `${command}`
+  })
+    .then((response: any) => {
+      this.cors.get('AjustesCambiosServicios/updateProcessStatusBotsRetencion', {
+        ip: `${item.ip}`,
+        estado: `${a}`
+      }).then((response1: any) => {
+        // Refresca la tabla después de actualizar el estado
+        this.buscaBots();
+      }).catch((error: any) => {
+        console.log(error);
+      });
+    })
+    .catch((error: any) => {
+      this.cors.get('AjustesCambiosServicios/updateProcessStatusBotsRetencion', {
+        ip: `${item.ip}`,
+        estado: `3`
+      }).then((response1: any) => {
+        this.buscaBots();
+      }).catch((error: any) => {
+        console.log(error);
+      });
+    });
+  item.sendingComand = false;
+}
 
   sendProcess(item: any, idProceso: any) {
     item.sendingProcess = true;
@@ -344,7 +344,7 @@ export class BotsComponent implements OnInit {
         if (response[0] == 'SIN INFO') {
           this.dataSource = [];
         } else {
-          this.dataSource = response;
+          this.dataSource = [...response];
           for (let bot of this.dataSource) {
             let dias = this.getDays(bot.fechaActualizacion);
             if (typeof dias === 'number') {

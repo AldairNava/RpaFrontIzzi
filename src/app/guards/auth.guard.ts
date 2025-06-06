@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate {
 
 
     let permisos: any = {
-    "administrador":['extraccion','izzi-rpacx','ajustes','notDone','depuracion','limpieza','reporteFidelizacion','reportes','ajustesCambioServicioRetencion','robots','ordenes','okcliente'],
+    "administrador":['extraccion','izzi-rpacx','ajustes','notDone','depuracion','limpieza','reporteFidelizacion','reportes','ajustesCambioServicioRetencion','robots','ordenes','okcliente','AgenciasExternas'],
     "Reporte":['izzi-rpacx','reporteFidelizacion'],
     "Extraccion":['izzi-rpacx','extraccion'],
     "Depuracion":['izzi-rpacx','depuracion','reportes'],
@@ -24,7 +24,7 @@ export class AuthGuard implements CanActivate {
     "eBarrera":['extraccion','izzi-rpacx','ajustes','notDone','depuracion','reporteFidelizacion','reportes','robots','okcliente'],
     "testReportes":['izzi-rpacx','reportes'],
     "ACS":['izzi-rpacx','ajustesCambioServicioRetencion'],
-    "recuperadores":['izzi-rpacx','limpieza'],
+    "recuperadores":['izzi-rpacx','limpieza','AgenciasExternas','reportes'],
     }
     console.log("aca", route.url[0].path);
     

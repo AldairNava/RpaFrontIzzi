@@ -40,6 +40,22 @@ export class MenuComponent implements OnInit {
       ]
     },
     {
+      label: 'Agencias Externas',
+      key: "AgenciasExternas",
+      items: [
+        {
+          label: 'Importar Base',
+          icon: 'pi pi-fw pi-database',
+          routerLink: ['/AgenciasExternas/CreacionCNs'],
+        },
+        {
+          label: 'Pantalla Consulta',
+          icon: 'pi pi-fw pi-search',
+          routerLink: ['/AgenciasExternas/PantallaConsulta'],
+        },
+      ]
+    },
+    {
       label: 'ok-cliente',
       key: "ajustes",
       items: [
@@ -405,7 +421,7 @@ export class MenuComponent implements OnInit {
 
 
     let permisos: any = {
-      "administrador":['extraccion','home','ajustes','notDone','depuracion','reporteFidelizacion','limpieza','reportes','ajustesCambioServicioRetencion','robots','ordenes'],
+      "administrador":['extraccion','home','ajustes','notDone','depuracion','reporteFidelizacion','limpieza','reportes','ajustesCambioServicioRetencion','robots','ordenes','AgenciasExternas'],
       "Reporte":['home','reporteFidelizacion'],
       "Extraccion":['home','extraccion'],
       "Depuracion":['home','depuracion','reportes'],
@@ -415,7 +431,7 @@ export class MenuComponent implements OnInit {
       "eBarrera":['extraccion','home','ajustes','notDone','depuracion','reporteFidelizacion','reportes','robots'],
       "testReportes":['home','reportes'],
       "ACS":['home','ajustesCambioServicioRetencion'],
-      "recuperadores":['home','limpieza'],
+      "recuperadores":['home','limpieza','AgenciasExternas','reportes'],
     }
     this.model = [];
     let usuarioInfo = JSON.parse(localStorage.getItem("userData") || "{}")

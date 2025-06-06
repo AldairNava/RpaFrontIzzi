@@ -1,0 +1,22 @@
+:host ::ng-deep ::-webkit-scrollbar-thumb:horizontal {
+    background-color: #550675;
+    opacity: 0.5;
+  }
+  :host ::ng-deep ::-webkit-scrollbar-thumb:vertical {
+    background-color: #550675;
+    // opacity: 0.5;
+  }
+  
+  ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    color: white;
+    opacity: 0.5;
+    background-color: #550675; /* Cambia el color de la página activa del paginador */
+  }
+  .p-button:active {
+    box-shadow: #550675;
+  }
+  ::ng-deep .p-calendar .p-button-icon-only {
+    background-color: #550675 !important;
+  }
+
+

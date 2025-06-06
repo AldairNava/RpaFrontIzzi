@@ -32,6 +32,7 @@ export class DashboardComponent implements OnInit {
     loading: boolean = false
     load: boolean = false
     basicDataEXT: any;
+    isAdmin: boolean = false;
     basicOptionsEXT: any;
     basicDataExtArray:any={
         graf:[],
@@ -172,7 +173,10 @@ export class DashboardComponent implements OnInit {
 
         setInterval(() => {
             this.buscarStatsTodos();
-        }, 300000);        
+        }, 300000);   
+        
+        const user = JSON.parse(localStorage.getItem('userData') || '{}');
+        this.isAdmin = user?.role === 'administrador';
 
     }
     
