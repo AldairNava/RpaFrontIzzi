@@ -188,7 +188,7 @@ export class MenuComponent implements OnInit {
         ]
 		  },
       {
-		    label: 'Imporrtar NotDone',
+		    label: 'Importar NotDone',
 		    icon: 'pi pi-fw pi-database',
 		    routerLink: ['/notDone/ImportarNotDone'],
 		  },
