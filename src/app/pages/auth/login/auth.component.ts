@@ -60,7 +60,8 @@ export class AuthComponent {
                 || (this.formLogin.value.email =='oavila' && this.formLogin.value.pWd =='oavila_2024')
                 || (this.formLogin.value.email =='mvillalobos' && this.formLogin.value.pWd =='mvillalobos_2024')
                 || (this.formLogin.value.email =='CSuarez' && this.formLogin.value.pWd =='CSuarez_2025')
-                || (this.formLogin.value.email =='alramirezb' && this.formLogin.value.pWd =='alramirezb_2024')){
+                || (this.formLogin.value.email =='CSuarez' && this.formLogin.value.pWd =='CSuarez_2025')
+                || (this.formLogin.value.email =='dmartinezf' && this.formLogin.value.pWd =='dmartinezf_2025')){
                 let a=null;
                 if(this.formLogin.value.email =='administrador'){
                     a={
@@ -139,14 +140,14 @@ export class AuthComponent {
                         "lastName":"Torres Marin",
                         "email":"TMFabiola@test.com"
                     }
-                }else if(this.formLogin.value.email =='DRLizbeth'){ //reporte fidelizacion reporte
+                }else if(this.formLogin.value.email =='DRLizbeth'){
                     a={
                         "role":"ACS",
                         "firstName":"Lizbeth",
                         "lastName":"Diaz Rosas",
                         "email":"DRLizbeth@test.com"
                     }
-                }else if(this.formLogin.value.email =='LOFabian'){ //reporte fidelizacion reporte
+                }else if(this.formLogin.value.email =='LOFabian'){
                     a={
                         "role":"ACS",
                         "firstName":"Fabian",
@@ -154,14 +155,14 @@ export class AuthComponent {
                         "email":"LOFabian@test.com"
                     }
                 }
-                // else if(this.formLogin.value.email =='Hiram'){
-                //     a={
-                //         "role":"admin",
-                //         "firstName":"Hiram",
-                //         "lastName":"Martinez Herrera",
-                //         "email":"IMPatricio@test.com"
-                //     }
-                // }
+                else if(this.formLogin.value.email =='dmartinezf'){
+                    a={
+                        "role":"administrador",
+                        "firstName":"David",
+                        "lastName":"Martinez Flores",
+                        "email":"dmartinezf@izzi.mx"
+                    }
+                }
                 else if(this.formLogin.value.email =='UsrRecuperacion'){
                     a={
                         "role":"recuperadores",
@@ -212,13 +213,6 @@ export class AuthComponent {
                         "firstName":"Marco Antonio",
                         "lastName":"Villalobos Gomez",
                         "email":"mvillalobos@sky.com.mx"
-                    }
-                }else if(this.formLogin.value.email =='alramirezb'){
-                    a={
-                        "role":"Reporte",
-                        "firstName":"Angeles Lizeth",
-                        "lastName":"Ramírez Barrera",
-                        "email":"alramirezb@izzi.mx"
                     }
                 }
                 
