@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "C:/Users/Desarrollo/Desktop/archivos/respaldo051023/proyecto_izziback/frontend",
+            "outputPath": "C:/frontend",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
