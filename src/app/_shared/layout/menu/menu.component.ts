@@ -435,7 +435,7 @@ export class MenuComponent implements OnInit {
       "AjustesNotDone":['home','notDone','administracion'],
       "testAjustes1":['home','ajustes','administracion'],
       "eBarrera":['extraccion','home','ajustes','notDone','depuracion','reporteFidelizacion','administracion','robots','okCliente'],
-      "administracion":['home','administracion'],
+      "testReportes":['home','administracion'],
       "ACS":['home','ajustesCambioServicioRetencion'],
       "recuperadores":['home','limpieza','AgenciasExternas'],
     }

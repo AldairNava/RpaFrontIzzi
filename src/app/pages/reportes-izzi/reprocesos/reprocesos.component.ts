@@ -51,6 +51,8 @@ export class ReprocesosComponent implements OnInit {
   idsFromFile: any[] = [];
   procesoSeleccionado: string = '';
   procesoSeleccionadoMasivo: string = '';
+  loading = false;
+  
 
   // Mapeo de proceso a status
   procesoStatusMap: { [key: string]: string } = {
@@ -68,13 +70,10 @@ export class ReprocesosComponent implements OnInit {
   };
 
   private rawProcesos = [
-    'Not Done CV - EjecucionNotDone',
-    'Not Done Generacion CN - CancelacionSinValidacion',
-    'Not Done SV - CasosNegocioSinValidacion',
+    'Not Done Cancelacion - EjecucionNotDone',
+    'Not Done Generacion CN - CasosNegocioSinValidacion',
     'Ajustes CV - AjustesBasesCasosNeogcioCobranza',
     'Ajustes SV - AjustesSinValidacion',
-    'Ajustes Sucursales - AjustesCambioServicios',
-    'creacion orden - NotDoneCreacionOrdenModel',
     'Depuracion EXT - DepuracionBasesCanceladasOSExt',
     'Depuracion CC - DepuracionBasesCanceladasOS',
     'Ok Cliente - okCliente2',
@@ -105,6 +104,7 @@ export class ReprocesosComponent implements OnInit {
 
   cambiarStatusIndividual() {
   this.displayConfirmCambioStatus = false;
+  this.loading = true;
   const usuario = JSON.parse(localStorage.getItem("userData") || "{}");
   if (!usuario?.email) {
     this.messageService.add({
@@ -135,7 +135,7 @@ export class ReprocesosComponent implements OnInit {
       severity: 'success',
       summary: 'Status cambiado',
       detail: response?.message || 'Status cambiado correctamente'
-    });
+    });this.loading = false;
   })
   .catch(error => {
     this.messageService.add({
@@ -143,7 +143,7 @@ export class ReprocesosComponent implements OnInit {
       severity: 'error',
       summary: 'Error',
       detail: error?.message || 'Ocurrió un error al cambiar el status'
-    });
+    });this.loading = false;
   });
 }
 
@@ -217,7 +217,7 @@ onFileChange(event: any) {
 }
 
   // Masivo
-    onFileChangeStatus(event: any) {
+onFileChangeStatus(event: any) {
   const file = event.target.files[0];
   this.fileToUploadStatus = file;
   this.idsStatusFromFile = [];
@@ -248,7 +248,7 @@ onFileChange(event: any) {
           if (row[idIndex]) {
             this.idsStatusFromFile.push({
               id: row[idIndex],
-              status: this.procesoSeleccionadoStatusMasivo ? this.estatusSeleccionado : row[statusIndex],
+              status: row[statusIndex],
               proceso: this.procesoSeleccionadoStatusMasivo
             });
           }
@@ -259,6 +259,7 @@ onFileChange(event: any) {
           summary: 'Éxito',
           detail: `Se leyeron ${this.idsStatusFromFile.length} registros correctamente.`
         });
+        console.log(this.idsStatusFromFile);
       } catch (err: any) {
         this.messageService.add({
           key: 'tst',
@@ -274,6 +275,7 @@ onFileChange(event: any) {
 
     reprocesarMasivo() {
   this.displayConfirmMasivo = false;
+  this.loading = true;
   const usuario = JSON.parse(localStorage.getItem("userData") || "{}");
   if (!usuario?.email) {
     this.messageService.add({
@@ -295,7 +297,7 @@ onFileChange(event: any) {
       severity: 'success',
       summary: 'Reprocesado',
       detail: response?.message || 'Cuentas reprocesadas correctamente'
-    });
+    });this.loading = false;
   })
   .catch(error => {
     this.messageService.add({
@@ -303,7 +305,7 @@ onFileChange(event: any) {
       severity: 'error',
       summary: 'Error',
       detail: error?.message || 'Ocurrió un error al reprocesar las cuentas'
-    });
+    });this.loading = false;
   });
 }
     
@@ -326,6 +328,7 @@ onFileChange(event: any) {
 
   cambiarStatusMasivo() {
   this.displayConfirmCambioStatusMasivo = false;
+  this.loading = true;
   const usuario = JSON.parse(localStorage.getItem("userData") || "{}");
   if (!usuario?.email) {
     this.messageService.add({
@@ -346,7 +349,7 @@ onFileChange(event: any) {
       severity: 'success',
       summary: 'Status cambiado',
       detail: response?.message || 'Status cambiado correctamente'
-    });
+    });this.loading = false;
   })
   .catch(error => {
     this.messageService.add({
@@ -354,7 +357,7 @@ onFileChange(event: any) {
       severity: 'error',
       summary: 'Error',
       detail: error?.message || 'Ocurrió un error al cambiar el status'
-    });
+    });this.loading = false;
   });
 }
 
@@ -366,6 +369,7 @@ onFileChange(event: any) {
   // Individual
 reprocesarIndividual() {
   this.displayConfirm = false;
+  this.loading = true;
   if (!this.idIndividual || !this.procesoSeleccionado) return;
 
   const usuario = JSON.parse(localStorage.getItem("userData") || "{}");
@@ -398,7 +402,7 @@ reprocesarIndividual() {
       severity: 'success',
       summary: 'Reprocesado',
       detail: response?.message || 'Cuenta reprocesada correctamente'
-    });
+    });this.loading = false;
   })
   .catch(error => {
     this.messageService.add({
@@ -406,7 +410,7 @@ reprocesarIndividual() {
       severity: 'error',
       summary: 'Error',
       detail: error?.message || 'Ocurrió un error al reprocesar la cuenta'
-    });
+    });this.loading = false;
   });
 }
 

@@ -3,3 +3,21 @@
     top: 0;
     z-index: 1;
 }
+
+/* 1) El wrapper permite overflow-x */
+.tabview-scroll-wrapper {
+  overflow-x: auto;
+  /* opcional: para que el scroll sea más “suave” en móviles WebKit */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 2) Fuerza a que la lista de tabs sea un flex-row sin wrapping */
+.tabview-scroll-wrapper ::ng-deep .p-tabview-nav {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+/* 3) Cada pestaña ocupa sólo el espacio que necesita */
+.tabview-scroll-wrapper ::ng-deep .p-tabview-nav li {
+  flex: 0 0 auto;
+}
