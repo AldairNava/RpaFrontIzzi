@@ -13,7 +13,7 @@ import { Table } from 'primeng/table';
 export class ConsultaOkClienteComponent implements OnInit {
  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
   msgs: Message[] = [];
-  showtable:any;
+  showtable: any[] = []; 
   stats:any[]=[];
 
   constructor(

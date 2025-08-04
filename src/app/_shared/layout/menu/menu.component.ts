@@ -20,7 +20,52 @@ export class MenuComponent implements OnInit {
           label: 'Dashboard',
           icon: 'pi pi-fw pi-home',
           routerLink: ['/izzi-rpacx'],
-        }
+        },
+      ]
+    },
+    {
+      label: 'Administacion',
+      key: "administracion",
+      icon: 'pi pi-fw pi-compass',
+      items: [
+        {
+        label: 'Reportes',
+        icon: 'pi pi-fw pi-book',
+          routerLink: ['/administracion/reportes'],
+        },
+        {
+        label: 'Reporceso',
+        icon: 'pi pi-fw pi-sync',
+          routerLink: ['/administracion/reporcesos'],
+        },
+      ]
+      },
+    {
+      label: 'Robots',
+      key: "robots",
+      icon: 'pi pi-fw pi-android',
+      routerLink: ['/robots'],
+      items: [
+        {
+          label: 'Actividad Robots',
+          icon: 'pi pi-fw pi-tablet',
+          routerLink: ['/robots/'],
+        },
+        {
+          label: 'Crear nuevo Robot',
+          icon: 'pi pi-fw pi-plus',
+          routerLink: ['/robots/nuevo'],
+        },
+        {
+          label: 'Actividad Procesos',
+          icon: 'pi pi-fw pi-tablet',
+          routerLink: ['/robots/proceso'],
+        },
+        {
+          label: 'Crear nuevo Proceso',
+          icon: 'pi pi-fw pi-plus',
+          routerLink: ['/robots/proceso/nuevo'],
+        },
       ]
     },
     {
@@ -57,7 +102,7 @@ export class MenuComponent implements OnInit {
     },
     {
       label: 'ok-cliente',
-      key: "ajustes",
+      key: "okCliente",
       items: [
         {
           label: 'Importar Base',
@@ -94,11 +139,11 @@ export class MenuComponent implements OnInit {
             icon: 'pi pi-fw pi-cog',
             routerLink: ['/ajustes/parametros'],
           },
-          {
-            label: 'Reprocesar',
-            icon: 'pi pi-fw pi-sync',
-            routerLink: ['/ajustes/reprocesar'],
-          },
+          // {
+          //   label: 'Reprocesar',
+          //   icon: 'pi pi-fw pi-sync',
+          //   routerLink: ['/ajustes/reprocesar'],
+          // },
         ]
       }, 
       {
@@ -114,11 +159,11 @@ export class MenuComponent implements OnInit {
             icon: 'pi pi-fw pi-search',
             routerLink: ['/ajustes/consultaSinValidacion'],
           },
-          {
-            label: 'Reprocesar Sin Validacion',
-            icon: 'pi pi-fw pi-sync',
-            routerLink: ['/ajustes/Reprocesarsinvalidacion'],
-          }
+          // {
+          //   label: 'Reprocesar Sin Validacion',
+          //   icon: 'pi pi-fw pi-sync',
+          //   routerLink: ['/ajustes/Reprocesarsinvalidacion'],
+          // }
         ]
 		  },
 		]
@@ -145,11 +190,11 @@ export class MenuComponent implements OnInit {
               icon: 'pi pi-fw pi-cog',
               routerLink: ['/notDone/parametros'],
             },
-            {
-              label: 'Reprocesar',
-              icon: 'pi pi-fw pi-sync',
-              routerLink: ['/notDone/reprocesarnotdone'],
-            }
+            // {
+            //   label: 'Reprocesar',
+            //   icon: 'pi pi-fw pi-sync',
+            //   routerLink: ['/notDone/reprocesarnotdone'],
+            // }
         ]
       },
       {
@@ -175,16 +220,16 @@ export class MenuComponent implements OnInit {
             icon: 'pi pi-fw pi-search',
             routerLink: ['/notDone/consultaCasosNegocioSinValidacion'],
           },
-          {
-            label: 'Reprocesar Cancelacion Sin Validacion',
-            icon: 'pi pi-fw pi-sync',
-            routerLink: ['/notDone/reprocesarnotdonesinvalidacion'],
-          },
-          {
-            label: 'Reprocesar Casos de Negocio Sin Validacion',
-            icon: 'pi pi-fw pi-sync',
-            routerLink: ['/notDone/reprocesarcasosnegociosinvalidacion'],
-          }
+          // {
+          //   label: 'Reprocesar Cancelacion Sin Validacion',
+          //   icon: 'pi pi-fw pi-sync',
+          //   routerLink: ['/notDone/reprocesarnotdonesinvalidacion'],
+          // },
+          // {
+          //   label: 'Reprocesar Casos de Negocio Sin Validacion',
+          //   icon: 'pi pi-fw pi-sync',
+          //   routerLink: ['/notDone/reprocesarcasosnegociosinvalidacion'],
+          // }
         ]
 		  },
       {
@@ -280,18 +325,6 @@ export class MenuComponent implements OnInit {
 		  },
 		]
 	  },
-    {
-      label: 'Reportes',
-      key: "reportes",
-      icon: 'pi pi-fw pi-compass',
-      items: [
-        {
-        label: 'Dashboard',
-        icon: 'pi pi-fw pi-book',
-          routerLink: ['/reportes'],
-        },
-      ]
-      },
       {
         label: 'Ajustes, Cambios de Servicios y Retencion',
         key: "ajustesCambioServicioRetencion",
@@ -387,51 +420,24 @@ export class MenuComponent implements OnInit {
                 ]
           },
 
-    {
-      label: 'Robots',
-      key: "robots",
-      icon: 'pi pi-fw pi-android',
-      routerLink: ['/robots'],
-      items: [
-        {
-          label: 'Actividad Robots',
-          icon: 'pi pi-fw pi-tablet',
-          routerLink: ['/robots/'],
-        },
-        {
-          label: 'Crear nuevo Robot',
-          icon: 'pi pi-fw pi-plus',
-          routerLink: ['/robots/nuevo'],
-        },
-        {
-          label: 'Actividad Procesos',
-          icon: 'pi pi-fw pi-tablet',
-          routerLink: ['/robots/proceso'],
-        },
-        {
-          label: 'Crear nuevo Proceso',
-          icon: 'pi pi-fw pi-plus',
-          routerLink: ['/robots/proceso/nuevo'],
-        },
-      ]
-    },
-
   ]
   ngOnInit() {
 
 
     let permisos: any = {
-      "administrador":['extraccion','home','ajustes','notDone','depuracion','reporteFidelizacion','limpieza','reportes','ajustesCambioServicioRetencion','robots','ordenes','AgenciasExternas'],
+      "administrador":['extraccion','home','ajustes','notDone','depuracion','reporteFidelizacion','limpieza','administracion','ajustesCambioServicioRetencion','robots','ordenes','AgenciasExternas','okCliente'],
+      "admin-ajustesSucursales":['home','limpieza','ajustesCambioServicioRetencion','AgenciasExternas','ordenes','okCliente'],
+      "admin-rpacx":['extraccion','home','ajustes','notDone','depuracion','administracion','robots','okCliente'],
       "Reporte":['home','reporteFidelizacion'],
       "Extraccion":['home','extraccion'],
-      "Depuracion":['home','depuracion','reportes'],
-      "Ajustes":['home','ajustesCambioServicioRetencion','reportes'],
-      "AjustesNotDone":['home','notDone','reportes'],
-      "testAjustes1":['home','ajustes','reportes','ordenes'],
-      "eBarrera":['extraccion','home','ajustes','notDone','depuracion','reporteFidelizacion','reportes','robots'],
-      "testReportes":['home','reportes'],
+      "Depuracion":['home','depuracion','administracion'],
+      "Ajustes":['home','ajustesCambioServicioRetencion','administracion'],
+      "AjustesNotDone":['home','notDone','administracion'],
+      "testAjustes1":['home','ajustes','administracion'],
+      "eBarrera":['extraccion','home','ajustes','notDone','depuracion','reporteFidelizacion','administracion','robots','okCliente'],
+      "administracion":['home','administracion'],
       "ACS":['home','ajustesCambioServicioRetencion'],
-      "recuperadores":['home','limpieza','AgenciasExternas','reportes'],
+      "recuperadores":['home','limpieza','AgenciasExternas'],
     }
     this.model = [];
     let usuarioInfo = JSON.parse(localStorage.getItem("userData") || "{}")

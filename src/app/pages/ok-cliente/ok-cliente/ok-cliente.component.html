@@ -51,7 +51,7 @@
                     </th>
                     <th>
                         <div class="flex justify-content-between align-items-center">
-                            Fecha Encuesta
+                            Encuesta
                         </div>
                     </th>
                     <th>
@@ -71,7 +71,12 @@
                     </th>
                     <th>
                         <div class="flex justify-content-between align-items-center">
-                            Tipo Oferta
+                            Tipo
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Origen
                         </div>
                     </th>
                     <th>
@@ -84,28 +89,31 @@
             <ng-template pTemplate="body" let-item let-i="rowIndex">
                 <tr>
                     <td>
-                        {{item.Cuenta}}
+                        {{item.cuenta}}
                     </td>
                     <td>
-                        {{item['numeroOrden']}}
+                        {{item['orden']}}
                     </td>
                     <td>
-                        {{item.FechaEncuesta}}
+                        {{item.encuesta}}
                     </td>
                     <td>
-                        {{item.Nombre}}
+                        {{item.nombre}}
                     </td>
                     <td>
-                        {{item.Telefono}}
+                        {{item.telefono}}
                     </td>
                     <td>
-                        {{item.Hub}}
+                        {{item.hub}}
                     </td>
                     <td>
-                        {{item.TipoOferta}}
+                        {{item.tipo}}
                     </td>
                     <td>
-                        {{item.Status}}
+                        {{item.origen}}
+                    </td>
+                    <td>
+                        {{item.status}}
                     </td>
                 </tr>
             </ng-template>

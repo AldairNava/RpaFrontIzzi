@@ -37,9 +37,9 @@
 <div class="row" >
     <div class="cols">
       <div class="card">
-        <p-table #dt1 [value]="showtable" dataKey="Caso de negocio" [rows]="50" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
+        <p-table #dt1 [value]="showtable" dataKey="id" [rows]="100" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
             styleClass="p-datatable-gridlines" [paginator]="true"
-            responsiveLayout="scroll" [globalFilterFields]="['cuenta','casoNegocio','categoria','estado','motivos']">
+            responsiveLayout="scroll" [globalFilterFields]="['cuenta','id','orden','stats','fechaCaptura']">
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between flex-column sm:flex-row">
 
@@ -54,56 +54,128 @@
                 <tr>
                     <th>
                         <div class="flex justify-content-between align-items-center">
+                            ID
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
                             Cuenta
                         </div>
                     </th>
                     <th>
                         <div class="flex justify-content-between align-items-center">
-                            Numero de  Caso Negocio
+                            Os Generalda
                         </div>
                     </th>
                     <th>
                         <div class="flex justify-content-between align-items-center">
-                            Numero de Orden
+                            HUB
                         </div>
                     </th>
                     <th>
                         <div class="flex justify-content-between align-items-center">
-                            status
+                            Nombre
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Telefono
                         </div>
                     </th> 
                     <th>
                         <div class="flex justify-content-between align-items-center">
-                            Fecha Captura
+                            Tipo
                         </div>
                     </th> 
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Orden
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Encuesta
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Origen
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Comentario
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            Status
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            FechaCaptura
+                        </div>
+                    </th>
                     <th>
                         <div class="flex justify-content-between align-items-center">
                             Fecha Completado
                         </div>
-                    </th> 
+                    </th>
+                    <th>
+                        <div class="flex justify-content-between align-items-center">
+                            IP
+                        </div>
+                    </th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-item let-i="rowIndex">
                 <tr>
                     <td>
+                        {{item.id}}
+                    </td>
+                    <td>
                         {{item.cuenta}}
                     </td>
                     <td>
-                        {{item.cnGenerado}}
+                        {{item.osGenerada}}
                     </td>
                     <td>
-                      {{item.numeroOrden}}
+                        {{item.hub}}
+                    </td>
+                    <td>
+                        {{item.nombre}}
+                    </td>
+                    <td>
+                        {{item.telefono}}
+                    </td>
+                    <td>
+                        {{item.tipo}}
+                    </td>
+                    <td>
+                        {{item.orden}}
+                    </td>
+                    <td>
+                        {{item.encuesta}}
+                    </td>
+                    <td>
+                        {{item.origen}}
+                    </td>
+                    <td>
+                        {{item.comentario}}
                     </td>
                     <td>
                         {{item.status}}
-                      </td>
-                      <td>
-                        {{item.fechaCaptura}}
-                      </td>
-                      <td>
-                        {{item.fechaCompletado}}
-                      </td>
+                    </td>
+                    <td>
+                        {{ dateFormat(item.fechaCaptura) }}
+                    </td>
+                    <td>
+                        {{ dateFormat(item.fechaCompletado) }}
+                    </td>
+                    <td>
+                        {{item.ip}}
+                    </td>
                 </tr>
             </ng-template>
             <ng-template pTemplate="emptymessage">

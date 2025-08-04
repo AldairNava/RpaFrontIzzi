@@ -97,8 +97,8 @@ const routes: Routes = [
       import('./pages/reporte-fidelizacion/reporte-fidelizacion.module').then((m) => m.ReporteFidelizacionModule),
   },
   {
-    path: 'reportes',
-    data: { breadcrumb: 'Reportes'},
+    path: 'administracion',
+    data: { breadcrumb: 'administracion'},
     canActivate: [AuthGuard],
     loadChildren: () =>
       import('./pages/reportes-izzi/reportes-izzi.module').then((m) => m.ReportesIzziModule),

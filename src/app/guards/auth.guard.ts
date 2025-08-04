@@ -14,17 +14,19 @@ export class AuthGuard implements CanActivate {
 
 
     let permisos: any = {
-    "administrador":['extraccion','izzi-rpacx','ajustes','notDone','depuracion','limpieza','reporteFidelizacion','reportes','ajustesCambioServicioRetencion','robots','ordenes','okcliente','AgenciasExternas'],
+    "administrador":['extraccion','izzi-rpacx','ajustes','notDone','depuracion','limpieza','reporteFidelizacion','administracion','ajustesCambioServicioRetencion','robots','ordenes','okcliente','AgenciasExternas'],
+    "admin-ajustesSucursales":['izzi-rpacx','ajustesCambioServicioRetencion','ordenes','AgenciasExternas'],
+    "admin-rpacx":['extraccion','izzi-rpacx','ajustes','notDone','depuracion','administracion','robots','okcliente'],
     "Reporte":['izzi-rpacx','reporteFidelizacion'],
     "Extraccion":['izzi-rpacx','extraccion'],
-    "Depuracion":['izzi-rpacx','depuracion','reportes'],
-    "Ajustes":['izzi-rpacx','ajustesCambioServicioRetencion','reportes'],
-    "AjustesNotDone":['izzi-rpacx','notDone','reportes'],
-    "testAjustes1":['izzi-rpacx','ajustes','reportes','ordenes'],
-    "eBarrera":['extraccion','izzi-rpacx','ajustes','notDone','depuracion','reporteFidelizacion','reportes','robots','okcliente'],
-    "testReportes":['izzi-rpacx','reportes'],
+    "Depuracion":['izzi-rpacx','depuracion','administracion'],
+    "Ajustes":['izzi-rpacx','ajustesCambioServicioRetencion','administracion'],
+    "AjustesNotDone":['izzi-rpacx','notDone','administracion'],
+    "testAjustes1":['izzi-rpacx','ajustes','administracion'],
+    "eBarrera":['extraccion','izzi-rpacx','ajustes','notDone','depuracion','reporteFidelizacion','administracion','robots','okcliente'],
+    "testReportes":['izzi-rpacx','administracion'],
     "ACS":['izzi-rpacx','ajustesCambioServicioRetencion'],
-    "recuperadores":['izzi-rpacx','limpieza','AgenciasExternas','reportes'],
+    "recuperadores":['izzi-rpacx','limpieza','AgenciasExternas'],
     }
     console.log("aca", route.url[0].path);
     

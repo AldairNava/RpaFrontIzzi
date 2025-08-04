@@ -33,6 +33,10 @@ export class DashboardComponent implements OnInit {
     load: boolean = false
     basicDataEXT: any;
     isAdmin: boolean = false;
+    isAdmin2: boolean = false;
+    isUser: boolean = false;
+    firstName: string = '';
+    lastName: string = '';
     basicOptionsEXT: any;
     basicDataExtArray:any={
         graf:[],
@@ -177,6 +181,10 @@ export class DashboardComponent implements OnInit {
         
         const user = JSON.parse(localStorage.getItem('userData') || '{}');
         this.isAdmin = user?.role === 'administrador';
+        this.isAdmin2 = user?.role === 'admin-ajustesSucursales';
+        this.isUser = !this.isAdmin && !this.isAdmin2;
+        this.firstName = user?.firstName || '';
+        this.lastName = user?.lastName || '';
 
     }
     

@@ -1,5 +1,14 @@
 <div class="text-900 font-bold text-2xl mb-4 text-center" style="background-color: #3B82F6 ;color: white !important;"> Dashboard de Procesos </div>
 <h3 class="text-center"> {{ fechas[0] + ' al ' + fechas[1] }}  </h3>
+
+<div *ngIf="isAdmin2 && !isAdmin" class="welcome-container">
+  <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 300px;">
+    <h2 style="color: #3385f1; font-weight: bold;">Bienvenido a RPA-CX {{ firstName }} {{ lastName }}!</h2>
+    <p style="font-size: 1.2rem; color: #333;"><b>Nos alegra tenerte en RPA-CX. Disfruta tu experiencia.</b>.</p>
+    <img src="assets/img/gif/hello.gif" alt="Bienvenida" style="width: 720px; margin-top: 20px;" />
+  </div>
+</div>
+
 <div [formGroup]="fechasForm" class="pb-5" *ngIf="isAdmin">
   <div class="card" style="padding-left: 1rem;">
     <p-panel
@@ -6501,6 +6510,14 @@
   
   </div>
 
+</div>
+
+<div *ngIf="isUser && !isAdmin && !isAdmin2" class="welcome-container">
+  <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 300px;">
+    <h2 style="color: #3385f1; font-weight: bold;">¡Bienvenido a RPA-CX {{ firstName }} {{ lastName }}!</h2>
+    <p style="font-size: 1.2rem; color: #333;">Nos alegra tenerte en RPA-CX. Disfruta tu experiencia.</p>
+    <img src="assets/img/gif/hello.gif" alt="RPA-CX" style="width: 720px; margin-top: 20px;" />
+  </div>
 </div>
 
 

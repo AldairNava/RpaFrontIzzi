@@ -72,7 +72,7 @@ export class AuthComponent {
                     }
                 }else if(this.formLogin.value.email =='CSuarez'){ 
                     a={
-                        "role":"administrador",
+                        "role":"admin-rpacx",
                         "firstName":"Christofer",
                         "lastName":"Suarez",
                         "email":"CSuarez@wincall.com.mx"
@@ -121,7 +121,7 @@ export class AuthComponent {
                     }
                 }else if(this.formLogin.value.email =='eBarrera'){ 
                     a={
-                        "role":"administrador",
+                        "role":"admin-rpacx",
                         "firstName":"eBarrera",
                         "lastName":"eBarrera",
                         "email":"eBarrera@test.com"
@@ -157,7 +157,7 @@ export class AuthComponent {
                 }
                 else if(this.formLogin.value.email =='dmartinezf'){
                     a={
-                        "role":"administrador",
+                        "role":"admin-rpacx",
                         "firstName":"David",
                         "lastName":"Martinez Flores",
                         "email":"dmartinezf@izzi.mx"
@@ -188,28 +188,28 @@ export class AuthComponent {
                     }
                 }else if(this.formLogin.value.email =='omartinezh'){
                     a={
-                        "role":"administrador",
+                        "role":"admin-rpacx",
                         "firstName":"Oscar",
                         "lastName":"Marines Huerta",
                         "email":"omartinezh@sky.com.mx"
                     }
                 }else if(this.formLogin.value.email =='evazquezg'){
                     a={
-                        "role":"administrador",
+                        "role":"admin-rpacx",
                         "firstName":"Edgar",
                         "lastName":"Vazquez Guzman",
                         "email":"evazquezg@sky.com.mx"
                     }
                 }else if(this.formLogin.value.email =='oavila'){
                     a={
-                        "role":"administrador",
+                        "role":"admin-rpacx",
                         "firstName":"Oscar Dennys",
                         "lastName":"Avila Santiago",
                         "email":"oavila@sky.com.mx"
                     }
                 }else if(this.formLogin.value.email =='mvillalobos'){
                     a={
-                        "role":"administrador",
+                        "role":"admin-rpacx",
                         "firstName":"Marco Antonio",
                         "lastName":"Villalobos Gomez",
                         "email":"mvillalobos@sky.com.mx"
