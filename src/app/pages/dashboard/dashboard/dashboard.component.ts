@@ -1268,7 +1268,7 @@ export class DashboardComponent implements OnInit {
         const textColor = documentStyle.getPropertyValue('--text-color');
         const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
-        this.basicOptionsCallTrouble = {
+        this.basicOptionsOkCliente = {
             plugins: {
                 legend: {
                     labels: {
@@ -1298,7 +1298,7 @@ export class DashboardComponent implements OnInit {
                 }
             }
         };
-        this.cors.get('Estadisticas/estadisticasCallTrouble',{
+        this.cors.get('Estadisticas/estadisticasOkCliente',{
             startDateStr:ini,
             endDateStr:fin
         }).then((response) => {
@@ -1309,41 +1309,41 @@ export class DashboardComponent implements OnInit {
                 grafica.forEach((obj:any) => {
                     Object.entries(obj).forEach(([key, value]) => {
                       if(key=='fallaRPA'){
-                        this.basicDataCallTroubleArray.graf.push(key)
-                        this.basicDataCallTroubleArray.esta.push(value)
+                        this.basicDataOkClienteArray.graf.push(key)
+                        this.basicDataOkClienteArray.esta.push(value)
                       }
                       if(key=='errorOperativo'){
-                        this.basicDataCallTroubleArray.graf.push(key)
-                        this.basicDataCallTroubleArray.esta.push(value)
+                        this.basicDataOkClienteArray.graf.push(key)
+                        this.basicDataOkClienteArray.esta.push(value)
                       }
                       if(key=='registroPendiente'){
-                        this.basicDataCallTroubleArray.graf.push(key)
-                        this.basicDataCallTroubleArray.esta.push(value)
+                        this.basicDataOkClienteArray.graf.push(key)
+                        this.basicDataOkClienteArray.esta.push(value)
                       }
                       if(key=='completado'){
-                        this.basicDataCallTroubleArray.graf.push(key)
-                        this.basicDataCallTroubleArray.esta.push(value)
+                        this.basicDataOkClienteArray.graf.push(key)
+                        this.basicDataOkClienteArray.esta.push(value)
                       }
                       if(key=='inconcistenciaSiebel'){
-                        this.basicDataCallTroubleArray.graf.push(key)
-                        this.basicDataCallTroubleArray.esta.push(value)
+                        this.basicDataOkClienteArray.graf.push(key)
+                        this.basicDataOkClienteArray.esta.push(value)
                       }
                     });
                 });
-                this.basicDataCallTroubleArray.val=response[0].grafica
-                this.basicDataCallTroubleArray.motivoAjuste=response[0].motivoAjuste
-                this.basicDataCallTroubleArray.solucion=response[0].solucion
-                this.basicDataCallTroubleArray.mes=response[0].mes
-                this.basicDataCallTroubleArray.dia=response[0].dia
-                this.basicDataCallTroubleArray.dia[this.basicDataCallTroubleArray.dia.length-1].base='Total'
-                this.basicDataCallTroubleArray.status=response[0].status
-                this.basicDataCallTroubleArray.ip=response[0].ip
-                this.basicDataCallTrouble = {
-                    labels: this.basicDataCallTroubleArray.graf,
+                this.basicDataOkClienteArray.val=response[0].grafica
+                this.basicDataOkClienteArray.motivoAjuste=response[0].motivoAjuste
+                this.basicDataOkClienteArray.solucion=response[0].solucion
+                this.basicDataOkClienteArray.mes=response[0].mes
+                this.basicDataOkClienteArray.dia=response[0].dia
+                this.basicDataOkClienteArray.dia[this.basicDataOkClienteArray.dia.length-1].base='Total'
+                this.basicDataOkClienteArray.status=response[0].status
+                this.basicDataOkClienteArray.ip=response[0].ip
+                this.basicDataOkCliente = {
+                    labels: this.basicDataOkClienteArray.graf,
                     datasets: [
                         {
-                            label: 'Call Trouble',
-                            data: this.basicDataCallTroubleArray.esta,
+                            label: 'Ok Cliente',
+                            data: this.basicDataOkClienteArray.esta,
                             backgroundColor: ['rgba(255, 159, 64, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(153, 102, 255, 0.2)'],
                             borderColor: ['rgb(255, 159, 64)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)', 'rgb(153, 102, 255)'],
                             borderWidth: 1
@@ -1357,7 +1357,7 @@ export class DashboardComponent implements OnInit {
             this.messageService.add({
                 key:'tst',
                 severity: 'error',
-                summary: 'No se generaron registros para Call Trouble',
+                summary: 'No se generaron registros para Ok Cliente',
                 detail: 'Intenta Nuevamente!!!',
               });
         })
@@ -1394,878 +1394,878 @@ export class DashboardComponent implements OnInit {
             return ""
         }
     }
-    generateExcelWithChart() {
-         setTimeout(()=>{
-             this.load=true;
-              this.activeTabIndex = 0;
-              setTimeout(()=>{
-                 this.activeTabIndex = 1;
-                 setTimeout(()=>{
-                    this.activeTabIndex = 2;
-                    setTimeout(()=>{
-                       this.activeTabIndex = 3;
-                        setTimeout(() => {
-                            const chartElement = this.el.nativeElement.querySelector('#barChart');
-                            if (chartElement) {
-                                const canvas: HTMLCanvasElement = chartElement.querySelector('canvas');
-                                if (canvas) {
-                                    const chartImageURL = canvas.toDataURL('image/png');
-                                    const workbook = new ExcelJS.Workbook();
-                                    const worksheet = workbook.addWorksheet('Depuracion EXT');
-                                    worksheet.views = [
-                                    { showGridLines: false }
-                                    ];
-                                    const targetColumns = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P']
+    // generateExcelWithChart() {
+    //      setTimeout(()=>{
+    //          this.load=true;
+    //           this.activeTabIndex = 0;
+    //           setTimeout(()=>{
+    //              this.activeTabIndex = 1;
+    //              setTimeout(()=>{
+    //                 this.activeTabIndex = 2;
+    //                 setTimeout(()=>{
+    //                    this.activeTabIndex = 3;
+    //                     setTimeout(() => {
+    //                         const chartElement = this.el.nativeElement.querySelector('#barChart');
+    //                         if (chartElement) {
+    //                             const canvas: HTMLCanvasElement = chartElement.querySelector('canvas');
+    //                             if (canvas) {
+    //                                 const chartImageURL = canvas.toDataURL('image/png');
+    //                                 const workbook = new ExcelJS.Workbook();
+    //                                 const worksheet = workbook.addWorksheet('Depuracion EXT');
+    //                                 worksheet.views = [
+    //                                 { showGridLines: false }
+    //                                 ];
+    //                                 const targetColumns = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P']
 
-                                    for (let rowNumber = 1; rowNumber <= 700; rowNumber++) {
-                                        targetColumns.forEach((targetColumn) => {
-                                            const cell = worksheet.getCell(`${targetColumn}${rowNumber}`);
-                                            cell.alignment = { wrapText:true,vertical: 'middle', horizontal: 'center' };
-                                        });
-                                    }
-                                    const startColumn = 'A';
-                                    const endColumn = 'P';
+    //                                 for (let rowNumber = 1; rowNumber <= 700; rowNumber++) {
+    //                                     targetColumns.forEach((targetColumn) => {
+    //                                         const cell = worksheet.getCell(`${targetColumn}${rowNumber}`);
+    //                                         cell.alignment = { wrapText:true,vertical: 'middle', horizontal: 'center' };
+    //                                     });
+    //                                 }
+    //                                 const startColumn = 'A';
+    //                                 const endColumn = 'P';
                     
-                                    for (let colNumber = worksheet.getColumn(startColumn).number; colNumber <= worksheet.getColumn(endColumn).number; colNumber++) {
-                                        const column = worksheet.getColumn(colNumber);
-                                        let maxLength = 0;
+    //                                 for (let colNumber = worksheet.getColumn(startColumn).number; colNumber <= worksheet.getColumn(endColumn).number; colNumber++) {
+    //                                     const column = worksheet.getColumn(colNumber);
+    //                                     let maxLength = 0;
                                         
-                                       // Iterar sobre cada celda en la columna
-                                    column.eachCell({ includeEmpty: true }, function (cell: any) {
-                                        var columnLength = cell.value ? cell.value.toString().length : 20;
-                                        if (columnLength > maxLength) {
-                                            maxLength = columnLength;
-                                        }
-                                    });
+    //                                    // Iterar sobre cada celda en la columna
+    //                                 column.eachCell({ includeEmpty: true }, function (cell: any) {
+    //                                     var columnLength = cell.value ? cell.value.toString().length : 20;
+    //                                     if (columnLength > maxLength) {
+    //                                         maxLength = columnLength;
+    //                                     }
+    //                                 });
                                 
-                                    column.width = maxLength < 20 ? 20 : maxLength;
-                                }
-                                worksheet.getColumn('C').width = 35;
-                                const imageId = workbook.addImage({
-                                base64: chartImageURL.split(',')[1],
-                                extension: 'png',
-                                });
+    //                                 column.width = maxLength < 20 ? 20 : maxLength;
+    //                             }
+    //                             worksheet.getColumn('C').width = 35;
+    //                             const imageId = workbook.addImage({
+    //                             base64: chartImageURL.split(',')[1],
+    //                             extension: 'png',
+    //                             });
                     
-                                worksheet.addImage(imageId, {
-                                tl: { col: 2, row: 0 },
-                                ext: { width: 600, height: 400 }, 
-                                });
+    //                             worksheet.addImage(imageId, {
+    //                             tl: { col: 2, row: 0 },
+    //                             ext: { width: 600, height: 400 }, 
+    //                             });
                 
-                                let rowStart=25
-                                for(let i =0;i < this.setStyle.length;i++){
-                                    worksheet.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
-                                        type: 'pattern',
-                                        pattern: 'solid',
-                                        fgColor: { argb: 'FF7987' },
-                                    }
-                                }
+    //                             let rowStart=25
+    //                             for(let i =0;i < this.setStyle.length;i++){
+    //                                 worksheet.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
+    //                                     type: 'pattern',
+    //                                     pattern: 'solid',
+    //                                     fgColor: { argb: 'FF7987' },
+    //                                 }
+    //                             }
                 
                 
-                                const tableOptions = {
-                                    name: 'TablaDatos',
-                                    ref: `A${rowStart}`,  
-                                    headerRow: true,
-                                    totalsRow: false,
-                                    columns: [
-                                    { name: 'Proceso', filterButton: false },
-                                    { name: 'Error Operativo', filterButton: false },
-                                    { name: 'Falla RPA', filterButton: false },
-                                    { name: 'Orden Cancelada por un tercero', filterButton: false },
-                                    { name: 'Registro Exitoso', filterButton: false },
-                                    { name: 'Registro Pendiente', filterButton: false },
-                                    { name: 'Total', filterButton: false },
-                                    ],
-                                    rows: this.basicDataExtArray.val.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ordenCancelada,item.registroExitoso,item.registroPendiente,item.total]),
+    //                             const tableOptions = {
+    //                                 name: 'TablaDatos',
+    //                                 ref: `A${rowStart}`,  
+    //                                 headerRow: true,
+    //                                 totalsRow: false,
+    //                                 columns: [
+    //                                 { name: 'Proceso', filterButton: false },
+    //                                 { name: 'Error Operativo', filterButton: false },
+    //                                 { name: 'Falla RPA', filterButton: false },
+    //                                 { name: 'Orden Cancelada por un tercero', filterButton: false },
+    //                                 { name: 'Registro Exitoso', filterButton: false },
+    //                                 { name: 'Registro Pendiente', filterButton: false },
+    //                                 { name: 'Total', filterButton: false },
+    //                                 ],
+    //                                 rows: this.basicDataExtArray.val.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ordenCancelada,item.registroExitoso,item.registroPendiente,item.total]),
                 
-                                };
+    //                             };
                         
-                                worksheet.addTable(tableOptions);
+    //                             worksheet.addTable(tableOptions);
                 
-                                rowStart = rowStart+this.basicDataExtArray.val.length+2
-                                for(let i =0;i < this.setStyle.length;i++){
-                                    worksheet.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
-                                        type: 'pattern',
-                                        pattern: 'solid',
-                                        fgColor: { argb: 'FF7987' },
-                                    }
-                                }
-                                const tableOptions1 = {
-                                    name: 'TablaDatos1',
-                                    ref: `A${rowStart}`,  
-                                    headerRow: true,
-                                    totalsRow: false,
-                                    columns: [
-                                    { name: 'Motivo de la Orden', filterButton: false },
-                                    { name: 'Error Operativo', filterButton: false },
-                                    { name: 'Falla RPA', filterButton: false },
-                                    { name: 'Orden Cancelada por un tercero', filterButton: false },
-                                    { name: 'Registro Exitoso', filterButton: false },
-                                    { name: 'Registro Pendiente', filterButton: false },
-                                    { name: 'Total', filterButton: false },
-                                    ],
-                                    rows: this.basicDataExtArray.motivo.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ordenCancelada,item.registroExitoso,item.registroPendiente,item.total]),
+    //                             rowStart = rowStart+this.basicDataExtArray.val.length+2
+    //                             for(let i =0;i < this.setStyle.length;i++){
+    //                                 worksheet.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
+    //                                     type: 'pattern',
+    //                                     pattern: 'solid',
+    //                                     fgColor: { argb: 'FF7987' },
+    //                                 }
+    //                             }
+    //                             const tableOptions1 = {
+    //                                 name: 'TablaDatos1',
+    //                                 ref: `A${rowStart}`,  
+    //                                 headerRow: true,
+    //                                 totalsRow: false,
+    //                                 columns: [
+    //                                 { name: 'Motivo de la Orden', filterButton: false },
+    //                                 { name: 'Error Operativo', filterButton: false },
+    //                                 { name: 'Falla RPA', filterButton: false },
+    //                                 { name: 'Orden Cancelada por un tercero', filterButton: false },
+    //                                 { name: 'Registro Exitoso', filterButton: false },
+    //                                 { name: 'Registro Pendiente', filterButton: false },
+    //                                 { name: 'Total', filterButton: false },
+    //                                 ],
+    //                                 rows: this.basicDataExtArray.motivo.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ordenCancelada,item.registroExitoso,item.registroPendiente,item.total]),
                 
-                                };
+    //                             };
                         
-                                worksheet.addTable(tableOptions1);
+    //                             worksheet.addTable(tableOptions1);
                 
-                                rowStart = rowStart+this.basicDataExtArray.motivo.length+2
-                                for(let i =0;i < this.setStyle.length;i++){
-                                    worksheet.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
-                                        type: 'pattern',
-                                        pattern: 'solid',
-                                        fgColor: { argb: 'FF7987' },
-                                    }
-                                }
-                                const tableOptions2 = {
-                                    name: 'TablaDatos2',
-                                    ref: `A${rowStart}`,  
-                                    headerRow: true,
-                                    totalsRow: false,
-                                    columns: [
-                                    { name: 'Mes', filterButton: false },
-                                    { name: 'Error Operativo', filterButton: false },
-                                    { name: 'Falla RPA', filterButton: false },
-                                    { name: 'Orden Cancelada por un tercero', filterButton: false },
-                                    { name: 'Registro Exitoso', filterButton: false },
-                                    { name: 'Registro Pendiente', filterButton: false },
-                                    { name: 'Total', filterButton: false },
-                                    ],
-                                    rows: this.basicDataExtArray.mes.map((item:any) => [this.mesFormat(item.base), item.errorOperativo, item.fallaRPA,item.ordenCancelada,item.registroExitoso,item.registroPendiente,item.total]),
+    //                             rowStart = rowStart+this.basicDataExtArray.motivo.length+2
+    //                             for(let i =0;i < this.setStyle.length;i++){
+    //                                 worksheet.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
+    //                                     type: 'pattern',
+    //                                     pattern: 'solid',
+    //                                     fgColor: { argb: 'FF7987' },
+    //                                 }
+    //                             }
+    //                             const tableOptions2 = {
+    //                                 name: 'TablaDatos2',
+    //                                 ref: `A${rowStart}`,  
+    //                                 headerRow: true,
+    //                                 totalsRow: false,
+    //                                 columns: [
+    //                                 { name: 'Mes', filterButton: false },
+    //                                 { name: 'Error Operativo', filterButton: false },
+    //                                 { name: 'Falla RPA', filterButton: false },
+    //                                 { name: 'Orden Cancelada por un tercero', filterButton: false },
+    //                                 { name: 'Registro Exitoso', filterButton: false },
+    //                                 { name: 'Registro Pendiente', filterButton: false },
+    //                                 { name: 'Total', filterButton: false },
+    //                                 ],
+    //                                 rows: this.basicDataExtArray.mes.map((item:any) => [this.mesFormat(item.base), item.errorOperativo, item.fallaRPA,item.ordenCancelada,item.registroExitoso,item.registroPendiente,item.total]),
                 
-                                };
+    //                             };
                         
-                                worksheet.addTable(tableOptions2);
+    //                             worksheet.addTable(tableOptions2);
                 
-                                rowStart = rowStart+this.basicDataExtArray.mes.length+2
-                                for(let i =0;i < this.setStyle.length;i++){
-                                    worksheet.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
-                                        type: 'pattern',
-                                        pattern: 'solid',
-                                        fgColor: { argb: 'FF7987' },
-                                    }
-                                }
-                                const tableOptions3 = {
-                                    name: 'TablaDatos3',
-                                    ref: `A${rowStart}`,  
-                                    headerRow: true,
-                                    totalsRow: false,
-                                    columns: [
-                                    { name: 'Día', filterButton: false },
-                                    { name: 'Error Operativo', filterButton: false },
-                                    { name: 'Falla RPA', filterButton: false },
-                                    { name: 'Orden Cancelada por un tercero', filterButton: false },
-                                    { name: 'Registro Exitoso', filterButton: false },
-                                    { name: 'Registro Pendiente', filterButton: false },
-                                    { name: 'Total', filterButton: false },
-                                    ],
-                                    rows: this.basicDataExtArray.dia.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ordenCancelada,item.registroExitoso,item.registroPendiente,item.total]),
+    //                             rowStart = rowStart+this.basicDataExtArray.mes.length+2
+    //                             for(let i =0;i < this.setStyle.length;i++){
+    //                                 worksheet.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
+    //                                     type: 'pattern',
+    //                                     pattern: 'solid',
+    //                                     fgColor: { argb: 'FF7987' },
+    //                                 }
+    //                             }
+    //                             const tableOptions3 = {
+    //                                 name: 'TablaDatos3',
+    //                                 ref: `A${rowStart}`,  
+    //                                 headerRow: true,
+    //                                 totalsRow: false,
+    //                                 columns: [
+    //                                 { name: 'Día', filterButton: false },
+    //                                 { name: 'Error Operativo', filterButton: false },
+    //                                 { name: 'Falla RPA', filterButton: false },
+    //                                 { name: 'Orden Cancelada por un tercero', filterButton: false },
+    //                                 { name: 'Registro Exitoso', filterButton: false },
+    //                                 { name: 'Registro Pendiente', filterButton: false },
+    //                                 { name: 'Total', filterButton: false },
+    //                                 ],
+    //                                 rows: this.basicDataExtArray.dia.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ordenCancelada,item.registroExitoso,item.registroPendiente,item.total]),
                 
-                                };
+    //                             };
                         
-                                worksheet.addTable(tableOptions3);
+    //                             worksheet.addTable(tableOptions3);
                 
-                                rowStart = rowStart+this.basicDataExtArray.dia.length+2
-                                for(let i =0;i < this.setStyle.length;i++){
-                                    worksheet.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
-                                        type: 'pattern',
-                                        pattern: 'solid',
-                                        fgColor: { argb: 'FF7987' },
-                                    }
-                                }
-                                const tableOptions4 = {
-                                    name: 'TablaDatos4',
-                                    ref: `A${rowStart}`,  
-                                    headerRow: true,
-                                    totalsRow: false,
-                                    columns: [
-                                    { name: 'Estatus', filterButton: false },
-                                    { name: 'Error Operativo', filterButton: false },
-                                    { name: 'Falla RPA', filterButton: false },
-                                    { name: 'Orden Cancelada por un tercero', filterButton: false },
-                                    { name: 'Registro Exitoso', filterButton: false },
-                                    { name: 'Registro Pendiente', filterButton: false },
-                                    { name: 'Total', filterButton: false },
-                                    ],
-                                    rows: this.basicDataExtArray.status.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ordenCancelada,item.registroExitoso,item.registroPendiente,item.total]),
+    //                             rowStart = rowStart+this.basicDataExtArray.dia.length+2
+    //                             for(let i =0;i < this.setStyle.length;i++){
+    //                                 worksheet.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
+    //                                     type: 'pattern',
+    //                                     pattern: 'solid',
+    //                                     fgColor: { argb: 'FF7987' },
+    //                                 }
+    //                             }
+    //                             const tableOptions4 = {
+    //                                 name: 'TablaDatos4',
+    //                                 ref: `A${rowStart}`,  
+    //                                 headerRow: true,
+    //                                 totalsRow: false,
+    //                                 columns: [
+    //                                 { name: 'Estatus', filterButton: false },
+    //                                 { name: 'Error Operativo', filterButton: false },
+    //                                 { name: 'Falla RPA', filterButton: false },
+    //                                 { name: 'Orden Cancelada por un tercero', filterButton: false },
+    //                                 { name: 'Registro Exitoso', filterButton: false },
+    //                                 { name: 'Registro Pendiente', filterButton: false },
+    //                                 { name: 'Total', filterButton: false },
+    //                                 ],
+    //                                 rows: this.basicDataExtArray.status.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ordenCancelada,item.registroExitoso,item.registroPendiente,item.total]),
                 
-                                };
+    //                             };
                         
-                                worksheet.addTable(tableOptions4);
+    //                             worksheet.addTable(tableOptions4);
                 
-                                //Depuracion cc 
-                                const chartElement = this.el.nativeElement.querySelector('#barChart1');
-                                if (chartElement) {
-                                    const canvas: HTMLCanvasElement = chartElement.querySelector('canvas');
-                                    if (canvas) {
-                                        const chartImageURL = canvas.toDataURL('image/png'); 
-                                        const worksheet1 = workbook.addWorksheet('Depuracion CC');
+    //                             //Depuracion cc 
+    //                             const chartElement = this.el.nativeElement.querySelector('#barChart1');
+    //                             if (chartElement) {
+    //                                 const canvas: HTMLCanvasElement = chartElement.querySelector('canvas');
+    //                                 if (canvas) {
+    //                                     const chartImageURL = canvas.toDataURL('image/png'); 
+    //                                     const worksheet1 = workbook.addWorksheet('Depuracion CC');
                                         
-                                        const targetColumns = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P']
-                                        worksheet1.views = [
-                                            { showGridLines: false }
-                                            ];
-                                        // Iterar sobre las filas y establecer la alineación para las columnas específicas
-                                        for (let rowNumber = 1; rowNumber <= 700; rowNumber++) {
-                                            targetColumns.forEach((targetColumn) => {
-                                                const cell = worksheet1.getCell(`${targetColumn}${rowNumber}`);
-                                                cell.alignment = { wrapText:true,vertical: 'middle', horizontal: 'center' };
-                                            });
-                                        }
-                                        const startColumn = 'A';
-                                        const endColumn = 'P';
+    //                                     const targetColumns = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P']
+    //                                     worksheet1.views = [
+    //                                         { showGridLines: false }
+    //                                         ];
+    //                                     // Iterar sobre las filas y establecer la alineación para las columnas específicas
+    //                                     for (let rowNumber = 1; rowNumber <= 700; rowNumber++) {
+    //                                         targetColumns.forEach((targetColumn) => {
+    //                                             const cell = worksheet1.getCell(`${targetColumn}${rowNumber}`);
+    //                                             cell.alignment = { wrapText:true,vertical: 'middle', horizontal: 'center' };
+    //                                         });
+    //                                     }
+    //                                     const startColumn = 'A';
+    //                                     const endColumn = 'P';
                         
-                                        for (let colNumber = worksheet1.getColumn(startColumn).number; colNumber <= worksheet1.getColumn(endColumn).number; colNumber++) {
-                                            const column = worksheet1.getColumn(colNumber);
-                                            let maxLength = 0;
+    //                                     for (let colNumber = worksheet1.getColumn(startColumn).number; colNumber <= worksheet1.getColumn(endColumn).number; colNumber++) {
+    //                                         const column = worksheet1.getColumn(colNumber);
+    //                                         let maxLength = 0;
                                         
-                                            // Iterar sobre cada celda en la columna
-                                            column.eachCell({ includeEmpty: true }, function (cell: any) {
-                                                var columnLength = cell.value ? cell.value.toString().length : 20;
-                                                if (columnLength > maxLength) {
-                                                    maxLength = columnLength;
-                                                }
-                                            });
+    //                                         // Iterar sobre cada celda en la columna
+    //                                         column.eachCell({ includeEmpty: true }, function (cell: any) {
+    //                                             var columnLength = cell.value ? cell.value.toString().length : 20;
+    //                                             if (columnLength > maxLength) {
+    //                                                 maxLength = columnLength;
+    //                                             }
+    //                                         });
                                         
-                                            column.width = maxLength < 20 ? 20 : maxLength;
-                                        }
-                                        worksheet1.getColumn('C').width = 35;
+    //                                         column.width = maxLength < 20 ? 20 : maxLength;
+    //                                     }
+    //                                     worksheet1.getColumn('C').width = 35;
                         
-                                        const imageId = workbook.addImage({
-                                            base64: chartImageURL.split(',')[1],
-                                            extension: 'png',
-                                        });
+    //                                     const imageId = workbook.addImage({
+    //                                         base64: chartImageURL.split(',')[1],
+    //                                         extension: 'png',
+    //                                     });
                                 
-                                        worksheet1.addImage(imageId, {
-                                        tl: { col: 2, row: 0 },
-                                        ext: { width: 600, height: 400 }, 
-                                        });
+    //                                     worksheet1.addImage(imageId, {
+    //                                     tl: { col: 2, row: 0 },
+    //                                     ext: { width: 600, height: 400 }, 
+    //                                     });
                 
-                                        let rowStart=25
-                                        for(let i =0;i < this.setStyle.length;i++){
-                                            worksheet1.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: { argb: 'FF7987' },
-                                            }
-                                        }
+    //                                     let rowStart=25
+    //                                     for(let i =0;i < this.setStyle.length;i++){
+    //                                         worksheet1.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
+    //                                             type: 'pattern',
+    //                                             pattern: 'solid',
+    //                                             fgColor: { argb: 'FF7987' },
+    //                                         }
+    //                                     }
                 
                 
-                                        const tableOptions = {
-                                            name: 'TablaDatos5',
-                                            ref: `A${rowStart}`,  
-                                            headerRow: true,
-                                            totalsRow: false,
-                                            columns: [
-                                            { name: 'Proceso', filterButton: false },
-                                            { name: 'Error Operativo', filterButton: false },
-                                            { name: 'Falla RPA', filterButton: false },
-                                            { name: 'Orden Cancelada por un tercero', filterButton: false },
-                                            { name: 'Registro Exitoso', filterButton: false },
-                                            { name: 'Registro Pendiente', filterButton: false },
-                                            { name: 'Total', filterButton: false },
-                                            ],
-                                            rows: this.basicDataCCArray.val.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ordenCancelada,item.registroExitoso,item.registroPendiente,item.total]),
+    //                                     const tableOptions = {
+    //                                         name: 'TablaDatos5',
+    //                                         ref: `A${rowStart}`,  
+    //                                         headerRow: true,
+    //                                         totalsRow: false,
+    //                                         columns: [
+    //                                         { name: 'Proceso', filterButton: false },
+    //                                         { name: 'Error Operativo', filterButton: false },
+    //                                         { name: 'Falla RPA', filterButton: false },
+    //                                         { name: 'Orden Cancelada por un tercero', filterButton: false },
+    //                                         { name: 'Registro Exitoso', filterButton: false },
+    //                                         { name: 'Registro Pendiente', filterButton: false },
+    //                                         { name: 'Total', filterButton: false },
+    //                                         ],
+    //                                         rows: this.basicDataCCArray.val.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ordenCancelada,item.registroExitoso,item.registroPendiente,item.total]),
                 
-                                        };
+    //                                     };
                                 
-                                        worksheet1.addTable(tableOptions);
+    //                                     worksheet1.addTable(tableOptions);
                 
-                                        rowStart = rowStart+this.basicDataCCArray.val.length+2
-                                        for(let i =0;i < this.setStyle.length;i++){
-                                            worksheet1.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: { argb: 'FF7987' },
-                                            }
-                                        }
-                                        const tableOptions1 = {
-                                            name: 'TablaDatos6',
-                                            ref: `A${rowStart}`,  
-                                            headerRow: true,
-                                            totalsRow: false,
-                                            columns: [
-                                            { name: 'Motivo de la Orden', filterButton: false },
-                                            { name: 'Error Operativo', filterButton: false },
-                                            { name: 'Falla RPA', filterButton: false },
-                                            { name: 'Orden Cancelada por un tercero', filterButton: false },
-                                            { name: 'Registro Exitoso', filterButton: false },
-                                            { name: 'Registro Pendiente', filterButton: false },
-                                            { name: 'Total', filterButton: false },
-                                            ],
-                                            rows: this.basicDataCCArray.motivo.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ordenCancelada,item.registroExitoso,item.registroPendiente,item.total]),
+    //                                     rowStart = rowStart+this.basicDataCCArray.val.length+2
+    //                                     for(let i =0;i < this.setStyle.length;i++){
+    //                                         worksheet1.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
+    //                                             type: 'pattern',
+    //                                             pattern: 'solid',
+    //                                             fgColor: { argb: 'FF7987' },
+    //                                         }
+    //                                     }
+    //                                     const tableOptions1 = {
+    //                                         name: 'TablaDatos6',
+    //                                         ref: `A${rowStart}`,  
+    //                                         headerRow: true,
+    //                                         totalsRow: false,
+    //                                         columns: [
+    //                                         { name: 'Motivo de la Orden', filterButton: false },
+    //                                         { name: 'Error Operativo', filterButton: false },
+    //                                         { name: 'Falla RPA', filterButton: false },
+    //                                         { name: 'Orden Cancelada por un tercero', filterButton: false },
+    //                                         { name: 'Registro Exitoso', filterButton: false },
+    //                                         { name: 'Registro Pendiente', filterButton: false },
+    //                                         { name: 'Total', filterButton: false },
+    //                                         ],
+    //                                         rows: this.basicDataCCArray.motivo.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ordenCancelada,item.registroExitoso,item.registroPendiente,item.total]),
                 
-                                        };
+    //                                     };
                                 
-                                        worksheet1.addTable(tableOptions1);
+    //                                     worksheet1.addTable(tableOptions1);
                 
-                                        rowStart = rowStart+this.basicDataCCArray.motivo.length+2
-                                        for(let i =0;i < this.setStyle.length;i++){
-                                            worksheet1.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: { argb: 'FF7987' },
-                                            }
-                                        }
-                                        const tableOptions2 = {
-                                            name: 'TablaDatos7',
-                                            ref: `A${rowStart}`,  
-                                            headerRow: true,
-                                            totalsRow: false,
-                                            columns: [
-                                            { name: 'Tipo de la Orden', filterButton: false },
-                                            { name: 'Error Operativo', filterButton: false },
-                                            { name: 'Falla RPA', filterButton: false },
-                                            { name: 'Orden Cancelada por un tercero', filterButton: false },
-                                            { name: 'Registro Exitoso', filterButton: false },
-                                            { name: 'Registro Pendiente', filterButton: false },
-                                            { name: 'Total', filterButton: false },
-                                            ],
-                                            rows: this.basicDataCCArray.tipo.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ordenCancelada,item.registroExitoso,item.registroPendiente,item.total]),
+    //                                     rowStart = rowStart+this.basicDataCCArray.motivo.length+2
+    //                                     for(let i =0;i < this.setStyle.length;i++){
+    //                                         worksheet1.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
+    //                                             type: 'pattern',
+    //                                             pattern: 'solid',
+    //                                             fgColor: { argb: 'FF7987' },
+    //                                         }
+    //                                     }
+    //                                     const tableOptions2 = {
+    //                                         name: 'TablaDatos7',
+    //                                         ref: `A${rowStart}`,  
+    //                                         headerRow: true,
+    //                                         totalsRow: false,
+    //                                         columns: [
+    //                                         { name: 'Tipo de la Orden', filterButton: false },
+    //                                         { name: 'Error Operativo', filterButton: false },
+    //                                         { name: 'Falla RPA', filterButton: false },
+    //                                         { name: 'Orden Cancelada por un tercero', filterButton: false },
+    //                                         { name: 'Registro Exitoso', filterButton: false },
+    //                                         { name: 'Registro Pendiente', filterButton: false },
+    //                                         { name: 'Total', filterButton: false },
+    //                                         ],
+    //                                         rows: this.basicDataCCArray.tipo.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ordenCancelada,item.registroExitoso,item.registroPendiente,item.total]),
                 
-                                        };
+    //                                     };
                                 
-                                        worksheet1.addTable(tableOptions2);
+    //                                     worksheet1.addTable(tableOptions2);
                 
-                                        rowStart = rowStart+this.basicDataCCArray.tipo.length+2
-                                        for(let i =0;i < this.setStyle.length;i++){
-                                            worksheet1.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: { argb: 'FF7987' },
-                                            }
-                                        }
-                                        const tableOptions3 = {
-                                            name: 'TablaDatos7',
-                                            ref: `A${rowStart}`,  
-                                            headerRow: true,
-                                            totalsRow: false,
-                                            columns: [
-                                            { name: 'Mes', filterButton: false },
-                                            { name: 'Error Operativo', filterButton: false },
-                                            { name: 'Falla RPA', filterButton: false },
-                                            { name: 'Orden Cancelada por un tercero', filterButton: false },
-                                            { name: 'Registro Exitoso', filterButton: false },
-                                            { name: 'Registro Pendiente', filterButton: false },
-                                            { name: 'Total', filterButton: false },
-                                            ],
-                                            rows: this.basicDataCCArray.mes.map((item:any) => [this.mesFormat(item.base), item.errorOperativo, item.fallaRPA,item.ordenCancelada,item.registroExitoso,item.registroPendiente,item.total]),
+    //                                     rowStart = rowStart+this.basicDataCCArray.tipo.length+2
+    //                                     for(let i =0;i < this.setStyle.length;i++){
+    //                                         worksheet1.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
+    //                                             type: 'pattern',
+    //                                             pattern: 'solid',
+    //                                             fgColor: { argb: 'FF7987' },
+    //                                         }
+    //                                     }
+    //                                     const tableOptions3 = {
+    //                                         name: 'TablaDatos7',
+    //                                         ref: `A${rowStart}`,  
+    //                                         headerRow: true,
+    //                                         totalsRow: false,
+    //                                         columns: [
+    //                                         { name: 'Mes', filterButton: false },
+    //                                         { name: 'Error Operativo', filterButton: false },
+    //                                         { name: 'Falla RPA', filterButton: false },
+    //                                         { name: 'Orden Cancelada por un tercero', filterButton: false },
+    //                                         { name: 'Registro Exitoso', filterButton: false },
+    //                                         { name: 'Registro Pendiente', filterButton: false },
+    //                                         { name: 'Total', filterButton: false },
+    //                                         ],
+    //                                         rows: this.basicDataCCArray.mes.map((item:any) => [this.mesFormat(item.base), item.errorOperativo, item.fallaRPA,item.ordenCancelada,item.registroExitoso,item.registroPendiente,item.total]),
                 
-                                        };
+    //                                     };
                                 
-                                        worksheet1.addTable(tableOptions3);
+    //                                     worksheet1.addTable(tableOptions3);
                 
-                                        rowStart = rowStart+this.basicDataCCArray.mes.length+2
-                                        for(let i =0;i < this.setStyle.length;i++){
-                                            worksheet1.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: { argb: 'FF7987' },
-                                            }
-                                        }
-                                        const tableOptions4 = {
-                                            name: 'TablaDatos8',
-                                            ref: `A${rowStart}`,  
-                                            headerRow: true,
-                                            totalsRow: false,
-                                            columns: [
-                                            { name: 'Día', filterButton: false },
-                                            { name: 'Error Operativo', filterButton: false },
-                                            { name: 'Falla RPA', filterButton: false },
-                                            { name: 'Orden Cancelada por un tercero', filterButton: false },
-                                            { name: 'Registro Exitoso', filterButton: false },
-                                            { name: 'Registro Pendiente', filterButton: false },
-                                            { name: 'Total', filterButton: false },
-                                            ],
-                                            rows: this.basicDataCCArray.dia.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ordenCancelada,item.registroExitoso,item.registroPendiente,item.total]),
+    //                                     rowStart = rowStart+this.basicDataCCArray.mes.length+2
+    //                                     for(let i =0;i < this.setStyle.length;i++){
+    //                                         worksheet1.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
+    //                                             type: 'pattern',
+    //                                             pattern: 'solid',
+    //                                             fgColor: { argb: 'FF7987' },
+    //                                         }
+    //                                     }
+    //                                     const tableOptions4 = {
+    //                                         name: 'TablaDatos8',
+    //                                         ref: `A${rowStart}`,  
+    //                                         headerRow: true,
+    //                                         totalsRow: false,
+    //                                         columns: [
+    //                                         { name: 'Día', filterButton: false },
+    //                                         { name: 'Error Operativo', filterButton: false },
+    //                                         { name: 'Falla RPA', filterButton: false },
+    //                                         { name: 'Orden Cancelada por un tercero', filterButton: false },
+    //                                         { name: 'Registro Exitoso', filterButton: false },
+    //                                         { name: 'Registro Pendiente', filterButton: false },
+    //                                         { name: 'Total', filterButton: false },
+    //                                         ],
+    //                                         rows: this.basicDataCCArray.dia.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ordenCancelada,item.registroExitoso,item.registroPendiente,item.total]),
                 
-                                        };
+    //                                     };
                                 
-                                        worksheet1.addTable(tableOptions4);
+    //                                     worksheet1.addTable(tableOptions4);
                 
-                                        rowStart = rowStart+this.basicDataCCArray.dia.length+2
-                                        for(let i =0;i < this.setStyle.length;i++){
-                                            worksheet1.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: { argb: 'FF7987' },
-                                            }
-                                        }
-                                        const tableOptions5 = {
-                                            name: 'TablaDatos8',
-                                            ref: `A${rowStart}`,  
-                                            headerRow: true,
-                                            totalsRow: false,
-                                            columns: [
-                                            { name: 'Estatus', filterButton: false },
-                                            { name: 'Error Operativo', filterButton: false },
-                                            { name: 'Falla RPA', filterButton: false },
-                                            { name: 'Orden Cancelada por un tercero', filterButton: false },
-                                            { name: 'Registro Exitoso', filterButton: false },
-                                            { name: 'Registro Pendiente', filterButton: false },
-                                            { name: 'Total', filterButton: false },
-                                            ],
-                                            rows: this.basicDataCCArray.status.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ordenCancelada,item.registroExitoso,item.registroPendiente,item.total]),
+    //                                     rowStart = rowStart+this.basicDataCCArray.dia.length+2
+    //                                     for(let i =0;i < this.setStyle.length;i++){
+    //                                         worksheet1.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
+    //                                             type: 'pattern',
+    //                                             pattern: 'solid',
+    //                                             fgColor: { argb: 'FF7987' },
+    //                                         }
+    //                                     }
+    //                                     const tableOptions5 = {
+    //                                         name: 'TablaDatos8',
+    //                                         ref: `A${rowStart}`,  
+    //                                         headerRow: true,
+    //                                         totalsRow: false,
+    //                                         columns: [
+    //                                         { name: 'Estatus', filterButton: false },
+    //                                         { name: 'Error Operativo', filterButton: false },
+    //                                         { name: 'Falla RPA', filterButton: false },
+    //                                         { name: 'Orden Cancelada por un tercero', filterButton: false },
+    //                                         { name: 'Registro Exitoso', filterButton: false },
+    //                                         { name: 'Registro Pendiente', filterButton: false },
+    //                                         { name: 'Total', filterButton: false },
+    //                                         ],
+    //                                         rows: this.basicDataCCArray.status.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ordenCancelada,item.registroExitoso,item.registroPendiente,item.total]),
                 
-                                        };
+    //                                     };
                                 
-                                        worksheet1.addTable(tableOptions5);
+    //                                     worksheet1.addTable(tableOptions5);
                                         
                                     
                                     
-                                    }
-                                }
+    //                                 }
+    //                             }
                                 
-                                //Ajustes con validacion 
-                                const chartElement1 = this.el.nativeElement.querySelector('#barChart2');
-                                if (chartElement1) {
-                                    const canvas: HTMLCanvasElement = chartElement1.querySelector('canvas');
-                                    if (canvas) {
-                                        const chartImageURL = canvas.toDataURL('image/png'); 
-                                        const worksheet2 = workbook.addWorksheet('Ajustes con Validación');
+    //                             //Ajustes con validacion 
+    //                             const chartElement1 = this.el.nativeElement.querySelector('#barChart2');
+    //                             if (chartElement1) {
+    //                                 const canvas: HTMLCanvasElement = chartElement1.querySelector('canvas');
+    //                                 if (canvas) {
+    //                                     const chartImageURL = canvas.toDataURL('image/png'); 
+    //                                     const worksheet2 = workbook.addWorksheet('Ajustes con Validación');
                                         
-                                        const targetColumns = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P']
-                                        worksheet2.views = [
-                                            { showGridLines: false }
-                                            ];
-                                        // Iterar sobre las filas y establecer la alineación para las columnas específicas
-                                        for (let rowNumber = 1; rowNumber <= 700; rowNumber++) {
-                                            targetColumns.forEach((targetColumn) => {
-                                                const cell = worksheet2.getCell(`${targetColumn}${rowNumber}`);
-                                                cell.alignment = { wrapText:true,vertical: 'middle', horizontal: 'center' };
-                                            });
-                                        }
-                                        const startColumn = 'A';
-                                        const endColumn = 'P';
+    //                                     const targetColumns = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P']
+    //                                     worksheet2.views = [
+    //                                         { showGridLines: false }
+    //                                         ];
+    //                                     // Iterar sobre las filas y establecer la alineación para las columnas específicas
+    //                                     for (let rowNumber = 1; rowNumber <= 700; rowNumber++) {
+    //                                         targetColumns.forEach((targetColumn) => {
+    //                                             const cell = worksheet2.getCell(`${targetColumn}${rowNumber}`);
+    //                                             cell.alignment = { wrapText:true,vertical: 'middle', horizontal: 'center' };
+    //                                         });
+    //                                     }
+    //                                     const startColumn = 'A';
+    //                                     const endColumn = 'P';
                         
-                                        for (let colNumber = worksheet2.getColumn(startColumn).number; colNumber <= worksheet2.getColumn(endColumn).number; colNumber++) {
-                                            const column = worksheet2.getColumn(colNumber);
-                                            let maxLength = 0;
+    //                                     for (let colNumber = worksheet2.getColumn(startColumn).number; colNumber <= worksheet2.getColumn(endColumn).number; colNumber++) {
+    //                                         const column = worksheet2.getColumn(colNumber);
+    //                                         let maxLength = 0;
                                         
-                                            // Iterar sobre cada celda en la columna
-                                            column.eachCell({ includeEmpty: true }, function (cell: any) {
-                                                var columnLength = cell.value ? cell.value.toString().length : 20;
-                                                if (columnLength > maxLength) {
-                                                    maxLength = columnLength;
-                                                }
-                                            });
+    //                                         // Iterar sobre cada celda en la columna
+    //                                         column.eachCell({ includeEmpty: true }, function (cell: any) {
+    //                                             var columnLength = cell.value ? cell.value.toString().length : 20;
+    //                                             if (columnLength > maxLength) {
+    //                                                 maxLength = columnLength;
+    //                                             }
+    //                                         });
                                         
-                                            column.width = maxLength < 20 ? 20 : maxLength;
-                                        }
-                                        worksheet2.getColumn('C').width = 35;
+    //                                         column.width = maxLength < 20 ? 20 : maxLength;
+    //                                     }
+    //                                     worksheet2.getColumn('C').width = 35;
                         
-                                        const imageId = workbook.addImage({
-                                            base64: chartImageURL.split(',')[1],
-                                            extension: 'png',
-                                        });
+    //                                     const imageId = workbook.addImage({
+    //                                         base64: chartImageURL.split(',')[1],
+    //                                         extension: 'png',
+    //                                     });
                                 
-                                        worksheet2.addImage(imageId, {
-                                        tl: { col: 2, row: 0 },
-                                        ext: { width: 600, height: 400 }, 
-                                        });
+    //                                     worksheet2.addImage(imageId, {
+    //                                     tl: { col: 2, row: 0 },
+    //                                     ext: { width: 600, height: 400 }, 
+    //                                     });
                 
-                                        let rowStart=25
-                                        for(let i =0;i < this.setStyle.length;i++){
-                                            worksheet2.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: { argb: 'FFBF00' },
-                                            }
-                                        }
+    //                                     let rowStart=25
+    //                                     for(let i =0;i < this.setStyle.length;i++){
+    //                                         worksheet2.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
+    //                                             type: 'pattern',
+    //                                             pattern: 'solid',
+    //                                             fgColor: { argb: 'FFBF00' },
+    //                                         }
+    //                                     }
                 
                 
-                                        const tableOptions = {
-                                            name: 'TablaDatos9',
-                                            ref: `A${rowStart}`,  
-                                            headerRow: true,
-                                            totalsRow: false,
-                                            columns: [
-                                            { name: 'Proceso', filterButton: false },
-                                            { name: 'Error Operativo', filterButton: false },
-                                            { name: 'Falla RPA', filterButton: false },
-                                            { name: 'Ajustes Realizados', filterButton: false },
-                                            { name: 'Inconsistencia de Siebel', filterButton: false },
-                                            { name: 'Registro Pendiente', filterButton: false },
-                                            { name: 'Total', filterButton: false },
-                                            ],
-                                            rows: this.basicDataAjustesConValidacionArray.val.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ajusteRealizado,item.inconcistenciaSiebel,item.registroPendiente,item.total]),
+    //                                     const tableOptions = {
+    //                                         name: 'TablaDatos9',
+    //                                         ref: `A${rowStart}`,  
+    //                                         headerRow: true,
+    //                                         totalsRow: false,
+    //                                         columns: [
+    //                                         { name: 'Proceso', filterButton: false },
+    //                                         { name: 'Error Operativo', filterButton: false },
+    //                                         { name: 'Falla RPA', filterButton: false },
+    //                                         { name: 'Ajustes Realizados', filterButton: false },
+    //                                         { name: 'Inconsistencia de Siebel', filterButton: false },
+    //                                         { name: 'Registro Pendiente', filterButton: false },
+    //                                         { name: 'Total', filterButton: false },
+    //                                         ],
+    //                                         rows: this.basicDataAjustesConValidacionArray.val.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ajusteRealizado,item.inconcistenciaSiebel,item.registroPendiente,item.total]),
                 
-                                        };
+    //                                     };
                                 
-                                        worksheet2.addTable(tableOptions);
+    //                                     worksheet2.addTable(tableOptions);
                 
-                                        rowStart = rowStart+this.basicDataAjustesConValidacionArray.val.length+2
-                                        for(let i =0;i < this.setStyle.length;i++){
-                                            worksheet2.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: { argb: 'FFBF00' },
-                                            }
-                                        }
-                                        const tableOptions1 = {
-                                            name: 'TablaDatos10',
-                                            ref: `A${rowStart}`,  
-                                            headerRow: true,
-                                            totalsRow: false,
-                                            columns: [
-                                            { name: 'Categoría', filterButton: false },
-                                            { name: 'Error Operativo', filterButton: false },
-                                            { name: 'Falla RPA', filterButton: false },
-                                            { name: 'Ajustes Realizados', filterButton: false },
-                                            { name: 'Inconsistencia de Siebel', filterButton: false },
-                                            { name: 'Registro Pendiente', filterButton: false },
-                                            { name: 'Total', filterButton: false },
-                                            ],
-                                            rows: this.basicDataAjustesConValidacionArray.categoria.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ajusteRealizado,item.inconcistenciaSiebel,item.registroPendiente,item.total]),
+    //                                     rowStart = rowStart+this.basicDataAjustesConValidacionArray.val.length+2
+    //                                     for(let i =0;i < this.setStyle.length;i++){
+    //                                         worksheet2.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
+    //                                             type: 'pattern',
+    //                                             pattern: 'solid',
+    //                                             fgColor: { argb: 'FFBF00' },
+    //                                         }
+    //                                     }
+    //                                     const tableOptions1 = {
+    //                                         name: 'TablaDatos10',
+    //                                         ref: `A${rowStart}`,  
+    //                                         headerRow: true,
+    //                                         totalsRow: false,
+    //                                         columns: [
+    //                                         { name: 'Categoría', filterButton: false },
+    //                                         { name: 'Error Operativo', filterButton: false },
+    //                                         { name: 'Falla RPA', filterButton: false },
+    //                                         { name: 'Ajustes Realizados', filterButton: false },
+    //                                         { name: 'Inconsistencia de Siebel', filterButton: false },
+    //                                         { name: 'Registro Pendiente', filterButton: false },
+    //                                         { name: 'Total', filterButton: false },
+    //                                         ],
+    //                                         rows: this.basicDataAjustesConValidacionArray.categoria.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ajusteRealizado,item.inconcistenciaSiebel,item.registroPendiente,item.total]),
                 
-                                        };
+    //                                     };
                                 
-                                        worksheet2.addTable(tableOptions1);
+    //                                     worksheet2.addTable(tableOptions1);
                 
-                                        rowStart = rowStart+this.basicDataAjustesConValidacionArray.categoria.length+2
-                                        for(let i =0;i < this.setStyle.length;i++){
-                                            worksheet2.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: { argb: 'FFBF00' },
-                                            }
-                                        }
-                                        const tableOptions2 = {
-                                            name: 'TablaDatos11',
-                                            ref: `A${rowStart}`,  
-                                            headerRow: true,
-                                            totalsRow: false,
-                                            columns: [
-                                            { name: 'Solución', filterButton: false },
-                                            { name: 'Error Operativo', filterButton: false },
-                                            { name: 'Falla RPA', filterButton: false },
-                                            { name: 'Ajustes Realizados', filterButton: false },
-                                            { name: 'Inconsistencia de Siebel', filterButton: false },
-                                            { name: 'Registro Pendiente', filterButton: false },
-                                            { name: 'Total', filterButton: false },
-                                            ],
-                                            rows: this.basicDataAjustesConValidacionArray.solucion.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ajusteRealizado,item.inconcistenciaSiebel,item.registroPendiente,item.total]),
+    //                                     rowStart = rowStart+this.basicDataAjustesConValidacionArray.categoria.length+2
+    //                                     for(let i =0;i < this.setStyle.length;i++){
+    //                                         worksheet2.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
+    //                                             type: 'pattern',
+    //                                             pattern: 'solid',
+    //                                             fgColor: { argb: 'FFBF00' },
+    //                                         }
+    //                                     }
+    //                                     const tableOptions2 = {
+    //                                         name: 'TablaDatos11',
+    //                                         ref: `A${rowStart}`,  
+    //                                         headerRow: true,
+    //                                         totalsRow: false,
+    //                                         columns: [
+    //                                         { name: 'Solución', filterButton: false },
+    //                                         { name: 'Error Operativo', filterButton: false },
+    //                                         { name: 'Falla RPA', filterButton: false },
+    //                                         { name: 'Ajustes Realizados', filterButton: false },
+    //                                         { name: 'Inconsistencia de Siebel', filterButton: false },
+    //                                         { name: 'Registro Pendiente', filterButton: false },
+    //                                         { name: 'Total', filterButton: false },
+    //                                         ],
+    //                                         rows: this.basicDataAjustesConValidacionArray.solucion.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ajusteRealizado,item.inconcistenciaSiebel,item.registroPendiente,item.total]),
                 
-                                        };
+    //                                     };
                                 
-                                        worksheet2.addTable(tableOptions2);
+    //                                     worksheet2.addTable(tableOptions2);
                 
-                                        rowStart = rowStart+this.basicDataAjustesConValidacionArray.solucion.length+2
-                                        for(let i =0;i < this.setStyle.length;i++){
-                                            worksheet2.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: { argb: 'FFBF00' },
-                                            }
-                                        }
-                                        const tableOptions3 = {
-                                            name: 'TablaDatos12',
-                                            ref: `A${rowStart}`,  
-                                            headerRow: true,
-                                            totalsRow: false,
-                                            columns: [
-                                            { name: 'Mes', filterButton: false },
-                                            { name: 'Error Operativo', filterButton: false },
-                                            { name: 'Falla RPA', filterButton: false },
-                                            { name: 'Ajustes Realizados', filterButton: false },
-                                            { name: 'Inconsistencia de Siebel', filterButton: false },
-                                            { name: 'Registro Pendiente', filterButton: false },
-                                            { name: 'Total', filterButton: false },
-                                            ],
-                                            rows: this.basicDataAjustesConValidacionArray.mes.map((item:any) => [this.mesFormat(item.base), item.errorOperativo, item.fallaRPA,item.ajusteRealizado,item.inconcistenciaSiebel,item.registroPendiente,item.total]),
+    //                                     rowStart = rowStart+this.basicDataAjustesConValidacionArray.solucion.length+2
+    //                                     for(let i =0;i < this.setStyle.length;i++){
+    //                                         worksheet2.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
+    //                                             type: 'pattern',
+    //                                             pattern: 'solid',
+    //                                             fgColor: { argb: 'FFBF00' },
+    //                                         }
+    //                                     }
+    //                                     const tableOptions3 = {
+    //                                         name: 'TablaDatos12',
+    //                                         ref: `A${rowStart}`,  
+    //                                         headerRow: true,
+    //                                         totalsRow: false,
+    //                                         columns: [
+    //                                         { name: 'Mes', filterButton: false },
+    //                                         { name: 'Error Operativo', filterButton: false },
+    //                                         { name: 'Falla RPA', filterButton: false },
+    //                                         { name: 'Ajustes Realizados', filterButton: false },
+    //                                         { name: 'Inconsistencia de Siebel', filterButton: false },
+    //                                         { name: 'Registro Pendiente', filterButton: false },
+    //                                         { name: 'Total', filterButton: false },
+    //                                         ],
+    //                                         rows: this.basicDataAjustesConValidacionArray.mes.map((item:any) => [this.mesFormat(item.base), item.errorOperativo, item.fallaRPA,item.ajusteRealizado,item.inconcistenciaSiebel,item.registroPendiente,item.total]),
                 
-                                        };
+    //                                     };
                                 
-                                        worksheet2.addTable(tableOptions3);
+    //                                     worksheet2.addTable(tableOptions3);
                 
-                                        rowStart = rowStart+this.basicDataAjustesConValidacionArray.mes.length+2
-                                        for(let i =0;i < this.setStyle.length;i++){
-                                            worksheet2.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: { argb: 'FFBF00' },
-                                            }
-                                        }
-                                        const tableOptions4 = {
-                                            name: 'TablaDatos13',
-                                            ref: `A${rowStart}`,  
-                                            headerRow: true,
-                                            totalsRow: false,
-                                            columns: [
-                                            { name: 'Día', filterButton: false },
-                                            { name: 'Error Operativo', filterButton: false },
-                                            { name: 'Falla RPA', filterButton: false },
-                                            { name: 'Ajustes Realizados', filterButton: false },
-                                            { name: 'Inconsistencia de Siebel', filterButton: false },
-                                            { name: 'Registro Pendiente', filterButton: false },
-                                            { name: 'Total', filterButton: false },
-                                            ],
-                                            rows: this.basicDataAjustesConValidacionArray.dia.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ajusteRealizado,item.inconcistenciaSiebel,item.registroPendiente,item.total]),
+    //                                     rowStart = rowStart+this.basicDataAjustesConValidacionArray.mes.length+2
+    //                                     for(let i =0;i < this.setStyle.length;i++){
+    //                                         worksheet2.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
+    //                                             type: 'pattern',
+    //                                             pattern: 'solid',
+    //                                             fgColor: { argb: 'FFBF00' },
+    //                                         }
+    //                                     }
+    //                                     const tableOptions4 = {
+    //                                         name: 'TablaDatos13',
+    //                                         ref: `A${rowStart}`,  
+    //                                         headerRow: true,
+    //                                         totalsRow: false,
+    //                                         columns: [
+    //                                         { name: 'Día', filterButton: false },
+    //                                         { name: 'Error Operativo', filterButton: false },
+    //                                         { name: 'Falla RPA', filterButton: false },
+    //                                         { name: 'Ajustes Realizados', filterButton: false },
+    //                                         { name: 'Inconsistencia de Siebel', filterButton: false },
+    //                                         { name: 'Registro Pendiente', filterButton: false },
+    //                                         { name: 'Total', filterButton: false },
+    //                                         ],
+    //                                         rows: this.basicDataAjustesConValidacionArray.dia.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ajusteRealizado,item.inconcistenciaSiebel,item.registroPendiente,item.total]),
                 
-                                        };
+    //                                     };
                                 
-                                        worksheet2.addTable(tableOptions4);
+    //                                     worksheet2.addTable(tableOptions4);
                 
-                                        rowStart = rowStart+this.basicDataAjustesConValidacionArray.dia.length+2
-                                        for(let i =0;i < this.setStyle.length;i++){
-                                            worksheet2.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: { argb: 'FFBF00' },
-                                            }
-                                        }
-                                        const tableOptions5 = {
-                                            name: 'TablaDatos14',
-                                            ref: `A${rowStart}`,  
-                                            headerRow: true,
-                                            totalsRow: false,
-                                            columns: [
-                                            { name: 'Estatus', filterButton: false },
-                                            { name: 'Error Operativo', filterButton: false },
-                                            { name: 'Falla RPA', filterButton: false },
-                                            { name: 'Ajustes Realizados', filterButton: false },
-                                            { name: 'Inconsistencia de Siebel', filterButton: false },
-                                            { name: 'Registro Pendiente', filterButton: false },
-                                            { name: 'Total', filterButton: false },
-                                            ],
-                                            rows: this.basicDataAjustesConValidacionArray.status.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ajusteRealizado,item.inconcistenciaSiebel,item.registroPendiente,item.total]),
+    //                                     rowStart = rowStart+this.basicDataAjustesConValidacionArray.dia.length+2
+    //                                     for(let i =0;i < this.setStyle.length;i++){
+    //                                         worksheet2.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
+    //                                             type: 'pattern',
+    //                                             pattern: 'solid',
+    //                                             fgColor: { argb: 'FFBF00' },
+    //                                         }
+    //                                     }
+    //                                     const tableOptions5 = {
+    //                                         name: 'TablaDatos14',
+    //                                         ref: `A${rowStart}`,  
+    //                                         headerRow: true,
+    //                                         totalsRow: false,
+    //                                         columns: [
+    //                                         { name: 'Estatus', filterButton: false },
+    //                                         { name: 'Error Operativo', filterButton: false },
+    //                                         { name: 'Falla RPA', filterButton: false },
+    //                                         { name: 'Ajustes Realizados', filterButton: false },
+    //                                         { name: 'Inconsistencia de Siebel', filterButton: false },
+    //                                         { name: 'Registro Pendiente', filterButton: false },
+    //                                         { name: 'Total', filterButton: false },
+    //                                         ],
+    //                                         rows: this.basicDataAjustesConValidacionArray.status.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ajusteRealizado,item.inconcistenciaSiebel,item.registroPendiente,item.total]),
                 
-                                        };
+    //                                     };
                                 
-                                        worksheet2.addTable(tableOptions5);
+    //                                     worksheet2.addTable(tableOptions5);
                                         
                                     
                                     
-                                    }
-                                }
+    //                                 }
+    //                             }
                                 
-                                //Ajustes sin validacion 
-                                const chartElement2 = this.el.nativeElement.querySelector('#barChart3');
-                                if (chartElement2) {
-                                    const canvas: HTMLCanvasElement = chartElement2.querySelector('canvas');
-                                    if (canvas) {
-                                        const chartImageURL = canvas.toDataURL('image/png'); 
-                                        const worksheet3 = workbook.addWorksheet('Ajustes sin Validación');
+    //                             //Ajustes sin validacion 
+    //                             const chartElement2 = this.el.nativeElement.querySelector('#barChart3');
+    //                             if (chartElement2) {
+    //                                 const canvas: HTMLCanvasElement = chartElement2.querySelector('canvas');
+    //                                 if (canvas) {
+    //                                     const chartImageURL = canvas.toDataURL('image/png'); 
+    //                                     const worksheet3 = workbook.addWorksheet('Ajustes sin Validación');
                                         
-                                        const targetColumns = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P']
-                                        worksheet3.views = [
-                                            { showGridLines: false }
-                                            ];
-                                        // Iterar sobre las filas y establecer la alineación para las columnas específicas
-                                        for (let rowNumber = 1; rowNumber <= 700; rowNumber++) {
-                                            targetColumns.forEach((targetColumn) => {
-                                                const cell = worksheet3.getCell(`${targetColumn}${rowNumber}`);
-                                                cell.alignment = { wrapText:true,vertical: 'middle', horizontal: 'center' };
-                                            });
-                                        }
-                                        const startColumn = 'A';
-                                        const endColumn = 'P';
+    //                                     const targetColumns = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P']
+    //                                     worksheet3.views = [
+    //                                         { showGridLines: false }
+    //                                         ];
+    //                                     // Iterar sobre las filas y establecer la alineación para las columnas específicas
+    //                                     for (let rowNumber = 1; rowNumber <= 700; rowNumber++) {
+    //                                         targetColumns.forEach((targetColumn) => {
+    //                                             const cell = worksheet3.getCell(`${targetColumn}${rowNumber}`);
+    //                                             cell.alignment = { wrapText:true,vertical: 'middle', horizontal: 'center' };
+    //                                         });
+    //                                     }
+    //                                     const startColumn = 'A';
+    //                                     const endColumn = 'P';
                         
-                                        for (let colNumber = worksheet3.getColumn(startColumn).number; colNumber <= worksheet3.getColumn(endColumn).number; colNumber++) {
-                                            const column = worksheet3.getColumn(colNumber);
-                                            let maxLength = 0;
+    //                                     for (let colNumber = worksheet3.getColumn(startColumn).number; colNumber <= worksheet3.getColumn(endColumn).number; colNumber++) {
+    //                                         const column = worksheet3.getColumn(colNumber);
+    //                                         let maxLength = 0;
                                         
-                                            // Iterar sobre cada celda en la columna
-                                            column.eachCell({ includeEmpty: true }, function (cell: any) {
-                                                var columnLength = cell.value ? cell.value.toString().length : 20;
-                                                if (columnLength > maxLength) {
-                                                    maxLength = columnLength;
-                                                }
-                                            });
+    //                                         // Iterar sobre cada celda en la columna
+    //                                         column.eachCell({ includeEmpty: true }, function (cell: any) {
+    //                                             var columnLength = cell.value ? cell.value.toString().length : 20;
+    //                                             if (columnLength > maxLength) {
+    //                                                 maxLength = columnLength;
+    //                                             }
+    //                                         });
                                         
-                                            column.width = maxLength < 20 ? 20 : maxLength;
-                                        }
-                                        worksheet3.getColumn('C').width = 35;
+    //                                         column.width = maxLength < 20 ? 20 : maxLength;
+    //                                     }
+    //                                     worksheet3.getColumn('C').width = 35;
                         
-                                        const imageId = workbook.addImage({
-                                            base64: chartImageURL.split(',')[1],
-                                            extension: 'png',
-                                        });
+    //                                     const imageId = workbook.addImage({
+    //                                         base64: chartImageURL.split(',')[1],
+    //                                         extension: 'png',
+    //                                     });
                                 
-                                        worksheet3.addImage(imageId, {
-                                        tl: { col: 2, row: 0 },
-                                        ext: { width: 600, height: 400 }, 
-                                        });
+    //                                     worksheet3.addImage(imageId, {
+    //                                     tl: { col: 2, row: 0 },
+    //                                     ext: { width: 600, height: 400 }, 
+    //                                     });
                 
-                                        let rowStart=25
-                                        for(let i =0;i < this.setStyle.length;i++){
-                                            worksheet3.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: { argb: 'FFBF00' },
-                                            }
-                                        }
+    //                                     let rowStart=25
+    //                                     for(let i =0;i < this.setStyle.length;i++){
+    //                                         worksheet3.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
+    //                                             type: 'pattern',
+    //                                             pattern: 'solid',
+    //                                             fgColor: { argb: 'FFBF00' },
+    //                                         }
+    //                                     }
                 
                 
-                                        const tableOptions = {
-                                            name: 'TablaDatos15',
-                                            ref: `A${rowStart}`,  
-                                            headerRow: true,
-                                            totalsRow: false,
-                                            columns: [
-                                            { name: 'Proceso', filterButton: false },
-                                            { name: 'Error Operativo', filterButton: false },
-                                            { name: 'Falla RPA', filterButton: false },
-                                            { name: 'Ajustes Realizados', filterButton: false },
-                                            { name: 'Inconsistencia de Siebel', filterButton: false },
-                                            { name: 'Registro Pendiente', filterButton: false },
-                                            { name: 'Total', filterButton: false },
-                                            ],
-                                            rows: this.basicDataAjustesSinValidacionArray.val.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ajusteRealizado,item.inconcistenciaSiebel,item.registroPendiente,item.total]),
+    //                                     const tableOptions = {
+    //                                         name: 'TablaDatos15',
+    //                                         ref: `A${rowStart}`,  
+    //                                         headerRow: true,
+    //                                         totalsRow: false,
+    //                                         columns: [
+    //                                         { name: 'Proceso', filterButton: false },
+    //                                         { name: 'Error Operativo', filterButton: false },
+    //                                         { name: 'Falla RPA', filterButton: false },
+    //                                         { name: 'Ajustes Realizados', filterButton: false },
+    //                                         { name: 'Inconsistencia de Siebel', filterButton: false },
+    //                                         { name: 'Registro Pendiente', filterButton: false },
+    //                                         { name: 'Total', filterButton: false },
+    //                                         ],
+    //                                         rows: this.basicDataAjustesSinValidacionArray.val.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ajusteRealizado,item.inconcistenciaSiebel,item.registroPendiente,item.total]),
                 
-                                        };
+    //                                     };
                                 
-                                        worksheet3.addTable(tableOptions);
+    //                                     worksheet3.addTable(tableOptions);
                 
-                                        rowStart = rowStart+this.basicDataAjustesSinValidacionArray.val.length+2
-                                        for(let i =0;i < this.setStyle.length;i++){
-                                            worksheet3.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: { argb: 'FFBF00' },
-                                            }
-                                        }
-                                        const tableOptions1 = {
-                                            name: 'TablaDatos16',
-                                            ref: `A${rowStart}`,  
-                                            headerRow: true,
-                                            totalsRow: false,
-                                            columns: [
-                                            { name: 'Motivo del Ajuste', filterButton: false },
-                                            { name: 'Error Operativo', filterButton: false },
-                                            { name: 'Falla RPA', filterButton: false },
-                                            { name: 'Ajustes Realizados', filterButton: false },
-                                            { name: 'Inconsistencia de Siebel', filterButton: false },
-                                            { name: 'Registro Pendiente', filterButton: false },
-                                            { name: 'Total', filterButton: false },
-                                            ],
-                                            rows: this.basicDataAjustesSinValidacionArray.motivoAjuste.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ajusteRealizado,item.inconcistenciaSiebel,item.registroPendiente,item.total]),
+    //                                     rowStart = rowStart+this.basicDataAjustesSinValidacionArray.val.length+2
+    //                                     for(let i =0;i < this.setStyle.length;i++){
+    //                                         worksheet3.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
+    //                                             type: 'pattern',
+    //                                             pattern: 'solid',
+    //                                             fgColor: { argb: 'FFBF00' },
+    //                                         }
+    //                                     }
+    //                                     const tableOptions1 = {
+    //                                         name: 'TablaDatos16',
+    //                                         ref: `A${rowStart}`,  
+    //                                         headerRow: true,
+    //                                         totalsRow: false,
+    //                                         columns: [
+    //                                         { name: 'Motivo del Ajuste', filterButton: false },
+    //                                         { name: 'Error Operativo', filterButton: false },
+    //                                         { name: 'Falla RPA', filterButton: false },
+    //                                         { name: 'Ajustes Realizados', filterButton: false },
+    //                                         { name: 'Inconsistencia de Siebel', filterButton: false },
+    //                                         { name: 'Registro Pendiente', filterButton: false },
+    //                                         { name: 'Total', filterButton: false },
+    //                                         ],
+    //                                         rows: this.basicDataAjustesSinValidacionArray.motivoAjuste.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ajusteRealizado,item.inconcistenciaSiebel,item.registroPendiente,item.total]),
                 
-                                        };
+    //                                     };
                                 
-                                        worksheet3.addTable(tableOptions1);
+    //                                     worksheet3.addTable(tableOptions1);
                 
-                                        rowStart = rowStart+this.basicDataAjustesSinValidacionArray.motivoAjuste.length+2
-                                        for(let i =0;i < this.setStyle.length;i++){
-                                            worksheet3.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: { argb: 'FFBF00' },
-                                            }
-                                        }
-                                        const tableOptions2 = {
-                                            name: 'TablaDatos17',
-                                            ref: `A${rowStart}`,  
-                                            headerRow: true,
-                                            totalsRow: false,
-                                            columns: [
-                                            { name: 'Mes', filterButton: false },
-                                            { name: 'Error Operativo', filterButton: false },
-                                            { name: 'Falla RPA', filterButton: false },
-                                            { name: 'Ajustes Realizados', filterButton: false },
-                                            { name: 'Inconsistencia de Siebel', filterButton: false },
-                                            { name: 'Registro Pendiente', filterButton: false },
-                                            { name: 'Total', filterButton: false },
-                                            ],
-                                            rows: this.basicDataAjustesSinValidacionArray.mes.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ajusteRealizado,item.inconcistenciaSiebel,item.registroPendiente,item.total]),
+    //                                     rowStart = rowStart+this.basicDataAjustesSinValidacionArray.motivoAjuste.length+2
+    //                                     for(let i =0;i < this.setStyle.length;i++){
+    //                                         worksheet3.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
+    //                                             type: 'pattern',
+    //                                             pattern: 'solid',
+    //                                             fgColor: { argb: 'FFBF00' },
+    //                                         }
+    //                                     }
+    //                                     const tableOptions2 = {
+    //                                         name: 'TablaDatos17',
+    //                                         ref: `A${rowStart}`,  
+    //                                         headerRow: true,
+    //                                         totalsRow: false,
+    //                                         columns: [
+    //                                         { name: 'Mes', filterButton: false },
+    //                                         { name: 'Error Operativo', filterButton: false },
+    //                                         { name: 'Falla RPA', filterButton: false },
+    //                                         { name: 'Ajustes Realizados', filterButton: false },
+    //                                         { name: 'Inconsistencia de Siebel', filterButton: false },
+    //                                         { name: 'Registro Pendiente', filterButton: false },
+    //                                         { name: 'Total', filterButton: false },
+    //                                         ],
+    //                                         rows: this.basicDataAjustesSinValidacionArray.mes.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ajusteRealizado,item.inconcistenciaSiebel,item.registroPendiente,item.total]),
                 
-                                        };
+    //                                     };
                                 
-                                        worksheet3.addTable(tableOptions2);
+    //                                     worksheet3.addTable(tableOptions2);
                 
                 
-                                        rowStart = rowStart+this.basicDataAjustesSinValidacionArray.mes.length+2
-                                        for(let i =0;i < this.setStyle.length;i++){
-                                            worksheet3.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: { argb: 'FFBF00' },
-                                            }
-                                        }
-                                        const tableOptions4 = {
-                                            name: 'TablaDatos18',
-                                            ref: `A${rowStart}`,  
-                                            headerRow: true,
-                                            totalsRow: false,
-                                            columns: [
-                                            { name: 'Día', filterButton: false },
-                                            { name: 'Error Operativo', filterButton: false },
-                                            { name: 'Falla RPA', filterButton: false },
-                                            { name: 'Ajustes Realizados', filterButton: false },
-                                            { name: 'Inconsistencia de Siebel', filterButton: false },
-                                            { name: 'Registro Pendiente', filterButton: false },
-                                            { name: 'Total', filterButton: false },
-                                            ],
-                                            rows: this.basicDataAjustesSinValidacionArray.dia.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ajusteRealizado,item.inconcistenciaSiebel,item.registroPendiente,item.total]),
+    //                                     rowStart = rowStart+this.basicDataAjustesSinValidacionArray.mes.length+2
+    //                                     for(let i =0;i < this.setStyle.length;i++){
+    //                                         worksheet3.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
+    //                                             type: 'pattern',
+    //                                             pattern: 'solid',
+    //                                             fgColor: { argb: 'FFBF00' },
+    //                                         }
+    //                                     }
+    //                                     const tableOptions4 = {
+    //                                         name: 'TablaDatos18',
+    //                                         ref: `A${rowStart}`,  
+    //                                         headerRow: true,
+    //                                         totalsRow: false,
+    //                                         columns: [
+    //                                         { name: 'Día', filterButton: false },
+    //                                         { name: 'Error Operativo', filterButton: false },
+    //                                         { name: 'Falla RPA', filterButton: false },
+    //                                         { name: 'Ajustes Realizados', filterButton: false },
+    //                                         { name: 'Inconsistencia de Siebel', filterButton: false },
+    //                                         { name: 'Registro Pendiente', filterButton: false },
+    //                                         { name: 'Total', filterButton: false },
+    //                                         ],
+    //                                         rows: this.basicDataAjustesSinValidacionArray.dia.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ajusteRealizado,item.inconcistenciaSiebel,item.registroPendiente,item.total]),
                 
-                                        };
+    //                                     };
                                 
-                                        worksheet3.addTable(tableOptions4);
+    //                                     worksheet3.addTable(tableOptions4);
                 
-                                        rowStart = rowStart+this.basicDataAjustesSinValidacionArray.dia.length+2
-                                        for(let i =0;i < this.setStyle.length;i++){
-                                            worksheet3.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
-                                                type: 'pattern',
-                                                pattern: 'solid',
-                                                fgColor: { argb: 'FFBF00' },
-                                            }
-                                        }
-                                        const tableOptions5 = {
-                                            name: 'TablaDatos19',
-                                            ref: `A${rowStart}`,  
-                                            headerRow: true,
-                                            totalsRow: false,
-                                            columns: [
-                                            { name: 'Estatus', filterButton: false },
-                                            { name: 'Error Operativo', filterButton: false },
-                                            { name: 'Falla RPA', filterButton: false },
-                                            { name: 'Ajustes Realizados', filterButton: false },
-                                            { name: 'Inconsistencia de Siebel', filterButton: false },
-                                            { name: 'Registro Pendiente', filterButton: false },
-                                            { name: 'Total', filterButton: false },
-                                            ],
-                                            rows: this.basicDataAjustesSinValidacionArray.status.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ajusteRealizado,item.inconcistenciaSiebel,item.registroPendiente,item.total]),
+    //                                     rowStart = rowStart+this.basicDataAjustesSinValidacionArray.dia.length+2
+    //                                     for(let i =0;i < this.setStyle.length;i++){
+    //                                         worksheet3.getCell(`${this.setStyle[i]}${rowStart}`).fill = {
+    //                                             type: 'pattern',
+    //                                             pattern: 'solid',
+    //                                             fgColor: { argb: 'FFBF00' },
+    //                                         }
+    //                                     }
+    //                                     const tableOptions5 = {
+    //                                         name: 'TablaDatos19',
+    //                                         ref: `A${rowStart}`,  
+    //                                         headerRow: true,
+    //                                         totalsRow: false,
+    //                                         columns: [
+    //                                         { name: 'Estatus', filterButton: false },
+    //                                         { name: 'Error Operativo', filterButton: false },
+    //                                         { name: 'Falla RPA', filterButton: false },
+    //                                         { name: 'Ajustes Realizados', filterButton: false },
+    //                                         { name: 'Inconsistencia de Siebel', filterButton: false },
+    //                                         { name: 'Registro Pendiente', filterButton: false },
+    //                                         { name: 'Total', filterButton: false },
+    //                                         ],
+    //                                         rows: this.basicDataAjustesSinValidacionArray.status.map((item:any) => [item.base, item.errorOperativo, item.fallaRPA,item.ajusteRealizado,item.inconcistenciaSiebel,item.registroPendiente,item.total]),
                 
-                                        };
+    //                                     };
                                 
-                                        worksheet3.addTable(tableOptions5);
+    //                                     worksheet3.addTable(tableOptions5);
                                         
                                     
                                     
-                                    }
-                                }
+    //                                 }
+    //                             }
                 
                 
-                                // Guarda el archivo Excel
-                                workbook.xlsx.writeBuffer().then((buffer) => {
-                                    const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
-                                saveAs.saveAs(blob, 'DashboardProcesos_Report.xlsx');
-                            });
-                        } else {
-                            console.error('Canvas no encontrado en el elemento de gráfico.');
-                        }
-                        } else {
-                            console.error('Elemento de gráfico no encontrado');
-                        }
-                        this.load=false;
-                        this.activeTabIndex = 0;
-                        this.messageService.add({
-                        key:'tst',
-                        severity: 'success',
-                        summary: 'Exito',
-                        detail: 'Se descargo el reporte!',
-                        });
+    //                             // Guarda el archivo Excel
+    //                             workbook.xlsx.writeBuffer().then((buffer) => {
+    //                                 const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
+    //                             saveAs.saveAs(blob, 'DashboardProcesos_Report.xlsx');
+    //                         });
+    //                     } else {
+    //                         console.error('Canvas no encontrado en el elemento de gráfico.');
+    //                     }
+    //                     } else {
+    //                         console.error('Elemento de gráfico no encontrado');
+    //                     }
+    //                     this.load=false;
+    //                     this.activeTabIndex = 0;
+    //                     this.messageService.add({
+    //                     key:'tst',
+    //                     severity: 'success',
+    //                     summary: 'Exito',
+    //                     detail: 'Se descargo el reporte!',
+    //                     });
         
 
-                    }, 5000);
-                },1000)
-                },1000)
-            },1000)
-        },1000);
+    //                 }, 5000);
+    //             },1000)
+    //             },1000)
+    //         },1000)
+    //     },1000);
 
 
 
-    }
+    // }
     onTabChange(event: any) {
         this.activeTabIndex = event.index
     }
