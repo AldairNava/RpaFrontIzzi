@@ -143,6 +143,19 @@ export class DashboardComponent implements OnInit {
         dia:[],
         status:[],
     };
+
+    basicDataOkCliente: any;
+    basicOptionsOkCliente: any;
+    basicDataOkClienteArray:any={
+        graf:[],
+        esta:[],
+        val:[],
+        categoria:[],
+        solucion:[],
+        mes:[],
+        dia:[],
+        status:[],
+    };
     setStyle=['A','B','C','D','E','F','G']
     activeTabIndex: number = 0;
 
@@ -171,6 +184,7 @@ export class DashboardComponent implements OnInit {
         this.buscarStatsNotCancelacion(this.primerDia.format('YYYY-MM-DD'),this.ultimoDia.format('YYYY-MM-DD'));
         this.buscarStatsNotCreacionOrdenes(this.primerDia.format('YYYY-MM-DD'),this.ultimoDia.format('YYYY-MM-DD'));
         this.buscarStatsCallTrouble(this.primerDia.format('YYYY-MM-DD'),this.ultimoDia.format('YYYY-MM-DD'));
+        this.buscarStatsOkCliente(this.primerDia.format('YYYY-MM-DD'),this.ultimoDia.format('YYYY-MM-DD'));
     }
 
     ngOnInit() {
@@ -180,7 +194,7 @@ export class DashboardComponent implements OnInit {
         }, 300000);   
         
         const user = JSON.parse(localStorage.getItem('userData') || '{}');
-        this.isAdmin = user?.role === 'administrador';
+        this.isAdmin = ['administrador', 'admin-rpacx'].includes(user?.role);
         this.isAdmin2 = user?.role === 'admin-ajustesSucursales';
         this.isUser = !this.isAdmin && !this.isAdmin2;
         this.firstName = user?.firstName || '';
@@ -213,6 +227,7 @@ export class DashboardComponent implements OnInit {
         this.buscarStatsNotCancelacion(ini,fin);
         this.buscarStatsNotCreacionOrdenes(ini,fin);
         this.buscarStatsCallTrouble(ini,fin);
+        this.buscarStatsOkCliente(ini,fin);
     }
     buscarStatsEXT(ini:any,fin:any){
         this.basicDataExtArray={
@@ -1130,6 +1145,116 @@ export class DashboardComponent implements OnInit {
     }
     buscarStatsCallTrouble(ini:any,fin:any){
         this.basicDataCallTroubleArray={
+            graf:[],
+            esta:[],
+            val:[],
+            categoria:[],
+            solucion:[],
+            mes:[],
+            dia:[],
+            status:[],
+        };
+        const documentStyle = getComputedStyle(document.documentElement);
+        const textColor = documentStyle.getPropertyValue('--text-color');
+        const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+        const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+        this.basicOptionsCallTrouble = {
+            plugins: {
+                legend: {
+                    labels: {
+                        color: textColor
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: textColorSecondary
+                    },
+                    grid: {
+                        color: surfaceBorder,
+                        drawBorder: false
+                    }
+                },
+                x: {
+                    ticks: {
+                        color: textColorSecondary
+                    },
+                    grid: {
+                        color: surfaceBorder,
+                        drawBorder: false
+                    }
+                }
+            }
+        };
+        this.cors.get('Estadisticas/estadisticasCallTrouble',{
+            startDateStr:ini,
+            endDateStr:fin
+        }).then((response) => {
+            if(response[0]=='SIN INFO'){
+             
+            }else{
+                let grafica = response[0].grafica;
+                grafica.forEach((obj:any) => {
+                    Object.entries(obj).forEach(([key, value]) => {
+                      if(key=='fallaRPA'){
+                        this.basicDataCallTroubleArray.graf.push(key)
+                        this.basicDataCallTroubleArray.esta.push(value)
+                      }
+                      if(key=='errorOperativo'){
+                        this.basicDataCallTroubleArray.graf.push(key)
+                        this.basicDataCallTroubleArray.esta.push(value)
+                      }
+                      if(key=='registroPendiente'){
+                        this.basicDataCallTroubleArray.graf.push(key)
+                        this.basicDataCallTroubleArray.esta.push(value)
+                      }
+                      if(key=='completado'){
+                        this.basicDataCallTroubleArray.graf.push(key)
+                        this.basicDataCallTroubleArray.esta.push(value)
+                      }
+                      if(key=='inconcistenciaSiebel'){
+                        this.basicDataCallTroubleArray.graf.push(key)
+                        this.basicDataCallTroubleArray.esta.push(value)
+                      }
+                    });
+                });
+                this.basicDataCallTroubleArray.val=response[0].grafica
+                this.basicDataCallTroubleArray.motivoAjuste=response[0].motivoAjuste
+                this.basicDataCallTroubleArray.solucion=response[0].solucion
+                this.basicDataCallTroubleArray.mes=response[0].mes
+                this.basicDataCallTroubleArray.dia=response[0].dia
+                this.basicDataCallTroubleArray.dia[this.basicDataCallTroubleArray.dia.length-1].base='Total'
+                this.basicDataCallTroubleArray.status=response[0].status
+                this.basicDataCallTroubleArray.ip=response[0].ip
+                this.basicDataCallTrouble = {
+                    labels: this.basicDataCallTroubleArray.graf,
+                    datasets: [
+                        {
+                            label: 'Call Trouble',
+                            data: this.basicDataCallTroubleArray.esta,
+                            backgroundColor: ['rgba(255, 159, 64, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(153, 102, 255, 0.2)'],
+                            borderColor: ['rgb(255, 159, 64)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)', 'rgb(153, 102, 255)'],
+                            borderWidth: 1
+                        }
+                    ]
+                };
+        
+            }
+        }).catch((error) => {
+            console.log(error)
+            this.messageService.add({
+                key:'tst',
+                severity: 'error',
+                summary: 'No se generaron registros para Call Trouble',
+                detail: 'Intenta Nuevamente!!!',
+              });
+        })
+    }
+
+    buscarStatsOkCliente(ini:any,fin:any){
+        this.basicDataOkClienteArray={
             graf:[],
             esta:[],
             val:[],

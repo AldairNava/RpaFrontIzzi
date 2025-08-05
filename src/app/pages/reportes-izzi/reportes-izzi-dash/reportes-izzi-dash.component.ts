@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder,UntypedFormGroup, Validators } from '@angular/forms';
 import { CorsService } from '@services';
 import { Message,MessageService,ConfirmationService } from 'primeng/api';
-import { Table } from 'primeng/table';
 import * as moment from 'moment';
-import { saveAs } from 'file-saver';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
@@ -187,6 +185,7 @@ export class ReportesIzziDashComponent implements OnInit {
         case 'administrador':
         case 'eBarrera':
         case 'testReportes':
+        case 'admin-rpacx':
           this.reportesFiltrados = this.reportes;
           break;
         case 'Depuracion':

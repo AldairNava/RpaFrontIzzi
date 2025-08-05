@@ -10,7 +10,7 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./ok-cliente.component.scss']
 })
 export class OkClienteComponent implements OnInit {
-usuario: any = JSON.parse(localStorage.getItem("email") || "{}")
+usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
   msgs: Message[] = [];
   ExcelData:any=[];
   
@@ -86,7 +86,7 @@ usuario: any = JSON.parse(localStorage.getItem("email") || "{}")
       status:       row['Status'],
       Ip:           row['IP'],
       FechaCaptura: row['FechaCaptura'],
-      Usuario_Captura: this.usuario.usuario || 'usuarion con cookies precargadas',
+      Usuario_Captura: this.usuario.email || 'usuarion con cookies precargadas',
 
     }));
     console.log('✅ Después de map, JSON a enviar:', JSON.stringify(this.ExcelData));
