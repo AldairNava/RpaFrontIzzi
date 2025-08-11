@@ -23,21 +23,8 @@ export class CargarPlantillasComponent implements OnInit {
   analistas: boolean = false;
   ejecutivos: boolean = false;
 
-  tipo: { name: string }[] = [
-    { name: 'Analistas' },
-    { name: 'Ejecutivos' }
-  ];
 
-  headersAnalistas: any[] = [
-    'No Empleado',
-    'Nombre',
-    'Región',
-    'Departamento',
-    'Puesto OP',
-    'SKILL A EVALUAR'
-  ];
-
-  headersEjecutivos: any[] = [
+  headers: any[] = [
     'No Emp',
     'Nombre',
     'SUPERVISOR',
@@ -54,7 +41,8 @@ export class CargarPlantillasComponent implements OnInit {
     'Region',
     'Departamento',
     'Puesto OP',
-    'SKILL A EVALUAR'
+    'SKILL A EVALUAR',
+    'Descanso'
   ];
 
   guardando: boolean = false;
@@ -70,108 +58,107 @@ export class CargarPlantillasComponent implements OnInit {
 
   ngOnInit(): void {
     this.darkModeSubscription();
-      
-    this.items = [{ label: 'Analizar Audios' }];
 
     this.home = { icon: 'pi pi-home', routerLink: '/' }; 
   }
 
-  validaTipo() {
-    this.tipoSelected.name === 'Analistas' ? this.analistas = true : this.analistas = false;
-    this.tipoSelected.name === 'Ejecutivos' ? this.ejecutivos = true : this.ejecutivos = false;
-  }
+  onFileSelected(event: any): void {
+    const file: File = event.files[0];
+    if (!file) return;
 
-  readExcel(event: any): void {
-    let file: any = '';
-    if (event.files && event.files.length > 0) {
-      file = event.files[0];
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      const data = new Uint8Array(e.target.result);
+      const workbook = XLSX.read(data, { type: 'array' });
 
-      let fileReader = new FileReader();
-      fileReader.readAsBinaryString(file);
-      fileReader.onload= (e)=>{
-        var workBook = XLSX.read(fileReader.result,{type:'binary',cellDates:true})
-        var sheetNames =  workBook.SheetNames;
+      const nombreHoja = workbook.SheetNames[0];
+      const hoja = workbook.Sheets[nombreHoja];
 
-        if (sheetNames.length > 0) {
-          let data: string | any[][] = this.readSheet(workBook.Sheets[sheetNames[0]]);
+      const datos: any[][] = XLSX.utils.sheet_to_json(hoja, {
+        defval: '',
+        header: 1
+      });
 
-          this.validaHeadersEjecutivos(data);
-        } 
+      if (!datos || datos.length === 0) {
+        console.error('El archivo está vacío.');
+        return;
       }
-    } else {
-      console.error('No se seleccionaron archivos.');
-    }
-  }
 
+      const headersLeidosCrudos = datos[0];
+      const headersLeidos = this.limpiarHeaders(headersLeidosCrudos);
 
-  readSheet(sheet: XLSX.WorkSheet) {
-    if( sheet['!ref'] !== undefined ) {
-      const range = XLSX.utils.decode_range(sheet['!ref']);
-      let data = [];
-    
-      for (let R = range.s.r; R <= range.e.r; ++R) {
-        let rowData = [];
-        for (let C = range.s.c; C <= range.e.c; ++C) {
-          let cellAddress = { c: C, r: R };
-          let cellRef = XLSX.utils.encode_cell(cellAddress);
-          let cell = sheet[cellRef];
-    
-          rowData.push(cell ? cell.v : undefined);
-        }
-        data.push(rowData);
+      if (!this.validarHeaders(headersLeidos)) {
+        console.error('Los encabezados no coinciden con los esperados.');
+        this.mensajeAdvertencia('Un header es incorrecto, por favor valida la información');
+        console.warn('Esperados:', this.headers);
+        console.warn('Leídos:', headersLeidos);
+        return;
       }
-    
-      return data;
-    } else {
-      return 'sin data';
-    }
+
+      const filas = datos.slice(1);
+      const datosConHeaders = filas.map((fila) =>
+        this.headers.reduce((acc, key, i) => {
+          acc[key] = fila[i] ?? '';
+          return acc;
+        }, {})
+      );
+
+      // const filas = datos.slice(1);
+      const datosSinHeaders = filas.map((fila) =>
+      fila.reduce((acc, valor, i) => {
+      acc[i] = valor ?? '';
+      return acc;
+      }, {})
+      );
+
+
+      this.camposAnalistas = datosSinHeaders;
+
+      console.log('Datos cargados del Excel:', datosSinHeaders);
+      this.showButton = true;
+    };
+
+    reader.readAsArrayBuffer(file);
   }
+
+  private validarHeaders(headersLeidos: any[]): boolean {
+    return (
+      headersLeidos.length === this.headers.length &&
+      headersLeidos.every((h, i) => h === this.headers[i])
+    );
+  }
+
+  private limpiarHeaders(headers: any[]): any[] {
+    const copia = [...headers];
+    while (copia.length && (copia[copia.length - 1] === '' || copia[copia.length - 1] == null)) {
+      copia.pop();
+    }
+    return copia;
+  }
+
+
 
   camposAnalistas: any[] = [];
   showButton: boolean = false;
 
-  // validaHeadersAnalista(data: any) {
-  //   let headers = data[0];
 
-  //   let headersLength = headers.length;
-  //   let headersCorrectos = false;
-
-  //   for(let i = 0 ; i < headersLength ; i++) {
-  //     if( headers[i].toUpperCase() != this.headersAnalistas[i].toUpperCase()) {
-  //       console.log(headers[i])
-  //       this.mensajeAdvertencia('Un header es incorrecto');
-  //       headersCorrectos = false;
-  //       this.limpiarDocumento();
-  //       break;
-  //     } else {
-  //       headersCorrectos = true;
-  //     }
-  //   }
-  //   if(headersCorrectos) {
-  //     this.showButton = true;
-  //     this.mensajeExito('Se ha leído exitosamente el documento');
-
-  //     this.camposAnalistas = data.slice(1); 
-      
-      
-  //   }
-
-
-  // }
-
-  validaHeadersEjecutivos(data: any) {
+  validaHeaders(data: any) {
     let headers = data[0];
 
+    console.log(`Headers Documento: ${headers}`)
+
     let headersLength = headers.length;
+    console.log(headersLength)
     let headersCorrectos = false;
 
     for(let i = 0 ; i < headersLength ; i++) {
-      if( headers[i].toUpperCase() != this.headersEjecutivos[i].toUpperCase()) {
+        console.log(headers[i])
+      if( headers[i].toUpperCase() != this.headers[i].toUpperCase()) {
         headersCorrectos = false;
         this.limpiarDocumento();
         this.mensajeAdvertencia('Un header es incorrecto, por favor valida la información');
         console.log(headers[i])
-        console.log(this.headersEjecutivos[i])
+        console.log(this.headers[i])
 
         break;
       } else {
@@ -210,8 +197,14 @@ export class CargarPlantillasComponent implements OnInit {
     console.log('entrando')
     this.showButton = false;
     this.guardando = true;
-    console.log(this.camposAnalistas)
-    this.cors.post(this.camposAnalistas).subscribe(
+    // console.log(this.camposAnalistas)
+
+    const method = {
+      controlador: 'CargarPlantillaController',
+      metodo: 'cargarAnalistas',
+      data: this.camposAnalistas
+    }
+    this.cors.post(method).subscribe(
       (res: any) => {
         if(res.status) {
           this.mensajeExito('Se han guardado los registros');

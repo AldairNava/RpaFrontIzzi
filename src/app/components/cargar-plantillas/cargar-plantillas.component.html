@@ -7,7 +7,7 @@
 
 
           <div class="actions">
-               <p-fileUpload #fileUpload mode="basic" chooseLabel="Ejecutivos" accept=".xlsx" (onSelect)="readExcel($event)"></p-fileUpload>
+               <p-fileUpload #fileUpload mode="basic" chooseLabel="Ejecutivos" accept=".xlsx" (onSelect)="onFileSelected($event)"></p-fileUpload>
                <button pButton pRipple label="Guardar" class="p-button-success" (click)="cargarEjecutivos()" [disabled]="!showButton">
                     <i class="pi pi-spin pi-spinner" *ngIf="guardando" style="font-size: 1rem; margin-right: 10px"></i>
                </button>
