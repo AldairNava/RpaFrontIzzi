@@ -390,6 +390,7 @@ export class AnalizarComponent implements OnInit {
         }
 
         if( this.audioStatus === 'Contextualizando' ) {
+          console.log('Estroy contextualizando')
           this.starting = false;
           this.transcribe = false;
           this.score = false;
@@ -447,7 +448,7 @@ export class AnalizarComponent implements OnInit {
 
       setTimeout(() => {
         this.processAnimations(data);
-      }, 1000);
+      }, 20000);
     }
 
     updateStatusPendiente(audio: any) {
@@ -612,54 +613,56 @@ export class AnalizarComponent implements OnInit {
     )
   }
 
-  setMode() {
-    if(this.analyzeAll) {
-      this.esMasivo = true;
-      this.setMasivo();
-      setTimeout(() => {
-        this.fetchDataMasivo();
-      }, 500);
-    } else {
-      this.esMasivo = false;
-      const currentSession = 'izzi';
-      this.unsetMasivo();
-      setTimeout(() => {
-        this.fetchData(currentSession);
-      }, 500);
-    }
-  }
+  // setMode() {
+  //   if(this.analyzeAll) {
+  //     this.esMasivo = true;
+  //     this.setMasivo();
+  //     setTimeout(() => {
+  //       this.fetchDataMasivo();
+  //     }, 500);
+  //   } else {
+  //     this.esMasivo = false;
+  //     const currentSession = 'izzi';
+  //     this.unsetMasivo();
+  //     setTimeout(() => {
+  //       this.fetchData(currentSession);
+  //     }, 500);
+  //   }
+  // }
 
 
-  analizaMasivo() {
-    this.startingMasivo = true;
-    this.ejecutandoMasivo = true;
-    const owner = 'izzi';
+  // analizaMasivo() {
+  //   // primero hay que setear masivo a 1 y proceder a mandar la petición a la mm2
 
-    const data = {
-      controlador: 'AudiosController',
-      metodo: 'returnNoAnalyzed',
-      owner
-    }
 
-    this.cors.post(data).subscribe(
-      (res: any) => {
-        if(res.status) {
-          console.log(res)
-          if(res.names.length === 0) {
-            this.showMessage('warn', 'Aviso', 'No hay audios disponibles para analizar en este momento');
-          } else {
-            this.analyzeAllAudios(res.names);
-            this.analyzingMasivo = true;
-          }
-        } else {
+
+  //   const owner = 'izzi';
+
+  //   const data = {
+  //     controlador: 'AudiosController',
+  //     metodo: 'returnNoAnalyzedMasivo',
+  //     owner
+  //   }
+
+  //   this.cors.post(data).subscribe(
+  //     (res: any) => {
+  //       if(res.status) {
+  //         console.log(res)
+  //         if(res.names.length === 0) {
+  //           this.showMessage('warn', 'Aviso', 'No hay audios disponibles para analizar en este momento');
+  //         } else {
+  //           this.analyzeAllAudios(res.names);
+  //           this.analyzingMasivo = true;
+  //         }
+  //       } else {
           
-        }
-      },
-      (err: any) => {
-        console.log(err);
-      }
-    )
-  }
+  //       }
+  //     },
+  //     (err: any) => {
+  //       console.log(err);
+  //     }
+  //   )
+  // }
   
   getStatusMasivo(names: any) {
     this.startingMasivo = false;
@@ -667,35 +670,43 @@ export class AnalizarComponent implements OnInit {
     this.checkStatusMasivo(names)
   }
 
-  analyzeAllAudios(names: any) {
+  analyzeAllAudios() {
+    const names = this.audios.map((audio: any) => audio.name);
 
     const data = {
       controlador: 'AudiosController',
       metodo: 'analyzarPython',
-      'names': names, 
+      names, 
       'type': 'masivo'
     }
 
+    this.startingMasivo = true;
+    this.ejecutandoMasivo = true;
+    this.analyzingMasivo = true;
+
+    setTimeout(() => {
+      this.getStatusMasivo(names);
+      this.analyzingMasivo = false;
+      this.textoMasivo = true;
+      this.esMasivo = true;
+    }, 5000);
+
     this.cors.post(data).subscribe(
       (res: any) => {
-        if(res.message.includes('recibida y encolada')) {
-          names.forEach((name: any) => {
-            console.log(name);
-            this.updateStatusPendienteMasivo(name.name);
-          });
-
-          setTimeout(() => {
-            this.getStatusMasivo(names);
-            this.analyzingMasivo = false;
-            this.textoMasivo = true;
-            this.esMasivo = true;
-          }, 5000);
+        console.log(res)
+        // if(res.message.includes('recibida y encolada')) {
+        //   names.forEach((name: any) => {
+        //     console.log(name);
+        //     this.updateStatusPendienteMasivo(name.name);
+        //   });
 
 
-        } else {
-          console.log('Falló al asignar la tarea')
 
-        }
+
+        // } else {
+        //   console.log('Falló al asignar la tarea')
+
+        // }
       },
       (error: any) => {
         console.log('Sin respuesta del bot')
@@ -729,49 +740,50 @@ export class AnalizarComponent implements OnInit {
     )
   }
 
-  setMasivo() {
-    const owner = 'izzi';
+  // setMasivo() {
+  //   const owner = 'izzi';
 
-    const data = {
-      controlador: 'AudiosController',
-      metodo: 'updateMasivo',
-      owner: owner, 
-      audios: this.audios
-    }
+  //   const data = {
+  //     controlador: 'AudiosController',
+  //     metodo: 'updateMasivo',
+  //     owner: owner, 
+  //     audios: this.audios
+  //   }
 
-    this.cors.post(data).subscribe(
-      (res:any) => {
-        if(res.status) {
-          this.analizaMasivo();
-        }
-      },
-      (err: any) => {
-        console.log(err)
-      }
-    )
-  }
+  //   this.cors.post(data).subscribe(
+  //     (res:any) => {
+  //       if(res.status) {
+  //         this.analizaMasivo();
+  //       }
+  //     },
+  //     (err: any) => {
+  //       console.log(err)
+  //     }
+  //   )
+  // }
 
-  unsetMasivo() {
-    const data = {
-      owner: 'izzi',
-      controlador: 'AudiosController',
-      metodo: 'unsetMasivo'
-    }
+  // unsetMasivo() {
+  //   const data = {
+  //     owner: 'izzi',
+  //     controlador: 'AudiosController',
+  //     metodo: 'unsetMasivo'
+  //   }
 
-    this.cors.post(data).subscribe(
-      (res:any) => {
+  //   this.cors.post(data).subscribe(
+  //     (res:any) => {
 
-      },
-      (err: any) => {
-        console.log(err)
-      }
-    )
-  }
+  //     },
+  //     (err: any) => {
+  //       console.log(err)
+  //     }
+  //   )
+  // }
 
   contadorFuera: number = 0;
 
   checkStatusMasivo(names: any) {
     console.log(names)
+
       const owner = 'izzi';
       let audios: any;
 
@@ -801,27 +813,27 @@ export class AnalizarComponent implements OnInit {
       if( this.contadorFuera != names.length ) {
         setTimeout(() => {
           for(let i = 0 ; i < names.length ; i++) {
-            if(audios[i].status === 'Pendiente') {
-              console.log(`El audio ${audios[i].audio_name} está Pendiente`)
-              this.audios[i].progress = 1;
+            if(audios[i][0].status === 'Pendiente') {
+              console.log(`El audio ${audios[i][0].audio_name} está Pendiente`)
+              this.audios[i].progress = 5;
             }
     
-            if(audios[i].status === 'Transcribiendo') {
-              console.log(`El audio ${audios[i].audio_name} está Transcribiendo`)
+            if(audios[i][0].status === 'Transcrito') {
+              console.log(`El audio ${audios[i][0].audio_name} está Transcribiendo`)
               this.audios[i].progress = 20;
             }
     
-            if(audios[i].status === 'Calificando') {
-              console.log(`El audio ${audios[i].audio_name} está Calificando`)
+            if(audios[i][0].status === 'Calificando') {
+              console.log(`El audio ${audios[i][0].audio_name} está Calificando`)
               this.audios[i].progress = 38;
             }
   
-            if(audios[i].status === 'Contextualizando') {
-              console.log(`El audio ${audios[i].audio_name} está Contextualizando`)
+            if(audios[i][0].status === 'Contextualizando') {
+              console.log(`El audio ${audios[i][0].audio_name} está Contextualizando`)
               this.audios[i].progress = 80;
             }
     
-            if(audios[i].status === 'Completado') {
+            if(audios[i][0].status === 'Completado') {
               contadorCompletados++;
               this.contadorFuera = contadorCompletados;
 
@@ -835,7 +847,7 @@ export class AnalizarComponent implements OnInit {
 
               this.updateAnalyzed(data);
 
-              console.log(`El audio ${audios[i].audio_name} está Completado`)
+              console.log(`El audio ${audios[i][0].audio_name} está Completado`)
 
               if( contadorCompletados === names.length ) {
                 this.showMessage('success', 'Éxito', 'Se han analizado todos los audios');
@@ -844,7 +856,7 @@ export class AnalizarComponent implements OnInit {
               }
             }
 
-            // if( audios[i].status === 'Completado' ) {
+            // if( audios[i][0].status === 'Completado' ) {
             //   console.log('Un audio está con status de error')
             // }
           }
@@ -887,22 +899,30 @@ export class AnalizarComponent implements OnInit {
 
 
   validaMasivo() {
-    Swal.fire({
-      title: '¿Deseas analizar todos los audios?',
-      showDenyButton: true,
-      confirmButtonText: 'Si',
-      denyButtonText: `Cancelar`,
-    }).then((result) => {
-      if (result.isConfirmed ) {
-        this.showMessage('success', '¡Excelente!', 'Se analizarán masivamente')
-        this.setMasivo();
-      }
-      
-      if (result.isDenied) {
-        Swal.fire('Has cancelado', '', 'info');
-        this.masivo = false;
-      }
-    })
+    // this.selectedTipo.code === 0 siginifica que en select se filtra por pendientes
+    if(this.selectedTipo.code === 0 && this.audios.length > 0) {
+      Swal.fire({
+        title: '¿Desea analizar todos los audios?',
+        showDenyButton: true,
+        confirmButtonText: 'Si',
+        denyButtonText: `Cancelar`,
+      }).then((result) => {
+        if (result.isConfirmed ) {
+          this.showMessage('success', '¡Excelente!', 'Se analizarán masivamente')
+          
+          this.analyzeAllAudios();
+        }
+        
+        if (result.isDenied) {
+          Swal.fire('Has cancelado', '', 'info');
+          this.masivo = false;
+        }
+      })
+    } else {
+      this.showMessage('warn', 'Aviso', 'No hay audios disponibles para analizar en este momento');
+    }
+
+    
   }
 
   cargaAutomatica: boolean = true;
