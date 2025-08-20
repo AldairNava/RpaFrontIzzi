@@ -68,7 +68,7 @@ export class SubirbaseSinValidacionComponent implements OnInit {
                 for (let i = 0; i < this.ExcelData.length; i++) {
                     let status = 'Registro pendiente';
 
-                    if (this.ExcelData[i]['Motivo ajuste'].toUpperCase() !== 'CONVENIO DE COBRANZA' && this.ExcelData[i]['Motivo ajuste'].toUpperCase() !== 'CARGO POR PAGO EXTEMPORANEO') {
+                    if (this.ExcelData[i]['Motivo ajuste'].toUpperCase() !== 'CONVENIO DE COBRANZA' && this.ExcelData[i]['Motivo ajuste'].toUpperCase() !== 'CARGO POR PAGO EXTEMPORANEO' && this.ExcelData[i]['Motivo ajuste'].toUpperCase() !== 'AJUSTE POR PROMOCIONES') {
                         status = 'Error Base Motivo ajuste incorrecto';
                     }
                     if (!regex.test(this.ExcelData[i]['Comentario ajuste'])) {

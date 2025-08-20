@@ -75,61 +75,61 @@ export class ReportesIzziDashComponent implements OnInit {
         if(this.formReporte.value.tipoReporte =='Ajustes (Cobranza y Late fee)'){
           console.log("Ajustes (Cobranza y Late fee)")
           url = `ReportesIzzi/getReporteAjustesCasoNegocioCobranza`;
-          para =`fecha1=${fechaini}&fecha2=${fechafin}`;
+          para =`fecha1=${fechaini}&fecha2=${fechafin}&remitente=RPA`;
           nomArchivo="Reporte_Ajustes_Cobranza_Late_Fee"
           // console.log(`${url}?${para}`)
         }else if(this.formReporte.value.tipoReporte =='Depuracion OS'){
           console.log("Depuracion OS")
           url = `ReportesIzzi/getReporteDepuracionOS`;
-          para =`fecha1=${fechaini}&fecha2=${fechafin}`
+          para =`fecha1=${fechaini}&fecha2=${fechafin}&remitente=RPA`
           nomArchivo="Reporte_Depuracion_OS"
           // console.log(`${url}?${para}`)
         }else if(this.formReporte.value.tipoReporte =='NotDone'){
           console.log("NotDone")
           url = `ReportesIzzi/getReporteAjustesNotDone`;
-          para =`fecha1=${fechaini}&fecha2=${fechafin}`
+          para =`fecha1=${fechaini}&fecha2=${fechafin}&remitente=RPA`
           nomArchivo="Reporte_NotDone"
           // console.log(`${url}?${para}`)
         }
         // else if(this.formReporte.value.tipoReporte =='Ajustes Sucursales'){
         //   console.log("Ajustes Sucursales")
         //   url = `ReportesIzzi/getReporteAjustesCambioServicios`;
-        //   para =`fecha1=${fechaini}&fecha2=${fechafin}`
+        //   para =`fecha1=${fechaini}&fecha2=${fechafin}&remitente=RPA`
         //   nomArchivo="Reporte_Ajustes_Sucursales"
         //   // console.log(`${url}?${para}`)
         // }
         else if(this.formReporte.value.tipoReporte =='Ajustes Sin Validacion'){
           console.log("Ajustes Sin Validacion")
           url = `ReportesIzzi/getReporteAjustesCasoNegocioCobranzaSinValidacion`;
-          para =`fecha1=${fechaini}&fecha2=${fechafin}`
+          para =`fecha1=${fechaini}&fecha2=${fechafin}&remitente=RPA`
           nomArchivo="Reporte_Ajustes_CN_Cobranza_SinValidacion"
           // console.log(`${url}?${para}`)
         }else if(this.formReporte.value.tipoReporte =='NotDone Sin Validacion'){
           console.log("NotDone Sin Validacion")
           url = `ReportesIzzi/getReporteAjustesNotDoneSinValidacion`;
-          para =`fecha1=${fechaini}&fecha2=${fechafin}`
+          para =`fecha1=${fechaini}&fecha2=${fechafin}&remitente=RPA`
           nomArchivo="Reporte_NotDone_SinValidacion"
           // console.log(`${url}?${para}`)
         }else if(this.formReporte.value.tipoReporte =='Creacion OS'){
           url = `ReportesIzzi/getReporteCreacionOrden`;
-          para =`fecha1=${fechaini}&fecha2=${fechafin}`
+          para =`fecha1=${fechaini}&fecha2=${fechafin}&remitente=RPA`
           nomArchivo="Reporte_Creacion_OS"
         }else if(this.formReporte.value.tipoReporte =='Orden Call Trouble'){
           url = `ReportesIzzi/ReporteOrdenesCallTrouble`;
-          para =`fecha1=${fechaini}&fecha2=${fechafin}`
+          para =`fecha1=${fechaini}&fecha2=${fechafin}&remitente=RPA`
           nomArchivo="Reporte_Ordenes_Call_Trouble"
         }else if(this.formReporte.value.tipoReporte =='Ok Cliente'){
           url = `ReportesIzzi/ReporteOkCliente`;
-          para =`fecha1=${fechaini}&fecha2=${fechafin}`
+          para =`fecha1=${fechaini}&fecha2=${fechafin}&remitente=RPA`
           nomArchivo="Reporte_Ok-Cleinte"
         }else if(this.formReporte.value.tipoReporte =='Creacion CNs'){
           url = `ReportesIzzi/ReporteCreacionCNs`;
-          para =`fecha1=${fechaini}&fecha2=${fechafin}`
+          para =`fecha1=${fechaini}&fecha2=${fechafin}&remitente=RPA`
           nomArchivo="Reporte_CReacion_CNs"
         }
         // else if(this.formReporte.value.tipoReporte =='Retencion 0'){
         //   url = `ReportesIzzi/ReporteRetencion0`;
-        //   para =`fecha1=${fechaini}&fecha2=${fechafin}`
+        //   para =`fecha1=${fechaini}&fecha2=${fechafin}&remitente=RPA`
         //   nomArchivo="Reporte_Retencion_0"
         // }
         try {

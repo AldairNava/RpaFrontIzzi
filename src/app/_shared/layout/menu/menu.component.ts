@@ -34,7 +34,7 @@ export class MenuComponent implements OnInit {
           routerLink: ['/administracion/reportes'],
         },
         {
-        label: 'Reporceso',
+        label: 'Reproceso',
         icon: 'pi pi-fw pi-sync',
           routerLink: ['/administracion/reporcesos'],
         },
@@ -437,7 +437,7 @@ export class MenuComponent implements OnInit {
       "eBarrera":['extraccion','home','ajustes','notDone','depuracion','reporteFidelizacion','administracion','robots','okCliente'],
       "testReportes":['home','administracion'],
       "ACS":['home','ajustesCambioServicioRetencion'],
-      "recuperadores":['home','limpieza','AgenciasExternas'],
+      "recuperadores":['home','limpieza','AgenciasExternas','administracion'],
     }
     this.model = [];
     let usuarioInfo = JSON.parse(localStorage.getItem("userData") || "{}")

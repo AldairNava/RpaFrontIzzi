@@ -26,7 +26,7 @@ export class AuthGuard implements CanActivate {
     "eBarrera":['extraccion','izzi-rpacx','ajustes','notDone','depuracion','reporteFidelizacion','administracion','robots','okcliente'],
     "testReportes":['izzi-rpacx','administracion'],
     "ACS":['izzi-rpacx','ajustesCambioServicioRetencion'],
-    "recuperadores":['izzi-rpacx','limpieza','AgenciasExternas'],
+    "recuperadores":['izzi-rpacx','limpieza','AgenciasExternas','administracion'],
     }
     console.log("aca", route.url[0].path);
     
