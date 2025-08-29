@@ -136,12 +136,10 @@ export class ReportesIzziDashComponent implements OnInit {
           const headers = new HttpHeaders({
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': 'https://rpabackizzi.azurewebsites.net/',
-            // 'Access-Control-Allow-Origin': 'https://localhost:7198/',
             'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
             'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
           });
           const response: any = await this.httpClient.get(`https://rpabackizzi.azurewebsites.net/${url}?${para}`, {
-          // const response: any = await this.httpClient.get(`https://localhost:7198/${url}?${para}`, {
           headers:headers,  
           responseType: 'arraybuffer',
             observe: 'response'

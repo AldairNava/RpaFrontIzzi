@@ -7,20 +7,26 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SafeUrlPipe } from './safeUrl.pipe';
 import { ReprocesosComponent } from './reprocesos/reprocesos.component';
 import { SelectButtonModule } from 'primeng/selectbutton';
-import { FileUploadModule } from 'primeng/fileupload';  
+import { FileUploadModule } from 'primeng/fileupload';
+import { UsuariosCXComponent } from './usuarios-cx/usuarios-cx.component';
+import { RolesComponent } from './roles/roles.component';  
+import { ListboxModule } from 'primeng/listbox';
 
 
 @NgModule({
   declarations: [
     ReportesIzziDashComponent,
     SafeUrlPipe,
-    ReprocesosComponent
+    ReprocesosComponent,
+    UsuariosCXComponent,
+    RolesComponent
   ],
   imports: [
     CommonModule,
     ReportesIzziRoutingModule,
     SharedModule,
     FormsModule,
+    ListboxModule,
     ReactiveFormsModule,
     SelectButtonModule,
     FileUploadModule,

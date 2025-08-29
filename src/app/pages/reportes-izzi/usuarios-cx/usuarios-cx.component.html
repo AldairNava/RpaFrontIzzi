@@ -1,0 +1,157 @@
+<p>usuarios-cx works!</p>
+<div class="col-12">
+    <div class="card">
+        <h5>Robots de Limpieza </h5>
+        <p-table #dt1 [value]="dataSource" dataKey="id" [rows]="50" [loading]="loading" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
+            styleClass="p-datatable-gridlines" [paginator]="true"
+            [globalFilterFields]="['hostName','ipEquipo']" responsiveLayout="scroll">
+            <ng-template pTemplate="caption">
+                <div class="flex justify-content-between flex-column sm:flex-row">
+
+                    <span class="p-input-icon-left mb-2">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Buscar"
+                            class="w-full" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>
+                        <div class="flex justify-content-center align-items-center">
+                            Nombre
+
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-center align-items-center">
+                            Tiempo de Expiración
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-center align-items-center">
+                            IP
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-center align-items-center">
+                            Proceso asignado
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-center align-items-center">
+                            Enviar comando
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-center align-items-center">
+                            Estatus
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex justify-content-center align-items-center">
+                            Acciones
+                        </div>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr *ngIf="i === 0">
+                    <td>
+                        {{item.hostName}}
+                    </td>
+                    <td>
+                       <strong *ngIf="getDays(item.procesoFechaActualizacion) <= 5" style="color:red">  {{getDays(item.procesoFechaActualizacion)}}</strong> <strong *ngIf="getDays(item.procesoFechaActualizacion) > 5">{{getDays(item.procesoFechaActualizacion)}}</strong> dias
+                    </td>
+                    <td>
+                        {{ item.ip }}
+                     </td> 
+                    <td>
+                        <p-dropdown optionLabel="name_process" optionValue="id" appendTo="body" [options]="processArr1"
+                            [disabled]="item.sendingComand == true || item.sendingProcess ==true"
+                            [(ngModel)]="item.procesoBotId" [showClear]="false" placeholder="Seleccione un processo"
+                            (onChange)="preguntarCambiarProceso($event.value,item)">
+                        </p-dropdown>
+                        <p-progressSpinner [style]="{width: '30px', height: '30px'}" *ngIf="item.sendingProcess">
+                        </p-progressSpinner>
+                    </td>
+                    <td>
+                        <p-dropdown optionLabel="desc" optionValue="id" appendTo="body" [options]="commadArr"
+                            [disabled]="item.sendingComand == true || item.sendingProcess ==true" 
+                            [showClear]="false" placeholder="Seleccione un comando"
+                            (onChange)="preguntarEnviar($event.value,item)">
+                        </p-dropdown>
+                        <p-progressSpinner [style]="{width: '20px', height: '20px'}" *ngIf="item.sendingComand">
+                        </p-progressSpinner>
+
+                    </td>
+                    <td>
+                        <p-tag *ngIf="item.botEstado == undefined || item.botEstado == null || item.botEstado == '0'" severity="danger" value="Detenido"></p-tag>
+                        <p-tag *ngIf="item.botEstado == '1'" severity="success" value="Trabajando"></p-tag>
+                        <p-tag *ngIf="item.botEstado == '3'" severity="danger" value="No Conectado"></p-tag>
+
+                    </td>
+                    <td>
+                        <p-splitButton label="Acciones" [model]="items" styleClass="p-button-text mr-2 mb-2"
+                          appendTo="body" (onDropdownClick)="selection(item)"></p-splitButton>
+                      </td>
+                      
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">Sin datos encontrados.</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="loadingbody">
+                <tr>
+                    <td colspan="7">Cargando robots, espere...</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="paginatorleft" let-state>
+                Mostrando {{(state.page  * state.rows) + 1}} a {{state.rows * (state.page + 1)}} de {{state.totalRecords}} registros.
+          </ng-template>
+        </p-table>
+    </div>
+    <p-toast key="tst" [baseZIndex]="99999"></p-toast>
+    <p-confirmDialog header="Enviar comando" key="senCommand" icon="pi pi-exclamation-triangle" acceptLabel="Si, Enviar"
+        rejectLabel="Cancelar" [style]="{width: '350px'}" acceptButtonStyleClass="p-button-text"
+        rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+
+        <p-dialog header="Seleccionar usuario a editar" [(visible)]="displayUserSelectionDialog" [modal]="true" [style]="{width: '50vw'}">
+            <p-listbox [options]="processArr" [(ngModel)]="selectedUser" optionLabel="name_usuario" style="width:100%">
+                <ng-template let-user pTemplate="item">
+                    <div class="p-clearfix">
+                        <div style="font-size:1em;float:right;margin-top:15px">{{user.name_usuario}}</div>
+                    </div>
+                </ng-template>
+            </p-listbox>
+            <p-footer>
+                <button type="button" pButton icon="pi pi-check" (click)="onUserSelectedFromButton()" label="Seleccionar"></button>
+            </p-footer>
+        </p-dialog>
+                
+    <p-confirmDialog header="Cambiar proceso" key="changeProcess" icon="pi pi-exclamation-triangle"
+        acceptLabel="Si, Cambiar" rejectLabel="Cancelar" [style]="{width: '350px'}"
+        acceptButtonStyleClass="p-button-text" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+    <p-confirmDialog header="Eliminar Robot" key="deleteBot" icon="pi pi-exclamation-triangle"
+        acceptLabel="Si, Eliminar" rejectLabel="Cancelar" [style]="{width: '350px'}"
+        acceptButtonStyleClass="p-button-danger" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+    <p-dialog [header]="'Log de Robot '+opcionToAction.hostName +'('  + opcionToAction.ipEquipo+')'"
+        [(visible)]="displayLogDialog" [modal]="true" showEffect="fade" [style]="{width: '30vw'}"
+        [breakpoints]="{'960px': '75vw'}">
+
+        <p *ngIf="loadingLog">
+            Buscando Log ...
+        </p>
+        <p *ngIf="loadingLog">
+            <p-progressSpinner [style]="{width: '20px', height: '20px'}"></p-progressSpinner>
+        </p>
+        <ng-template pTemplate="footer">
+            <button pButton icon="pi pi-check" (click)="displayLogDialog=false" label="Cerrar"
+                class="p-button-outlined"></button>
+        </ng-template>
+    </p-dialog>
+
+</div>

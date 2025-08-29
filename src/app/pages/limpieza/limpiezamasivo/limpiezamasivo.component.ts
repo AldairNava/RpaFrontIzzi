@@ -98,75 +98,71 @@ button:boolean=true;
   
     }
 
-    readExcellimpieza(event: any) {
-      let fileInput = event.target;  // Guardamos la referencia del input
-      let file = fileInput.files[0];
-      let ultimo = file.name.split('.');
-      console.log('Inicio de la lectura del archivo:', file.name);
-  
-      if (ultimo[ultimo.length - 1] != 'xlsx') {
-          this.messageService.add({
-              key: 'tst',
-              severity: 'error',
-              summary: 'La extensión del archivo es incorrecta',
-              detail: 'Ingresa un archivo con extensión XLSX!!',
-          });
-          console.log('Error: La extensión del archivo es incorrecta');
-          fileInput.value = '';  // Limpiar el input de archivo
-      } else if (ultimo[ultimo.length - 1] == 'xlsx') {
-          let fileReader = new FileReader();
-          fileReader.readAsBinaryString(file);
-          fileReader.onload = (e) => {
-              var workBook = XLSX.read(fileReader.result, { type: 'binary', cellDates: true });
-              var sheetNames = workBook.SheetNames;
-              this.ExcelData = XLSX.utils.sheet_to_json(workBook.Sheets[sheetNames[0]], { defval: '' });
-              console.log('Lectura del archivo completada con éxito');
-              console.log('Datos leídos del archivo:', this.ExcelData);
-  
-              // Verificar que las columnas 'Serie' y 'PUNTO DE INVENTARIO' estén presentes
-              let keys = Object.keys(this.ExcelData[0]);
-              let columnasRequeridas = ['SERIE', 'PUNTO DE INVENTARIO'];
-              let columnasFaltantes = columnasRequeridas.filter(columna => !keys.includes(columna));
-  
-              // Si hay columnas faltantes, mostrar error y no insertar el archivo
-              if (columnasFaltantes.length > 0) {
-                  this.messageService.add({
-                      key: 'tst',
-                      severity: 'error',
-                      summary: 'Error',
-                      detail: `Columna no encontrada: ${columnasFaltantes.join(', ')}!!!`,
-                  });
-                  console.log(`Error: Columna no encontrada: ${columnasFaltantes.join(', ')}!!!`);
-                  
-                  // Limpiar los datos ya cargados
-                  this.ExcelData = [];
-                  fileInput.value = '';  // Limpiar el input de archivo
-              } else {
-                  // Mostrar los datos que se van a insertar en la consola antes de procesar
-                  console.log('Datos que se van a insertar:', this.ExcelData);
-  
-                  Object.keys(this.ExcelData).forEach(key => {
-                      this.ExcelData[key]['SERIE'] = this.ExcelData[key]['SERIE'] || '';
-                      this.ExcelData[key]['PUNTO DE INVENTARIO'] = this.ExcelData[key]['PUNTO DE INVENTARIO'] || '';
-                  });
-  
-                  this.messageService.add({
-                      key: 'tst',
-                      severity: 'success',
-                      summary: 'Éxito!!!',
-                      detail: 'El archivo se ha cargado completamente!!!',
-                  });
-                  console.log('Archivo procesado correctamente');
-                  this.button = false;
-                  this.tabla = true;
-              }
-          };
-      }
-  }  
+   readExcellimpieza(event: any) {
+    let fileInput = event.target;
+    let file = fileInput.files[0];
+    let ultimo = file.name.split('.');
+    console.log('Inicio de la lectura del archivo:', file.name);
+
+    if (ultimo[ultimo.length - 1] != 'xlsx') {
+        this.messageService.add({
+            key: 'tst',
+            severity: 'error',
+            summary: 'La extensión del archivo es incorrecta',
+            detail: 'Ingresa un archivo con extensión XLSX!!',
+        });
+        console.log('Error: La extensión del archivo es incorrecta');
+        fileInput.value = '';
+    } else if (ultimo[ultimo.length - 1] == 'xlsx') {
+        let fileReader = new FileReader();
+        fileReader.readAsBinaryString(file);
+        fileReader.onload = (e) => {
+            var workBook = XLSX.read(fileReader.result, { type: 'binary', cellDates: true });
+            var sheetNames = workBook.SheetNames;
+            let rawData = XLSX.utils.sheet_to_json(workBook.Sheets[sheetNames[0]], { defval: '' }) as any[];
+            console.log('Lectura del archivo completada con éxito');
+            console.log('Datos leídos del archivo:', rawData);
+
+            let keys = Object.keys(rawData[0]);
+            let columnasRequeridas = ['SERIE', 'PUNTO DE INVENTARIO'];
+            let columnasFaltantes = columnasRequeridas.filter(columna => !keys.includes(columna));
+
+            if (columnasFaltantes.length > 0) {
+                this.messageService.add({
+                    key: 'tst',
+                    severity: 'error',
+                    summary: 'Error',
+                    detail: `Columna no encontrada: ${columnasFaltantes.join(', ')}!!!`,
+                });
+                console.log(`Error: Columna no encontrada: ${columnasFaltantes.join(', ')}!!!`);
+                this.ExcelData = [];
+                fileInput.value = '';
+            } else {
+                // Mapear los datos para enviar solo los campos requeridos (serie, puntoInventario)
+                this.ExcelData = rawData.map(item => ({
+                    serie: item['SERIE'] !== undefined && item['SERIE'] !== null ? String(item['SERIE']) : '',
+                    puntoInventario: item['PUNTO DE INVENTARIO'] !== undefined && item['PUNTO DE INVENTARIO'] !== null ? String(item['PUNTO DE INVENTARIO']) : ''
+                }));
+
+                this.messageService.add({
+                    key: 'tst',
+                    severity: 'success',
+                    summary: 'Éxito!!!',
+                    detail: 'El archivo se ha cargado completamente!!!',
+                });
+                console.log('Archivo procesado correctamente');
+                this.button = false;
+                this.tabla = true;
+            }
+        };
+    }
+}
+
+
   
 
   guardar(){
-    console.log(true)
+    console.log("Imprimiendo datos",this.ExcelData)
     this.spinner=true;
     this.cors.post('Bots/InsertarExcelSeriesMasivo',this.ExcelData).then((response) => {
       this.spinner=false;
