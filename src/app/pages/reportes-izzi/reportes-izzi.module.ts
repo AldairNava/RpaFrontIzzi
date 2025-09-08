@@ -8,10 +8,15 @@ import { SafeUrlPipe } from './safeUrl.pipe';
 import { ReprocesosComponent } from './reprocesos/reprocesos.component';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { FileUploadModule } from 'primeng/fileupload';
+import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { UsuariosCXComponent } from './usuarios-cx/usuarios-cx.component';
 import { RolesComponent } from './roles/roles.component';  
 import { ListboxModule } from 'primeng/listbox';
-
+import { environment } from 'environments/environment.prod';
+import { SocketIoService } from 'app/_services/socketio.service';
+const config: SocketIoConfig = { url: environment.SCOCKET_URL };
+  
 
 @NgModule({
   declarations: [
@@ -28,9 +33,12 @@ import { ListboxModule } from 'primeng/listbox';
     FormsModule,
     ListboxModule,
     ReactiveFormsModule,
+    SocketIoModule.forRoot(config),
     SelectButtonModule,
-    FileUploadModule,
-
-  ]
+    FileUploadModule
+  ],
+   providers: [
+      SocketIoService,ConfirmationService,MessageService
+    ]
 })
 export class ReportesIzziModule { }

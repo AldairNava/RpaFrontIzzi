@@ -17,6 +17,7 @@ export class AuthGuard implements CanActivate {
     "administrador":['extraccion','izzi-rpacx','ajustes','notDone','depuracion','limpieza','reporteFidelizacion','administracion','ajustesCambioServicioRetencion','robots','ordenes','okcliente','AgenciasExternas'],
     "admin-ajustesSucursales":['izzi-rpacx','ajustesCambioServicioRetencion','ordenes','AgenciasExternas'],
     "admin-rpacx":['extraccion','izzi-rpacx','ajustes','notDone','depuracion','administracion','robots','okcliente'],
+    "admin-recuperadores":['home','limpieza','administracion','reporteFidelizacion','ordenes'],
     "Reporte":['izzi-rpacx','reporteFidelizacion'],
     "Extraccion":['izzi-rpacx','extraccion'],
     "Depuracion":['izzi-rpacx','depuracion','administracion'],

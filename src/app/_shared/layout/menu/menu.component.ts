@@ -14,7 +14,6 @@ export class MenuComponent implements OnInit {
       label: 'Cyber Room',
       key: "home",
       icon: 'pi pi-home',
-    //   routerLink: ['/dashboard'],
       items: [
         {
           label: 'Dashboard',
@@ -37,6 +36,11 @@ export class MenuComponent implements OnInit {
         label: 'Reproceso',
         icon: 'pi pi-fw pi-sync',
           routerLink: ['/administracion/reporcesos'],
+        },
+        {
+        label: 'Usuarios',
+        icon: 'pi pi-fw pi-user',
+          routerLink: ['/administracion/usuarios'],
         },
       ]
       },
@@ -426,8 +430,9 @@ export class MenuComponent implements OnInit {
 
     let permisos: any = {
       "administrador":['extraccion','home','ajustes','notDone','depuracion','reporteFidelizacion','limpieza','administracion','ajustesCambioServicioRetencion','robots','ordenes','AgenciasExternas','okCliente'],
-      "admin-ajustesSucursales":['home','limpieza','ajustesCambioServicioRetencion','AgenciasExternas','ordenes','okCliente'],
+      "admin-ajustesSucursales":['home','ajustesCambioServicioRetencion','AgenciasExternas'],
       "admin-rpacx":['extraccion','home','ajustes','notDone','depuracion','administracion','robots','okCliente'],
+      "admin-recuperadores":['home','limpieza','administracion','reporteFidelizacion','ordenes'],
       "Reporte":['home','reporteFidelizacion'],
       "Extraccion":['home','extraccion'],
       "Depuracion":['home','depuracion','administracion'],

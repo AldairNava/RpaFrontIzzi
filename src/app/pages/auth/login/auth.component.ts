@@ -59,7 +59,6 @@ export class AuthComponent {
                 || (this.formLogin.value.email =='oavila' && this.formLogin.value.pWd =='oavila_2024')
                 || (this.formLogin.value.email =='mvillalobos' && this.formLogin.value.pWd =='mvillalobos_2024')
                 || (this.formLogin.value.email =='CSuarez' && this.formLogin.value.pWd =='CSuarez_2025')
-                || (this.formLogin.value.email =='CSuarez' && this.formLogin.value.pWd =='CSuarez_2025')
                 || (this.formLogin.value.email =='dmartinezf' && this.formLogin.value.pWd =='dmartinezf_2025')){
                 let a=null;
                 if(this.formLogin.value.email =='administrador'){

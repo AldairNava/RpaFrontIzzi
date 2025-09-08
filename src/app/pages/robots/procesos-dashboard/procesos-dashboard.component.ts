@@ -69,11 +69,10 @@ export class ProcesosDashboardComponent implements OnInit {
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
-  selection(item: any, index: any) {
-    this.opcionToAction = item;
-    // console.log(this.opcionToAction)
-    this.opcionIndex = index;
-  }
+    selection(item: any, index: any) {
+      this.opcionToAction = item;
+      this.opcionIndex = index;
+    }
 
   deleteMAquina() {
     console.log(this.opcionToAction)

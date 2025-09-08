@@ -19,8 +19,8 @@ const routes: Routes = [
 		children: [{ path: '', component: ReprocesosComponent }],
 	},
 	{
-		path: 'usuarioscx',
-		data: { breadcrumb: 'Usuarios RPA CX'},
+		path: 'usuarios',
+		data: { breadcrumb: 'Usuarios'},
 		component: LayoutComponent,
 		children: [{ path: '', component: UsuariosCXComponent }],
 	},
