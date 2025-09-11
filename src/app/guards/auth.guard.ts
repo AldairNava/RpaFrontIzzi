@@ -1,48 +1,60 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  Router,
+  UrlTree
+} from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+import { environment } from '../../../src/environments/environment';
+
+@Injectable({ providedIn: 'root' })
+export class PermisoService {
+  
+  private baseUrl = `${environment.API_URL}User`;
+
+  constructor(private http: HttpClient) {}
+
+  obtenerPermisos(role: string): Observable<string[]> {
+    return this.http.get<string[]>(`${this.baseUrl}/permisos/${role}`);
+  }
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  constructor(private router: Router,) { }
+  constructor(
+    private router: Router,
+    private permisoService: PermisoService
+  ) {}
+
   canActivate(
+    route: ActivatedRouteSnapshot
+  ): Observable<boolean | UrlTree> {
+    const path = route.url[0]?.path;
+    const usuarioInfo = JSON.parse(sessionStorage.getItem('user') || '{}');
+    console.log(usuarioInfo);
 
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-
-
-    let permisos: any = {
-    "administrador":['extraccion','izzi-rpacx','ajustes','notDone','depuracion','limpieza','reporteFidelizacion','administracion','ajustesCambioServicioRetencion','robots','ordenes','okcliente','AgenciasExternas'],
-    "admin-ajustesSucursales":['izzi-rpacx','ajustesCambioServicioRetencion','ordenes','AgenciasExternas'],
-    "admin-rpacx":['extraccion','izzi-rpacx','ajustes','notDone','depuracion','administracion','robots','okcliente'],
-    "admin-recuperadores":['home','limpieza','administracion','reporteFidelizacion','ordenes'],
-    "Reporte":['izzi-rpacx','reporteFidelizacion'],
-    "Extraccion":['izzi-rpacx','extraccion'],
-    "Depuracion":['izzi-rpacx','depuracion','administracion'],
-    "Ajustes":['izzi-rpacx','ajustesCambioServicioRetencion','administracion'],
-    "AjustesNotDone":['izzi-rpacx','notDone','administracion'],
-    "testAjustes1":['izzi-rpacx','ajustes','administracion'],
-    "eBarrera":['extraccion','izzi-rpacx','ajustes','notDone','depuracion','reporteFidelizacion','administracion','robots','okcliente'],
-    "testReportes":['izzi-rpacx','administracion'],
-    "ACS":['izzi-rpacx','ajustesCambioServicioRetencion'],
-    "recuperadores":['izzi-rpacx','limpieza','AgenciasExternas','administracion'],
-    }
-    console.log("aca", route.url[0].path);
-    
-    let usuarioInfo = JSON.parse(localStorage.getItem("userData") || "{}")
-	console.log("rol",route.url[0].path);
-
-    if (usuarioInfo?.role) {
-
-      if (permisos[usuarioInfo?.role].includes(route.url[0].path)) { return true }
+    if (!usuarioInfo?.Role) {
+      this.router.navigate(['/403'], { skipLocationChange: true });
+      return of(false);
     }
 
-    
-
-    this.router.navigate(['/403'], { skipLocationChange: true });
-    return false;
+    return this.permisoService.obtenerPermisos(usuarioInfo.Role).pipe(
+      map((permisos: string[]) => {
+        if (permisos.includes(path)) {
+          return true;
+        }
+        this.router.navigate(['/403'], { skipLocationChange: true });
+        return false;
+      }),
+      catchError(() => {
+        this.router.navigate(['/403'], { skipLocationChange: true });
+        return of(false);
+      })
+    );
   }
-
 }

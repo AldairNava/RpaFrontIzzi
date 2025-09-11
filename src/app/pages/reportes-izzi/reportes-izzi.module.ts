@@ -41,4 +41,5 @@ const config: SocketIoConfig = { url: environment.SCOCKET_URL };
       SocketIoService,ConfirmationService,MessageService
     ]
 })
+
 export class ReportesIzziModule { }

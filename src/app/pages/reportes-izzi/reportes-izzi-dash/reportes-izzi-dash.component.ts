@@ -40,15 +40,6 @@ export class ReportesIzziDashComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTipoReporte();
-
-  //   const user = JSON.parse(localStorage.getItem('userData') || '{}');
-  //   if (user?.role === 'administrador') {
-  //     this.reportesFiltrados = this.reportes;
-  //   } else if (user?.role === 'recuperadores') {
-  //     this.reportesFiltrados = this.reportes.filter((r: any) => r.nombreReporte === 'Creacion CNs');
-  //   } else {
-  //     this.reportesFiltrados = [];
-  // }
   }
   
   confirm2(event: Event) {
@@ -178,38 +169,45 @@ export class ReportesIzziDashComponent implements OnInit {
       this.reportesFiltrados = [];
     } else {
       this.reportes = response;
-      const user = JSON.parse(localStorage.getItem('userData') || '{}');
-      switch (user?.role) {
+      const user = JSON.parse(sessionStorage.getItem('user') || '{}');
+      switch (user?.Role) {
         case 'administrador':
-        case 'eBarrera':
-        case 'testReportes':
-        case 'admin-rpacx':
           this.reportesFiltrados = this.reportes;
           break;
-        case 'Depuracion':
+        case 'admin-cx':
+        case 'reportes-cx':
+          this.reportesFiltrados = this.reportes.filter((r: any) =>
+            r.nombreReporte === 'Orden Call Trouble'
+          || r.nombreReporte === 'Ajustes (Cobranza y Late fee)'
+          || r.nombreReporte === 'NotDone'
+          || r.nombreReporte === 'Depuracion OS'
+          || r.nombreReporte === 'Ajustes Sin Validacion'
+          || r.nombreReporte === 'NotDone Sin Validacion'
+          || r.nombreReporte === 'Ok Cliente'
+          );
+          break;
+        case 'depuracion-cx':
           this.reportesFiltrados = this.reportes.filter((r: any) => r.nombreReporte === 'Depuracion OS');
           break;
-        case 'Ajustes':
+          case 'okCliente-cx':
+          this.reportesFiltrados = this.reportes.filter((r: any) => r.nombreReporte === 'Ok Cliente');
+          break;
+        case 'notDone-cx':
+          this.reportesFiltrados = this.reportes.filter((r: any) => r.nombreReporte === 'NotDone' || r.nombreReporte === 'NotDone Sin Validacion');
+          break;
+          case 'ordenes-cx':
           this.reportesFiltrados = this.reportes.filter((r: any) =>
-            r.nombreReporte === 'Retencion 0' || r.nombreReporte === 'Ajustes Sucursales'
+            r.nombreReporte === 'Orden Call Trouble'
+          || r.nombreReporte === 'Creacion OS'
           );
           break;
-        case 'AjustesNotDone':
-          this.reportesFiltrados = this.reportes.filter((r: any) =>
-            r.nombreReporte === 'Ajustes (Cobranza y Late fee)' || r.nombreReporte === 'Ajustes Sin Validacion'
-          || r.nombreReporte === 'NotDone' || r.nombreReporte === 'NotDone Sin Validacion'
-          );
-          break;
-        case 'testAjustes1':
+        case 'ajustes-cx':
           this.reportesFiltrados = this.reportes.filter((r: any) =>
             r.nombreReporte === 'Ajustes (Cobranza y Late fee)' || r.nombreReporte === 'Creacion OS'
             || r.nombreReporte === 'Ajustes Sin Validacion'
           );
           break;
-        case 'ACS':
-          this.reportesFiltrados = this.reportes.filter((r: any) => r.nombreReporte === 'Retencion 0');
-          break;
-        case 'recuperadores':
+        case 'admin-limpieza':
           this.reportesFiltrados = this.reportes.filter((r: any) => r.nombreReporte === 'Creacion CNs');
           break;
         default:

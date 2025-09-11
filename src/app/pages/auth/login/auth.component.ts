@@ -31,7 +31,7 @@ export class AuthComponent {
         if (storedUser) {
             const user = JSON.parse(storedUser);
             console.log('Usuario restaurado:', user);
-            this.router.navigate(['/izzi-rpacx']);
+            this.router.navigate(['/home']);
         }
     }
     
@@ -215,7 +215,7 @@ export class AuthComponent {
                 }
                 
                 localStorage.setItem( "userData",JSON.stringify(a))   
-                this.router.navigate(['/izzi-rpacx']);
+                this.router.navigate(['/home']);
     
             }else{
                 this.messageService.add({

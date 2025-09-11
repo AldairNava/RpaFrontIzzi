@@ -9,4 +9,8 @@
       </div>
     </div>
   </div>
-  
+  <div *ngIf="staff === 'wincallmx'" class="selector__staff">
+  <p>Selecciona tu destino:</p>
+  <button (click)="goTo('/mariana')">Ir a Mariana</button>
+  <button (click)="goTo('/home')">Ir a CX</button>
+</div>

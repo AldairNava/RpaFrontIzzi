@@ -48,11 +48,11 @@ export class UsuariosCXComponent implements OnInit {
       { label: 'ACS', value: 'ACS' },
       { label: 'recuperadores', value: 'recuperadores' }
   ];
-  usuarioActual: any = JSON.parse(localStorage.getItem("userData") || "{}");
+  usuarioActual: any = JSON.parse(sessionStorage.getItem("user") || "{}");
   allowedRoles: string[] = [
     'administrador',
     'admin-ajustesSucursales',
-    'admin-rpacx',
+    'admin-cx',
     'admin-recuperadores'
   ];
 
@@ -88,8 +88,8 @@ export class UsuariosCXComponent implements OnInit {
     this.getAllUsuarios();
   }
   validarPermiso() {
-    const usuario = JSON.parse(localStorage.getItem("userData") || "{}");
-    this.isAdmin = usuario?.role && this.allowedRoles.includes(usuario.role);
+    const usuario = JSON.parse(sessionStorage.getItem("user") || "{}");
+    this.isAdmin = usuario?.Role && this.allowedRoles.includes(usuario.Role);
   }
 
   abrirDialogoEditarUsuario(usuario: any) {
@@ -157,7 +157,7 @@ export class UsuariosCXComponent implements OnInit {
 }
 
   eliminarUsuarioConfirmado() {
-    const usuario = JSON.parse(localStorage.getItem("userData") || "{}");
+    const usuario = JSON.parse(sessionStorage.getItem("user") || "{}");
     if (!usuario?.email) {
         this.message.add({
             key: 'tst',
@@ -205,13 +205,12 @@ export class UsuariosCXComponent implements OnInit {
 }
 
 filtrarPorRol(usuarios: any[]) {
-  const usuario = JSON.parse(localStorage.getItem("userData") || "{}");
-  const role = usuario?.role;
+  const usuario = JSON.parse(sessionStorage.getItem("user") || "{}");
+  const role = usuario?.Role;
 
   if(role === 'administrador') {
-    // El administrador ve todos
     this.dataSource = usuarios;
-  } else if(role === 'admin-rpacx') {
+  } else if(role === 'admin-cx') {
     this.dataSource = usuarios.filter(
       u => u.area === 'rpa-cx' && (u.status === 'Activo' || u.status === 'Desactivado')
     );

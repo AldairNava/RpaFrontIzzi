@@ -4,6 +4,7 @@ import { LayoutComponent } from './../../_shared/layout/layout/layout.component'
 import { ReportesIzziDashComponent } from './reportes-izzi-dash/reportes-izzi-dash.component';
 import { ReprocesosComponent } from './reprocesos/reprocesos.component';
 import { UsuariosCXComponent } from './usuarios-cx/usuarios-cx.component';
+import { RolesComponent } from './roles/roles.component';
 
 const routes: Routes = [
 	{
@@ -23,6 +24,12 @@ const routes: Routes = [
 		data: { breadcrumb: 'Usuarios'},
 		component: LayoutComponent,
 		children: [{ path: '', component: UsuariosCXComponent }],
+	},
+	{
+		path: 'roles',
+		data: { breadcrumb: 'Roles'},
+		component: LayoutComponent,
+		children: [{ path: '', component: RolesComponent }],
 	},
 ];
 

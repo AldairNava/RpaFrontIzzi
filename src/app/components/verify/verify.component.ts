@@ -9,42 +9,53 @@ import { ActivatedRoute, Router } from '@angular/router';
 // verify.component.ts
 // verify.component.ts
 export class VerifyComponent implements OnInit {
-  mode: boolean = true; // Puedes cambiar esto según tu lógica de modo
+  mode: boolean = true;
   loading: boolean = true;
+  staff: string | null = null; // Nuevo campo para controlar la lógica de staff
 
   constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      if (params['user']) {
-        // Caso 1: Datos del usuario recibidos a través de la URL
-        try {
-          const user = decodeURIComponent(params['user']);
-          console.log('Usuario decodificado desde la URL:', user); // Consola de depuración
-          sessionStorage.setItem('user', JSON.stringify({ name: user }));
+      let userData: any;
 
-          // Redirigir al componente principal después de guardar el usuario
-          this.router.navigate(['/mariana']).then(() => {
-            this.loading = false;
-          });
+      if (params['user']) {
+        try {
+          const decoded = decodeURIComponent(params['user']);
+          userData = JSON.parse(decoded); // Asegúrate de que el string sea un JSON válido
+          console.log('Usuario decodificado:', userData);
+          sessionStorage.setItem('user', JSON.stringify(userData));
         } catch (e) {
-          console.error('Error al decodificar o almacenar el usuario:', e);
+          console.error('Error al decodificar el usuario:', e);
           window.location.href = 'https://rpabackizzi.azurewebsites.net/Loginsaml/Login';
+          return;
         }
       } else {
-        // Caso 2: Datos del usuario leídos desde sessionStorage
         const storedUser = sessionStorage.getItem('user');
         if (storedUser) {
-          console.log('Usuario encontrado en sessionStorage:', JSON.parse(storedUser)); // Consola de depuración
-          // Redirigir directamente a mariana si el usuario ya está en sessionStorage
-          this.router.navigate(['/mariana']).then(() => {
-            this.loading = false;
-          });
+          userData = JSON.parse(storedUser);
+          console.log('Usuario desde sessionStorage:', userData);
         } else {
           window.location.href = 'https://rpabackizzi.azurewebsites.net/Loginsaml/Login';
+          return;
         }
+      }
+
+      this.staff = userData?.Staff?.toLowerCase();
+
+      if (this.staff === 'mariana') {
+        this.router.navigate(['/mariana']).then(() => this.loading = false);
+      } else if (this.staff === 'rpacx') {
+        this.router.navigate(['/home']).then(() => this.loading = false);
+      } else if (this.staff === 'wincallmx') {
+        this.loading = false;
+      } else {
+        this.router.navigate(['/403']).then(() => this.loading = false);
       }
     });
   }
-}
 
+  goTo(route: string): void {
+    this.router.navigate([route]);
+  }
+}

@@ -98,14 +98,14 @@ export class ReprocesosComponent implements OnInit {
       };
     });
 
-    const user = JSON.parse(localStorage.getItem('userData') || '{}');
-    this.isAdmin = ['administrador', 'admin-rpacx'].includes(user?.role);
+    let user = JSON.parse(sessionStorage.getItem("user") || "{}")
+    this.isAdmin = ['administrador', 'admin-cx'].includes(user?.Role);
   }
 
   cambiarStatusIndividual() {
   this.displayConfirmCambioStatus = false;
   this.loading = true;
-  const usuario = JSON.parse(localStorage.getItem("userData") || "{}");
+  let usuario = JSON.parse(sessionStorage.getItem("user") || "{}")
   if (!usuario?.email) {
     this.messageService.add({
       key: 'tst',
@@ -276,7 +276,7 @@ onFileChangeStatus(event: any) {
     reprocesarMasivo() {
   this.displayConfirmMasivo = false;
   this.loading = true;
-  const usuario = JSON.parse(localStorage.getItem("userData") || "{}");
+  const usuario = JSON.parse(sessionStorage.getItem("user") || "{}");
   if (!usuario?.email) {
     this.messageService.add({
       key: 'tst',
@@ -329,7 +329,7 @@ onFileChangeStatus(event: any) {
   cambiarStatusMasivo() {
   this.displayConfirmCambioStatusMasivo = false;
   this.loading = true;
-  const usuario = JSON.parse(localStorage.getItem("userData") || "{}");
+  const usuario = JSON.parse(sessionStorage.getItem("user") || "{}");
   if (!usuario?.email) {
     this.messageService.add({
       key: 'tst',
@@ -372,7 +372,7 @@ reprocesarIndividual() {
   this.loading = true;
   if (!this.idIndividual || !this.procesoSeleccionado) return;
 
-  const usuario = JSON.parse(localStorage.getItem("userData") || "{}");
+  const usuario = JSON.parse(sessionStorage.getItem("user") || "{}");
   if (!usuario?.email) {
     this.messageService.add({
       key: 'tst',

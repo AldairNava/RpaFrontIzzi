@@ -1,9 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { LayoutService } from '@services';
 import { CorsService } from '@services';
-import { Message, MessageService } from 'primeng/api';
-import { UntypedFormBuilder,UntypedFormGroup, Validators } from '@angular/forms';
+import {  MessageService } from 'primeng/api';
+import { UntypedFormBuilder,UntypedFormGroup } from '@angular/forms';
 import * as moment from 'moment';
 moment.lang('es');
 import { PrimeNGConfig } from 'primeng/api';
@@ -191,11 +189,11 @@ export class DashboardComponent implements OnInit {
 
         setInterval(() => {
             this.buscarStatsTodos();
-        }, 300000);   
-        
-        const user = JSON.parse(localStorage.getItem('userData') || '{}');
-        this.isAdmin = ['administrador', 'admin-rpacx'].includes(user?.role);
-        this.isAdmin2 = user?.role === 'admin-ajustesSucursales';
+        }, 300000);
+
+        const user = JSON.parse(sessionStorage.getItem('user') || '{}');
+        this.isAdmin = ['administrador', 'admin-cx'].includes(user?.Role);
+        this.isAdmin2 = user?.Role === 'admin-ajustesSucursales';
         this.isUser = !this.isAdmin && !this.isAdmin2;
         this.firstName = user?.firstName || '';
         this.lastName = user?.lastName || '';
