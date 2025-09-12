@@ -53,15 +53,15 @@ export class CasosNegocioSinValidacionComponent implements OnInit {
         var workBook = XLSX.read(fileReader.result,{type:'binary',cellDates:true })
         var sheetNames =  workBook.SheetNames;
         this.ExcelData = XLSX.utils.sheet_to_json(workBook.Sheets[sheetNames[0]],{defval: ''});
-        // console.log(this.ExcelData)
+        // // console.log(this.ExcelData)
         let count=0;
         for(let [key,value] of Object.entries(this.ExcelData[0])){
-          // console.log("Esto es cabezera",key)
+          // // console.log("Esto es cabezera",key)
           for(let i = 0 ; i<this.headers.length;i++){
             if(key == this.headers[i]){
               count++;
-              // console.log(key)
-              // console.log(this.headers[i])
+              // // console.log(key)
+              // // console.log(this.headers[i])
             }
           }
         }
@@ -79,7 +79,7 @@ export class CasosNegocioSinValidacionComponent implements OnInit {
             summary: 'Exito!!!',
             detail: 'El archivo se a cargado completamente!!!',
           });
-          // console.log(this.ExcelData)
+          // // console.log(this.ExcelData)
           this.tabla=true;
           this.button=false;
         }else{
@@ -97,7 +97,7 @@ export class CasosNegocioSinValidacionComponent implements OnInit {
 
   saveExcel() {
     this.cors.post('AjustesNotDone/InsertarBaseDatosCasosNegocioSinValidacion',this.ExcelData).then((response) => {
-      // console.log(response)
+      // // console.log(response)
       this.messageService.add({
         key: 'tst',
         severity: 'success',
@@ -105,7 +105,7 @@ export class CasosNegocioSinValidacionComponent implements OnInit {
         detail: 'Correctamente!!',
       });
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
       // this.spinner=false;
       this.messageService.add({
         key: 'tst',
@@ -121,7 +121,7 @@ export class CasosNegocioSinValidacionComponent implements OnInit {
   }
 
   dateFormat(value:any){
-    // console.log(value)
+    // // console.log(value)
     if(value != null){
       return moment(value).format('DD/MM/yyyy HH:mm:ss')
     }else{

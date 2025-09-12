@@ -288,7 +288,7 @@ export class AnalizarComponent implements OnInit {
       this.cors.post(data)
       .subscribe(
         (response) => {
-          // console.log(response);
+          // // console.log(response);
         },
         (error) => {
           console.error(error);
@@ -303,8 +303,8 @@ export class AnalizarComponent implements OnInit {
       this.cors.post(data)
       .subscribe(
         (response) => {
-          // console.log(response);
-          // console.log(data)
+          // // console.log(response);
+          // // console.log(data)
         },
         (error) => {
           console.error(error);
@@ -325,17 +325,17 @@ export class AnalizarComponent implements OnInit {
       this.cors.post(data).subscribe(
         (res: any) => {
           if(res.message.includes('recibida y encolada')) {
-            console.log(res.message);
+            // console.log(res.message);
           } else {
-            console.log('No hay respuesta del bot')
+            // console.log('No hay respuesta del bot')
           }
         },
         (error: any) => {
           this.updateStatusPendiente(audio);
-          console.log(error);
+          // console.log(error);
           const code = error.status
           const errorText = error.statusText;
-          console.log(errorText)
+          // console.log(errorText)
           this.showMessage('error', 'Alerta', 'No fue posible iniciar el proceso, contacte al administrador');
           // setTimeout(() => {
           //   this.recargarPagina();
@@ -390,7 +390,7 @@ export class AnalizarComponent implements OnInit {
         }
 
         if( this.audioStatus === 'Contextualizando' ) {
-          console.log('Estroy contextualizando')
+          // console.log('Estroy contextualizando')
           this.starting = false;
           this.transcribe = false;
           this.score = false;
@@ -438,13 +438,13 @@ export class AnalizarComponent implements OnInit {
           this.showMessage('error', 'Error', 'Falló al hacer el análisis, contacta al administrador');
         }
       } else {
-        console.log('detiene el proceso')
+        // console.log('detiene el proceso')
       }
     }
 
     getStatusRecursive(data: any) {
       this.getStatus(data);
-      console.log(`Status Actual: ${this.audioStatus}`);
+      // console.log(`Status Actual: ${this.audioStatus}`);
 
       setTimeout(() => {
         this.processAnimations(data);
@@ -459,10 +459,10 @@ export class AnalizarComponent implements OnInit {
       }
       this.cors.post(data).subscribe(
         (response: any) => {
-          console.log(response);
+          // console.log(response);
         },
         (error) => {
-          console.log(error);
+          // console.log(error);
         }
       )
     }
@@ -475,10 +475,10 @@ export class AnalizarComponent implements OnInit {
       }
       this.cors.post(data).subscribe(
         (response: any) => {
-          console.log(response);
+          // console.log(response);
         },
         (error) => {
-          console.log(error);
+          // console.log(error);
         }
       )
     }
@@ -509,7 +509,7 @@ export class AnalizarComponent implements OnInit {
         (response: any) => {
           this.audioStatus = response.status;
         }, (error) => {
-          console.log(error)
+          // console.log(error)
         }
       )
     }
@@ -531,7 +531,7 @@ export class AnalizarComponent implements OnInit {
           this.router.navigate(['mariana/analizar/resultados', this.tempName, res.res, 'main']);
         },
         (err: any) => {
-          console.log(err)
+          // console.log(err)
         }
       )
     }
@@ -557,7 +557,7 @@ export class AnalizarComponent implements OnInit {
 
         },
         (err: any) => {
-          console.log(err)
+          // console.log(err)
         }
       )
     }
@@ -573,7 +573,7 @@ export class AnalizarComponent implements OnInit {
         if (result.isConfirmed) {
           audio.analyzed = 0;
           this.analyze(audio);
-          console.log(audio)
+          // console.log(audio)
           this.guiaSelected = audio.guia;
         }
       });
@@ -605,10 +605,10 @@ export class AnalizarComponent implements OnInit {
 
     this.cors.post(data).subscribe(
       (res: any) => {
-        console.log(res)
+        // console.log(res)
       },
       (err: any) => {
-        console.log(err)
+        // console.log(err)
       }
     )
   }
@@ -647,7 +647,7 @@ export class AnalizarComponent implements OnInit {
   //   this.cors.post(data).subscribe(
   //     (res: any) => {
   //       if(res.status) {
-  //         console.log(res)
+  //         // console.log(res)
   //         if(res.names.length === 0) {
   //           this.showMessage('warn', 'Aviso', 'No hay audios disponibles para analizar en este momento');
   //         } else {
@@ -659,7 +659,7 @@ export class AnalizarComponent implements OnInit {
   //       }
   //     },
   //     (err: any) => {
-  //       console.log(err);
+  //       // console.log(err);
   //     }
   //   )
   // }
@@ -693,10 +693,10 @@ export class AnalizarComponent implements OnInit {
 
     this.cors.post(data).subscribe(
       (res: any) => {
-        console.log(res)
+        // console.log(res)
         // if(res.message.includes('recibida y encolada')) {
         //   names.forEach((name: any) => {
-        //     console.log(name);
+        //     // console.log(name);
         //     this.updateStatusPendienteMasivo(name.name);
         //   });
 
@@ -704,12 +704,12 @@ export class AnalizarComponent implements OnInit {
 
 
         // } else {
-        //   console.log('Falló al asignar la tarea')
+        //   // console.log('Falló al asignar la tarea')
 
         // }
       },
       (error: any) => {
-        console.log('Sin respuesta del bot')
+        // console.log('Sin respuesta del bot')
         this.showMessage('error', 'Alerta', 'Error al comunicarse con el bot, por favor contacte al administrador');
         this.startingMasivo = false;
         this.analyzingMasivo = false;
@@ -724,12 +724,12 @@ export class AnalizarComponent implements OnInit {
             setTimeout(() => {
               this.recargarPagina();
             }, 3000);
-            // console.log('Error del server' + ' ' + `${code}` + ' ' + `${errorText}`)
+            // // console.log('Error del server' + ' ' + `${code}` + ' ' + `${errorText}`)
           }
 
           if(error.name === 'HttpErrorResponse' && error.status === 0 && error.statusText === 'Unknown Error') {
             this.value = 0;
-            // console.log('No hay conexión con el bot' + ' ' + error.message);
+            // // console.log('No hay conexión con el bot' + ' ' + error.message);
             this.showMessage('error', 'Alerta', 'No hay conexión con el bot, contacte al administrador');
             this.stopProcess = true;
             setTimeout(() => {
@@ -757,7 +757,7 @@ export class AnalizarComponent implements OnInit {
   //       }
   //     },
   //     (err: any) => {
-  //       console.log(err)
+  //       // console.log(err)
   //     }
   //   )
   // }
@@ -774,7 +774,7 @@ export class AnalizarComponent implements OnInit {
 
   //     },
   //     (err: any) => {
-  //       console.log(err)
+  //       // console.log(err)
   //     }
   //   )
   // }
@@ -782,16 +782,16 @@ export class AnalizarComponent implements OnInit {
   contadorFuera: number = 0;
 
   checkStatusMasivo(names: any) {
-    console.log(names)
+    // console.log(names)
 
       const owner = 'izzi';
       let audios: any;
 
       let contadorCompletados = 0;
-      console.log('Contador Fuera: ' + this.contadorFuera)
+      // console.log('Contador Fuera: ' + this.contadorFuera)
 
       if(names[0].stop === true) {
-        console.log('PARANDOOOOOOOOOOO')
+        // console.log('PARANDOOOOOOOOOOO')
         return;
       } else {
         const data = {
@@ -806,7 +806,7 @@ export class AnalizarComponent implements OnInit {
             this.consultarMasivo = false;
           },
           (err: any) => {
-            console.log(err)
+            // console.log(err)
           }
         )
 
@@ -814,22 +814,22 @@ export class AnalizarComponent implements OnInit {
         setTimeout(() => {
           for(let i = 0 ; i < names.length ; i++) {
             if(audios[i][0].status === 'Pendiente') {
-              console.log(`El audio ${audios[i][0].audio_name} está Pendiente`)
+              // console.log(`El audio ${audios[i][0].audio_name} está Pendiente`)
               this.audios[i].progress = 5;
             }
     
             if(audios[i][0].status === 'Transcrito') {
-              console.log(`El audio ${audios[i][0].audio_name} está Transcribiendo`)
+              // console.log(`El audio ${audios[i][0].audio_name} está Transcribiendo`)
               this.audios[i].progress = 20;
             }
     
             if(audios[i][0].status === 'Calificando') {
-              console.log(`El audio ${audios[i][0].audio_name} está Calificando`)
+              // console.log(`El audio ${audios[i][0].audio_name} está Calificando`)
               this.audios[i].progress = 38;
             }
   
             if(audios[i][0].status === 'Contextualizando') {
-              console.log(`El audio ${audios[i][0].audio_name} está Contextualizando`)
+              // console.log(`El audio ${audios[i][0].audio_name} está Contextualizando`)
               this.audios[i].progress = 80;
             }
     
@@ -847,7 +847,7 @@ export class AnalizarComponent implements OnInit {
 
               this.updateAnalyzed(data);
 
-              console.log(`El audio ${audios[i][0].audio_name} está Completado`)
+              // console.log(`El audio ${audios[i][0].audio_name} está Completado`)
 
               if( contadorCompletados === names.length ) {
                 this.showMessage('success', 'Éxito', 'Se han analizado todos los audios');
@@ -857,7 +857,7 @@ export class AnalizarComponent implements OnInit {
             }
 
             // if( audios[i][0].status === 'Completado' ) {
-            //   console.log('Un audio está con status de error')
+            //   // console.log('Un audio está con status de error')
             // }
           }
         }, 2000);
@@ -892,7 +892,7 @@ export class AnalizarComponent implements OnInit {
         this.validateData();
       },
       (err: any) => {
-        console.log(err)
+        // console.log(err)
       }
     )
   }
@@ -969,7 +969,7 @@ export class AnalizarComponent implements OnInit {
       this.getAudios(data);
     }
 
-    // console.log(this.fechas);
+    // // console.log(this.fechas);
   
   }
 
@@ -993,7 +993,7 @@ export class AnalizarComponent implements OnInit {
         }
       },
       (err: any) => {
-        console.log(err)
+        // console.log(err)
       }
     )
   }
@@ -1050,7 +1050,7 @@ export class AnalizarComponent implements OnInit {
     this.noAudios = false;
 
     this.filteredArray = [];
-    console.log('hola')
+    // console.log('hola')
 
     if(fechas[1] != null) {
       this.myCalendar.hideOverlay();  // Oculta el calendario
@@ -1059,8 +1059,8 @@ export class AnalizarComponent implements OnInit {
     let fechaIni = this.convertirFecha(fechas[0], 'ini');
     let fechaFin = this.convertirFecha(fechas[1], 'fin');
 
-    console.log(fechaIni)
-    console.log(fechaFin)
+    // console.log(fechaIni)
+    // console.log(fechaFin)
 
     this.audios.forEach((audio) => {
       if (audio.fecha_carga >= fechaIni && audio.fecha_carga <= fechaFin) { 
@@ -1162,7 +1162,7 @@ export class AnalizarComponent implements OnInit {
     this.cors.post(data).subscribe(
       (res: any) => {
         if( res.status ) {
-          console.log(res.data)
+          // console.log(res.data)
           this.audios = res.data;
         } else {
           this.audios = []
@@ -1170,7 +1170,7 @@ export class AnalizarComponent implements OnInit {
         }
       },
       (err: any) => {
-        console.log(err)
+        // console.log(err)
       }
     )
 

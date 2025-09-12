@@ -44,8 +44,6 @@
                 <img class="footer__img" src="/assets/img/id.jpg" alt="profile">
                 <div class="username__container">
                     <h3 class="username" [class]=" mode ? 'footer__user' : 'footer__user__light'" *ngIf="collapsed"> {{nombre}}</h3>
-                    <h3 class="username" [class]=" mode ? 'footer__user' : 'footer__user__light'" *ngIf="collapsed"> {{apellidoP}} </h3>
-                    <h3 class="username" [class]=" mode ? 'footer__user' : 'footer__user__light'" *ngIf="collapsed"> {{apellidoM}} </h3>
                 </div>
                 <i class="pi pi-sign-out logout" [class]=" mode ? 'footer__user' : 'footer__user__light'" (click)="logout()" *ngIf="collapsed"></i>
             </div>

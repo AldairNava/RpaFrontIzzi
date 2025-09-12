@@ -39,7 +39,7 @@ export class MenuComponent implements OnInit {
       ]
     },
     {
-      label: 'Administacion',
+      label: 'Administracion',
       key: "administracion",
       icon: 'pi pi-fw pi-compass',
       items: [
@@ -132,7 +132,7 @@ export class MenuComponent implements OnInit {
         {
           label: 'Importar Base',
           icon: 'pi pi-fw pi-database',
-          routerLink: ['/okcliente/InportarOkCliente'],
+          routerLink: ['/okcliente/ImportarOkCliente'],
         },
         {
           label: 'Pantalla Consulta',

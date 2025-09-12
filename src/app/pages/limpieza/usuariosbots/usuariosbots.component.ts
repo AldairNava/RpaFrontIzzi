@@ -101,9 +101,9 @@ selectedUser: any;
         };
 
         this.cors.post('Bots/SendMail', mail).then(response => {
-            console.log(response);
+            // console.log(response);
         }).catch(error => {
-            console.log(error);
+            // console.log(error);
         });
     }
 }
@@ -158,11 +158,11 @@ selectedUser: any;
         }
       }
     ).then((response) => {
-      console.log(response);
+      // console.log(response);
       this.dataSource.splice(this.opcionIndex, 1)
       this.showToastSuccess(`Se elimino el robot ${this.opcionToAction.botHostName} correctamente.`)
     }).catch((error) => {
-      console.log(error);
+      // console.log(error);
       this.showToastError(`No se logro eliminar el robot ${this.opcionToAction.botHostName}`)
     })
   }
@@ -206,25 +206,25 @@ selectedUser: any;
         status:`${command}`
       })
       .then((response) => {
-          console.log(response)
+          // console.log(response)
           this.cors.get('Bots/updateProcessStatusBotLimpieza',{
             ip:`${item.botIp}`,
             estado:`${a}`
           }).then((response1) => {
-            console.log(response1)
+            // console.log(response1)
           }).catch((error) => {
-            console.log(error);
+            // console.log(error);
           });    
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
         this.cors.get('Bots/updateProcessStatusBotLimpieza',{
           ip:`${item.botIp}`,
           estado:`3`
         }).then((response1) => {
-          console.log(response1)
+          // console.log(response1)
         }).catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
       })
     item.sendingComand = false
@@ -257,7 +257,7 @@ selectedUser: any;
       this.obtenerProcesos()
       this.showToastSuccess(`Se guardo el cambio de proceso del Robot ${item.botIp}`)
     }).catch((error) => {
-      console.log(error);
+      // console.log(error);
       item.sendingProcess = false
       this.showToastError(`No se logro guardar el proceso del Robot ${item.botIp}`)
     })
@@ -276,12 +276,12 @@ selectedUser: any;
               // this.enviarCorreo(dias, bot.ProcesoUser, bot.ProcesoName);
             }
           } else {
-            console.log('dias no es un número:', dias);
+            // console.log('dias no es un número:', dias);
           }
         }
       }
     }).catch((error) => {
-      console.log(error);
+      // console.log(error);
       this.showToastError(`No se logro traer el listado de Robots`)
     })
 }
@@ -336,7 +336,7 @@ selectedUser: any;
         }
       }  
     }).catch((error) => {
-      console.log(error);
+      // console.log(error);
     })
   }
 
@@ -359,7 +359,7 @@ selectedUser: any;
             this.validacionProceso();
         }
     }).catch((error) => {
-        console.log(error);
+        // console.log(error);
         this.showToastError(`No se logró traer la lista de procesos`);
     });
 }
@@ -374,7 +374,7 @@ selectedUser: any;
               this.dataSource[i].botEstado = response[j].botEstado;
             }}}}
     }).catch((error) => {
-      console.log(error);
+      // console.log(error);
     })
 }
 }

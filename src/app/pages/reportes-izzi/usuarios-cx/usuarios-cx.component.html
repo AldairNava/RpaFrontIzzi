@@ -1,205 +1,138 @@
 <div class="col-12">
-    <div class="card" *ngIf="isAdmin">
-        <h5>Usuarios </h5>
-        <p-table #dt1 [value]="dataSource" dataKey="id" [rows]="50" [loading]="loading" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
-            styleClass="p-datatable-gridlines" [paginator]="true"
-            [globalFilterFields]="['nombre','rol','correo','status']" responsiveLayout="scroll">
-            <ng-template pTemplate="caption">
-                <div class="flex justify-content-between flex-column sm:flex-row">
+  <div class="card">
+    <h5>Usuarios</h5>
+    <p-table #dt
+      [value]="usuarios"
+      [paginator]="true"
+      [rows]="50"
+      [loading]="loading"
+      dataKey="username"
+      styleClass="p-datatable-gridlines"
+      [rowsPerPageOptions]="[10,20,50,100]"
+      responsiveLayout="scroll">
 
-                    <span class="p-input-icon-left mb-2">
-                        <i class="pi pi-search"></i>
-                        <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Buscar"
-                            class="w-full" />
-                    </span>
-                </div>
-            </ng-template>
-            <ng-template pTemplate="header">
-                <tr>
-                    <th>
-                        <div class="flex justify-content-between align-items-center">
-                            Nombre
+      <ng-template pTemplate="caption">
+        <div class="flex justify-content-between items-center mb-2">
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text"
+              (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+              placeholder="Buscar usuario"
+              class="w-full" />
+          </span>
+        </div>
+      </ng-template>
 
-                        </div>
-                    </th>
-                    <th>
-                        <div class="flex justify-content-between align-items-center">
-                            Correo
-                        </div>
-                    </th>
-                    <th>
-                        <div class="flex justify-content-between align-items-center">
-                            Rol
-                        </div>
-                    </th>
-                    <th>
-                        <div class="flex justify-content-between align-items-center">
-                            Area
-                        </div>
-                    </th>
-                    <th>
-                        <div class="flex justify-content-between align-items-center">
-                            Usuario
-                        </div>
-                    </th>
-                    <th>
-                        <div class="flex justify-content-between align-items-center">
-                            Contraseña
-                        </div>
-                    </th>
-                    <th>
-                        <div class="flex justify-content-between align-items-center">
-                            Status
-                        </div>
-                    </th>
-                    <th>
-                        <div class="flex justify-content-between align-items-center">
-                            Acciones
-                        </div>
-                    </th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-item let-i="rowIndex">
-                <tr>
-                    <td>
-                        {{ item.nombre + ' ' + item.apellido }}
-                    </td>
-                    <td>
-                        {{ item.correo }}
-                     </td> 
-                     <td>
-                        {{ item.rol }}
-                     </td> 
-                     <td>
-                        {{ item.area }}
-                     </td>
-                     <td>
-                        {{ item.usuario }}
-                     </td>
-                     <td>
-                        {{ item.password }}
-                     </td>
-                     <td>
-                        {{ item.status }}
-                     </td>
-                    <td>
-                        <p-splitButton label="Acciones" [model]="items" styleClass="p-button-text mr-2 mb-2"
-                            appendTo="body" (onDropdownClick)="selection(item,i)"></p-splitButton>
-                    </td>
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Usuario</th>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Rol</th>
+          <th>Staff</th>
+          <th>Área</th>
+          <th>Departamento</th>
+          <th>Status</th>
+          <th>Acciones</th>
+        </tr>
+      </ng-template>
 
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="emptymessage">
-                <tr>
-                    <td colspan="7">Sin datos encontrados.</td>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="loadingbody">
-                <tr>
-                    <td colspan="7">Cargando Usuarios, espere...</td>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="paginatorleft" let-state>
-                Mostrando {{(state.page  * state.rows) + 1}} a {{state.rows * (state.page + 1)}} de {{state.totalRecords}} registros.
-          </ng-template>
-        </p-table>
-    </div>
-    <p-toast key="tst" [baseZIndex]="99999"></p-toast>
-
-    <p-dialog header="Editar usuario" [(visible)]="displayEditDialog" [modal]="true" [closable]="true" [dismissableMask]="true" [style]="{width: '450px', 'border-radius': '1.5rem'}">
-    <div *ngIf="editUser" class="p-fluid">
-        <div class="p-field mb-3">
-            <label for="nombre"><b>Nombre</b></label>
-            <input id="nombre" pInputText [(ngModel)]="editUser.nombre" />
-        </div>
-        <div class="p-field mb-3">
-            <label for="apellido"><b>Apellido</b></label>
-            <input id="apellido" pInputText [(ngModel)]="editUser.apellido" />
-        </div>
-        <div class="p-field mb-3">
-            <label for="rol"><b>Rol</b></label>
-            <p-dropdown
-                [options]="rolesOptions"
-                [(ngModel)]="editUser.rol"
-                placeholder="Selecciona un rol"
-                id="rol"
-                [showClear]="false"
-                style="width:100%">
-            </p-dropdown>
-        </div>
-        <div class="p-field mb-3">
-            <label for="area"><b>Area</b></label>
-            <input id="area" pInputText [(ngModel)]="editUser.area" />
-        </div>
-        <div class="p-field mb-3">
-            <label for="correo"><b>Correo</b></label>
-            <input id="correo" pInputText [(ngModel)]="editUser.correo" />
-        </div>
-        <div class="p-field mb-3">
-            <label for="usuario"><b>Usuario</b></label>
-            <input id="usuario" pInputText [(ngModel)]="editUser.usuario" />
-        </div>
-        <div class="p-field mb-3">
-            <label for="password"><b>Contraseña</b></label>
-            <input id="password" pInputText [(ngModel)]="editUser.password" type="password" autocomplete="off"/>
-        </div>
-        <div class="p-field mb-3">
-            <label for="status"><b>Status</b></label>
-            <p-dropdown 
-                [options]="statusOptions" 
-                [(ngModel)]="editUser.status" 
-                [showClear]="false"
-                [autoDisplayFirst]="false"
-                optionLabel="label"
-                optionValue="value"
-                placeholder="Selecciona un estado"
-                id="status"
-                style="width: 100%">
-            </p-dropdown>
-        </div>
-        <div class="flex justify-content-end mt-4">
-            <button pButton type="button" class="p-button-secondary mr-2" label="Cancelar" (click)="displayEditDialog=false"></button>
-            <button pButton type="button" label="Guardar cambios" (click)="guardarCambiosUsuario()"></button>
-        </div>
-    </div>
-</p-dialog>
-
-<p-dialog header="Confirmar cambios" [(visible)]="displayPasswordDialog" [modal]="true" [closable]="false" [dismissableMask]="true" [style]="{width: '350px'}">
-    <div class="p-fluid">
-        <div class="p-field mb-3">
-            <label for="pwd"><b>Para confirmar el cambio, por favor inserta tu contraseña:</b></label>
-            <input id="pwd" pInputText [(ngModel)]="passwordConfirm" type="password" autocomplete="off" />
-        </div>
-        <div class="flex justify-content-end mt-4">
-            <button pButton type="button" class="p-button-secondary mr-2" label="Cancelar" (click)="displayPasswordDialog=false"></button>
-            <button pButton type="button" label="Confirmar" [disabled]="!passwordConfirm" (click)="confirmarGuardarCambiosUsuario()"></button>
-        </div>
-    </div>
-</p-dialog>
-
-<p-dialog header="Confirmar eliminación" [(visible)]="displayDeletePasswordDialog" [modal]="true" [closable]="false" [dismissableMask]="true" [style]="{width: '350px'}">
-    <div class="p-fluid">
-        <div class="p-field mb-3">
-            <label for="pwd-delete"><b>Para eliminar el usuario, por favor inserta tu contraseña:</b></label>
-            <input id="pwd-delete" pInputText [(ngModel)]="passwordDeleteConfirm" type="password" autocomplete="off" />
-        </div>
-        <div class="flex justify-content-end mt-4">
-            <button pButton type="button" class="p-button-secondary mr-2" label="Cancelar" (click)="displayDeletePasswordDialog=false"></button>
-            <button pButton type="button" label="Confirmar" [disabled]="!passwordDeleteConfirm" (click)="eliminarUsuarioConfirmado()"></button>
-        </div>
-    </div>
-</p-dialog>
-
-<div *ngIf="!isAdmin" class="welcome-container">
-  <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 300px;">
-    <h2 style="color: #3385f1; font-weight: bold;">¡Hola! Lo siento mucho pero no cuentas con los permisos necesarios.</h2>
-    <p style="font-size: 1.2rem; color: #333;">Si lo ves necesario, solicita los permisos con tu Administrador</p>
-    <img src="assets/img/gif/hello.gif" alt="RPA-CX" style="width: 720px; margin-top: 20px;" />
+      <ng-template pTemplate="body" let-user>
+        <tr>
+          <td>{{ user.username }}</td>
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.rol }}</td>
+          <td>{{ user.staff }}</td>
+          <td>{{ user.area }}</td>
+          <td>{{ user.departamento }}</td>
+          <td>
+            <span [ngClass]="user.active === 1 || user.active === true ? 'status-active' : 'status-inactive'">
+              {{ user.active === 1 || user.active === true ? 'Activo' : 'Inactivo' }}
+            </span>
+          </td>
+          <td>
+            <button *ngIf="user.active === 1 || user.active === true"
+                    pButton
+                    icon="pi pi-ban"
+                    class="p-button-rounded p-button-danger p-button-sm"
+                    (click)="cambiarEstadoUsuario(user, 0)"
+                    title="Desactivar">
+            </button>
+            <button *ngIf="!user.active || user.active === 0"
+                    pButton
+                    icon="pi pi-check"
+                    class="p-button-rounded p-button-success p-button-sm"
+                    (click)="cambiarEstadoUsuario(user, 1)"
+                    title="Activar">
+            </button>
+            <button pButton
+                    icon="pi pi-pencil"
+                    class="p-button-rounded p-button-warning p-button-sm ml-2"
+                    (click)="abrirDialogEditar(user)"
+                    title="Editar">
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
   </div>
 </div>
 
+<!-- Diálogo para editar usuario -->
+<p-dialog
+  header="Editar usuario"
+  [(visible)]="displayDialogEditar"
+  [modal]="true"
+  [closable]="true"
+  [dismissableMask]="true"
+  [style]="{ width: '420px', 'border-radius': '1.5rem' }">
 
+  <div *ngIf="editandoUsuario" class="p-fluid">
+    <div class="p-field mb-3">
+      <label><b>Usuario</b></label>
+      <input pInputText [(ngModel)]="editandoUsuario.username" placeholder="Usuario" />
+    </div>
+    <div class="p-field mb-3">
+      <label><b>Nombre</b></label>
+      <input pInputText [(ngModel)]="editandoUsuario.name" placeholder="Nombre" />
+    </div>
+    <div class="p-field mb-3">
+      <label><b>Email</b></label>
+      <input pInputText [(ngModel)]="editandoUsuario.email" placeholder="Email" />
+    </div>
+    <div class="p-field mb-3">
+      <label><b>Rol</b></label>
+      <p-dropdown
+        [options]="rolesDisponibles"
+        [(ngModel)]="editandoUsuario.rol"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Selecciona un rol"
+        [showClear]="true"
+        [filter]="true">
+      </p-dropdown>
+    </div>
+    <div class="p-field mb-3">
+      <label><b>Staff</b></label>
+      <input pInputText [(ngModel)]="editandoUsuario.staff" placeholder="Staff" />
+    </div>
+    <div class="p-field mb-3">
+      <label><b>Área</b></label>
+      <input pInputText [(ngModel)]="editandoUsuario.area" placeholder="Área" />
+    </div>
+    <div class="p-field mb-3">
+      <label><b>Departamento</b></label>
+      <input pInputText [(ngModel)]="editandoUsuario.departamento" placeholder="Departamento" />
+    </div>
+    <div class="flex justify-content-end mt-4">
+      <button pButton type="button" class="p-button-secondary mr-2"
+              label="Cancelar" (click)="displayDialogEditar = false"></button>
+      <button pButton type="button" label="Guardar cambios"
+              (click)="guardarUsuarioEditado()" [disabled]="loading"></button>
+    </div>
+  </div>
+  <div *ngIf="loading">Guardando usuario…</div>
+</p-dialog>
 
-
-
-</div>
+<p-toast [baseZIndex]="99999" key="tst"></p-toast>

@@ -8,11 +8,11 @@ export class ErrorInputClassDirective implements OnChanges {
 
 
   constructor(private el: ElementRef, private control: NgControl) {
-    console.log(control);
+    // console.log(control);
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(this.el);
+    // console.log(this.el);
 
     if (changes) {
       debugger;

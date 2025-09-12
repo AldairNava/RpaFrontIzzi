@@ -33,7 +33,7 @@ usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
 
   getTableCasosNegocioCobranza(){
     this.cors.get('AgenciasExternas/getAllCreacionCNs').then((response) => {
-      // console.log(responSse)
+      // // console.log(responSse)
       if(response[0] =='SIN INFO'){
         this.showtable = [];
 
@@ -42,7 +42,7 @@ usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
 
       }
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
     })
   }
 
@@ -50,7 +50,7 @@ usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
   dateFormat(value:any){
-    // console.log(value)
+    // // console.log(value)
     if(value != null){
       return moment(value).format('DD/MM/yyyy HH:mm:ss')
     }else{
@@ -70,7 +70,7 @@ usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
       }      
       this.stats=response;
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
     })
   }
 

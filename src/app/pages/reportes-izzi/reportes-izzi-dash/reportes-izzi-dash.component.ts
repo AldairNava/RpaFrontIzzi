@@ -51,7 +51,7 @@ export class ReportesIzziDashComponent implements OnInit {
       accept: async () => {
         this.button=true;
         // this.show = false;
-        // console.log(this.formReporte)
+        // // console.log(this.formReporte)
         let fechaini = moment(this.formReporte.value.fechas[0]).format('YYYY-MM-DD');
         let fechafin = moment(this.formReporte.value.fechas[1]).format('YYYY-MM-DD');
         let url=``;
@@ -61,46 +61,46 @@ export class ReportesIzziDashComponent implements OnInit {
           "fecha2":fechafin
         }
         let nomArchivo="";
-        // console.log(a)
-        console.log(this.formReporte.value)
+        // // console.log(a)
+        // console.log(this.formReporte.value)
         if(this.formReporte.value.tipoReporte =='Ajustes (Cobranza y Late fee)'){
-          console.log("Ajustes (Cobranza y Late fee)")
+          // console.log("Ajustes (Cobranza y Late fee)")
           url = `ReportesIzzi/getReporteAjustesCasoNegocioCobranza`;
           para =`fecha1=${fechaini}&fecha2=${fechafin}&remitente=RPA`;
           nomArchivo="Reporte_Ajustes_Cobranza_Late_Fee"
-          // console.log(`${url}?${para}`)
+          // // console.log(`${url}?${para}`)
         }else if(this.formReporte.value.tipoReporte =='Depuracion OS'){
-          console.log("Depuracion OS")
+          // console.log("Depuracion OS")
           url = `ReportesIzzi/getReporteDepuracionOS`;
           para =`fecha1=${fechaini}&fecha2=${fechafin}&remitente=RPA`
           nomArchivo="Reporte_Depuracion_OS"
-          // console.log(`${url}?${para}`)
+          // // console.log(`${url}?${para}`)
         }else if(this.formReporte.value.tipoReporte =='NotDone'){
-          console.log("NotDone")
+          // console.log("NotDone")
           url = `ReportesIzzi/getReporteAjustesNotDone`;
           para =`fecha1=${fechaini}&fecha2=${fechafin}&remitente=RPA`
           nomArchivo="Reporte_NotDone"
-          // console.log(`${url}?${para}`)
+          // // console.log(`${url}?${para}`)
         }
         // else if(this.formReporte.value.tipoReporte =='Ajustes Sucursales'){
-        //   console.log("Ajustes Sucursales")
+        //   // console.log("Ajustes Sucursales")
         //   url = `ReportesIzzi/getReporteAjustesCambioServicios`;
         //   para =`fecha1=${fechaini}&fecha2=${fechafin}&remitente=RPA`
         //   nomArchivo="Reporte_Ajustes_Sucursales"
-        //   // console.log(`${url}?${para}`)
+        //   // // console.log(`${url}?${para}`)
         // }
         else if(this.formReporte.value.tipoReporte =='Ajustes Sin Validacion'){
-          console.log("Ajustes Sin Validacion")
+          // console.log("Ajustes Sin Validacion")
           url = `ReportesIzzi/getReporteAjustesCasoNegocioCobranzaSinValidacion`;
           para =`fecha1=${fechaini}&fecha2=${fechafin}&remitente=RPA`
           nomArchivo="Reporte_Ajustes_CN_Cobranza_SinValidacion"
-          // console.log(`${url}?${para}`)
+          // // console.log(`${url}?${para}`)
         }else if(this.formReporte.value.tipoReporte =='NotDone Sin Validacion'){
-          console.log("NotDone Sin Validacion")
+          // console.log("NotDone Sin Validacion")
           url = `ReportesIzzi/getReporteAjustesNotDoneSinValidacion`;
           para =`fecha1=${fechaini}&fecha2=${fechafin}&remitente=RPA`
           nomArchivo="Reporte_NotDone_SinValidacion"
-          // console.log(`${url}?${para}`)
+          // // console.log(`${url}?${para}`)
         }else if(this.formReporte.value.tipoReporte =='Creacion OS'){
           url = `ReportesIzzi/getReporteCreacionOrden`;
           para =`fecha1=${fechaini}&fecha2=${fechafin}&remitente=RPA`
@@ -147,7 +147,7 @@ export class ReportesIzziDashComponent implements OnInit {
           this.messageService.add({ severity: 'info', summary: 'Generando', detail: 'Se ha generado el reporte' });
 
         } catch (error) {
-          console.log(error)
+          // console.log(error)
         }
         this.button = false
         this.formReporte.controls['tipoReporte'].reset();
@@ -215,7 +215,7 @@ export class ReportesIzziDashComponent implements OnInit {
       }
     }
   }).catch((error) => {
-    console.log("Error", error)
+    // console.log("Error", error)
     this.reportesFiltrados = [];
   })
 }

@@ -95,7 +95,7 @@ export class BotsComponent implements OnInit {
           this.displayEditDialog = true;
         })
         .catch((error: any) => {
-          console.log(error);
+          // console.log(error);
           this.showToastError('No se encontraron datos del Robot');
         });
     } else {
@@ -133,7 +133,7 @@ export class BotsComponent implements OnInit {
           this.buscaBots();
         })
         .catch((error: any) => {
-          console.log(error);
+          // console.log(error);
           this.guardando = false;
           this.showToastError('No se lograron guardar los datos del Robot');
         });
@@ -149,7 +149,7 @@ export class BotsComponent implements OnInit {
         });
       })
       .catch((error: any) => {
-        console.log(error);
+        // console.log(error);
       });
   }
 
@@ -167,10 +167,10 @@ export class BotsComponent implements OnInit {
 
       this.cors.post('AjustesCambiosServicios/SendMail', mail)
         .then(response => {
-          console.log(response);
+          // console.log(response);
         })
         .catch(error => {
-          console.log(error);
+          // console.log(error);
         });
     }
   }
@@ -197,7 +197,7 @@ export class BotsComponent implements OnInit {
   }
 
   selection(item: any) {
-    console.log(item);
+    // console.log(item);
     this.opcionToAction = item;
   }
 
@@ -233,11 +233,11 @@ export class BotsComponent implements OnInit {
         }
       }
     ).then((response: any) => {
-      console.log(response);
+      // console.log(response);
       this.dataSource.splice(this.opcionIndex, 1);
       this.showToastSuccess(`Se eliminó el robot ${this.opcionToAction.hostName} correctamente.`);
     }).catch((error: any) => {
-      console.log(error);
+      // console.log(error);
       this.showToastError(`No se logró eliminar el robot ${this.opcionToAction.hostName}`);
     });
   }
@@ -254,7 +254,7 @@ export class BotsComponent implements OnInit {
   }
 
   preguntarEnviar(command: any, item: any) {
-    console.log('Contenido de item en preguntarEnviar:', item);
+    // console.log('Contenido de item en preguntarEnviar:', item);
     this.confirmationService.confirm({
       key: 'senCommand',
       message: '¿Está seguro que desea enviar el comando?',
@@ -289,7 +289,7 @@ export class BotsComponent implements OnInit {
         // Refresca la tabla después de actualizar el estado
         this.buscaBots();
       }).catch((error: any) => {
-        console.log(error);
+        // console.log(error);
       });
     })
     .catch((error: any) => {
@@ -299,7 +299,7 @@ export class BotsComponent implements OnInit {
       }).then((response1: any) => {
         this.buscaBots();
       }).catch((error: any) => {
-        console.log(error);
+        // console.log(error);
       });
     });
   item.sendingComand = false;
@@ -332,7 +332,7 @@ export class BotsComponent implements OnInit {
       this.obtenerProcesos();
       this.showToastSuccess(`Se guardó el cambio de proceso del Robot ${item.botIp}`);
     }).catch((error: any) => {
-      console.log(error);
+      // console.log(error);
       item.sendingProcess = false;
       this.showToastError(`No se logró guardar el proceso del Robot ${item.botIp}`);
     });
@@ -352,13 +352,13 @@ export class BotsComponent implements OnInit {
                 // this.enviarCorreo(dias, bot.ProcesoUser, bot.ProcesoName);
               }
             } else {
-              console.log('dias no es un número:', dias);
+              // console.log('dias no es un número:', dias);
             }
           }
         }
       })
       .catch((error: any) => {
-        console.log(error);
+        // console.log(error);
         this.showToastError(`No se logró traer el listado de Robots`);
       });
   }
@@ -414,7 +414,7 @@ export class BotsComponent implements OnInit {
         }
       })
       .catch((error: any) => {
-        console.log(error);
+        // console.log(error);
       });
   }
 
@@ -439,7 +439,7 @@ export class BotsComponent implements OnInit {
         }
       })
       .catch((error: any) => {
-        console.log(error);
+        // console.log(error);
         this.showToastError(`No se logró traer la lista de procesos`);
       });
   }
@@ -460,7 +460,7 @@ export class BotsComponent implements OnInit {
         }
       })
       .catch((error: any) => {
-        console.log(error);
+        // console.log(error);
       });
   }
 }

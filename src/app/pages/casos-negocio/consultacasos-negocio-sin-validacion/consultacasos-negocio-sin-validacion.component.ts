@@ -32,18 +32,18 @@ export class ConsultacasosNegocioSinValidacionComponent implements OnInit {
 
   getTablaCasosNegocio(){
     this.cors.get('AjustesNotDone/getCasosNegocioSinValidacion').then((response) => {
-      // console.log(response)
+      // // console.log(response)
       if(response[0] == 'SIN INFO'){
         this.casosNegocio=[];
       }else{
         this.casosNegocio=response;
       }
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
     })
   }
   dateFormat(value:any){
-    // console.log(value)
+    // // console.log(value)
     if(value != null){
       return moment(value).format('DD/MM/yyyy HH:mm:ss')
     }else{
@@ -65,7 +65,7 @@ export class ConsultacasosNegocioSinValidacionComponent implements OnInit {
       }      
       this.stats=response;
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
     })
   }
 

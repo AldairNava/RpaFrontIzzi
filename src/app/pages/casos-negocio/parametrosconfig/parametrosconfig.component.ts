@@ -32,7 +32,7 @@ export class ParametrosconfigComponent implements OnInit {
         this.ajustes=response;
       }
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
     })
 
   }
@@ -49,7 +49,7 @@ export class ParametrosconfigComponent implements OnInit {
         this.visible=false;
         this.getTableAjustesNotDone();
       }).catch((error) => {
-        console.log(error)
+        // console.log(error)
       })
   
     }else{

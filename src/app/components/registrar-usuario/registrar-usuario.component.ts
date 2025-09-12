@@ -94,7 +94,7 @@ export class RegistrarUsuarioComponent implements OnInit {
 
       },
       (err: any) => {
-        console.log(err);
+        // console.log(err);
       }
     )
   }

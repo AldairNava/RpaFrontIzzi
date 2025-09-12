@@ -183,18 +183,18 @@ export class GeneracionSolicitudComponent implements OnInit {
   }
 
   clasificacionChange(event:any){
-    console.log(event)
+    // console.log(event)
     this.formGeneracionSolicitud.controls['detalle'].reset()
   }
 
   getDatosGeneracionSolicitud(){
     this.cors.get('Formularios/ObtenerGeneracionSolicitudDia',{user:this.usuario.email})
     .then((response)=>{
-      console.log(response)
+      // console.log(response)
       this.generacionSolicitudDia = response;
     })
     .catch((err)=>{
-      console.log(err)
+      // console.log(err)
     });
 
   }

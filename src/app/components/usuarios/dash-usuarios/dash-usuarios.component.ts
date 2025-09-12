@@ -78,7 +78,7 @@ export class DashUsuariosComponent implements OnInit {
         this.editUserModal = false;
       },
       (err: any) => {
-        console.log(err);
+        // console.log(err);
       }
     );
   }
@@ -95,7 +95,7 @@ export class DashUsuariosComponent implements OnInit {
         }
       },
       (err: any) => {
-        console.log(err);
+        // console.log(err);
       }
     );
   }
@@ -130,7 +130,7 @@ export class DashUsuariosComponent implements OnInit {
         }
       },
       (err: any) => {
-        console.log(err)
+        // console.log(err)
 
       }
     )

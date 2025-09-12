@@ -34,7 +34,7 @@ export class BasesDepuradasComponent implements OnInit {
     for(let file of event.files) {
       this.uploadedFiles.push(file);
     }
-    // console.log(this.uploadedFiles)
+    // // console.log(this.uploadedFiles)
   
     // this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
   }
@@ -55,7 +55,7 @@ export class BasesDepuradasComponent implements OnInit {
 		//   });
 		})
 		.catch((error) => {
-		console.log(error)
+		// console.log(error)
 		//   this.messageService.add({
 		// 	key:'tst',
 		// 	severity: 'error',
@@ -85,7 +85,7 @@ export class BasesDepuradasComponent implements OnInit {
 		  "nombre":archivo
 		})
 		.then((response) => {
-		  // console.log(response)
+		  // // console.log(response)
 		  this.show = true;
 		  this.url1 = `https://rpabackizzi.azurewebsites.net/EjecucionDepuracion/BajarExcelFTPBasesDepuradas?nombre=${archivo}`;
 
@@ -104,7 +104,7 @@ export class BasesDepuradasComponent implements OnInit {
 		  
 		})
 		.catch((error) => {
-		  console.log(error)
+		  // console.log(error)
 		  this.messageService.add({
 			key:'tst',
 			severity: 'error',

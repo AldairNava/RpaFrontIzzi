@@ -168,7 +168,7 @@ export class CargarComponent implements OnInit {
               }
           },
           (err: any) => {
-              console.log(err);
+              // console.log(err);
           }
       )
     }
@@ -210,7 +210,7 @@ export class CargarComponent implements OnInit {
 
         this.forProgress = Math.floor(100 / files.length);
       }
-      console.log(this.forProgress)
+      // console.log(this.forProgress)
       this.createAudiosArray(files);
     }
 
@@ -220,7 +220,7 @@ export class CargarComponent implements OnInit {
 
     convertBase64(file: any) {
       if(file.type != 'audio/mpeg') {
-        // console.log('Estás cargando archivos que no son');
+        // // console.log('Estás cargando archivos que no son');
       } else {
         const fileName = file.name;
         const reader = new FileReader();
@@ -273,11 +273,11 @@ export class CargarComponent implements OnInit {
         audio.metodo = 'addNewAudioIzzi';
         this.cors.post(audio).subscribe(
           (response) => {
-            console.log(response);
+            // console.log(response);
             this.validateExistance(response);
           },
           (error) => {
-            console.log(error);
+            // console.log(error);
             this.showMessage('warn', 'Aviso', error.error.message);
             this.validateExistance(error);
             this.value = 0;

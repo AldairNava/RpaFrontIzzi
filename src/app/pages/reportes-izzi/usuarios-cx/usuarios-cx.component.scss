@@ -1,0 +1,16 @@
+.status-active {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  background-color: #4CAF50;
+  color: white;
+  font-weight: bold;
+}
+.status-inactive {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  background-color: #F44336;
+  color: white;
+  font-weight: bold;
+}

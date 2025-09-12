@@ -33,7 +33,7 @@ export class ConsultaOkClienteComponent implements OnInit {
 
   getTableCasosNegocioCobranza(){
     this.cors.get('okcliente/getAllOkCliente').then((response) => {
-      // console.log(responSse)
+      // // console.log(responSse)
       if(response[0] =='SIN INFO'){
         this.showtable = [];
 
@@ -42,7 +42,7 @@ export class ConsultaOkClienteComponent implements OnInit {
 
       }
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
     })
   }
 
@@ -50,7 +50,7 @@ export class ConsultaOkClienteComponent implements OnInit {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
   dateFormat(value:any){
-    // console.log(value)
+    // // console.log(value)
     if(value != null){
       return moment(value).format('DD/MM/yyyy HH:mm:ss')
     }else{
@@ -70,7 +70,7 @@ export class ConsultaOkClienteComponent implements OnInit {
       }      
       this.stats=response;
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
     })
   }
 

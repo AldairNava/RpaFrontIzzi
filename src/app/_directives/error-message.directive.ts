@@ -25,7 +25,7 @@ export class ErrorMessageDirective implements OnChanges {
     if (changes) {
 
       if (changes.errorMessage?.currentValue) {
-        console.log(this.estatus);
+        // console.log(this.estatus);
 
 
         if (this.estatus) {

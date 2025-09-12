@@ -12,7 +12,6 @@ import { environment } from '../../../src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class PermisoService {
-  
   private baseUrl = `${environment.API_URL}User`;
 
   constructor(private http: HttpClient) {}
@@ -36,9 +35,15 @@ export class AuthGuard implements CanActivate {
   ): Observable<boolean | UrlTree> {
     const path = route.url[0]?.path;
     const usuarioInfo = JSON.parse(sessionStorage.getItem('user') || '{}');
-    console.log(usuarioInfo);
 
+    // Validar que exista Role
     if (!usuarioInfo?.Role) {
+      this.router.navigate(['/403'], { skipLocationChange: true });
+      return of(false);
+    }
+
+    const departamento = (usuarioInfo?.Departamento || '').toLowerCase();
+    if (departamento !== 'cx' && departamento !== 'wincallmx') {
       this.router.navigate(['/403'], { skipLocationChange: true });
       return of(false);
     }

@@ -161,7 +161,7 @@ reprocesarIndividual() {
           severity: 'success',
           summary: 'Éxito',
           detail: `Se leyeron ${this.idsFromFile.length} ID(s) correctamente.`
-        });console.log(this.fileToUpload);
+        });// console.log(this.fileToUpload);
       } catch (err: any) {
         this.messageService.add({
           key: 'tst',
@@ -251,7 +251,7 @@ reprocesarIndividual() {
       fecha1:fecha1,
       fecha2:fecha2,
     }).then((response) => {
-      // console.log(response)
+      // // console.log(response)
       if(response.length == 0){
         this.showtable = [];
         this.messageService.add({
@@ -266,7 +266,7 @@ reprocesarIndividual() {
 
       }
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
     })
 
   }
@@ -450,7 +450,7 @@ reprocesarIndividual() {
       });
 
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
     })
     let fecha1= moment(this.formReproceso.controls['fecha'].value[0]).format('yyyy-MM-DD');
     let fecha2= moment(this.formReproceso.controls['fecha'].value[1]).format('yyyy-MM-DD');

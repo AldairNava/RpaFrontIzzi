@@ -35,11 +35,11 @@ export class EditarusrbotComponent implements OnInit {
     });
     this.getCats()
     this.routeSub = this.route.params.subscribe((params: any) => {
-      // console.log(params);
+      // // console.log(params);
       if (params['idRobot'] != undefined) {
         this.cors.get(`Bots/getProcesoById/${params['idRobot']}`)
           .then((response: any) => {
-            console.log(response);
+            // console.log(response);
             this.item=response;
             this.formNuevoBot.patchValue({
               hostName:response.name_process,
@@ -51,7 +51,7 @@ export class EditarusrbotComponent implements OnInit {
 
           })
           .catch((error: any) => {
-            console.log(error);
+            // console.log(error);
             this.showToastError('No se encontraron datos de Robot')
           });
       }
@@ -78,7 +78,7 @@ export class EditarusrbotComponent implements OnInit {
                 }, 3000);
             })
             .catch((error) => {
-                console.log(error);
+                // console.log(error);
                 this.guardando = false;
                 this.showToastError('No se lograron guardar los datos de Robot');
             });
@@ -92,7 +92,7 @@ export class EditarusrbotComponent implements OnInit {
 
   getCats() {
     this.cors.get('Bots/getCatProcesosLimpieza').then((response) => {
-      // console.log(response);
+      // // console.log(response);
       if(response[0] == 'SIN INFO'){
         this.processArr = [];
       }else{
@@ -108,7 +108,7 @@ export class EditarusrbotComponent implements OnInit {
       }
 
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
     });
   }
   ngOnInit(): void {
@@ -127,14 +127,14 @@ export class EditarusrbotComponent implements OnInit {
     this.cors.get('Bots/getProcessOneLimpieza',{
       id:item
     }).then((response) => {
-      // console.log(response);
+      // // console.log(response);
       this.formNuevoBot.patchValue({
         usuarioBot:response.procesoUser,
         passwordBot:response.procesoPassword,
       });
 
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
     });
 
   }

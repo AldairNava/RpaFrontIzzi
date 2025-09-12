@@ -28,7 +28,7 @@ export class JwtInterceptor implements HttpInterceptor {
             let body = request.body;
             this.buscarFechas(body);
 
-            console.log(body);
+            // console.log(body);
 
 
             request = request.clone({

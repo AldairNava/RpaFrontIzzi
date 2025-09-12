@@ -28,30 +28,30 @@ export class SidenavComponent implements OnInit {
   }
 
   getRol() {
-    const storedUser = sessionStorage.getItem('user');
+  const storedUser = sessionStorage.getItem('user');
 
-    if (storedUser) {
-      const user = JSON.parse(storedUser);
-      
-      // Parseamos el string de 'name' a un objeto
-      let usuarioObj = JSON.parse(user.name);
+  if (storedUser) {
+    const user = JSON.parse(storedUser);
 
-      this.userName = usuarioObj.Name;
-      this.separarNombre();
-      this.darkModeSubscription();
+    this.userName = user.Name;
+    this.separarNombre();
+    this.darkModeSubscription();
 
-      const usuarioRol = usuarioObj.Role; 
-      
-      if (usuarioRol) {
-        this.navData = this.navData.filter(section => 
-          section.access.some(access => access.toLowerCase() === usuarioRol.toLowerCase())
-        );
-      }
-      
-    } else {
-      this.router.navigate(['/403']);
+    const usuarioRol = user.Role; 
+
+    console.log('Rol del usuario:', usuarioRol);
+
+    if (usuarioRol) {
+      this.navData = this.navData.filter(section => 
+        section.access.some(access => access.toLowerCase() === usuarioRol.toLowerCase())
+      );
     }
+
+  } else {
+    this.router.navigate(['/403']);
   }
+}
+
 
   toggleMode() {
     this.dark.toggleDarkMode();
@@ -67,7 +67,7 @@ export class SidenavComponent implements OnInit {
       });
     }
     item.expanded = !item.expanded;
-    console.log('Navegando a la ruta:', item.routerLink);
+    // console.log('Navegando a la ruta:', item.routerLink);
     if (item.routerLink) {
       this.router.navigate([item.routerLink]);
     } else {

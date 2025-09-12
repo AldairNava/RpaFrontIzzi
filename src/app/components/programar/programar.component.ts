@@ -245,7 +245,7 @@ export class ProgramarComponent implements OnInit, OnDestroy {
       }
 
       if( parseInt(this.horaElegida.code, 10) === 10 || parseInt(this.horaElegida.code, 10) === 11) {
-        console.log('entrando')
+        // console.log('entrando')
         horaCompleta = `${this.horaElegida.code}:${minutosFormato} am`; 
       }
 
@@ -296,7 +296,7 @@ export class ProgramarComponent implements OnInit, OnDestroy {
 
     if(tipo === 'minutos') {
       this.expresionCron = `*/${this.minutosElegidos.code} * ? * ${this.diasElegidosFormato}`;
-      console.log(this.formCron.value)
+      // console.log(this.formCron.value)
       this.formCron.get('hora').clearValidators();
       this.formCron.get('hora').updateValueAndValidity();
       this.formCron.value.hora = 'nada';
@@ -364,7 +364,7 @@ export class ProgramarComponent implements OnInit, OnDestroy {
         }
       },
       (err: any) => {
-        console.log(err);
+        // console.log(err);
       }
     )
   }
@@ -396,7 +396,7 @@ export class ProgramarComponent implements OnInit, OnDestroy {
         }
       },
       (err: any) => {
-        console.log(err);
+        // console.log(err);
         this.showMessage('error', 'Error', 'Ocurrió un error, por favor contacta al administrador');
 
       }
@@ -421,7 +421,7 @@ export class ProgramarComponent implements OnInit, OnDestroy {
         }
       },
       (err: any) => {
-        console.log(err);
+        // console.log(err);
         this.showMessage('error', 'Error', 'Ocurrió un error, por favor contacta al administrador');
       }
     )
@@ -459,7 +459,7 @@ export class ProgramarComponent implements OnInit, OnDestroy {
       }
       },
       (err: any) => {
-        console.log(err);
+        // console.log(err);
       }
     )
   }
@@ -485,7 +485,7 @@ export class ProgramarComponent implements OnInit, OnDestroy {
         }
       },
       (err: any) =>{
-        console.log(err)
+        // console.log(err)
         this.showMessage('error', 'Error', 'Ocurrió un error, por favor contacta al administrador');
       }
     )
@@ -515,7 +515,7 @@ export class ProgramarComponent implements OnInit, OnDestroy {
         }
       },
       (err: any) =>{
-        console.log(err)
+        // console.log(err)
         this.showMessage('error', 'Error', 'Ocurrió un error, contacta al administrador');
       }
     )
@@ -573,10 +573,10 @@ export class ProgramarComponent implements OnInit, OnDestroy {
     if(this.tableData.length > 0) {
       this.tableData.forEach( (data: any) => {
         if(data.id_cron === array[1]) {
-          console.log(data.status)
+          // console.log(data.status)
           this.zone.run( () => {
             data.status = array[0];
-            console.log(data.status)
+            // console.log(data.status)
             data.progreso = this.progresos[array[0]];
   
             if(array[0] === 'Finalizado') {
@@ -605,7 +605,7 @@ export class ProgramarComponent implements OnInit, OnDestroy {
         }
       },
       (err: any) => {
-        console.log(err)
+        // console.log(err)
       }
     )
   }
@@ -667,7 +667,7 @@ export class ProgramarComponent implements OnInit, OnDestroy {
     const client_id = 'mm1';
     this.eventSource = new EventSource(`http://192.168.51.210:3030/notifications?client_id=${client_id}`);
     this.eventSource.onmessage = (event) => {
-        console.log(event.data)
+        // console.log(event.data)
         if(event.data != 'off') {
           this.zone.run(() => {
             this.actualizarStatusTabla(event.data)
@@ -679,7 +679,7 @@ export class ProgramarComponent implements OnInit, OnDestroy {
   private darkModeSubscription(): void {
     this.dark.darkModeChanges$().subscribe((isDarkModeEnabled: boolean) => {
       this.mode = isDarkModeEnabled;
-      // console.log('Modo oscuro cambiado:', this.mode);
+      // // console.log('Modo oscuro cambiado:', this.mode);
     });
   }
 

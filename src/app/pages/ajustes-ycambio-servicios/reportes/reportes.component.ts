@@ -49,7 +49,7 @@ export class ReportesComponent implements OnInit {
        accept: async () => {
          this.button=true;
          // this.show = false;
-         // console.log(this.formReporte)
+         // // console.log(this.formReporte)
          let fechaini = moment(this.formReporte.value.fechas[0]).format('YYYY-MM-DD');
          let fechafin = moment(this.formReporte.value.fechas[1]).format('YYYY-MM-DD');
          let url=``;
@@ -59,14 +59,14 @@ export class ReportesComponent implements OnInit {
            "fecha2":fechafin
          }
          let nomArchivo="";
-         // console.log(a)
-         console.log(this.formReporte.value)
+         // // console.log(a)
+         // console.log(this.formReporte.value)
          if(this.formReporte.value.tipoReporte =='Reporte Sucursales'){
-           console.log("Ajustes Sucursales")
+           // console.log("Ajustes Sucursales")
            url = `ReportesIzzi/getReporteAjustesCambioServicios`;
            para =`fecha1=${fechaini}&fecha2=${fechafin}`
            nomArchivo="Reporte_Ajustes_Sucursales"
-           // console.log(`${url}?${para}`)
+           // // console.log(`${url}?${para}`)
          }
          else if(this.formReporte.value.tipoReporte =='Reporte Retencion 0'){
            url = `ReportesIzzi/ReporteRetencion0`;
@@ -99,7 +99,7 @@ export class ReportesComponent implements OnInit {
            this.messageService.add({ severity: 'info', summary: 'Generando', detail: 'Se ha generado el reporte' });
  
          } catch (error) {
-           console.log(error)
+           // console.log(error)
          }
          this.button = false
          this.formReporte.controls['tipoReporte'].reset();
@@ -122,7 +122,7 @@ export class ReportesComponent implements OnInit {
          this.reportes=response;
        }
      }).catch((error) => {
-       console.log("Error",error)
+       // console.log("Error",error)
      })
    }
  }

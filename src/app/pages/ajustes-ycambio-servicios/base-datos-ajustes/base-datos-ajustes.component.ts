@@ -54,7 +54,7 @@ export class BaseDatosAjustesComponent implements OnInit {
         fileReader.readAsBinaryString(file);
 
         fileReader.onload = (e) => {
-            console.log("Archivo cargado exitosamente");
+            // console.log("Archivo cargado exitosamente");
             var workBook = XLSX.read(fileReader.result, { type: 'binary', cellDates: true });
             var sheetNames = workBook.SheetNames;
             this.ExcelData = XLSX.utils.sheet_to_json(workBook.Sheets[sheetNames[0]], { defval: '' });
@@ -64,7 +64,7 @@ export class BaseDatosAjustesComponent implements OnInit {
                     if (typeof row['Descripción'] === 'string') {
                         row['Descripción'] = row['Descripción'].replace(pattern, '');
                     } else {
-                        console.log("Error: 'Descripción' no es una cadena en la fila:", row);
+                        // console.log("Error: 'Descripción' no es una cadena en la fila:", row);
                     }
                 }
                 return row;
@@ -72,7 +72,7 @@ export class BaseDatosAjustesComponent implements OnInit {
 
             let extraHeaders: string[] = [];
             for (let [key, value] of Object.entries(this.ExcelData[0])) {
-                console.log("Verificando encabezado:", key);
+                // console.log("Verificando encabezado:", key);
                 if (this.headers.includes(key)) {
                     count++;
                 } else {
@@ -80,8 +80,8 @@ export class BaseDatosAjustesComponent implements OnInit {
                 }
             }
 
-            console.log("Cantidad de encabezados coincidentes:", count);
-            console.log("Encabezados adicionales:", extraHeaders);
+            // console.log("Cantidad de encabezados coincidentes:", count);
+            // console.log("Encabezados adicionales:", extraHeaders);
 
             if (count == 7) {
                 Object.keys(this.ExcelData).forEach(key => {
@@ -137,7 +137,7 @@ export class BaseDatosAjustesComponent implements OnInit {
                     delete this.ExcelData[key]["Usuario Responsable"];
                 });
 
-                console.log("ExcelData procesado:", this.ExcelData);
+                // console.log("ExcelData procesado:", this.ExcelData);
 
                 this.messageService.add({
                     key: 'tst',
@@ -172,7 +172,7 @@ export class BaseDatosAjustesComponent implements OnInit {
         detail: 'Correctamente!!',
       }); 
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
       this.messageService.add({
         key: 'tst',
         severity: 'error',

@@ -96,7 +96,7 @@ export class SeriesComponent implements OnInit {
   }
 
   guardar(){
-    console.log(true)
+    // console.log(true)
     this.spinner=true;
     this.cors.post('Bots/InsertarExcelSeries',this.ExcelData).then((response) => {
       this.spinner=false;
@@ -107,7 +107,7 @@ export class SeriesComponent implements OnInit {
         detail: 'Correctamente!!',
       });this.getTablaSeries()
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
       this.spinner=false;
       this.messageService.add({
         key: 'tst',
@@ -119,7 +119,7 @@ export class SeriesComponent implements OnInit {
     // location.reload();
   }
   showErrorViaToast() {
-    console.log('ERROR');
+    // console.log('ERROR');
     this.messageService.add({
       key: 'tst',
       severity: 'error',
@@ -135,11 +135,11 @@ export class SeriesComponent implements OnInit {
   getTablaSeries(){
     this.cors.get('Bots/ObtenerSeries')
     .then((response)=>{
-      console.log(response)
+      // console.log(response)
       this.TablaSeries = response;
     })
     .catch((err)=>{
-      console.log(err)
+      // console.log(err)
     });
   }
   onGlobalFilter(table: Table, event: Event) {
@@ -178,14 +178,14 @@ eliminarColumna(id: any){
           "id": id
         }
       ).then((response) => {
-        console.log(response);
+        // console.log(response);
         const index = this.TablaSeries.findIndex((item: any) => item.id === id);
         if (index !== -1) {
           this.TablaSeries.splice(index, 1);
         }
         this.showToastSuccess(`Se eliminó la fila con información ${serieInfo} correctamente.`)
       }).catch((error) => {
-        console.log(error);
+        // console.log(error);
         this.showToastError(`No se logró eliminar la fila con información ${serieInfo}`)
       })
     }

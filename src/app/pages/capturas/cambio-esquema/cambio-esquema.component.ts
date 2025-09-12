@@ -121,7 +121,7 @@ export class CambioEsquemaComponent implements OnInit {
       this.cambioPaqueteEsquemaDia = response;
     })
     .catch((err)=>{
-      console.log(err)
+      // console.log(err)
     });
   }
 

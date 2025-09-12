@@ -98,7 +98,7 @@ export class RAySEComponent implements OnInit {
           this.display = false;
           this.enviando = false;
           this.toClearControls.forEach((element) => {
-            console.log(element);
+            // console.log(element);
 
             this.formPostPago.controls[element].setValue(null)
           })
@@ -127,11 +127,11 @@ export class RAySEComponent implements OnInit {
   getDatosPostPago(){
     this.cors.get('Formularios/ObtenerPostPagoPrePagoDia',{user:this.usuario.email})
     .then((response)=>{
-      console.log(response)
+      // console.log(response)
       this.PostPagoDia = response;
     })
     .catch((err)=>{
-      console.log(err)
+      // console.log(err)
     });
 
   }

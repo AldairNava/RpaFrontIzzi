@@ -45,7 +45,7 @@ export class CategoriasComponent implements OnInit {
         }
       },
       (err: any) => {
-        console.log(err)
+        // console.log(err)
       }
     )
   }
@@ -60,7 +60,7 @@ export class CategoriasComponent implements OnInit {
         }
       },
       (err: any) => {
-        console.log(err)
+        // console.log(err)
       }
     )
   }
@@ -80,7 +80,7 @@ export class CategoriasComponent implements OnInit {
         }
       },
       (err: any) => {
-        console.log(err);
+        // console.log(err);
       }
     )
   }
@@ -100,11 +100,11 @@ export class CategoriasComponent implements OnInit {
     this.filasCompletas = [];
     for(let i = 0 ; i < this.nuevasFilas.length ; i++) {
       if(this.nuevasFilas[i].subcategoria === '') {
-        console.log('Hay un campo vacío')
+        // console.log('Hay un campo vacío')
         this.showMessage('warn', 'Aviso', `Hay campos vacíos`);
         break;
       } else {
-        // console.log( this.nuevasFilas[i].categoria.id_categoria)
+        // // console.log( this.nuevasFilas[i].categoria.id_categoria)
         // this.nuevasFilas[i].categoria = this.nuevasFilas[i].categoria.id_categoria;
         const data = {
           subcategoria: this.nuevasFilas[i].subcategoria,
@@ -121,7 +121,7 @@ export class CategoriasComponent implements OnInit {
   }
 
   guardarFilas() {
-    console.log(this.filasCompletas)
+    // console.log(this.filasCompletas)
     const data ={
       controlador: 'parametrosController',
       metodo: 'agregarSubcat',
@@ -135,7 +135,7 @@ export class CategoriasComponent implements OnInit {
         }
       },
       (err: any) => {
-        console.log(err)
+        // console.log(err)
       }
     )
   }
@@ -148,7 +148,7 @@ export class CategoriasComponent implements OnInit {
   private darkModeSubscription(): void {
     this.dark.darkModeChanges$().subscribe((isDarkModeEnabled: boolean) => {
     this.mode = isDarkModeEnabled;
-    //   console.log('Modo oscuro cambiado:', this.mode);
+    //   // console.log('Modo oscuro cambiado:', this.mode);
     });
 }
 }

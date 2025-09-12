@@ -70,7 +70,7 @@ export class ReactivacionComponent implements OnInit {
     this.cors.get('Formularios/cat_TipoDispositivoReactivacion').then((response) => {
       this.tipodispos = response
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
     })
 
 
@@ -141,7 +141,7 @@ export class ReactivacionComponent implements OnInit {
       this.reactivacionDia = response;
     })
     .catch((err)=>{
-      console.log(err)
+      // console.log(err)
     });
   }
   onGlobalFilter(table: Table, event: Event) {

@@ -159,7 +159,7 @@ resetFileInput() {
 
   saveExcel() {
     this.cors.post('AjustesNotDone/InsertarBasesAjustesSinValidacion',this.ExcelData).then((response) => {
-      // console.log(response)
+      // // console.log(response)
       this.messageService.add({
         key: 'tst',
         severity: 'success',
@@ -167,7 +167,7 @@ resetFileInput() {
         detail: 'Correctamente!!',
       }); 
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
       // this.spinner=false;
       this.messageService.add({
         key: 'tst',
@@ -186,7 +186,7 @@ resetFileInput() {
   }
 
   dateFormat(value:any){
-    // console.log(value)
+    // // console.log(value)
     if(value != null){
       return moment(value).format('DD/MM/yyyy HH:mm:ss')
     }else{

@@ -259,7 +259,7 @@ onFileChangeStatus(event: any) {
           summary: 'Éxito',
           detail: `Se leyeron ${this.idsStatusFromFile.length} registros correctamente.`
         });
-        console.log(this.idsStatusFromFile);
+        // console.log(this.idsStatusFromFile);
       } catch (err: any) {
         this.messageService.add({
           key: 'tst',

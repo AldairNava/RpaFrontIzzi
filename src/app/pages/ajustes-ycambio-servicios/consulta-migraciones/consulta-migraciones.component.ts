@@ -30,18 +30,18 @@ export class ConsultaMigracionesComponent implements OnInit {
 
   getTablaMigracionesLineales(){
     this.cors.get('AjustesCambiosServicios/getMigracionesLineales').then((response) => {
-      // console.log(response)
+      // // console.log(response)
       if(response[0] == 'SIN INFO'){
         this.migraciones=[];
       }else{
         this.migraciones=response;
       }
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
     })
   }
   dateFormat(value:any){
-    // console.log(value)
+    // // console.log(value)
     if(value != null || value!=""){
       return moment(value).format('DD/MM/yyyy HH:mm:ss')
     }else{
@@ -49,7 +49,7 @@ export class ConsultaMigracionesComponent implements OnInit {
     }
   }
   dateFormat1(value:any){
-    // console.log(value)
+    // // console.log(value)
     if(value!=""){
       return moment(value).format('DD/MM/yyyy HH:mm:ss')
     }else{
@@ -61,7 +61,7 @@ export class ConsultaMigracionesComponent implements OnInit {
   }
   statsMigracionesLineales(){
     this.cors.get('AjustesCambiosServicios/getStatsMigracionesLineales').then((response) => {
-      // console.log(response)
+      // // console.log(response)
       for (let i = 0; i < response.length; i++) {
         const jsonObject = response[i];
         for (let key in jsonObject) {
@@ -72,7 +72,7 @@ export class ConsultaMigracionesComponent implements OnInit {
       }      
       this.stats=response;
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
     })
   }
 

@@ -9,8 +9,8 @@ import { ConsultaOkClienteComponent } from './consulta-ok-cliente/consulta-ok-cl
 
 const routes: Routes = [
   {
-    path: 'InportarOkCliente',
-    data: { breadcrumb: 'Inmportar ok-cliente' },
+    path: 'ImportarOkCliente',
+    data: { breadcrumb: 'Importar ok-cliente' },
     component: LayoutComponent,
     children: [{ path: '', component: OkClienteComponent }],
   },

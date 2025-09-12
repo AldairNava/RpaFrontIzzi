@@ -22,8 +22,7 @@ export class VerifyComponent implements OnInit {
       if (params['user']) {
         try {
           const decoded = decodeURIComponent(params['user']);
-          userData = JSON.parse(decoded); // Asegúrate de que el string sea un JSON válido
-          console.log('Usuario decodificado:', userData);
+          userData = JSON.parse(decoded);
           sessionStorage.setItem('user', JSON.stringify(userData));
         } catch (e) {
           console.error('Error al decodificar el usuario:', e);
@@ -34,18 +33,17 @@ export class VerifyComponent implements OnInit {
         const storedUser = sessionStorage.getItem('user');
         if (storedUser) {
           userData = JSON.parse(storedUser);
-          console.log('Usuario desde sessionStorage:', userData);
         } else {
           window.location.href = 'https://rpabackizzi.azurewebsites.net/Loginsaml/Login';
           return;
         }
       }
 
-      this.staff = userData?.Staff?.toLowerCase();
+      this.staff = userData?.Departamento?.toLowerCase();
 
       if (this.staff === 'mariana') {
         this.router.navigate(['/mariana']).then(() => this.loading = false);
-      } else if (this.staff === 'rpacx') {
+      } else if (this.staff === 'cx') {
         this.router.navigate(['/home']).then(() => this.loading = false);
       } else if (this.staff === 'wincallmx') {
         this.loading = false;

@@ -41,7 +41,7 @@ export class FallasDepuracionComponent implements OnInit {
   }
 
   sendData() {
-    console.log('click');
+    // console.log('click');
     this.closeModal = false;
     this.enviando = true;
     if (this.formReembolso.valid) {
@@ -81,7 +81,7 @@ export class FallasDepuracionComponent implements OnInit {
     }
   }
   verify() {
-    console.log(this.formReembolso)
+    // console.log(this.formReembolso)
     this.formReembolso.markAllAsTouched();
     if (this.formReembolso.valid) {
       this.display = true;
@@ -89,7 +89,7 @@ export class FallasDepuracionComponent implements OnInit {
   }
 
   showErrorViaToast() {
-    console.log('ERROR');
+    // console.log('ERROR');
     this.messageService.add({
       key: 'tst',
       severity: 'error',
@@ -105,11 +105,11 @@ export class FallasDepuracionComponent implements OnInit {
   gettablafallas(){
     this.cors.get('Bots/Obtenertablafallas',{user:this.usuario.email})
     .then((response)=>{
-      console.log(response)
+      // console.log(response)
       this.tablafallas = response;
     })
     .catch((err)=>{
-      console.log(err)
+      // console.log(err)
     });
   }
   onGlobalFilter(table: Table, event: Event) {
@@ -148,14 +148,14 @@ eliminarColumna(id: any){
           "id": id
         }
       ).then((response) => {
-        console.log(response);
+        // console.log(response);
         const index = this.tablafallas.findIndex((item: any) => item.id === id);
         if (index !== -1) {
           this.tablafallas.splice(index, 1);
         }
         this.showToastSuccess(`Se eliminó la fila con información ${fallaInfo} correctamente.`)
       }).catch((error) => {
-        console.log(error);
+        // console.log(error);
         this.showToastError(`No se logró eliminar la fila con información ${fallaInfo}`)
       })
     }

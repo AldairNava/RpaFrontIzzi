@@ -124,28 +124,28 @@ import { Table } from 'primeng/table';
       });
 
       this.cors.get('Formularios/HerramientasRetencionPre').then((response) => {
-        console.log(response);
+        // console.log(response);
         this.processArr1 = response
       }).catch((error) => {
   
       })
 
       this.cors.get('Formularios/HerramientasRetencionPost').then((response) => {
-        console.log(response);
+        // console.log(response);
         this.processArr2 = response
       }).catch((error) => {
   
       })
 
       this.cors.get('Formularios/MotivosPre').then((response) => {
-        console.log(response);
+        // console.log(response);
         this.processArr3 = response
       }).catch((error) => {
   
       })
 
       this.cors.get('Formularios/MotivosPost').then((response) => {
-        console.log(response);
+        // console.log(response);
         this.processArr4 = response
       }).catch((error) => {
   
@@ -167,7 +167,7 @@ import { Table } from 'primeng/table';
     }
   
     tipoCancelacion(evento: any) {
-      console.log(evento);
+      // console.log(evento);
       if (evento == 'Tradicional / New Era') {
         this.formSolicitud.controls['Herramienta_retencion'].setValidators(Validators.required);
         this.formSolicitud.controls['Herramienta_retencion'].updateValueAndValidity();
@@ -193,19 +193,19 @@ import { Table } from 'primeng/table';
       this.formSolicitud.controls['nd'].setValue(this.telefonosNd?.join(','));
     }
     sendData() {
-      console.log('click');
+      // console.log('click');
       this.closeModal = false;
       this.enviando = true;
       if (this.formSolicitud.valid) {
         this.cors
           .post('Formularios/GuardarFormularioSolicitud', this.formSolicitud.value)
           .then((response) => {
-            console.log("d");
+            // console.log("d");
   
             this.display = false;
             this.enviando = false;
             this.toClearControls.forEach((element) => {
-              console.log(element);
+              // console.log(element);
   
               this.formSolicitud.controls[element].setValue(null)
             })
@@ -216,7 +216,7 @@ import { Table } from 'primeng/table';
               summary: 'Datos guardados',
               detail: 'La solicitud de cancelacion fue guardada',
             });
-            console.log(this.messageService);
+            // console.log(this.messageService);
           })
           .catch((error) => {
             error;
@@ -233,7 +233,7 @@ import { Table } from 'primeng/table';
   
     //▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ MENSAJES ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
     showErrorViaToast() {
-      console.log('ERROR');
+      // console.log('ERROR');
       this.messageService.add({
         key: 'tst',
         severity: 'error',
@@ -253,7 +253,7 @@ import { Table } from 'primeng/table';
         this.solicitudDia = response;
       })
       .catch((err)=>{
-        console.log(err)
+        // console.log(err)
       });
     }
     onGlobalFilter(table: Table, event: Event) {

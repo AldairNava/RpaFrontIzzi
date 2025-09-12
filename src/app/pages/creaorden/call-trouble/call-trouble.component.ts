@@ -97,7 +97,7 @@ export class CallTroubleComponent implements OnInit {
   }
   saveExcel() {
     this.cors.post('AjustesNotDone/InsertarBasesOrdenTrouble',this.ExcelData).then((response) => {
-      // console.log(response)
+      // // console.log(response)
       this.messageService.add({
         key: 'tst',
         severity: 'success',
@@ -105,7 +105,7 @@ export class CallTroubleComponent implements OnInit {
         detail: 'Correctamente!!',
       }); 
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
       // this.spinner=false;
       this.messageService.add({
         key: 'tst',
@@ -120,7 +120,7 @@ export class CallTroubleComponent implements OnInit {
 
   }
   dateFormat(value:any){
-    // console.log(value)
+    // // console.log(value)
     if(value != null){
       return moment(value).format('DD/MM/yyyy HH:mm:ss')
     }else{

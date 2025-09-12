@@ -164,7 +164,7 @@ export class RetencionComponent implements OnInit {
         detail: 'Correctamente!!',
       }); 
     }).catch((error) => {
-      console.log(error);
+      // console.log(error);
       this.messageService.add({
         key: 'tst',
         severity: 'error',

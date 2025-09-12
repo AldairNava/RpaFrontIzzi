@@ -159,10 +159,10 @@ export class ServicioscscostoComponent implements OnInit {
     this.cors.get('Formularios/ObtenerServiciosDia',{user:this.usuario.email})
     .then((response)=>{
       this.serviciosDia = response;
-      // console.log(this.serviciosDia)
+      // // console.log(this.serviciosDia)
     })
     .catch((err)=>{
-      console.log(err)
+      // console.log(err)
     });
   }
   onGlobalFilter(table: Table, event: Event) {

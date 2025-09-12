@@ -281,7 +281,7 @@ export class DashboardComponent implements OnInit {
             }else{
  
             
-                // console.log(response);
+                // // console.log(response);
                 let grafica = response[0].grafica;
                 grafica.forEach((obj:any) => {
                     Object.entries(obj).forEach(([key, value]) => {
@@ -315,7 +315,7 @@ export class DashboardComponent implements OnInit {
                 this.basicDataExtArray.status=response[0].status
                 this.basicDataExtArray.ip=response[0].ip
 
-                // console.log(this.basicDataExtArray)
+                // // console.log(this.basicDataExtArray)
                
 
                 this.basicDataEXT = {
@@ -334,7 +334,7 @@ export class DashboardComponent implements OnInit {
         
             }
         }).catch((error) => {
-            console.log(error)
+            // console.log(error)
             this.messageService.add({
                 key:'tst',
                 severity: 'error',
@@ -402,7 +402,7 @@ export class DashboardComponent implements OnInit {
             }else{
  
             
-                // console.log(response);
+                // // console.log(response);
                 let grafica = response[0].grafica;
                 grafica.forEach((obj:any) => {
                     Object.entries(obj).forEach(([key, value]) => {
@@ -436,7 +436,7 @@ export class DashboardComponent implements OnInit {
                 this.basicDataCCArray.status=response[0].status
                 this.basicDataCCArray.ip=response[0].ip
                 this.basicDataCCArray.tipo=response[0].tipo
-            //    console.log(this.basicDataCCArray)
+            //    // console.log(this.basicDataCCArray)
 
                 this.basicDataCC = {
                     // labels: ['Q1', 'Q2', 'Q3', 'Q4'],
@@ -454,7 +454,7 @@ export class DashboardComponent implements OnInit {
         
             }
         }).catch((error) => {
-            console.log(error)
+            // console.log(error)
             this.messageService.add({
                 key:'tst',
                 severity: 'error',
@@ -522,7 +522,7 @@ export class DashboardComponent implements OnInit {
             }else{
  
             
-                // console.log(response);
+                // // console.log(response);
                 let grafica = response[0].grafica;
                 grafica.forEach((obj:any) => {
                     Object.entries(obj).forEach(([key, value]) => {
@@ -557,7 +557,7 @@ export class DashboardComponent implements OnInit {
                 this.basicDataAjustesConValidacionArray.status=response[0].status
                 this.basicDataAjustesConValidacionArray.ip=response[0].ip
                
-                // console.log(this.basicDataAjustesConValidacionArray)
+                // // console.log(this.basicDataAjustesConValidacionArray)
                 this.basicDataAjustesConValidacion = {
                     // labels: ['Q1', 'Q2', 'Q3', 'Q4'],
                     labels: this.basicDataAjustesConValidacionArray.graf,
@@ -577,7 +577,7 @@ export class DashboardComponent implements OnInit {
         
             }
         }).catch((error) => {
-            console.log(error)
+            // console.log(error)
             this.load=false;
             this.messageService.add({
                 key:'tst',
@@ -679,7 +679,7 @@ export class DashboardComponent implements OnInit {
                 this.basicDataAjustesSinValidacionArray.status=response[0].status
                 this.basicDataAjustesSinValidacionArray.ip=response[0].ip
                
-                // console.log(this.basicDataAjustesSinValidacionArray)
+                // // console.log(this.basicDataAjustesSinValidacionArray)
                 this.basicDataAjustesSinValidacion = {
                     // labels: ['Q1', 'Q2', 'Q3', 'Q4'],
                     labels: this.basicDataAjustesSinValidacionArray.graf,
@@ -696,7 +696,7 @@ export class DashboardComponent implements OnInit {
         
             }
         }).catch((error) => {
-            console.log(error)
+            // console.log(error)
             this.messageService.add({
                 key:'tst',
                 severity: 'error',
@@ -805,7 +805,7 @@ export class DashboardComponent implements OnInit {
         
             }
         }).catch((error) => {
-            console.log(error)
+            // console.log(error)
             this.messageService.add({
                 key:'tst',
                 severity: 'error',
@@ -914,7 +914,7 @@ export class DashboardComponent implements OnInit {
         
             }
         }).catch((error) => {
-            console.log(error)
+            // console.log(error)
             this.messageService.add({
                 key:'tst',
                 severity: 'error',
@@ -1023,7 +1023,7 @@ export class DashboardComponent implements OnInit {
         
             }
         }).catch((error) => {
-            console.log(error)
+            // console.log(error)
             this.messageService.add({
                 key:'tst',
                 severity: 'error',
@@ -1132,7 +1132,7 @@ export class DashboardComponent implements OnInit {
         
             }
         }).catch((error) => {
-            console.log(error)
+            // console.log(error)
             this.messageService.add({
                 key:'tst',
                 severity: 'error',
@@ -1241,7 +1241,7 @@ export class DashboardComponent implements OnInit {
         
             }
         }).catch((error) => {
-            console.log(error)
+            // console.log(error)
             this.messageService.add({
                 key:'tst',
                 severity: 'error',
@@ -1351,7 +1351,7 @@ export class DashboardComponent implements OnInit {
         
             }
         }).catch((error) => {
-            console.log(error)
+            // console.log(error)
             this.messageService.add({
                 key:'tst',
                 severity: 'error',

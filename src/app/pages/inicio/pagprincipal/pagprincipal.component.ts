@@ -18,7 +18,7 @@ export class PagprincipalComponent implements OnInit {
   }
 
   navigateToProjects1() {
-    this.router.navigate(['/login-Izzi']);
+    this.router.navigate(['/verify']);
   }
 
   navigateToProjects2() {

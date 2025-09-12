@@ -102,7 +102,7 @@ button:boolean=true;
     let fileInput = event.target;
     let file = fileInput.files[0];
     let ultimo = file.name.split('.');
-    console.log('Inicio de la lectura del archivo:', file.name);
+    // console.log('Inicio de la lectura del archivo:', file.name);
 
     if (ultimo[ultimo.length - 1] != 'xlsx') {
         this.messageService.add({
@@ -111,7 +111,7 @@ button:boolean=true;
             summary: 'La extensión del archivo es incorrecta',
             detail: 'Ingresa un archivo con extensión XLSX!!',
         });
-        console.log('Error: La extensión del archivo es incorrecta');
+        // console.log('Error: La extensión del archivo es incorrecta');
         fileInput.value = '';
     } else if (ultimo[ultimo.length - 1] == 'xlsx') {
         let fileReader = new FileReader();
@@ -120,8 +120,8 @@ button:boolean=true;
             var workBook = XLSX.read(fileReader.result, { type: 'binary', cellDates: true });
             var sheetNames = workBook.SheetNames;
             let rawData = XLSX.utils.sheet_to_json(workBook.Sheets[sheetNames[0]], { defval: '' }) as any[];
-            console.log('Lectura del archivo completada con éxito');
-            console.log('Datos leídos del archivo:', rawData);
+            // console.log('Lectura del archivo completada con éxito');
+            // console.log('Datos leídos del archivo:', rawData);
 
             let keys = Object.keys(rawData[0]);
             let columnasRequeridas = ['SERIE', 'PUNTO DE INVENTARIO'];
@@ -134,7 +134,7 @@ button:boolean=true;
                     summary: 'Error',
                     detail: `Columna no encontrada: ${columnasFaltantes.join(', ')}!!!`,
                 });
-                console.log(`Error: Columna no encontrada: ${columnasFaltantes.join(', ')}!!!`);
+                // console.log(`Error: Columna no encontrada: ${columnasFaltantes.join(', ')}!!!`);
                 this.ExcelData = [];
                 fileInput.value = '';
             } else {
@@ -150,7 +150,7 @@ button:boolean=true;
                     summary: 'Éxito!!!',
                     detail: 'El archivo se ha cargado completamente!!!',
                 });
-                console.log('Archivo procesado correctamente');
+                // console.log('Archivo procesado correctamente');
                 this.button = false;
                 this.tabla = true;
             }
@@ -162,7 +162,7 @@ button:boolean=true;
   
 
   guardar(){
-    console.log("Imprimiendo datos",this.ExcelData)
+    // console.log("Imprimiendo datos",this.ExcelData)
     this.spinner=true;
     this.cors.post('Bots/InsertarExcelSeriesMasivo',this.ExcelData).then((response) => {
       this.spinner=false;
@@ -173,7 +173,7 @@ button:boolean=true;
         detail: 'Correctamente!!',
       });this.getTablaSeries()
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
       this.spinner=false;
       this.messageService.add({
         key: 'tst',
@@ -185,7 +185,7 @@ button:boolean=true;
     // location.reload();
   }
   guardarExclucion(){
-    console.log(true)
+    // console.log(true)
     this.spinner=true;
     this.cors.post('Bots/InsertarExcelSeriesExclucion',this.ExcelData).then((response) => {
       this.spinner=false;
@@ -196,7 +196,7 @@ button:boolean=true;
         detail: 'Correctamente!!',
       });this.getTablaSeries()
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
       this.spinner=false;
       this.messageService.add({
         key: 'tst',
@@ -208,7 +208,7 @@ button:boolean=true;
     // location.reload();
   }
   showErrorViaToast() {
-    console.log('ERROR');
+    // console.log('ERROR');
     this.messageService.add({
       key: 'tst',
       severity: 'error',
@@ -224,11 +224,11 @@ button:boolean=true;
   getTablaSeries(){
     this.cors.get('Bots/ObtenerSeriesxclucion')
     .then((response)=>{
-      console.log(response)
+      // console.log(response)
       this.TablaSeries = response;
     })
     .catch((err)=>{
-      console.log(err)
+      // console.log(err)
     });
   }
   onGlobalFilter(table: Table, event: Event) {
@@ -267,14 +267,14 @@ eliminarColumna(id: any){
           "id": id
         }
       ).then((response) => {
-        console.log(response);
+        // console.log(response);
         const index = this.TablaSeries.findIndex((item: any) => item.id === id);
         if (index !== -1) {
           this.TablaSeries.splice(index, 1);
         }
         this.showToastSuccess(`Se eliminó la fila con información ${serieInfo} correctamente.`)
       }).catch((error) => {
-        console.log(error);
+        // console.log(error);
         this.showToastError(`No se logró eliminar la fila con información ${serieInfo}`)
       })
     }
