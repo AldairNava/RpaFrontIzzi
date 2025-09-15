@@ -15,7 +15,7 @@ export class SidenavComponent implements OnInit {
 
   collapsed: boolean = false;
   navData = navData;
-  mode: boolean | undefined;
+  mode: boolean = true;
   multiple: boolean = false;
 
   userName: any;
@@ -33,7 +33,7 @@ export class SidenavComponent implements OnInit {
   if (storedUser) {
     const user = JSON.parse(storedUser);
 
-    this.userName = user.Name;
+    this.userName = user.name;
     this.separarNombre();
     this.darkModeSubscription();
 

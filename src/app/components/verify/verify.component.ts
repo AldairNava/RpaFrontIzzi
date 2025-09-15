@@ -27,16 +27,17 @@ export class VerifyComponent implements OnInit {
         this.cors.get(`LoginSaml/session?token=${encodeURIComponent(cleanToken)}`)
           .then(userData => {
             if (userData && userData.staff) {
+              console.log('Datos del usuario recibidos:', userData);
               // Guarda los datos en sessionStorage tal como llegan
               sessionStorage.setItem('user', JSON.stringify(userData));
               this.staff = userData.staff.toLowerCase();
               this.handleRedirect();
             } else {
-              this.handleInvalidUser();
+              // this.handleInvalidUser();
             }
           })
           .catch(() => {
-            this.handleInvalidUser();
+            // this.handleInvalidUser();
           });
       } else {
         // Si no hay token, busca en sessionStorage
@@ -46,7 +47,7 @@ export class VerifyComponent implements OnInit {
           this.staff = userData?.staff?.toLowerCase();
           this.handleRedirect();
         } else {
-          this.handleInvalidUser();
+          // this.handleInvalidUser();
         }
       }
     });
