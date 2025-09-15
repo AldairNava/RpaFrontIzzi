@@ -33,11 +33,11 @@ export class VerifyComponent implements OnInit {
               this.staff = userData.staff.toLowerCase();
               this.handleRedirect();
             } else {
-              // this.handleInvalidUser();
+              this.handleInvalidUser();
             }
           })
           .catch(() => {
-            // this.handleInvalidUser();
+            this.handleInvalidUser();
           });
       } else {
         // Si no hay token, busca en sessionStorage
@@ -47,7 +47,7 @@ export class VerifyComponent implements OnInit {
           this.staff = userData?.staff?.toLowerCase();
           this.handleRedirect();
         } else {
-          // this.handleInvalidUser();
+          this.handleInvalidUser();
         }
       }
     });
