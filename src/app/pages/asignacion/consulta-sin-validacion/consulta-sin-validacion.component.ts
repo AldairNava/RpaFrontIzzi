@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Message,MessageService } from 'primeng/api';
 import { CorsService } from '@services';
 import * as moment from 'moment';
-import * as XLSX from 'xlsx';
 import { Table } from 'primeng/table';
 
 @Component({

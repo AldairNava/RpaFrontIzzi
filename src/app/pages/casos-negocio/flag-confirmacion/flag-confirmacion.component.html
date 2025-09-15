@@ -1,0 +1,99 @@
+<div class="text-900 font-bold text-2xl mb-4 text-center" style="background-color: #11b1fa; color: white !important;">
+  Importar Confirmaciones de Flag
+</div>
+
+<div class="card" style="padding-left: 1rem;">
+  <p-panel header="" class="line-height-12 m-0">
+    <!-- Inputs de archivo -->
+    <div class="p-fluid p-formgrid grid m-2 flex justify-content-center">
+      <div class="col-6 text-center">
+        <input
+          type="file"
+          id="file"
+          accept=".csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          (change)="readExcel($event)">
+      </div>
+    </div>
+    <div class="grid flex justify-content-center">
+      <div class="col-4 text-center">
+        <button
+          mat-button
+          (click)="saveExcel()"
+          pButton
+          [disabled]="button || spinner"
+          *ngIf="!spinner"
+          label="Importar Base"
+          style="width:auto; background-color: #11b1fa; border: 0; margin-right: 10px;">
+        </button>
+        <p-progressSpinner
+          *ngIf="spinner"
+          [style]="{width: '40px', height: '40px'}"
+          strokeWidth="4"
+          animationDuration=".5s"
+          styleClass="custom-spinner">
+        </p-progressSpinner>
+        <button
+          mat-button
+          (click)="resetFileInput()"
+          pButton
+          label="Vaciar"
+          style="width:auto; background-color: #FF6666; border: 0;">
+        </button>
+      </div>
+    </div>
+  </p-panel>
+  <br>
+</div>
+
+<div class="row" *ngIf="tabla">
+  <div class="cols">
+    <div class="card">
+      <p-table #dt1 [value]="ExcelData" dataKey="Cuenta" [rows]="50" [rowHover]="true"
+        [rowsPerPageOptions]="[50,100,500,1000]" styleClass="p-datatable-gridlines"
+        [paginator]="true" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+          <tr>
+            <th><div class="flex justify-content-center align-items-center">Cuenta</div></th>
+            <th><div class="flex justify-content-center align-items-center">NomCliente</div></th>
+            <th><div class="flex justify-content-center align-items-center">ServicioContratado</div></th>
+            <th><div class="flex justify-content-center align-items-center">FechaInstalacion</div></th>
+            <th><div class="flex justify-content-center align-items-center">NumOrden</div></th>
+            <th><div class="flex justify-content-center align-items-center">NomCampaña</div></th>
+            <th><div class="flex justify-content-center align-items-center">OpcionDigitada</div></th>
+            <th><div class="flex justify-content-center align-items-center">DNIS</div></th>
+            <th><div class="flex justify-content-center align-items-center">Status</div></th>
+            <th><div class="flex justify-content-center align-items-center">Cve_usuario</div></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+          <tr>
+            <td class="text-center">{{item.Cuenta}}</td>
+            <td class="text-center">{{item.NomCliente}}</td>
+            <td class="text-center">{{item.ServicioContratado}}</td>
+            <td class="text-center">{{item.FechaInstalacion}}</td>
+            <td class="text-center">{{item.NumOrden}}</td>
+            <td class="text-center">{{item["NomCampana"]}}</td>
+            <td class="text-center">{{item.OpcionDigitada}}</td>
+            <td class="text-center">{{item.DNIS}}</td>
+            <td class="text-center">{{item.Status}}</td>
+            <td class="text-center">{{item.Cve_usuario}}</td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="10">Sin Datos para Mostrar.</td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="loadingbody">
+          <tr>
+            <td colspan="10">Cargando Datos, espere...</td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="paginatorleft" let-state>
+          Mostrando {{(state.page * state.rows) + 1}} a {{state.rows * (state.page + 1)}} de {{state.totalRecords}} registros.
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>
+<p-toast [baseZIndex]="99999" key="tst"></p-toast>

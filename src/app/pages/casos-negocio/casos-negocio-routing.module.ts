@@ -13,6 +13,8 @@ import { ReprocesarsinvalidacionComponent } from './reprocesarsinvalidacion/repr
 import { ReprocesarCasosnegociosinvalidacionComponent } from './reprocesar-casosnegociosinvalidacion/reprocesar-casosnegociosinvalidacion.component';
 import { BaseNotdoneComponent } from './base-notdone/base-notdone.component';
 import { ImportarNotDoneComponent } from './importar-not-done/importar-not-done.component';
+import { FlagConfirmacionComponent } from './flag-confirmacion/flag-confirmacion.component';
+import { ConsultarFlagConfirmacionComponent } from './consultar-flag-confirmacion/consultar-flag-confirmacion.component';
 
 const routes: Routes = [
 	{
@@ -22,58 +24,63 @@ const routes: Routes = [
 	},
 	{
 		path: 'consulta',
+		data: { breadcrumb: 'Consulta' },
 		component: LayoutComponent,
 		children: [{ path: '', component: PantallaConsultaComponent }],
 	},
 	{
 		path: 'parametros',
+		data: { breadcrumb: 'Parámetros' },
 		component: LayoutComponent,
 		children: [{ path: '', component: ParametrosconfigComponent }],
 	},
 	{
 		path: 'cancelacionSinValidacion',
+		data: { breadcrumb: 'Cancelación Sin Validación' },
 		component: LayoutComponent,
 		children: [{ path: '', component: CancelacionSinValidacionComponent }],
 	},
 	{
 		path: 'CasosNegocioSinValidacion',
+		data: { breadcrumb: 'Casos de Negocio Sin Validación' },
 		component: LayoutComponent,
 		children: [{ path: '', component: CasosNegocioSinValidacionComponent }],
 	},
 	{
 		path: 'consultaCancelacionSinValidacion',
+		data: { breadcrumb: 'Consulta Cancelación Sin Validación' },
 		component: LayoutComponent,
 		children: [{ path: '', component: ConsultacancelacionSinValidacionComponent }],
 	},
 	{
 		path: 'consultaCasosNegocioSinValidacion',
+		data: { breadcrumb: 'Consulta Casos de Negocio Sin Validación' },
 		component: LayoutComponent,
 		children: [{ path: '', component: ConsultacasosNegocioSinValidacionComponent }],
 	},
 	{
-		path: 'reprocesarnotdone',
-		component: LayoutComponent,
-		children: [{ path: '', component: ReprocesarComponent }],
-	},
-	{
-		path: 'reprocesarnotdonesinvalidacion',
-		component: LayoutComponent,
-		children: [{ path: '', component: ReprocesarsinvalidacionComponent }],
-	},
-	{
-		path: 'reprocesarcasosnegociosinvalidacion',
-		component: LayoutComponent,
-		children: [{ path: '', component: ReprocesarCasosnegociosinvalidacionComponent }],
-	},
-	{
 		path: 'ImportarNotDone',
+		data: { breadcrumb: 'Importar Not Done Depurado' },
 		component: LayoutComponent,
 		children: [{ path: '', component: ImportarNotDoneComponent }],
 	},
 	{
 		path: 'BasesNotDone',
+		data: { breadcrumb: 'Bases Not Done Depurado' },
 		component: LayoutComponent,
 		children: [{ path: '', component: BaseNotdoneComponent }],
+	},
+	{
+		path: 'flagConfirmacion',
+		data: { breadcrumb: 'Flag de Confirmación' },
+		component: LayoutComponent,
+		children: [{ path: '', component: FlagConfirmacionComponent }],
+	},
+	{
+		path: 'consultarFlagConfirmacion',
+		data: { breadcrumb: 'Consultar Flag de Confirmación' },
+		component: LayoutComponent,
+		children: [{ path: '', component: ConsultarFlagConfirmacionComponent }],
 	},
 
 ];

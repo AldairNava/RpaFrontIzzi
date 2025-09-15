@@ -233,15 +233,36 @@ export class MenuComponent implements OnInit {
           ]
         },
         {
-          label: 'Importar NotDone',
-          icon: 'pi pi-fw pi-database',
-          routerLink: ['/notDone/ImportarNotDone'],
+          label: 'Base Depurada NotDone',
+          items: [
+            {
+              label: 'Importar NotDone',
+              icon: 'pi pi-fw pi-database',
+              routerLink: ['/notDone/ImportarNotDone'],
+            },
+            {
+              label: 'Archivos NotDone',
+              icon: 'pi pi-fw pi-file-pdf',
+              routerLink: ['/notDone/BasesNotDone'],
+            },
+          ]
         },
         {
-          label: 'Archivos NotDone',
-          icon: 'pi pi-fw pi-file-pdf',
-          routerLink: ['/notDone/BasesNotDone'],
+          label: 'Flag de Confirmación',
+          items: [
+            {
+              label: 'Importar Flag de Confirmación',
+              icon: 'pi pi-fw pi-database',
+              routerLink: ['/notDone/flagConfirmacion'],
+            },
+            {
+              label: 'Consultar Base flag de Confirmación',
+              icon: 'pi pi-fw pi-search',
+              routerLink: ['/notDone/consultarFlagConfirmacion'],
+            },
+          ]
         },
+        
       ]
     },
     {
