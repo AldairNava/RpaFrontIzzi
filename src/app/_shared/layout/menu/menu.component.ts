@@ -479,7 +479,7 @@ export class MenuComponent implements OnInit {
 
   ngOnInit() {
     const usuarioInfo = JSON.parse(sessionStorage.getItem('user') || '{}');
-    const role = usuarioInfo?.Role as string;
+    const role = usuarioInfo?.role as string;
     if (!role) {
       this.model = [];
       return;

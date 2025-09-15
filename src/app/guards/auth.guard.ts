@@ -35,20 +35,21 @@ export class AuthGuard implements CanActivate {
   ): Observable<boolean | UrlTree> {
     const path = route.url[0]?.path;
     const usuarioInfo = JSON.parse(sessionStorage.getItem('user') || '{}');
+    console.log('Usuario Info:', usuarioInfo);
 
     // Validar que exista Role
-    if (!usuarioInfo?.Role) {
+    if (!usuarioInfo?.role) {
       this.router.navigate(['/403'], { skipLocationChange: true });
       return of(false);
     }
 
-    const departamento = (usuarioInfo?.Departamento || '').toLowerCase();
-    if (departamento !== 'cx' && departamento !== 'wincallmx') {
+    const staff = (usuarioInfo?.staff || '').toLowerCase();
+    if (staff !== 'cx' && staff !== 'wincallmx') {
       this.router.navigate(['/403'], { skipLocationChange: true });
       return of(false);
     }
 
-    return this.permisoService.obtenerPermisos(usuarioInfo.Role).pipe(
+    return this.permisoService.obtenerPermisos(usuarioInfo.role).pipe(
       map((permisos: string[]) => {
         if (permisos.includes(path)) {
           return true;

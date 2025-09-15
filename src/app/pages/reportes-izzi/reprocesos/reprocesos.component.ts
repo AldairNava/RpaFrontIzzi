@@ -99,7 +99,7 @@ export class ReprocesosComponent implements OnInit {
     });
 
     let user = JSON.parse(sessionStorage.getItem("user") || "{}")
-    this.isAdmin = ['administrador', 'admin-cx'].includes(user?.Role);
+    this.isAdmin = ['administrador', 'admin-cx', 'Administrador'].includes(user?.role);
   }
 
   cambiarStatusIndividual() {

@@ -37,17 +37,49 @@ export class UsuariosCXComponent implements OnInit {
   }
 
   obtenerUsuarios(): void {
-    this.loading = true;
-    this.cors.get('User/getUsersCx')
-      .then((data: UsuarioCx[]) => {
+  this.loading = true;
+  this.cors.get('User/getUsersCx')
+    .then((data: UsuarioCx[]) => {
+      const storedUser = sessionStorage.getItem('user');
+      let usuarioLogueado: any = null;
+      if (storedUser) {
+        usuarioLogueado = JSON.parse(storedUser);
+      }
+
+      if (usuarioLogueado && usuarioLogueado.role) {
+  const rol = usuarioLogueado.role;
+  if (rol === 'administrador' || rol === 'Administrador') {
         this.usuarios = data;
-        this.loading = false;
-      })
-      .catch((err: any) => {
+      } else if (rol === 'admin-cx') {
+        this.usuarios = data.filter(u =>
+          (u.staff === 'cx' && u.departamento === 'cx') ||
+          (u.staff === 'General' && u.departamento === 'General')
+        );
+      } else if (rol === 'admin-sucursales') {
+        this.usuarios = data.filter(u =>
+          (u.staff === 'cx' && u.departamento === 'sucursales') ||
+          (u.staff === 'General' && u.departamento === 'General')
+        );
+      } else if (rol === 'admin-limpieza') {
+        this.usuarios = data.filter(u =>
+          (u.staff === 'cx' && u.departamento === 'limpieza') ||
+          (u.staff === 'General' && u.departamento === 'General')
+        );
+      } else {
         this.usuarios = [];
-        this.loading = false;
-      });
-  }
+      }
+    } else {
+      this.usuarios = [];
+    }
+
+      this.loading = false;
+    })
+    .catch((err: any) => {
+      this.usuarios = [];
+      this.loading = false;
+    });
+}
+
 
   cambiarEstadoUsuario(user: UsuarioCx, nuevoEstado: number) {
     this.loading = true;
@@ -92,26 +124,39 @@ export class UsuariosCXComponent implements OnInit {
     this.cargarRolesDisponibles();
   }
 
-  cargarRolesDisponibles() {
-    this.cors.get('User/getRole')
-      .then((data: any[]) => {
-        this.rolesDisponibles = data.map(x => ({
-          label: x.Name || x.name,
-          value: x.Name || x.name
-        }));
-        // Prevención: agrega el rol actual si no viene en la lista
-        if (
-          this.editandoUsuario &&
-          this.editandoUsuario.rol &&
-          !this.rolesDisponibles.some(r => r.value === this.editandoUsuario!.rol)
-        ) {
-          this.rolesDisponibles.unshift({
-            label: this.editandoUsuario.rol,
-            value: this.editandoUsuario.rol
-          });
+cargarRolesDisponibles() {
+  this.cors.get('User/getRole')
+    .then((data: any[]) => {
+      const storedUser = sessionStorage.getItem('user');
+      let usuarioLogueado: any = null;
+      if (storedUser) {
+        usuarioLogueado = JSON.parse(storedUser);
+      }
+
+      let rolesFiltrados = data;
+
+      if (usuarioLogueado && usuarioLogueado.Role && usuarioLogueado.Role !== 'administrador') {
+        if (usuarioLogueado.Role === 'admin-cx') {
+          rolesFiltrados = data.filter(x => (x.departamento || '').toLowerCase() === 'cx');
+        } else if (usuarioLogueado.Role === 'admin-sucursales') {
+          rolesFiltrados = data.filter(x => (x.departamento || '').toLowerCase() === 'sucursales');
+        } else if (usuarioLogueado.Role === 'admin-limpieza') {
+          rolesFiltrados = data.filter(x => (x.departamento || '').toLowerCase() === 'limpieza');
+        } else {
+          rolesFiltrados = [];
         }
-      });
-  }
+      }
+
+      this.rolesDisponibles = rolesFiltrados.map(x => ({
+        label: x.Name || x.name,
+        value: x.Name || x.name
+      }));
+    });
+}
+
+
+
+
 
   guardarUsuarioEditado() {
     if (!this.editandoUsuario) return;

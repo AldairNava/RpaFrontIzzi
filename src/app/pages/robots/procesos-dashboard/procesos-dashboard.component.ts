@@ -107,11 +107,6 @@ export class ProcesosDashboardComponent implements OnInit {
         this.showToastError(`No hay registros de procesos!`)
 
       }else{
-        // for(var b=0;b<response.length;b++){
-        //   if(response[b].status == "1"){
-        //     this.dataSource.push(response[b])
-        //   }
-        // }
         this.dataSource = response;
       }
     }).catch((error) => {

@@ -192,8 +192,8 @@ export class DashboardComponent implements OnInit {
         }, 300000);
 
         const user = JSON.parse(sessionStorage.getItem('user') || '{}');
-        this.isAdmin = ['administrador', 'admin-cx'].includes(user?.Role);
-        this.isAdmin2 = user?.Role === 'admin-ajustesSucursales';
+        this.isAdmin = ['administrador', 'admin-cx'].includes(user?.role);
+        this.isAdmin2 = user?.role === 'admin-ajustesSucursales';
         this.isUser = !this.isAdmin && !this.isAdmin2;
         this.firstName = user?.firstName || '';
         this.lastName = user?.lastName || '';
