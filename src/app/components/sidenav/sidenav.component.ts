@@ -37,7 +37,7 @@ export class SidenavComponent implements OnInit {
     this.separarNombre();
     this.darkModeSubscription();
 
-    const usuarioRol = user.Role; 
+    const usuarioRol = user.role; 
 
     console.log('Rol del usuario:', usuarioRol);
 
@@ -109,6 +109,6 @@ export class SidenavComponent implements OnInit {
   private darkModeSubscription(): void {
     this.dark.darkModeChanges$().subscribe((isDarkModeEnabled: boolean) => {
       this.mode = isDarkModeEnabled;
-    });
+    }); 
   }
 }
