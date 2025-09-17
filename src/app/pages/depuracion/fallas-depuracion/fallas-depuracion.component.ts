@@ -15,7 +15,7 @@ export class FallasDepuracionComponent implements OnInit {
   closeModal: boolean = true;
   display: boolean = false;
   enviando: boolean = false;
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   toClearControls: string[] = ["falla"]
   msgs: Message[] = [];
   validador = [false];

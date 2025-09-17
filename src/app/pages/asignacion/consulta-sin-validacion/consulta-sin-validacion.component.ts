@@ -10,7 +10,7 @@ import { Table } from 'primeng/table';
   styleUrls: ['./consulta-sin-validacion.component.scss']
 })
 export class ConsultaSinValidacionComponent implements OnInit {
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   msgs: Message[] = [];
   showtable:any;
   stats:any[]=[];

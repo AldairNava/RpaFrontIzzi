@@ -28,7 +28,7 @@ export class ReembolsoComponent implements OnInit {
   closeModal: boolean = true;
   display: boolean = false; //Dialogo de confirmacion
   enviando: boolean = false;
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   toClearControls: string[] = ["Cuenta", "Pais","NumeroSolicitud","anios","TipoCuenta"]
   msgs: Message[] = [];
   validador = [false];

@@ -13,7 +13,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class ReportesComponent implements OnInit {
  formReporte:UntypedFormGroup;
-   usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+   usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
    msgs: Message[] = [];
    mostrandoResultados: boolean = false
    reportes:any = [];

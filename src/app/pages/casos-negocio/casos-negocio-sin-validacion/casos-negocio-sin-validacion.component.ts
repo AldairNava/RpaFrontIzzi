@@ -10,7 +10,7 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./casos-negocio-sin-validacion.component.scss']
 })
 export class CasosNegocioSinValidacionComponent implements OnInit {
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   msgs: Message[] = [];
   ExcelData:any=[];
   headers:string[]=[

@@ -75,7 +75,7 @@ reprocesarIndividual() {
   if (!this.idIndividual) return;
 
   // Obtener usuario del localStorage
-  const usuario = JSON.parse(localStorage.getItem("userData") || "{}");
+  const usuario = JSON.parse(sessionStorage.getItem("user") || "{}");
   if (!usuario?.email) {
     this.messageService.add({
       key: 'tst',
@@ -202,7 +202,7 @@ reprocesarIndividual() {
     reprocesarMasivo() {
       this.displayConfirmMasivo = false;
       // Obtener usuario del localStorage
-      const usuario = JSON.parse(localStorage.getItem("userData") || "{}");
+      const usuario = JSON.parse(sessionStorage.getItem("user") || "{}");
       if (!usuario?.email) {
         this.messageService.add({
           key: 'tst',
@@ -297,7 +297,7 @@ reprocesarIndividual() {
 
   cambiarStatusIndividual() {
   this.displayConfirmCambioStatus = false;
-  const usuario = JSON.parse(localStorage.getItem("userData") || "{}");
+  const usuario = JSON.parse(sessionStorage.getItem("user") || "{}");
   if (!usuario?.email) {
     this.messageService.add({
       key: 'tst',
@@ -403,7 +403,7 @@ reprocesarIndividual() {
 
   cambiarStatusMasivo() {
     this.displayConfirmCambioStatusMasivo = false;
-    const usuario = JSON.parse(localStorage.getItem("userData") || "{}");
+    const usuario = JSON.parse(sessionStorage.getItem("user") || "{}");
     if (!usuario?.email) {
       this.messageService.add({
         key: 'tst',

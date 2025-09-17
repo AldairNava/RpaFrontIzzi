@@ -92,7 +92,7 @@ export class GeneracionSolicitudComponent implements OnInit {
   today = new Date();
 
   formGeneracionSolicitud:UntypedFormGroup;
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   msgs: Message[] = [];
   validador = [false];
   loading: boolean = false

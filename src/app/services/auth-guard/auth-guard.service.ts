@@ -22,7 +22,7 @@ export class AuthGuardService implements CanActivate {
             // Verifica existencia de user y departamento
             if (
                 user.user && user.departamento &&
-                (user.departamento === 'mariana' || user.departamento === 'wincallcx')
+                (user.departamento === 'mariana' || user.departamento === 'wincallmx')
             ) {
                 return true;
             } else {

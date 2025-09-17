@@ -31,7 +31,7 @@ interface AutoCompleteCompleteEvent {
   providers: [ConfirmationService, MessageService]
 })
 export class PruebaComponent implements OnInit {
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   tipoExtraccion:string[]=[
     'Casos de negocio',
     'Actividades',

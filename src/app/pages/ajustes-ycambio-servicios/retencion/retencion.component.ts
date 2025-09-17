@@ -11,7 +11,7 @@ import * as XLSX from 'xlsx';
 })
 export class RetencionComponent implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef;
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}");
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}");
   msgs: Message[] = [];
   ExcelData: any = [];
   headers: string[] = [

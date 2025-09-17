@@ -16,7 +16,7 @@ import { Table } from 'primeng/table';
 })
 export class RAySEComponent implements OnInit {
   formPostPago: UntypedFormGroup;
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   toClearControls: string[] = ["cuenta","pais", "motivo","Proceso"]
   mostrandoResultados: boolean = false;
   display: boolean = false; //Dialogo de confirmacion

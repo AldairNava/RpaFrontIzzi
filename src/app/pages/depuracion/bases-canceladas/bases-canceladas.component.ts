@@ -15,7 +15,7 @@ import * as XLSX from 'xlsx';
 export class BasesCanceladasComponent implements OnInit {
   spinner:boolean=false;
   button:boolean=true;
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   msgs: Message[] = [];
   ExcelData:any=[];
   headers:string[]=[

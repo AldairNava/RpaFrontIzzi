@@ -88,7 +88,7 @@ import { Table } from 'primeng/table';
     validador = [false];
     aux: string | undefined;
     aux2: string | undefined;
-    usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+    usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
     toClearControls: string[] = ["TipoCuenta", "Cuenta", "SolicitudServicio", "Pais", "Subestado","Cve_supervisor", "Herramientas_retencion","Motivos_cancelacion"]
   
   

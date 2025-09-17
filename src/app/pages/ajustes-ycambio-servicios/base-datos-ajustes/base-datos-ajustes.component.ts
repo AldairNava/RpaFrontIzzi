@@ -11,7 +11,7 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./base-datos-ajustes.component.scss']
 })
 export class BaseDatosAjustesComponent implements OnInit {
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   msgs: Message[] = [];
   ExcelData:any;
   spinner:boolean=false;

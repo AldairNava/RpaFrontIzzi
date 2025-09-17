@@ -27,10 +27,9 @@ export class AuthComponent {
         });
     }
     ngOnInit() {
-        const storedUser = localStorage.getItem('userData');
+        const storedUser = sessionStorage.getItem('user');
         if (storedUser) {
             const user = JSON.parse(storedUser);
-            // console.log('Usuario restaurado:', user);
             this.router.navigate(['/home']);
         }
     }

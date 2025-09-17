@@ -88,7 +88,7 @@ export class CancelacionComponent implements OnInit {
   validador = [false];
   aux: string | undefined;
   aux2: string | undefined;
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   toClearControls: string[] = ["recargas","tipoCancelacion", "cuenta", "ordenServicio", "pais", "fechaCorte", "cve_supervisor", "nd","equipos", "aplicacion"]
 
 

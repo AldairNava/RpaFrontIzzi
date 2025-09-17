@@ -11,7 +11,7 @@ import { Table } from 'primeng/table';
   styleUrls: ['./consulta-call-trouble.component.scss']
 })
 export class ConsultaCallTroubleComponent implements OnInit {
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   msgs: Message[] = [];
   showtable:any;
   stats:any[]=[];

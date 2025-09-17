@@ -21,7 +21,7 @@ export class DashboardReporteFidelizacionComponent implements OnInit {
   formReporte:UntypedFormGroup;
   result:any=[];
   result1:any=[];
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}");
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}");
   spinner:boolean=false;
   reportes:any=[];
   loading: boolean = false;

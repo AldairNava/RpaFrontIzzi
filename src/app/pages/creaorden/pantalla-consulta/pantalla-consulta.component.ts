@@ -11,7 +11,7 @@ import { Table } from 'primeng/table';
   styleUrls: ['./pantalla-consulta.component.scss']
 })
 export class PantallaConsultaComponent implements OnInit {
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   msgs: Message[] = [];
   showtable:any;
   stats:any[]=[];

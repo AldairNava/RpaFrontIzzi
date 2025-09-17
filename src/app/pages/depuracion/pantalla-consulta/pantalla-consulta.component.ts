@@ -15,7 +15,7 @@ export class PantallaConsultaComponent implements OnInit {
   stats:any;
   formBusqueda:UntypedFormGroup;
   msgs: Message[] = [];
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}");
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}");
   consulta:any;
   cc:any;
   ext:any;

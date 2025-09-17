@@ -15,7 +15,7 @@ import { Table } from 'primeng/table';
 })
 export class DashboardExtraccionComponent implements OnInit {
 
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   tipoExtraccion:string[]=[
     'Cuenta',
     'Casos de negocio',

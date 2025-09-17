@@ -41,7 +41,7 @@ export class ReactivacionComponent implements OnInit {
   closeModal: boolean = true;
   display: boolean = false; //Dialogo de confirmacion
   enviando: boolean = false;
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   toClearControls: string[] = ["Cuenta", "Tipo_dispositivo", "Pais","Paquete","Equipos"]
   msgs: Message[] = [];
   validador = [false];

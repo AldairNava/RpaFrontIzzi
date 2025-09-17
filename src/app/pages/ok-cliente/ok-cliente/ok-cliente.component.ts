@@ -10,7 +10,7 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./ok-cliente.component.scss']
 })
 export class OkClienteComponent implements OnInit {
-usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   msgs: Message[] = [];
   ExcelData:any=[];
   

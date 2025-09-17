@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./procesos-edit.component.scss']
 })
 export class ProcesosEditComponent implements OnInit {
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   routeSub: Subscription;
   formNuevoProceso: UntypedFormGroup;
   procesoStatus:any[]=[

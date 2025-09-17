@@ -44,7 +44,7 @@ export class ServicioscscostoComponent implements OnInit {
   ];
 
   formServicios:UntypedFormGroup;
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   toClearControls: string[] = ["Cuenta", "Pais", "Equipos", "Nombre","Tipo_falla", "Horario","Fecha_atencion","Tipo_Cuenta","Tipo_Servicio","Zona","ApellidoP","ApellidoM"]
   enviando: boolean = false;
   closeModal: boolean = true;

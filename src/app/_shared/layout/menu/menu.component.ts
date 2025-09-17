@@ -127,7 +127,7 @@ export class MenuComponent implements OnInit {
     },
     {
       label: 'ok-cliente',
-      key: "okCliente",
+      key: "okcliente",
       items: [
         {
           label: 'Importar Base',

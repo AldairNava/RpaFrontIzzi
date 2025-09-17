@@ -9,6 +9,7 @@
       dataKey="username"
       styleClass="p-datatable-gridlines"
       [rowsPerPageOptions]="[10,20,50,100]"
+      [globalFilterFields]="['rol', 'username', 'name', 'email']"
       responsiveLayout="scroll">
 
       <ng-template pTemplate="caption">
@@ -115,15 +116,22 @@
     </div>
     <div class="p-field mb-3">
       <label><b>Staff</b></label>
-      <input pInputText [(ngModel)]="editandoUsuario.staff" placeholder="Staff" />
+      <input pInputText [(ngModel)]="editandoUsuario.staff" placeholder="Staff" [readonly]="true" />
     </div>
     <div class="p-field mb-3">
       <label><b>Área</b></label>
-      <input pInputText [(ngModel)]="editandoUsuario.area" placeholder="Área" />
+      <p-dropdown
+        [options]="areasDisponibles"
+        [(ngModel)]="editandoUsuario.area"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Selecciona área"
+        [showClear]="false">
+      </p-dropdown>
     </div>
     <div class="p-field mb-3">
       <label><b>Departamento</b></label>
-      <input pInputText [(ngModel)]="editandoUsuario.departamento" placeholder="Departamento" />
+      <input pInputText [(ngModel)]="editandoUsuario.departamento" placeholder="Departamento" [readonly]="true" />
     </div>
     <div class="flex justify-content-end mt-4">
       <button pButton type="button" class="p-button-secondary mr-2"
@@ -134,5 +142,6 @@
   </div>
   <div *ngIf="loading">Guardando usuario…</div>
 </p-dialog>
+
 
 <p-toast [baseZIndex]="99999" key="tst"></p-toast>

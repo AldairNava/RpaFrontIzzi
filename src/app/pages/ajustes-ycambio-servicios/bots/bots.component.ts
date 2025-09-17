@@ -29,7 +29,7 @@ export class BotsComponent implements OnInit {
   opcionIndex: any = null;
   loadingLog: boolean = false;
   logContent: any[] = [];
-  usuarioInfo = JSON.parse(localStorage.getItem("userData") || "{}");
+  usuarioInfo = JSON.parse(sessionStorage.getItem("user") || "{}");
   items: any[] = [];
 
   displayEditDialog: boolean = false;

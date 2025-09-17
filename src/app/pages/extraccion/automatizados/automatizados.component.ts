@@ -14,7 +14,7 @@ import { Table } from 'primeng/table';
   styleUrls: ['./automatizados.component.scss']
 })
 export class AutomatizadosComponent implements OnInit {
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   tipoExtraccion:string[]=[
     'Casos de negocio',
     'Actividades',

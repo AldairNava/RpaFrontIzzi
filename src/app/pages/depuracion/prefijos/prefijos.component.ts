@@ -11,7 +11,7 @@ import { Message, MessageService } from 'primeng/api';
   styleUrls: ['./prefijos.component.scss']
 })
 export class PrefijosComponent implements OnInit {
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   prefijos:any;
   loading:boolean=false;
   edit:any={

@@ -17,7 +17,7 @@ import { Table } from 'primeng/table';
 })
 export class BolsaDatosComponent implements OnInit {
   formBolsa: UntypedFormGroup;
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   toClearControls: string[] = ["cuenta","pais", "tipoCuenta",'paqueteDatos','tipoProceso']
   mostrandoResultados: boolean = false;
   display: boolean = false; //Dialogo de confirmacion

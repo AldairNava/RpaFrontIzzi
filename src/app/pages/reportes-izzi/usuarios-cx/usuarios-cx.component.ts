@@ -26,6 +26,7 @@ export class UsuariosCXComponent implements OnInit {
   editandoUsuario: UsuarioCx | null = null;
   displayDialogEditar: boolean = false;
   rolesDisponibles: { label: string; value: string }[] = [];
+  areasDisponibles: { label: string; value: string }[] = [];
 
   constructor(
     private cors: CorsService,
@@ -37,49 +38,48 @@ export class UsuariosCXComponent implements OnInit {
   }
 
   obtenerUsuarios(): void {
-  this.loading = true;
-  this.cors.get('User/getUsersCx')
-    .then((data: UsuarioCx[]) => {
-      const storedUser = sessionStorage.getItem('user');
-      let usuarioLogueado: any = null;
-      if (storedUser) {
-        usuarioLogueado = JSON.parse(storedUser);
-      }
+    this.loading = true;
+    this.cors.get('User/getUsersCx')
+      .then((data: UsuarioCx[]) => {
+        const storedUser = sessionStorage.getItem('user');
+        let usuarioLogueado: any = null;
+        if (storedUser) {
+          usuarioLogueado = JSON.parse(storedUser);
+        }
 
-      if (usuarioLogueado && usuarioLogueado.role) {
-  const rol = usuarioLogueado.role;
-  if (rol === 'administrador' || rol === 'Administrador') {
-        this.usuarios = data;
-      } else if (rol === 'admin-cx') {
-        this.usuarios = data.filter(u =>
-          (u.staff === 'cx' && u.departamento === 'cx') ||
-          (u.staff === 'General' && u.departamento === 'General')
-        );
-      } else if (rol === 'admin-sucursales') {
-        this.usuarios = data.filter(u =>
-          (u.staff === 'cx' && u.departamento === 'sucursales') ||
-          (u.staff === 'General' && u.departamento === 'General')
-        );
-      } else if (rol === 'admin-limpieza') {
-        this.usuarios = data.filter(u =>
-          (u.staff === 'cx' && u.departamento === 'limpieza') ||
-          (u.staff === 'General' && u.departamento === 'General')
-        );
-      } else {
+        if (usuarioLogueado && usuarioLogueado.role) {
+          const rol = usuarioLogueado.role;
+          if (rol === 'administrador' || rol === 'Administrador') {
+            this.usuarios = data;
+          } else if (rol === 'admin-cx') {
+            this.usuarios = data.filter(u =>
+              (u.staff === 'cx' && u.departamento === 'cx') ||
+              (u.staff === 'General' && (u.departamento === 'General' || u.departamento === 'general'))
+            );
+          } else if (rol === 'admin-sucursales') {
+            this.usuarios = data.filter(u =>
+              (u.staff === 'cx' && u.departamento === 'sucursales') ||
+              (u.staff === 'General' && u.departamento === 'General')
+            );
+          } else if (rol === 'admin-limpieza') {
+            this.usuarios = data.filter(u =>
+              (u.staff === 'cx' && u.departamento === 'limpieza') ||
+              (u.staff === 'General' && u.departamento === 'General')
+            );
+          } else {
+            this.usuarios = [];
+          }
+        } else {
+          this.usuarios = [];
+        }
+
+        this.loading = false;
+      })
+      .catch((err: any) => {
         this.usuarios = [];
-      }
-    } else {
-      this.usuarios = [];
-    }
-
-      this.loading = false;
-    })
-    .catch((err: any) => {
-      this.usuarios = [];
-      this.loading = false;
-    });
-}
-
+        this.loading = false;
+      });
+  }
 
   cambiarEstadoUsuario(user: UsuarioCx, nuevoEstado: number) {
     this.loading = true;
@@ -119,44 +119,95 @@ export class UsuariosCXComponent implements OnInit {
   }
 
   abrirDialogEditar(user: UsuarioCx) {
-    this.editandoUsuario = { ...user };
-    this.displayDialogEditar = true;
-    this.cargarRolesDisponibles();
+  this.cargarRolesDisponibles();
+  this.editandoUsuario = { ...user };
+
+  // Obtener usuario logueado y convertir role a minúsculas
+  const storedUser = sessionStorage.getItem('user');
+  let usuarioLogueado: any = null;
+  if (storedUser) {
+    usuarioLogueado = JSON.parse(storedUser);
+  }
+  const userRole = usuarioLogueado?.role?.toLowerCase() || '';
+
+  // Normaliza staff, departamento y area del usuario a editar
+  const userStaff = (user.staff || '').toLowerCase();
+  const userDepto = (user.departamento || '').toLowerCase();
+  const userArea = (user.area || '').toLowerCase();
+
+  if (userRole === 'admin-cx') {
+    this.editandoUsuario!.staff = 'cx';
+    this.editandoUsuario!.departamento = 'cx';
+    this.editandoUsuario!.area = 'cx';
+    this.areasDisponibles = [{ label: 'cx', value: 'cx' }];
+  } else if (userRole === 'admin-sucursales') {
+    this.editandoUsuario!.staff = 'cx';
+    this.editandoUsuario!.departamento = 'sucursales';
+    this.editandoUsuario!.area = 'sucursales';
+    this.areasDisponibles = [{ label: 'sucursales', value: 'sucursales' }];
+  } else if (userRole === 'admin-limpieza') {
+    this.editandoUsuario!.staff = 'cx';
+    this.editandoUsuario!.departamento = 'limpieza';
+    this.editandoUsuario!.area = 'limpieza';
+    this.areasDisponibles = [{ label: 'limpieza', value: 'limpieza' }];
+  } else if (userRole === 'administrador' || userRole === 'administrador') {
+    this.editandoUsuario!.staff = user.staff;
+    this.editandoUsuario!.departamento = user.departamento;
+    this.editandoUsuario!.area = user.area;
+    this.areasDisponibles = [
+      { label: 'cx', value: 'cx' },
+      { label: 'sucursales', value: 'sucursales' },
+      { label: 'limpieza', value: 'limpieza' }
+    ];
+  } else {
+    this.editandoUsuario!.staff = userStaff;
+    this.editandoUsuario!.departamento = userDepto;
+    this.editandoUsuario!.area = userArea;
+    if (userArea === 'cx') {
+      this.areasDisponibles = [{ label: 'cx', value: 'cx' }];
+    } else if (userArea === 'sucursales') {
+      this.areasDisponibles = [{ label: 'sucursales', value: 'sucursales' }];
+    } else if (userArea === 'limpieza') {
+      this.areasDisponibles = [{ label: 'limpieza', value: 'limpieza' }];
+    } else {
+      this.areasDisponibles = [];
+    }
   }
 
-cargarRolesDisponibles() {
-  this.cors.get('User/getRole')
-    .then((data: any[]) => {
-      const storedUser = sessionStorage.getItem('user');
-      let usuarioLogueado: any = null;
-      if (storedUser) {
-        usuarioLogueado = JSON.parse(storedUser);
-      }
-
-      let rolesFiltrados = data;
-
-      if (usuarioLogueado && usuarioLogueado.Role && usuarioLogueado.Role !== 'administrador') {
-        if (usuarioLogueado.Role === 'admin-cx') {
-          rolesFiltrados = data.filter(x => (x.departamento || '').toLowerCase() === 'cx');
-        } else if (usuarioLogueado.Role === 'admin-sucursales') {
-          rolesFiltrados = data.filter(x => (x.departamento || '').toLowerCase() === 'sucursales');
-        } else if (usuarioLogueado.Role === 'admin-limpieza') {
-          rolesFiltrados = data.filter(x => (x.departamento || '').toLowerCase() === 'limpieza');
-        } else {
-          rolesFiltrados = [];
-        }
-      }
-
-      this.rolesDisponibles = rolesFiltrados.map(x => ({
-        label: x.Name || x.name,
-        value: x.Name || x.name
-      }));
-    });
+  this.displayDialogEditar = true;
 }
 
 
+  cargarRolesDisponibles() {
+    this.cors.get('User/getRole')
+      .then((data: any[]) => {
+        const storedUser = sessionStorage.getItem('user');
+        let usuarioLogueado: any = null;
+        if (storedUser) {
+          usuarioLogueado = JSON.parse(storedUser);
+        }
+        console.log('Usuario logueado:', usuarioLogueado);
 
+        let rolesFiltrados = data;
 
+        if (usuarioLogueado && usuarioLogueado.role && usuarioLogueado.role !== 'administrador') {
+          if (usuarioLogueado.role === 'admin-cx') {
+            rolesFiltrados = data.filter(x => (x.departamento || '').toLowerCase() === 'cx');
+          } else if (usuarioLogueado.role === 'admin-sucursales') {
+            rolesFiltrados = data.filter(x => (x.departamento || '').toLowerCase() === 'sucursales');
+          } else if (usuarioLogueado.role === 'admin-limpieza') {
+            rolesFiltrados = data.filter(x => (x.departamento || '').toLowerCase() === 'limpieza');
+          } else {
+            rolesFiltrados = [];
+          }
+        }
+
+        this.rolesDisponibles = rolesFiltrados.map(x => ({
+          label: x.Name || x.name,
+          value: x.Name || x.name
+        }));
+      });
+  }
 
   guardarUsuarioEditado() {
     if (!this.editandoUsuario) return;
