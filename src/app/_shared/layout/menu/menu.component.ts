@@ -449,10 +449,10 @@ export class MenuComponent implements OnInit {
           administracion: [0, 1, 2]
         },
         'admin-sucursales': {
-          administracion: [0, 2, 3]
+          administracion: [0]
         },
         'admin-limpieza': {
-          administracion: [0, 2, 3]
+          administracion: [0, 2]
         },
         'depuracion-cx': {
           administracion: [0]

@@ -11,6 +11,7 @@ export class VerifyComponent implements OnInit {
   mode: boolean = true;
   loading: boolean = true;
   staff: string | null = null;
+  userName: string = "";
 
   constructor(
     private route: ActivatedRoute,
@@ -27,10 +28,9 @@ export class VerifyComponent implements OnInit {
         this.cors.get(`LoginSaml/session?token=${encodeURIComponent(cleanToken)}`)
           .then(userData => {
             if (userData && userData.staff) {
-              console.log('Datos del usuario recibidos:', userData);
-              // Guarda los datos en sessionStorage tal como llegan
               sessionStorage.setItem('user', JSON.stringify(userData));
               this.staff = userData.staff.toLowerCase();
+              this.userName = userData.name; // <-- Guarda el nombre
               this.handleRedirect();
             } else {
               this.handleInvalidUser();
@@ -40,11 +40,11 @@ export class VerifyComponent implements OnInit {
             this.handleInvalidUser();
           });
       } else {
-        // Si no hay token, busca en sessionStorage
         const storedUser = sessionStorage.getItem('user');
         if (storedUser) {
           const userData = JSON.parse(storedUser);
           this.staff = userData?.staff?.toLowerCase();
+          this.userName = userData?.name; // <-- Recupera el nombre
           this.handleRedirect();
         } else {
           this.handleInvalidUser();

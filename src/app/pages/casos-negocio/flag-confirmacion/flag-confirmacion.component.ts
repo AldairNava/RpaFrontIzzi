@@ -49,7 +49,7 @@ export class FlagConfirmacionComponent {
 
     // Usuario actual
     const user = JSON.parse(sessionStorage.getItem('user') || '{}');
-    const email = user?.Email || '';
+    const email = user?.email || '';
 
     this.ExcelData = rows.map(row => {
       let fecha = row['FechaInstalacion'];
