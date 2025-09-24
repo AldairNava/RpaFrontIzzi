@@ -23,18 +23,20 @@ import * as ExcelJS from 'exceljs';
 })
 export class DashboardComponent implements OnInit {
     @ViewChild('barChart') barChart: any;
+    maxTabs = 11;
     fechas:any=[];
     primerDia = moment().startOf('month');
     ultimoDia = moment().endOf('month');
     fechasForm:UntypedFormGroup;
     loading: boolean = false
     load: boolean = false
-    basicDataEXT: any;
     isAdmin: boolean = false;
     isAdmin2: boolean = false;
     isUser: boolean = false;
     firstName: string = '';
     lastName: string = '';
+    
+    basicDataEXT: any;
     basicOptionsEXT: any;
     basicDataExtArray:any={
         graf:[],
@@ -154,6 +156,20 @@ export class DashboardComponent implements OnInit {
         dia:[],
         status:[],
     };
+
+    basicDataFlagConfirmacion: any;
+    basicOptionsFlagConfirmacion: any;
+    basicDataFlagConfirmacionArray:any={
+        graf:[],
+        esta:[],
+        val:[],
+        categoria:[],
+        solucion:[],
+        mes:[],
+        dia:[],
+        status:[],
+    };
+
     setStyle=['A','B','C','D','E','F','G']
     activeTabIndex: number = 0;
 
@@ -183,6 +199,7 @@ export class DashboardComponent implements OnInit {
         this.buscarStatsNotCreacionOrdenes(this.primerDia.format('YYYY-MM-DD'),this.ultimoDia.format('YYYY-MM-DD'));
         this.buscarStatsCallTrouble(this.primerDia.format('YYYY-MM-DD'),this.ultimoDia.format('YYYY-MM-DD'));
         this.buscarStatsOkCliente(this.primerDia.format('YYYY-MM-DD'),this.ultimoDia.format('YYYY-MM-DD'));
+        this.buscarStatsFlagConfirmacion(this.primerDia.format('YYYY-MM-DD'),this.ultimoDia.format('YYYY-MM-DD'));
     }
 
     ngOnInit() {
@@ -199,6 +216,20 @@ export class DashboardComponent implements OnInit {
         this.lastName = user?.lastName || '';
 
     }
+    prevTab() {
+    if (this.activeTabIndex === 0) {
+        this.activeTabIndex = this.maxTabs - 1;
+    } else {
+        this.activeTabIndex--;
+    }
+    }
+    nextTab() {
+    if (this.activeTabIndex === this.maxTabs - 1) {
+        this.activeTabIndex = 0;
+    } else {
+        this.activeTabIndex++;
+    }
+}
     
     buscarStatsTodos(){
         this.load=true;
@@ -1250,7 +1281,6 @@ export class DashboardComponent implements OnInit {
               });
         })
     }
-
     buscarStatsOkCliente(ini:any,fin:any){
         this.basicDataOkClienteArray={
             graf:[],
@@ -1360,6 +1390,119 @@ export class DashboardComponent implements OnInit {
               });
         })
     }
+    buscarStatsFlagConfirmacion(ini:any,fin:any){
+        this.basicDataFlagConfirmacionArray={
+            graf:[],
+            esta:[],
+            val:[],
+            categoria:[],
+            solucion:[],
+            mes:[],
+            dia:[],
+            status:[],
+        };
+        const documentStyle = getComputedStyle(document.documentElement);
+        const textColor = documentStyle.getPropertyValue('--text-color');
+        const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+        const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+        this.basicOptionsFlagConfirmacion = {
+            plugins: {
+                legend: {
+                    labels: {
+                        color: textColor
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: textColorSecondary
+                    },
+                    grid: {
+                        color: surfaceBorder,
+                        drawBorder: false
+                    }
+                },
+                x: {
+                    ticks: {
+                        color: textColorSecondary
+                    },
+                    grid: {
+                        color: surfaceBorder,
+                        drawBorder: false
+                    }
+                }
+            }
+        };
+        this.cors.get('Estadisticas/estadisticasOkCliente',{
+            startDateStr:ini,
+            endDateStr:fin
+        }).then((response) => {
+            if(response[0]=='SIN INFO'){
+             
+            }else{
+                let grafica = response[0].grafica;
+                grafica.forEach((obj:any) => {
+                    Object.entries(obj).forEach(([key, value]) => {
+                      if(key=='fallaRPA'){
+                        this.basicDataFlagConfirmacionArray.graf.push(key)
+                        this.basicDataFlagConfirmacionArray.esta.push(value)
+                      }
+                      if(key=='errorOperativo'){
+                        this.basicDataFlagConfirmacionArray.graf.push(key)
+                        this.basicDataFlagConfirmacionArray.esta.push(value)
+                      }
+                      if(key=='registroPendiente'){
+                        this.basicDataFlagConfirmacionArray.graf.push(key)
+                        this.basicDataFlagConfirmacionArray.esta.push(value)
+                      }
+                      if(key=='completado'){
+                        this.basicDataFlagConfirmacionArray.graf.push(key)
+                        this.basicDataFlagConfirmacionArray.esta.push(value)
+                      }
+                      if(key=='inconcistenciaSiebel'){
+                        this.basicDataFlagConfirmacionArray.graf.push(key)
+                        this.basicDataFlagConfirmacionArray.esta.push(value)
+                      }
+                    });
+                });
+                this.basicDataFlagConfirmacionArray.val=response[0].grafica
+                this.basicDataFlagConfirmacionArray.motivoAjuste=response[0].motivoAjuste
+                this.basicDataFlagConfirmacionArray.solucion=response[0].solucion
+                this.basicDataFlagConfirmacionArray.mes=response[0].mes
+                this.basicDataFlagConfirmacionArray.dia=response[0].dia
+                this.basicDataFlagConfirmacionArray.dia[this.basicDataFlagConfirmacionArray.dia.length-1].base='Total'
+                this.basicDataFlagConfirmacionArray.status=response[0].status
+                this.basicDataFlagConfirmacionArray.ip=response[0].ip
+                this.basicDataFlagConfirmacion = {
+                    labels: this.basicDataFlagConfirmacionArray.graf,
+                    datasets: [
+                        {
+                            label: 'Ok Cliente',
+                            data: this.basicDataFlagConfirmacionArray.esta,
+                            backgroundColor: ['rgba(255, 159, 64, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(153, 102, 255, 0.2)'],
+                            borderColor: ['rgb(255, 159, 64)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)', 'rgb(153, 102, 255)'],
+                            borderWidth: 1
+                        }
+                    ]
+                };
+        
+            }
+        }).catch((error) => {
+            // console.log(error)
+            this.messageService.add({
+                key:'tst',
+                severity: 'error',
+                summary: 'No se generaron registros para Ok Cliente',
+                detail: 'Intenta Nuevamente!!!',
+              });
+        })
+    }
+
+
+
+
     primeraLetraMayuscula(cadena: string): string {
         if (cadena.length === 0) {
           return cadena; // Devuelve la cadena original si está vacía

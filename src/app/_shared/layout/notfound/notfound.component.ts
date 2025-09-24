@@ -8,11 +8,9 @@ export class NotfoundComponent implements OnInit{constructor(private router: Rou
 
 ngOnInit(): void {
 }
-// navigateToProjects1() {
-//   this.router.navigate(['/login-Izzi']);
-// }
-// navigateToProjects2() {
-//   this.router.navigate(['/login-Mariana']);
-// }
+goHome() {
+  sessionStorage.removeItem('user');
+  this.router.navigate(['/']);
+}
 
 }

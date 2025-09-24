@@ -46,7 +46,13 @@
         <div class="text-900 font-bold text-8xl mb-4 text-stroke">Oops!</div>
         <p class="line-height-3 mt-0 mb-5 text-900 text-4xl font-bold text-stroke" style="font-weight: bold; text-transform: uppercase; font-size: 2em;">
             PERMISOS INSUFICIENTES, INICIA SESIÓN NUEVAMENTE CON UNA CUENTA AUTORIZADA O SOLICITA PERMISOS PARA INGRESAR
-        </p><p-button [routerLink]="['/']" styleClass="p-button font-medium p-button-raised">Home</p-button>
+        </p>
+        <p-button 
+            styleClass="p-button font-medium p-button-raised"
+            (click)="goHome()">
+            Home
+        </p-button>
+
     </div>
 </div>
 </div>

@@ -1,3 +1,8 @@
+<div *ngIf="alerta" [ngClass]="alerta.tipo" class="alerta-custom">
+  <strong>{{ alerta.titulo }}</strong> {{ alerta.mensaje }}
+</div>
+<!-- Tu layout aquí abajo -->
+
 <div class="px-5 min-h-screen flex justify-content-center align-items-center">
     <style>
         .spacio {
@@ -36,16 +41,16 @@
     <div class="spacio">
         <div class="mb-4 circulo">
             <img src="../../../../assets/cyber/logo4.png"
-                alt="CyberIdeas"
-                (click)="navigateToProjects1()">
+                alt="cx"
+                (click)="navigateToProjects('cx')">
         </div>
         <div class="mb-4 circulo">
             <img src="../../../../assets/img/marIAna.png"
-                alt="CyberIdeas"
-                (click)="navigateToProjects2()">
+                alt="mariana"
+                (click)="navigateToProjects('mariana')">
         </div>
     </div>
 </div>
-<p-toast
-  [baseZIndex]="99999"
-  key="tst"></p-toast>
+
+<p-toast key="tst" [baseZIndex]="999999"></p-toast>
+

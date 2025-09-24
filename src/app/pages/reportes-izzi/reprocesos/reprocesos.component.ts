@@ -29,7 +29,8 @@ export class ReprocesosComponent implements OnInit {
   estatusOptions = [
     { label: 'Error Obtencion Status Ajuste', value: 'Error Obtencion Status Ajuste' },
     { label: 'Error al crear cn', value: 'Error al crear cn' },
-    { label: 'No aplica ajuste reciente', value: 'No aplica ajuste reciente' }
+    { label: 'No aplica ajuste reciente', value: 'No aplica ajuste reciente' },
+    { label: 'Error Base', value: 'Error Base' }
   ];
   
   tipoCambioStatus: string = 'individual';
@@ -66,7 +67,8 @@ export class ReprocesosComponent implements OnInit {
     'NotDoneCreacionOrdenModel': 'Pendiente',
     'DepuracionBasesCanceladasOSExt': 'Registro pendiente',
     'DepuracionBasesCanceladasOS': 'Registro pendiente',
-    'OrdenTroubleCall': 'Pendiente'
+    'OrdenTroubleCall': 'Pendiente',
+    'flagConfirmacion': 'Pendiente'
   };
 
   private rawProcesos = [
@@ -77,7 +79,8 @@ export class ReprocesosComponent implements OnInit {
     'Depuracion EXT - DepuracionBasesCanceladasOSExt',
     'Depuracion CC - DepuracionBasesCanceladasOS',
     'Ok Cliente - okCliente2',
-    'Trouble Call - OrdenTroubleCall'
+    'Trouble Call - OrdenTroubleCall',
+    'Flag Confirmacion - flagConfirmacion'
   ];
   procesosOptions: { label: string; value: string }[] = [];
 
@@ -340,7 +343,7 @@ onFileChangeStatus(event: any) {
     return;
   }
   this.cors.post('AjustesNotDone/CambiarStatusMasivo', {
-    registros: this.idsStatusFromFile, // [{id, status, proceso}, ...]
+    registros: this.idsStatusFromFile,
     usuario: usuario.email
   })
   .then(response => {
