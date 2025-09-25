@@ -35,6 +35,7 @@ export class DashboardComponent implements OnInit {
     isUser: boolean = false;
     firstName: string = '';
     lastName: string = '';
+    activeTabIndex = 0;
     
     basicDataEXT: any;
     basicOptionsEXT: any;
@@ -171,7 +172,6 @@ export class DashboardComponent implements OnInit {
     };
 
     setStyle=['A','B','C','D','E','F','G']
-    activeTabIndex: number = 0;
 
     constructor(private el: ElementRef,private cors: CorsService,private formBuilder: UntypedFormBuilder,private primengConfig: PrimeNGConfig,private messageService: MessageService,) {
         this.primengConfig.setTranslation({
@@ -217,19 +217,19 @@ export class DashboardComponent implements OnInit {
 
     }
     prevTab() {
-    if (this.activeTabIndex === 0) {
-        this.activeTabIndex = this.maxTabs - 1;
-    } else {
-        this.activeTabIndex--;
-    }
+        if (this.activeTabIndex === 0) {
+            this.activeTabIndex = this.maxTabs - 1;
+        } else {
+            this.activeTabIndex--;
+        }
     }
     nextTab() {
-    if (this.activeTabIndex === this.maxTabs - 1) {
-        this.activeTabIndex = 0;
-    } else {
-        this.activeTabIndex++;
+        if (this.activeTabIndex === this.maxTabs - 1) {
+            this.activeTabIndex = 0;
+        } else {
+            this.activeTabIndex++;
+        }
     }
-}
     
     buscarStatsTodos(){
         this.load=true;
@@ -1435,7 +1435,7 @@ export class DashboardComponent implements OnInit {
                 }
             }
         };
-        this.cors.get('Estadisticas/estadisticasOkCliente',{
+        this.cors.get('Estadisticas/estadisticasFlagConfirmacion',{
             startDateStr:ini,
             endDateStr:fin
         }).then((response) => {
@@ -1490,7 +1490,6 @@ export class DashboardComponent implements OnInit {
         
             }
         }).catch((error) => {
-            // console.log(error)
             this.messageService.add({
                 key:'tst',
                 severity: 'error',
