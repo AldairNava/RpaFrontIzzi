@@ -257,6 +257,7 @@ export class DashboardComponent implements OnInit {
         this.buscarStatsNotCreacionOrdenes(ini,fin);
         this.buscarStatsCallTrouble(ini,fin);
         this.buscarStatsOkCliente(ini,fin);
+        this.buscarStatsFlagConfirmacion(ini,fin);
     }
     buscarStatsEXT(ini:any,fin:any){
         this.basicDataExtArray={
