@@ -39,7 +39,7 @@
       <div class="card">
         <p-table #dt1 [value]="showtable" dataKey="Caso de negocio" [rows]="50" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
             styleClass="p-datatable-gridlines" [paginator]="true"
-            responsiveLayout="scroll" [globalFilterFields]="['cuenta','casoNegocio','categoria','estado','motivos']">
+            responsiveLayout="scroll" [globalFilterFields]="['cliente','casoNegocio','numActividad','status','fechaAsignacion','areaConocimiento','comentariosCN','vencimiento','estadoAsignacion','cve_usuario']">
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between flex-column sm:flex-row">
 
@@ -54,7 +54,7 @@
                 <tr>
                     <th>
                         <div class="flex justify-content-between align-items-center">
-                            Cuenta
+                            Cliente
                         </div>
                     </th>
                     <th>
@@ -64,104 +64,81 @@
                     </th>
                     <th>
                         <div class="flex justify-content-between align-items-center">
-                            Categoria
+                            Nº de actividad
 
                         </div>
                     </th>
                     <th>
                         <div class="flex justify-content-between align-items-center">
-                            Estado
+                            Estado de la asignación
 
                         </div>
                     </th>
                     <th>
                         <div class="flex justify-content-between align-items-center">
-                            Fecha de Apertura
+                            Vencimiento
                         </div>
                     </th>
                     <th>
                         <div class="flex justify-content-between align-items-center">
-                            Medio de Contacto
+                            Comentarios CN
                         </div>
                     </th>
                     <th>
                       <div class="flex justify-content-between align-items-center">
-                          Motivo del Cliente
+                          Área de conocimiento
                       </div>
                     </th>
                     <th>
                       <div class="flex justify-content-between align-items-center">
-                          Motivos
+                          Fecha de asiganción
+                      </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          Status
                       </div>
                     </th>
                     <th>
                         <div class="flex justify-content-between align-items-center">
-                            Solución
-                        </div>
-                    </th>
-                    <th>
-                        <div class="flex justify-content-between align-items-center">
-                            Submotivo
+                            Usuario
                         </div>
                     </th>  
-                    <th>
-                        <div class="flex justify-content-between align-items-center">
-                            Estatus
-                        </div>
-                    </th>  
-                    <th>
-                        <div class="flex justify-content-between align-items-center">
-                            Fecha Completado
-                        </div>
-                    </th> 
-                    <th>
-                        <div class="flex justify-content-between align-items-center">
-                            Estatus Ajuste
-                        </div>
-                    </th>   
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-item let-i="rowIndex">
                 <tr>
                     <td>
-                        {{item.cuenta}}
+                        {{item.cliente}}
                     </td>
                     <td>
                         {{item.casoNegocio}}
                     </td>
                     <td>
-                      {{item.categoria}}
+                      {{item.numActividad}}
                     </td>
                     <td>
-                        {{item.estado}}
+                        {{item.estadoAsignacion}}
                     </td>
                     <td>
-                        {{ dateFormat(item.fechaApertura) }}
+                       {{ dateFormat(item.vencimiento) }}
                     </td>
                     <td>
-                       {{item.mediosContacto}}
+                      {{item.comentariosCN}}
                     </td>
                     <td>
-                      {{item.motivoCliente}}
+                      {{item.areaConocimiento}}
                     </td>
                     <td>
-                      {{item.motivos}}
-                    </td>
-                    <td>
-                      {{item.solucion}}
-                    </td>
-                    <td>
-                        {{item.submotivo}}
+                      {{ dateFormat(item.fechaAsignacion) }}
                     </td>
                     <td>
                         {{item.status}}
                     </td>
                     <td>
-                          {{dateFormat(item.fechaCompletado)}}
+                        {{item.cve_usuario}}
                     </td>
-                    <td>
-                        {{item.estatusAjuste}}
-                  </td>       
+          
     
                 </tr>
             </ng-template>

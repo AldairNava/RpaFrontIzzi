@@ -39,7 +39,7 @@
       <div class="card">
         <p-table #dt1 [value]="showtable" dataKey="id" [rows]="100" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
             styleClass="p-datatable-gridlines" [paginator]="true"
-            responsiveLayout="scroll" [globalFilterFields]="['cuenta','id','orden','stats','fechaCaptura']">
+            responsiveLayout="scroll" [globalFilterFields]="['cuenta','id','orden','status','fechaCaptura']">
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between flex-column sm:flex-row">
 

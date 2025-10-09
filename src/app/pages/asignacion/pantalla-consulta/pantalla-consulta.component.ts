@@ -33,7 +33,7 @@ export class PantallaConsultaComponent implements OnInit {
   }
 
   getTableCasosNegocioCobranza(){
-    this.cors.get('AjustesNotDone/getAllAjustesCasosNegocioCobranza').then((response) => {
+    this.cors.get('AjustesNotDone/getAjustesConValidacion').then((response) => {
       // // console.log(responSse)
       if(response[0] =='SIN INFO'){
         this.showtable = [];
@@ -60,7 +60,7 @@ export class PantallaConsultaComponent implements OnInit {
   }
 
   statsAjustesCasoNeogicoCobranza(){
-    this.cors.get('AjustesNotDone/getStatsAjustesCasoNegocioCobranza').then((response) => {
+    this.cors.get('AjustesNotDone/statsBasesAjustesConValidacion').then((response) => {
       for (let i = 0; i < response.length; i++) {
         const jsonObject = response[i];
         for (let key in jsonObject) {

@@ -19,7 +19,22 @@
             pButton
             [disabled]="button"
             label="Importar Base"
-            style="width:auto; background-color: #FFD966;border: 0;"></button>      
+            style="width:auto; background-color: #FFD966;  border: 0; margin-right: 10px;">
+        </button> 
+            <p-progressSpinner
+          *ngIf="spinner"
+          [style]="{width: '40px', height: '40px'}"
+          strokeWidth="4"
+          animationDuration=".5s"
+          styleClass="custom-spinner">
+        </p-progressSpinner>
+        <button
+          mat-button
+          (click)="resetFileInput()"
+          pButton
+          label="Vaciar"
+          style="width:auto; background-color: #FF6666; border: 0;">
+        </button>     
         </div>
     </div>
 
@@ -37,21 +52,11 @@
         <p-table #dt1 [value]="ExcelData" dataKey="Caso de negocio" [rows]="50" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
             styleClass="p-datatable-gridlines" [paginator]="true"
             responsiveLayout="scroll">
-            <!-- <ng-template pTemplate="caption">
-                <div class="flex justify-content-between flex-column sm:flex-row">
-
-                    <span class="p-input-icon-left mb-2">
-                        <i class="pi pi-search"></i>
-                        <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Buscar"
-                            class="w-full" />
-                    </span>
-                </div>
-            </ng-template> -->
             <ng-template pTemplate="header">
                 <tr>
                     <th>
                         <div class="flex justify-content-between align-items-center">
-                            Cuenta
+                            Cliente
                         </div>
                     </th>
                     <th>
@@ -61,49 +66,44 @@
                     </th>
                     <th>
                         <div class="flex justify-content-between align-items-center">
-                            Categoria
+                            Nº de actividad
 
                         </div>
                     </th>
                     <th>
                         <div class="flex justify-content-between align-items-center">
-                            Estado
+                            Estado de la asignación
 
                         </div>
                     </th>
                     <th>
                         <div class="flex justify-content-between align-items-center">
-                            Fecha de Apertura
+                            Vencimiento
                         </div>
                     </th>
                     <th>
                         <div class="flex justify-content-between align-items-center">
-                            Medio de Contacto
+                            Comentarios CN
                         </div>
                     </th>
                     <th>
                       <div class="flex justify-content-between align-items-center">
-                          Motivo del Cliente
+                          Área de conocimiento
                       </div>
                     </th>
-                    <!-- <th>
-                      <div class="flex justify-content-between align-items-center">
-                          Fecha de Carga
-                      </div>
-                    </th> -->
                     <th>
                       <div class="flex justify-content-between align-items-center">
-                          Motivos
+                          Fecha de asiganción
+                      </div>
+                    </th>
+                    <th>
+                      <div class="flex justify-content-between align-items-center">
+                          Status
                       </div>
                     </th>
                     <th>
                         <div class="flex justify-content-between align-items-center">
-                            Solución
-                        </div>
-                    </th>
-                    <th>
-                        <div class="flex justify-content-between align-items-center">
-                            Submotivo
+                            Usuario
                         </div>
                     </th>  
                 </tr>
@@ -111,34 +111,34 @@
             <ng-template pTemplate="body" let-item let-i="rowIndex">
                 <tr>
                     <td>
-                        {{item.Cuenta}}
+                        {{item.Cliente}}
                     </td>
                     <td>
-                        {{item['Caso de negocio']}}
+                        {{item['CasoNegocio']}}
                     </td>
                     <td>
-                      {{item.Categoria}}
+                      {{item.NumActividad}}
                     </td>
                     <td>
-                        {{item.Estado}}
+                        {{item.EstadoAsignacion}}
                     </td>
                     <td>
-                        {{ dateFormat(item['Fecha de apertura']) }}
+                       {{ dateFormat(item.Vencimiento) }}
                     </td>
                     <td>
-                       {{item['Medio de contacto']}}
+                      {{item.ComentariosCN}}
                     </td>
                     <td>
-                      {{item['Motivo Cliente']}}
+                      {{item.AreaConocimiento}}
                     </td>
                     <td>
-                      {{item.Motivos}}
+                      {{ dateFormat(item.FechaAsignacion) }}
                     </td>
                     <td>
-                      {{item['Solución']}}
+                        {{item.Status}}
                     </td>
                     <td>
-                        {{item.Submotivo}}
+                        {{item.Cve_usuario}}
                     </td>
           
     
