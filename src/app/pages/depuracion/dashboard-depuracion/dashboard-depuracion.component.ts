@@ -40,7 +40,7 @@ export class DashboardDepuracionComponent implements OnInit {
 	visualizarHorarios(){
 		this.cors.get('EjecucionDepuracion/getHoursDepuracion')
 		.then((response) => {
-			// console.log(response)
+			// // console.log(response)
 
 		  if(response[0]=="SIN INFO"){
 			this.horarios = [];
@@ -55,7 +55,7 @@ export class DashboardDepuracionComponent implements OnInit {
 		//   });
 		})
 		.catch((error) => {
-		console.log(error)
+		// console.log(error)
 		//   this.messageService.add({
 		// 	key:'tst',
 		// 	severity: 'error',
@@ -68,7 +68,7 @@ export class DashboardDepuracionComponent implements OnInit {
 
 	changeHorarios(event:any){
 		this.first = event;
-		// console.log(this.first)
+		// // console.log(this.first)
 	}
 
 	changeTime(event:any){
@@ -97,7 +97,7 @@ export class DashboardDepuracionComponent implements OnInit {
 		}
 		this.cors.put(`EjecucionDepuracion/ActualizaHoursDepuracion?id=${this.first}`,a)
 		.then((response) => {
-		//   console.log(response)
+		//   // console.log(response)
 		  this.messageService.add({
 			key: 'tst',
 			severity: 'success',
@@ -107,7 +107,7 @@ export class DashboardDepuracionComponent implements OnInit {
 		  this.visualizarHorarios();
 		})
 		.catch((error) => {
-		console.log(error)
+		// console.log(error)
 		  this.messageService.add({
 			key:'tst',
 			severity: 'error',
@@ -122,7 +122,7 @@ export class DashboardDepuracionComponent implements OnInit {
 	getTabladepuracion(){
 		this.cors.get('EjecucionDepuracion/getEjecucionDepuracion')
 		.then((response) => {
-			// console.log(response)
+			// // console.log(response)
 			if(response[0]=="SIN INFO"){
 				this.tablaDepuracion = [];
 			}else{
@@ -143,7 +143,7 @@ export class DashboardDepuracionComponent implements OnInit {
 		//   });
 		})
 		.catch((error) => {
-		console.log(error)
+		// console.log(error)
 		//   this.messageService.add({
 		// 	key:'tst',
 		// 	severity: 'error',
@@ -173,7 +173,7 @@ export class DashboardDepuracionComponent implements OnInit {
 		  "nombre":archivo
 		})
 		.then((response) => {
-		  // console.log(response)
+		  // // console.log(response)
 		  this.show = true;
 		  this.url1 = `https://rpabackizzi.azurewebsites.net/EjecucionDepuracion/BajarExcelFTPExtraccionesDepuracion?nombre=${archivo}`;
 
@@ -191,7 +191,7 @@ export class DashboardDepuracionComponent implements OnInit {
 		  
 		})
 		.catch((error) => {
-		  console.log(error)
+		  // console.log(error)
 		  this.messageService.add({
 			key:'tst',
 			severity: 'error',
@@ -223,7 +223,7 @@ export class DashboardDepuracionComponent implements OnInit {
 		this.visualizarHorarios();
 		})
 		.catch((error) => {
-		console.log(error)
+		// console.log(error)
 		//   this.messageService.add({
 		// 	key:'tst',
 		// 	severity: 'error',
@@ -250,7 +250,7 @@ export class DashboardDepuracionComponent implements OnInit {
 			this.visualizarHorarios();
 			})
 			.catch((error) => {
-				console.log(error)
+				// console.log(error)
 				this.messageService.add({
 					key:'tst',
 					severity: 'error',
@@ -276,10 +276,10 @@ export class DashboardDepuracionComponent implements OnInit {
 		// http://192.168.61.19:2000/
 		this.cors.get3('')
 		.then((response) => {
-			console.log(response)
+			// console.log(response)
 		})
 		.catch((error) => {
-			console.log(error)
+			// console.log(error)
 		});
 	}
 

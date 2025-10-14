@@ -30,27 +30,27 @@ export class SignalRService {
     .build();
 
     this.connection.start()
-    .then(_ => {console.log(_);
+    .then(_ => {// console.log(_);
     
-      console.log('Connection Started');
+      // console.log('Connection Started');
     }).catch(error => {
       return console.error(error);
     });
 
     this.connection?.on("joinBot", message => {
-        console.log(message);
+        // console.log(message);
         
     });
     this.connection?.on("lostConection", message => {
-        console.log(message);
+        // console.log(message);
         
     });
     this.connection?.on("NewUser", message => {
-        console.log(message);
+        // console.log(message);
         
     });
     this.connection?.on("NewMessage", message => {
-        console.log(message);
+        // console.log(message);
         
         
     });
@@ -66,7 +66,7 @@ export class SignalRService {
  }
 
     join() {
-        console.log("click");
+        // console.log("click");
         
     this.connection?.invoke('JoinGroup', this.groupName, this.userName)
       .then(_ => {
@@ -98,7 +98,7 @@ export class SignalRService {
   }
 
    newUser(message: string) {
-    console.log(message);
+    // console.log(message);
     this.conversation.push({
       userName: 'Sistema',
       message: message
@@ -106,12 +106,12 @@ export class SignalRService {
   }
 
    newMessage(message: NewMessage) {
-    console.log(message);
+    // console.log(message);
     this.conversation.push(message);
   }
 
    leftUser(message: string) {
-    console.log(message);
+    // console.log(message);
     this.conversation.push({
       userName: 'Sistema',
       message: message

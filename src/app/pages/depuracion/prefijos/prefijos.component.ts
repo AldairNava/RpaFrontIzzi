@@ -11,7 +11,7 @@ import { Message, MessageService } from 'primeng/api';
   styleUrls: ['./prefijos.component.scss']
 })
 export class PrefijosComponent implements OnInit {
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   prefijos:any;
   loading:boolean=false;
   edit:any={
@@ -47,7 +47,7 @@ export class PrefijosComponent implements OnInit {
   getPrefijos(){
 		this.cors.get('EjecucionDepuracion/getPrefijosRegionDepuracion')
 		.then((response) => {
-      // console.log(response)
+      // // console.log(response)
 		  if(response[0] == "SIN INFO"){
 			  this.prefijos = [];
 		  }else{
@@ -55,7 +55,7 @@ export class PrefijosComponent implements OnInit {
 		  }
 		})
 		.catch((error) => {
-		  console.log(error)
+		  // console.log(error)
 		});
   }
 
@@ -64,10 +64,10 @@ export class PrefijosComponent implements OnInit {
 	}
 
   saveEdit(){
-    // console.log(this.edit)
+    // // console.log(this.edit)
     this.cors.put(`EjecucionDepuracion/ActualizarPrefijosRegionDepuracion?id=${this.edit.id}`,this.edit)
 		.then((response) => {
-		  console.log(response)
+		  // console.log(response)
 		  this.messageService.add({
 			key: 'tst',
 			severity: 'success',
@@ -77,7 +77,7 @@ export class PrefijosComponent implements OnInit {
 		  this.getPrefijos();
 		})
 		.catch((error) => {
-      console.log(error)
+      // console.log(error)
 		  this.messageService.add({
         key:'tst',
         severity: 'error',
@@ -118,7 +118,7 @@ export class PrefijosComponent implements OnInit {
 		this.getPrefijos();
 		})
 		.catch((error) => {
-      console.log(error)
+      // console.log(error)
         this.messageService.add({
         key:'tst',
         severity: 'error',
@@ -144,7 +144,7 @@ export class PrefijosComponent implements OnInit {
 		this.getPrefijos();
 		})
 		.catch((error) => {
-      console.log(error)
+      // console.log(error)
         this.messageService.add({
         key:'tst',
         severity: 'error',

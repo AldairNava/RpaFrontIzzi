@@ -12,7 +12,7 @@ import { Table } from 'primeng/table';
   styleUrls: ['./pantalla-consulta.component.scss']
 })
 export class PantallaConsultaComponent implements OnInit {
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   msgs: Message[] = [];
   showtable:any;
   stats:any[]=[];
@@ -33,8 +33,8 @@ export class PantallaConsultaComponent implements OnInit {
   }
 
   getTableCasosNegocioCobranza(){
-    this.cors.get('AjustesNotDone/getAllAjustesCasosNegocioCobranza').then((response) => {
-      // console.log(responSse)
+    this.cors.get('AjustesNotDone/getAjustesConValidacion').then((response) => {
+      // // console.log(responSse)
       if(response[0] =='SIN INFO'){
         this.showtable = [];
 
@@ -43,7 +43,7 @@ export class PantallaConsultaComponent implements OnInit {
 
       }
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
     })
   }
 
@@ -51,7 +51,7 @@ export class PantallaConsultaComponent implements OnInit {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
   dateFormat(value:any){
-    // console.log(value)
+    // // console.log(value)
     if(value != null){
       return moment(value).format('DD/MM/yyyy HH:mm:ss')
     }else{
@@ -60,7 +60,7 @@ export class PantallaConsultaComponent implements OnInit {
   }
 
   statsAjustesCasoNeogicoCobranza(){
-    this.cors.get('AjustesNotDone/getStatsAjustesCasoNegocioCobranza').then((response) => {
+    this.cors.get('AjustesNotDone/statsBasesAjustesConValidacion').then((response) => {
       for (let i = 0; i < response.length; i++) {
         const jsonObject = response[i];
         for (let key in jsonObject) {
@@ -71,7 +71,7 @@ export class PantallaConsultaComponent implements OnInit {
       }      
       this.stats=response;
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
     })
   }
 

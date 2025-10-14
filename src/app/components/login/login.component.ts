@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
 
     this.mode = this.darkMode.isDarkModeEnabled();
 
-    // console.log(this.mode)
+    // // console.log(this.mode)
   }
 
   setSession() {
@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
     this.cors.post(this.loginForm.value).subscribe(
       (res: any) => {
         if(res.status) {
-          console.log(res)
+          // console.log(res)
           sessionStorage.setItem('user_id', res.user);
           sessionStorage.setItem('name', res.name);
           sessionStorage.setItem('email', res.email);
@@ -86,7 +86,7 @@ export class LoginComponent implements OnInit {
 
       },
       (err: any) => {
-        console.log(err);
+        // console.log(err);
         this.showMessage('error', 'Error', 'No se ha podido establecer conexión con el servicio.');
       }
     )

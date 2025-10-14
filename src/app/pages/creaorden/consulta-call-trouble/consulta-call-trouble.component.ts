@@ -11,7 +11,7 @@ import { Table } from 'primeng/table';
   styleUrls: ['./consulta-call-trouble.component.scss']
 })
 export class ConsultaCallTroubleComponent implements OnInit {
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   msgs: Message[] = [];
   showtable:any;
   stats:any[]=[];
@@ -31,7 +31,7 @@ export class ConsultaCallTroubleComponent implements OnInit {
 
   getTableCrearCuenta(){
     this.cors.get('AjustesNotDone/getDiaOrdenCallTrouble').then((response) => {
-      // console.log(response)
+      // // console.log(response)
       if(response[0] =='SIN INFO'){
         this.showtable = [];
 
@@ -40,7 +40,7 @@ export class ConsultaCallTroubleComponent implements OnInit {
 
       }
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
     })
   }
 
@@ -48,7 +48,7 @@ export class ConsultaCallTroubleComponent implements OnInit {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
   dateFormat(value:any){
-    // console.log(value)
+    // // console.log(value)
     if(value != null){
       return moment(value).format('DD/MM/yyyy HH:mm:ss')
     }else{
@@ -68,7 +68,7 @@ export class ConsultaCallTroubleComponent implements OnInit {
       }      
       this.stats=response;
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
     })
   }
 

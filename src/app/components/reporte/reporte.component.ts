@@ -73,10 +73,10 @@ export class ReporteComponent implements OnInit {
 
   //   this.http.post('https://rpabackizzi.azurewebsites.net/apiMariana/generarRegistros', data).subscribe(
   //     (res: any) => {
-  //       console.log(res)
+  //       // console.log(res)
   //     },
   //     (err: any) => {
-  //       console.log(err)
+  //       // console.log(err)
   //     }
   //   )
   // }
@@ -95,7 +95,7 @@ export class ReporteComponent implements OnInit {
   seleccionaFechas() {
     if(this.fechas[1] != null ) {
       this.fechasCompletas = true;
-      // console.log(this.myCalendar)
+      // // console.log(this.myCalendar)
       this.myCalendar.hideOverlay(); 
     }
   }
@@ -130,7 +130,7 @@ export class ReporteComponent implements OnInit {
 
       },
       (err: any) => {
-        console.log(err)
+        // console.log(err)
       }
     )
   }
@@ -148,7 +148,7 @@ export class ReporteComponent implements OnInit {
 
       },
       (err: any) => {
-        console.log(err);
+        // console.log(err);
         this.showMessage('error', 'Error', 'No ha sido posible generar el reporte, contacta al administrador.');
 
       }
@@ -225,7 +225,7 @@ export class ReporteComponent implements OnInit {
   private darkModeSubscription(): void {
     this.dark.darkModeChanges$().subscribe((isDarkModeEnabled: boolean) => {
       this.mode = isDarkModeEnabled;
-      // console.log('Modo oscuro cambiado:', this.mode);
+      // // console.log('Modo oscuro cambiado:', this.mode);
     });
   }
 

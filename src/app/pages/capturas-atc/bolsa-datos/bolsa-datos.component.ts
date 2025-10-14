@@ -17,7 +17,7 @@ import { Table } from 'primeng/table';
 })
 export class BolsaDatosComponent implements OnInit {
   formBolsa: UntypedFormGroup;
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   toClearControls: string[] = ["cuenta","pais", "tipoCuenta",'paqueteDatos','tipoProceso']
   mostrandoResultados: boolean = false;
   display: boolean = false; //Dialogo de confirmacion
@@ -74,7 +74,7 @@ export class BolsaDatosComponent implements OnInit {
 
   verify() {
     this.formBolsa.markAllAsTouched();
-    // console.log(this.formBolsa)
+    // // console.log(this.formBolsa)
     if (this.formBolsa.valid) {
       this.display = true;
     }
@@ -82,7 +82,7 @@ export class BolsaDatosComponent implements OnInit {
   sendData() {
     this.closeModal = false;
     this.enviando = true;
-    // console.log(this.formBolsa)
+    // // console.log(this.formBolsa)
     if (this.formBolsa.valid) {
       this.cors
         .post('Formularios/GuardarFormularioBolsaDatos', this.formBolsa.value)
@@ -117,11 +117,11 @@ export class BolsaDatosComponent implements OnInit {
   getDatosBolsa(){
     this.cors.get('Formularios/ObtenerBolsaDatosDia',{user:this.usuario.email})
     .then((response)=>{
-      // console.log(response)
+      // // console.log(response)
       this.BolsaDia = response;
     })
     .catch((err)=>{
-      console.log(err)
+      // console.log(err)
     });
 
   }
@@ -131,7 +131,7 @@ export class BolsaDatosComponent implements OnInit {
   }
 
   changeCuenta(event:any){
-    // console.log(event)
+    // // console.log(event)
     if(event==='BT To Go'){
       this.formBolsa.controls['paqueteDatos'].reset()
     }else{

@@ -115,7 +115,7 @@ export class CargarPlantillasComponent implements OnInit {
 
       this.camposAnalistas = datosSinHeaders;
 
-      console.log('Datos cargados del Excel:', datosSinHeaders);
+      // console.log('Datos cargados del Excel:', datosSinHeaders);
       this.showButton = true;
     };
 
@@ -146,20 +146,20 @@ export class CargarPlantillasComponent implements OnInit {
   validaHeaders(data: any) {
     let headers = data[0];
 
-    console.log(`Headers Documento: ${headers}`)
+    // console.log(`Headers Documento: ${headers}`)
 
     let headersLength = headers.length;
-    console.log(headersLength)
+    // console.log(headersLength)
     let headersCorrectos = false;
 
     for(let i = 0 ; i < headersLength ; i++) {
-        console.log(headers[i])
+        // console.log(headers[i])
       if( headers[i].toUpperCase() != this.headers[i].toUpperCase()) {
         headersCorrectos = false;
         this.limpiarDocumento();
         this.mensajeAdvertencia('Un header es incorrecto, por favor valida la información');
-        console.log(headers[i])
-        console.log(this.headers[i])
+        // console.log(headers[i])
+        // console.log(this.headers[i])
 
         break;
       } else {
@@ -195,10 +195,10 @@ export class CargarPlantillasComponent implements OnInit {
   // }
 
   cargarEjecutivos() {
-    console.log('entrando')
+    // console.log('entrando')
     this.showButton = false;
     this.guardando = true;
-    // console.log(this.camposAnalistas)
+    // // console.log(this.camposAnalistas)
 
     const method = {
       controlador: 'CargarPlantillaController',

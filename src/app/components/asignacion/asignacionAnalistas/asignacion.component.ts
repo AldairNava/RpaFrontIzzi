@@ -70,7 +70,7 @@ export class AsignacionComponent implements OnInit {
         }
       },
       (err: any) => {
-        console.log(err)
+        // console.log(err)
       }
     )
   }

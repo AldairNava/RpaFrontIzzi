@@ -109,7 +109,7 @@ export class ParametrosComponent implements OnInit {
             }
           },
           (err: any) => {
-            console.log(err)
+            // console.log(err)
           }
         )
       }
@@ -146,7 +146,7 @@ export class ParametrosComponent implements OnInit {
                 }
             },
             (err: any) => {
-                console.log(err);
+                // console.log(err);
             }
         )
     }
@@ -167,7 +167,7 @@ export class ParametrosComponent implements OnInit {
                     }
                 },
                 (err:any) => {
-                    console.log(err)
+                    // console.log(err)
                 }
             )
         });
@@ -254,7 +254,7 @@ export class ParametrosComponent implements OnInit {
                 }
             },
             (err:any) => {
-                console.log(err);
+                // console.log(err);
                 this.showMessage('warn', 'Aviso', 'Por favor revisa los datos introducidos');
 
             }
@@ -286,14 +286,14 @@ export class ParametrosComponent implements OnInit {
                 }
             },
             (err:any) => {
-                console.log(err);
+                // console.log(err);
             }
         )
     }
 
 
     borrarGuia(guia: any) {
-        console.log(guia)
+        // console.log(guia)
         const tabla  = guia.tabla;
         const nombre = guia.nombre_guia;
         const tablaC = `calificaciones_${tabla}`
@@ -322,7 +322,7 @@ export class ParametrosComponent implements OnInit {
                     }
                 },
                 (err: any) => {
-                    console.log(err)
+                    // console.log(err)
                 }
         )
             }
@@ -332,7 +332,7 @@ export class ParametrosComponent implements OnInit {
     }
 
     guardarGuia() {
-        console.log('Guardando guia')
+        // console.log('Guardando guia')
         if( this.nuevaGuiaForm.valid ) {
             let nombreArray = [];
             nombreArray = this.nuevaGuiaForm.value.nombreGuia.split(' ');
@@ -360,8 +360,8 @@ export class ParametrosComponent implements OnInit {
     }
 
     enviarGuia() {
-        console.log('enviar guia')
-        console.log(this.nuevaGuiaForm.value)
+        // console.log('enviar guia')
+        // console.log(this.nuevaGuiaForm.value)
         // 'parametrosController/guardarGuia'
         this.cors.post(this.nuevaGuiaForm.value).subscribe(
             (res: any) => {
@@ -370,7 +370,7 @@ export class ParametrosComponent implements OnInit {
                 }
             },
             (err: any) => {
-                console.log(err);
+                // console.log(err);
             }
         )
     }
@@ -378,7 +378,7 @@ export class ParametrosComponent implements OnInit {
     
 
     crearTablaGuia() {
-        console.log('crear tabla guia')
+        // console.log('crear tabla guia')
         // 'parametrosController/crearTablaGuia', 
         this.cors.post(this.nuevaGuiaForm.value).subscribe(
             (res: any) => {
@@ -388,13 +388,13 @@ export class ParametrosComponent implements OnInit {
                 }
             },
             (err: any) => {
-                console.log(err);
+                // console.log(err);
             }
         )
     }
 
     insertDefault() {
-        console.log('insert default')
+        // console.log('insert default')
 // 'parametrosController/insertDefault', 
         this.cors.post(this.nuevaGuiaForm.value).subscribe(
             (res: any) => {
@@ -403,18 +403,18 @@ export class ParametrosComponent implements OnInit {
                 }
             },
             (err: any) => {
-                console.log(err);
+                // console.log(err);
             }
         )
     }
 
     crearTablaCalificaciones() {
-        console.log('crear tabla calificaciones')
+        // console.log('crear tabla calificaciones')
 // 'parametrosController/crearTablaCalificaciones', 
         this.cors.post(this.nuevaGuiaForm.value).subscribe(
             (res: any) => {
                 if(res.status) {
-                    console.log(res)
+                    // console.log(res)
                     this.nombreGuia = '';
                     this.nombreGuiones = '';
                     this.showMessage('success', 'Fantástico', `Se ha creado la nueva guía`);
@@ -423,7 +423,7 @@ export class ParametrosComponent implements OnInit {
                 }
             },
             (err: any) => {
-                console.log(err)
+                // console.log(err)
             }
         )
     }
@@ -455,7 +455,7 @@ export class ParametrosComponent implements OnInit {
     private darkModeSubscription(): void {
         this.dark.darkModeChanges$().subscribe((isDarkModeEnabled: boolean) => {
         this.mode = isDarkModeEnabled;
-        //   console.log('Modo oscuro cambiado:', this.mode);
+        //   // console.log('Modo oscuro cambiado:', this.mode);
         });
     }
 

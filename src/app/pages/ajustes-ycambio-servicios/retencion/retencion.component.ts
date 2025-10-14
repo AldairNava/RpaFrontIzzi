@@ -11,7 +11,7 @@ import * as XLSX from 'xlsx';
 })
 export class RetencionComponent implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef;
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}");
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}");
   msgs: Message[] = [];
   ExcelData: any = [];
   headers: string[] = [
@@ -164,7 +164,7 @@ export class RetencionComponent implements OnInit {
         detail: 'Correctamente!!',
       }); 
     }).catch((error) => {
-      console.log(error);
+      // console.log(error);
       this.messageService.add({
         key: 'tst',
         severity: 'error',

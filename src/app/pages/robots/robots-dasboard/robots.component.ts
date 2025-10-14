@@ -39,7 +39,7 @@ export class RobotsComponent implements OnInit {
   opcionIndex: any = null;
   loadingLog: boolean = false
   logContent: any[] = []
-  usuarioInfo = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuarioInfo = JSON.parse(sessionStorage.getItem("user") || "{}")
   items: any[] = [];
   displayLogDialog: boolean = false
   statsBots:any=[];
@@ -85,9 +85,9 @@ export class RobotsComponent implements OnInit {
         };
 
         this.cors.post('Bots/SendMail', mail).then(response => {
-            console.log(response);
+            // console.log(response);
         }).catch(error => {
-            console.log(error);
+            // console.log(error);
         });
     }
 }
@@ -143,11 +143,11 @@ export class RobotsComponent implements OnInit {
         }
       }
     ).then((response) => {
-      console.log(response);
+      // console.log(response);
       this.dataSource.splice(this.opcionIndex, 1)
       this.showToastSuccess(`Se elimino el robot ${this.opcionToAction.botHostName} correctamente.`)
     }).catch((error) => {
-      console.log(error);
+      // console.log(error);
       this.showToastError(`No se logro eliminar el robot ${this.opcionToAction.botHostName}`)
     })
   }
@@ -191,25 +191,25 @@ export class RobotsComponent implements OnInit {
         status:`${command}`
       })
       .then((response) => {
-          console.log(response)
+          // console.log(response)
           this.cors.get('Bots/updateProcessStatusBot',{
             ip:`${item.botIp}`,
             estado:`${a}`
           }).then((response1) => {
-            console.log(response1)
+            // console.log(response1)
           }).catch((error) => {
-            console.log(error);
+            // console.log(error);
           });    
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
         this.cors.get('Bots/updateProcessStatusBot',{
           ip:`${item.botIp}`,
           estado:`3`
         }).then((response1) => {
-          console.log(response1)
+          // console.log(response1)
         }).catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
       })
     item.sendingComand = false
@@ -242,7 +242,7 @@ export class RobotsComponent implements OnInit {
       this.obtenerProcesos()
       this.showToastSuccess(`Se guardo el cambio de proceso del Robot ${item.botIp}`)
     }).catch((error) => {
-      console.log(error);
+      // console.log(error);
       item.sendingProcess = false
       this.showToastError(`No se logro guardar el proceso del Robot ${item.botIp}`)
     })
@@ -261,12 +261,12 @@ export class RobotsComponent implements OnInit {
           //     this.enviarCorreo(dias, bot.ProcesoUser, bot.ProcesoName);
           //   }
           // } else {
-          //   console.log('dias no es un número:', dias);
+          //   // console.log('dias no es un número:', dias);
           // }
         }
       }
     }).catch((error) => {
-      console.log(error);
+      // console.log(error);
       this.showToastError(`No se logro traer el listado de Robots`)
     })
 }
@@ -321,7 +321,7 @@ export class RobotsComponent implements OnInit {
         }
       }  
     }).catch((error) => {
-      console.log(error);
+      // console.log(error);
     })
   }
 
@@ -343,7 +343,7 @@ export class RobotsComponent implements OnInit {
           this.validacionProceso();
         }
       }).catch((error) => {
-        console.log(error);
+        // console.log(error);
         this.showToastError(`No se logro traer la lista de procesos`)
       })
   }
@@ -358,7 +358,7 @@ export class RobotsComponent implements OnInit {
               this.dataSource[i].botEstado = response[j].botEstado;
             }}}}
     }).catch((error) => {
-      console.log(error);
+      // console.log(error);
     })
 }
 }

@@ -28,7 +28,7 @@ export class ReembolsoComponent implements OnInit {
   closeModal: boolean = true;
   display: boolean = false; //Dialogo de confirmacion
   enviando: boolean = false;
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   toClearControls: string[] = ["Cuenta", "Pais","NumeroSolicitud","anios","TipoCuenta"]
   msgs: Message[] = [];
   validador = [false];
@@ -57,7 +57,7 @@ export class ReembolsoComponent implements OnInit {
   }
 
   sendData() {
-    console.log('click');
+    // console.log('click');
     this.closeModal = false;
     this.enviando = true;
     if (this.formReembolso.valid) {
@@ -90,7 +90,7 @@ export class ReembolsoComponent implements OnInit {
     }
   }
   verify() {
-    console.log(this.formReembolso)
+    // console.log(this.formReembolso)
     this.formReembolso.markAllAsTouched();
     if (this.formReembolso.valid) {
       this.display = true;
@@ -98,7 +98,7 @@ export class ReembolsoComponent implements OnInit {
   }
 
   showErrorViaToast() {
-    console.log('ERROR');
+    // console.log('ERROR');
     this.messageService.add({
       key: 'tst',
       severity: 'error',
@@ -114,11 +114,11 @@ export class ReembolsoComponent implements OnInit {
   getDatosReembolso(){
     this.cors.get('Formularios/ObtenerReembolsoDia',{user:this.usuario.email})
     .then((response)=>{
-      console.log(response)
+      // console.log(response)
       this.ReembolsoDia = response;
     })
     .catch((err)=>{
-      console.log(err)
+      // console.log(err)
     });
   }
   onGlobalFilter(table: Table, event: Event) {

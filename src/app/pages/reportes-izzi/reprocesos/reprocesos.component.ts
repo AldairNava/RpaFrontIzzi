@@ -29,7 +29,8 @@ export class ReprocesosComponent implements OnInit {
   estatusOptions = [
     { label: 'Error Obtencion Status Ajuste', value: 'Error Obtencion Status Ajuste' },
     { label: 'Error al crear cn', value: 'Error al crear cn' },
-    { label: 'No aplica ajuste reciente', value: 'No aplica ajuste reciente' }
+    { label: 'No aplica ajuste reciente', value: 'No aplica ajuste reciente' },
+    { label: 'Error Base', value: 'Error Base' }
   ];
   
   tipoCambioStatus: string = 'individual';
@@ -66,7 +67,8 @@ export class ReprocesosComponent implements OnInit {
     'NotDoneCreacionOrdenModel': 'Pendiente',
     'DepuracionBasesCanceladasOSExt': 'Registro pendiente',
     'DepuracionBasesCanceladasOS': 'Registro pendiente',
-    'OrdenTroubleCall': 'Pendiente'
+    'OrdenTroubleCall': 'Pendiente',
+    'flagConfirmacion': 'Pendiente'
   };
 
   private rawProcesos = [
@@ -77,7 +79,8 @@ export class ReprocesosComponent implements OnInit {
     'Depuracion EXT - DepuracionBasesCanceladasOSExt',
     'Depuracion CC - DepuracionBasesCanceladasOS',
     'Ok Cliente - okCliente2',
-    'Trouble Call - OrdenTroubleCall'
+    'Trouble Call - OrdenTroubleCall',
+    'Flag Confirmacion - flagConfirmacion'
   ];
   procesosOptions: { label: string; value: string }[] = [];
 
@@ -98,14 +101,14 @@ export class ReprocesosComponent implements OnInit {
       };
     });
 
-    const user = JSON.parse(localStorage.getItem('userData') || '{}');
-    this.isAdmin = ['administrador', 'admin-rpacx'].includes(user?.role);
+    let user = JSON.parse(sessionStorage.getItem("user") || "{}")
+    this.isAdmin = ['administrador', 'admin-cx', 'Administrador'].includes(user?.role);
   }
 
   cambiarStatusIndividual() {
   this.displayConfirmCambioStatus = false;
   this.loading = true;
-  const usuario = JSON.parse(localStorage.getItem("userData") || "{}");
+  let usuario = JSON.parse(sessionStorage.getItem("user") || "{}")
   if (!usuario?.email) {
     this.messageService.add({
       key: 'tst',
@@ -259,7 +262,7 @@ onFileChangeStatus(event: any) {
           summary: 'Éxito',
           detail: `Se leyeron ${this.idsStatusFromFile.length} registros correctamente.`
         });
-        console.log(this.idsStatusFromFile);
+        // console.log(this.idsStatusFromFile);
       } catch (err: any) {
         this.messageService.add({
           key: 'tst',
@@ -276,7 +279,7 @@ onFileChangeStatus(event: any) {
     reprocesarMasivo() {
   this.displayConfirmMasivo = false;
   this.loading = true;
-  const usuario = JSON.parse(localStorage.getItem("userData") || "{}");
+  const usuario = JSON.parse(sessionStorage.getItem("user") || "{}");
   if (!usuario?.email) {
     this.messageService.add({
       key: 'tst',
@@ -329,7 +332,7 @@ onFileChangeStatus(event: any) {
   cambiarStatusMasivo() {
   this.displayConfirmCambioStatusMasivo = false;
   this.loading = true;
-  const usuario = JSON.parse(localStorage.getItem("userData") || "{}");
+  const usuario = JSON.parse(sessionStorage.getItem("user") || "{}");
   if (!usuario?.email) {
     this.messageService.add({
       key: 'tst',
@@ -340,7 +343,7 @@ onFileChangeStatus(event: any) {
     return;
   }
   this.cors.post('AjustesNotDone/CambiarStatusMasivo', {
-    registros: this.idsStatusFromFile, // [{id, status, proceso}, ...]
+    registros: this.idsStatusFromFile,
     usuario: usuario.email
   })
   .then(response => {
@@ -372,7 +375,7 @@ reprocesarIndividual() {
   this.loading = true;
   if (!this.idIndividual || !this.procesoSeleccionado) return;
 
-  const usuario = JSON.parse(localStorage.getItem("userData") || "{}");
+  const usuario = JSON.parse(sessionStorage.getItem("user") || "{}");
   if (!usuario?.email) {
     this.messageService.add({
       key: 'tst',

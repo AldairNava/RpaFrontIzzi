@@ -10,7 +10,7 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./ok-cliente.component.scss']
 })
 export class OkClienteComponent implements OnInit {
-usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   msgs: Message[] = [];
   ExcelData:any=[];
   
@@ -62,7 +62,7 @@ usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
 
     // 3) Convertir a JSON desde la fila 9 (range:8)
     this.ExcelData = XLSX.utils.sheet_to_json(sheet, { defval: '', range: 0 });
-    console.log('📥 Datos crudos de Excel:', this.ExcelData);
+    // console.log('📥 Datos crudos de Excel:', this.ExcelData);
 
     // 4) Añadir Status, IP y FechaCaptura (-6 horas)
     const timestamp = moment().subtract(6, 'hours').format('YYYY-MM-DD HH:mm:ss');
@@ -89,7 +89,7 @@ usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
       Usuario_Captura: this.usuario.email || 'usuarion con cookies precargadas',
 
     }));
-    console.log('✅ Después de map, JSON a enviar:', JSON.stringify(this.ExcelData));
+    // console.log('✅ Después de map, JSON a enviar:', JSON.stringify(this.ExcelData));
 
     // 6) Activar UI y permitir enviar
     this.messageService.add({
@@ -123,7 +123,7 @@ usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
 
   saveExcel() {
     this.cors.post('okcliente/InsertarBasesOkCliente2RPA',this.ExcelData).then((response) => {
-      // console.log(response)
+      // // console.log(response)
       this.messageService.add({
         key: 'tst',
         severity: 'success',
@@ -131,7 +131,7 @@ usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
         detail: 'Correctamente!!',
       }); 
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
       // this.spinner=false;
       this.messageService.add({
         key: 'tst',
@@ -145,7 +145,7 @@ usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
   }
 
   dateFormat(value:any){
-    // console.log(value)
+    // // console.log(value)
     if(value != null){
       return moment(value).format('DD/MM/yyyy HH:mm:ss')
     }else{

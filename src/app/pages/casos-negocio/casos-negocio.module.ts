@@ -19,6 +19,8 @@ import { ReprocesarsinvalidacionComponent } from './reprocesarsinvalidacion/repr
 import { ReprocesarCasosnegociosinvalidacionComponent } from './reprocesar-casosnegociosinvalidacion/reprocesar-casosnegociosinvalidacion.component';
 import { BaseNotdoneComponent } from './base-notdone/base-notdone.component';
 import { ImportarNotDoneComponent } from './importar-not-done/importar-not-done.component';
+import { FlagConfirmacionComponent } from './flag-confirmacion/flag-confirmacion.component';
+import { ConsultarFlagConfirmacionComponent } from './consultar-flag-confirmacion/consultar-flag-confirmacion.component';
 
 
 @NgModule({
@@ -36,6 +38,8 @@ import { ImportarNotDoneComponent } from './importar-not-done/importar-not-done.
     BaseNotdoneComponent,
     SafeUrlPipe,
     ImportarNotDoneComponent,
+    FlagConfirmacionComponent,
+    ConsultarFlagConfirmacionComponent,
   ],
   imports: [
     CommonModule,

@@ -42,11 +42,11 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/izzi-rpacx',
+    redirectTo: '/home',
     pathMatch: 'full'
   },
   {
-    path: 'izzi-rpacx',
+    path: 'home',
     data: { breadcrumb: 'Home' },
     canActivate: [AuthGuard],
     loadChildren: () =>

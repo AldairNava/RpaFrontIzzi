@@ -1,23 +1,56 @@
-.fixed-header {
-    position: sticky;
-    top: 0;
-    z-index: 1;
-}
-
-/* 1) El wrapper permite overflow-x */
+/* 1. El wrapper permite overflow horizontal */
 .tabview-scroll-wrapper {
   overflow-x: auto;
-  /* opcional: para que el scroll sea más “suave” en móviles WebKit */
-  -webkit-overflow-scrolling: touch;
+  -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
 }
 
-/* 2) Fuerza a que la lista de tabs sea un flex-row sin wrapping */
+/* 2. Forzamos los tabs a estar en una sola línea, con scroll horizontal */
 .tabview-scroll-wrapper ::ng-deep .p-tabview-nav {
-  display: flex;
-  flex-wrap: nowrap;
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  white-space: nowrap !important;
+  scrollbar-width: thin; /* Scroll más delgado en Firefox */
 }
 
-/* 3) Cada pestaña ocupa sólo el espacio que necesita */
+/* 3. Cada tab solo ocupa el espacio necesario, nunca hace wrap */
 .tabview-scroll-wrapper ::ng-deep .p-tabview-nav li {
-  flex: 0 0 auto;
+  flex: 0 0 auto !important;
 }
+
+/* 4. Opcional: Oculta la barra de scroll si quieres un diseño más limpio */
+.tabview-scroll-wrapper ::ng-deep .p-tabview-nav::-webkit-scrollbar {
+  display: none;
+}
+.tabview-scroll-wrapper ::ng-deep .p-tabview-nav {
+  scrollbar-width: none; /* Firefox */
+}
+
+/* 5. Opcional: Si quieres un efecto sticky para los tabs */
+.fixed-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.tabview-navigator-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tab-arrow {
+  font-size: 2rem;
+  background: #e0e0e0;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin: 0 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.tab-arrow:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+

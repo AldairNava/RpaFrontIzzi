@@ -18,17 +18,17 @@ export class SocketService {
  
     
     this.socket.addEventListener("open", (ev => {
-      console.log('opened')
+      // console.log('opened')
     }));
     this.socket.addEventListener("message", (ev => {
         
       var messageBox: any = JSON.parse(ev.data);
-      console.log('message object', messageBox);
+      // console.log('message object', messageBox);
       
     }));
 
     this.socket.addEventListener("close",ev =>{
-      console.log(ev);
+      // console.log(ev);
       
     })
   }

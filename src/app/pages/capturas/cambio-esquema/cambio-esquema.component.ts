@@ -11,7 +11,7 @@ import { Table } from 'primeng/table';
 })
 export class CambioEsquemaComponent implements OnInit {
   formCambioEsquema:UntypedFormGroup;
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   toClearControls: string[] = ["tipoCuenta", "cuenta", "pais","tipoCambio","numDispositivos"]
   display: boolean = false; //Dialogo de confirmacion
   closeModal: boolean = true;
@@ -121,7 +121,7 @@ export class CambioEsquemaComponent implements OnInit {
       this.cambioPaqueteEsquemaDia = response;
     })
     .catch((err)=>{
-      console.log(err)
+      // console.log(err)
     });
   }
 

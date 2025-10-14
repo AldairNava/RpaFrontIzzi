@@ -34,7 +34,7 @@ export class BaseNotdoneComponent implements OnInit {
   gettablaArchivos(){
     this.cors.get('DepuracionNotdone/getBasesNotDone')
     .then((response) => {
-      // console.log(response)
+      // // console.log(response)
       if(response[0]=="SIN INFO"){
         this.tablaArchivos = [];
       }else{
@@ -49,7 +49,7 @@ export class BaseNotdoneComponent implements OnInit {
       }
     })
     .catch((error) => {
-    console.log(error)
+    // console.log(error)
     });
   }
   onGlobalFilter(table: Table, event: Event) {
@@ -70,7 +70,7 @@ export class BaseNotdoneComponent implements OnInit {
       "nombre":archivo
     })
     .then((response) => {
-      // console.log(response)
+      // // console.log(response)
       this.show = true;
       this.url1 = `https://rpabackizzi.azurewebsites.net/DepuracionNotdone/BajarExcelFTPArchivosNotDone?nombre=${archivo}`;
       setTimeout(()=> {
@@ -85,7 +85,7 @@ export class BaseNotdoneComponent implements OnInit {
       }, 5000);
     })
     .catch((error) => {
-      console.log(error)
+      // console.log(error)
       this.messageService.add({
         key:'tst',
         severity: 'error',
@@ -103,10 +103,10 @@ export class BaseNotdoneComponent implements OnInit {
   async con(){
     this.cors.get3('')
     .then((response) => {
-      console.log(response)
+      // console.log(response)
     })
     .catch((error) => {
-      console.log(error)
+      // console.log(error)
     });
   }
 }

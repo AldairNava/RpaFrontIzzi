@@ -44,7 +44,7 @@ export class ServicioscscostoComponent implements OnInit {
   ];
 
   formServicios:UntypedFormGroup;
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   toClearControls: string[] = ["Cuenta", "Pais", "Equipos", "Nombre","Tipo_falla", "Horario","Fecha_atencion","Tipo_Cuenta","Tipo_Servicio","Zona","ApellidoP","ApellidoM"]
   enviando: boolean = false;
   closeModal: boolean = true;
@@ -159,10 +159,10 @@ export class ServicioscscostoComponent implements OnInit {
     this.cors.get('Formularios/ObtenerServiciosDia',{user:this.usuario.email})
     .then((response)=>{
       this.serviciosDia = response;
-      // console.log(this.serviciosDia)
+      // // console.log(this.serviciosDia)
     })
     .catch((err)=>{
-      console.log(err)
+      // console.log(err)
     });
   }
   onGlobalFilter(table: Table, event: Event) {

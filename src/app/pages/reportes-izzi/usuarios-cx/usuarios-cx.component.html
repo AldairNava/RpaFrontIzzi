@@ -1,0 +1,147 @@
+<div class="col-12">
+  <div class="card">
+    <h5>Usuarios</h5>
+    <p-table #dt
+      [value]="usuarios"
+      [paginator]="true"
+      [rows]="50"
+      [loading]="loading"
+      dataKey="username"
+      styleClass="p-datatable-gridlines"
+      [rowsPerPageOptions]="[10,20,50,100]"
+      [globalFilterFields]="['rol', 'username', 'name', 'email']"
+      responsiveLayout="scroll">
+
+      <ng-template pTemplate="caption">
+        <div class="flex justify-content-between items-center mb-2">
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text"
+              (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+              placeholder="Buscar usuario"
+              class="w-full" />
+          </span>
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Usuario</th>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Rol</th>
+          <th>Staff</th>
+          <th>Área</th>
+          <th>Departamento</th>
+          <th>Status</th>
+          <th>Acciones</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-user>
+        <tr>
+          <td>{{ user.username }}</td>
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.rol }}</td>
+          <td>{{ user.staff }}</td>
+          <td>{{ user.area }}</td>
+          <td>{{ user.departamento }}</td>
+          <td>
+            <span [ngClass]="user.active === 1 || user.active === true ? 'status-active' : 'status-inactive'">
+              {{ user.active === 1 || user.active === true ? 'Activo' : 'Inactivo' }}
+            </span>
+          </td>
+          <td>
+            <button *ngIf="user.active === 1 || user.active === true"
+                    pButton
+                    icon="pi pi-ban"
+                    class="p-button-rounded p-button-danger p-button-sm"
+                    (click)="cambiarEstadoUsuario(user, 0)"
+                    title="Desactivar">
+            </button>
+            <button *ngIf="!user.active || user.active === 0"
+                    pButton
+                    icon="pi pi-check"
+                    class="p-button-rounded p-button-success p-button-sm"
+                    (click)="cambiarEstadoUsuario(user, 1)"
+                    title="Activar">
+            </button>
+            <button pButton
+                    icon="pi pi-pencil"
+                    class="p-button-rounded p-button-warning p-button-sm ml-2"
+                    (click)="abrirDialogEditar(user)"
+                    title="Editar">
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<!-- Diálogo para editar usuario -->
+<p-dialog
+  header="Editar usuario"
+  [(visible)]="displayDialogEditar"
+  [modal]="true"
+  [closable]="true"
+  [dismissableMask]="true"
+  [style]="{ width: '420px', 'border-radius': '1.5rem' }">
+
+  <div *ngIf="editandoUsuario" class="p-fluid">
+    <div class="p-field mb-3">
+      <label><b>Usuario</b></label>
+      <input pInputText [(ngModel)]="editandoUsuario.username" placeholder="Usuario" />
+    </div>
+    <div class="p-field mb-3">
+      <label><b>Nombre</b></label>
+      <input pInputText [(ngModel)]="editandoUsuario.name" placeholder="Nombre" />
+    </div>
+    <div class="p-field mb-3">
+      <label><b>Email</b></label>
+      <input pInputText [(ngModel)]="editandoUsuario.email" placeholder="Email" />
+    </div>
+    <div class="p-field mb-3">
+      <label><b>Rol</b></label>
+      <p-dropdown
+        [options]="rolesDisponibles"
+        [(ngModel)]="editandoUsuario.rol"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Selecciona un rol"
+        [showClear]="true"
+        [filter]="true">
+      </p-dropdown>
+    </div>
+    <div class="p-field mb-3">
+      <label><b>Staff</b></label>
+      <input pInputText [(ngModel)]="editandoUsuario.staff" placeholder="Staff" [readonly]="true" />
+    </div>
+    <div class="p-field mb-3">
+      <label><b>Área</b></label>
+      <p-dropdown
+        [options]="areasDisponibles"
+        [(ngModel)]="editandoUsuario.area"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Selecciona área"
+        [showClear]="false">
+      </p-dropdown>
+    </div>
+    <div class="p-field mb-3">
+      <label><b>Departamento</b></label>
+      <input pInputText [(ngModel)]="editandoUsuario.departamento" placeholder="Departamento" [readonly]="true" />
+    </div>
+    <div class="flex justify-content-end mt-4">
+      <button pButton type="button" class="p-button-secondary mr-2"
+              label="Cancelar" (click)="displayDialogEditar = false"></button>
+      <button pButton type="button" label="Guardar cambios"
+              (click)="guardarUsuarioEditado()" [disabled]="loading"></button>
+    </div>
+  </div>
+  <div *ngIf="loading">Guardando usuario…</div>
+</p-dialog>
+
+
+<p-toast [baseZIndex]="99999" key="tst"></p-toast>

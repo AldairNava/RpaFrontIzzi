@@ -11,7 +11,7 @@ import * as XLSX from 'xlsx';
 })
 export class RecuperadoresComponent implements OnInit {
 
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   msgs: Message[] = [];
   ExcelData:any=[];
   headers:string[]=[
@@ -178,7 +178,7 @@ export class RecuperadoresComponent implements OnInit {
 
   saveExcel() {
     this.cors.post('AjustesNotDone/InsertarBasesAjustesCasosNegocioCobranza',this.ExcelData).then((response) => {
-      // console.log(response)
+      // // console.log(response)
       this.messageService.add({
         key: 'tst',
         severity: 'success',
@@ -186,7 +186,7 @@ export class RecuperadoresComponent implements OnInit {
         detail: 'Correctamente!!',
       }); 
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
       // this.spinner=false;
       this.messageService.add({
         key: 'tst',
@@ -201,7 +201,7 @@ export class RecuperadoresComponent implements OnInit {
 
   }
   dateFormat(value:any){
-    // console.log(value)
+    // // console.log(value)
     if(value != null){
       return moment(value).format('DD/MM/yyyy HH:mm:ss')
     }else{

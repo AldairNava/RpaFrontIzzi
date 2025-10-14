@@ -15,7 +15,7 @@ import * as XLSX from 'xlsx';
 export class BasesCanceladasComponent implements OnInit {
   spinner:boolean=false;
   button:boolean=true;
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   msgs: Message[] = [];
   ExcelData:any=[];
   headers:string[]=[
@@ -166,7 +166,7 @@ export class BasesCanceladasComponent implements OnInit {
           });
           this.button=false;   
           this.tabla=true;
-          console.log(this.ExcelData)
+          // console.log(this.ExcelData)
         }else{
           this.messageService.add({
             key: 'tst',
@@ -188,7 +188,7 @@ export class BasesCanceladasComponent implements OnInit {
 
   saveExcel() {
     this.cors.post('EjecucionDepuracion/InsertarBasesCanceladasExcel',this.ExcelData).then((response) => {
-      // console.log(response)
+      // // console.log(response)
       this.messageService.add({
         key: 'tst',
         severity: 'success',
@@ -196,7 +196,7 @@ export class BasesCanceladasComponent implements OnInit {
         detail: 'Correctamente!!',
       }); 
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
       // this.spinner=false;
       this.messageService.add({
         key: 'tst',

@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./procesos-edit.component.scss']
 })
 export class ProcesosEditComponent implements OnInit {
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   routeSub: Subscription;
   formNuevoProceso: UntypedFormGroup;
   procesoStatus:any[]=[
@@ -50,7 +50,7 @@ export class ProcesosEditComponent implements OnInit {
           id:params['idRobot']
         })
           .then((response: any) => {
-            // console.log(response);
+            // // console.log(response);
             this.formNuevoProceso.patchValue({
               name_process: response.procesoName,
               usuario:response.procesoUser,
@@ -61,7 +61,7 @@ export class ProcesosEditComponent implements OnInit {
 
           })
           .catch((error: any) => {
-            console.log(error);
+            // console.log(error);
             this.showToastError('No se encontraron datos de Robot')
           });
       }
@@ -97,14 +97,14 @@ export class ProcesosEditComponent implements OnInit {
 
         this.cors.put(`Bots/ActualizarProceso?id=${b.Id}&usuarioActualizador=${usuarioActualizador}`, b)
             .then((response) => {
-                // console.log(response)
+                // // console.log(response)
                 this.showToastSuccess('Proceso editado correctamente.');
                 setTimeout(() => {
                     this.router.navigate(["/robots/proceso"]);
                 }, 1000);
             })
             .catch((error) => {
-                console.log(error);
+                // console.log(error);
                 this.showToastError('No se logró editar, intente de nuevo.');
             });
 

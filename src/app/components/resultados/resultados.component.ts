@@ -144,7 +144,7 @@ export class ResultadosComponent implements OnInit {
           this.guia = res.row[0].guia;
         },
         (err: any) => {
-          console.log(err)
+          // console.log(err)
         }
       )
     }
@@ -217,7 +217,7 @@ export class ResultadosComponent implements OnInit {
         this.dataDLlamada[0].id = parts[0]; 
 
       }, (error) => {
-        console.log(error);
+        // console.log(error);
       }
     )
 
@@ -236,7 +236,7 @@ export class ResultadosComponent implements OnInit {
         this.dataLlamada[0].asesor = res.nomAsesor;
 
       }, (error) => {
-        console.log(error);
+        // console.log(error);
       }
     )
 
@@ -257,7 +257,7 @@ export class ResultadosComponent implements OnInit {
         })
       },
       (err: any) => {
-        console.log(err)
+        // console.log(err)
       }
     )
   }
@@ -285,7 +285,7 @@ export class ResultadosComponent implements OnInit {
 
         this.contextoGeneral = contextos.contexto_general;
       }, (error) => {
-        console.log(error);
+        // console.log(error);
       }
     )
 }
@@ -311,7 +311,7 @@ export class ResultadosComponent implements OnInit {
           this.obtienePuntoVista(res.row.punto_de_vista)
         }
       }, (error) => {
-        console.log(error)
+        // console.log(error)
       }
     )
   }
@@ -343,7 +343,7 @@ export class ResultadosComponent implements OnInit {
           }
       } else {
         // Esta aplica para groserías
-          console.log("No se encontró la coincidencia.");
+          // console.log("No se encontró la coincidencia.");
       }
   });
 
@@ -365,7 +365,7 @@ export class ResultadosComponent implements OnInit {
         }
       },
       (err: any) => {
-        console.log(err)
+        // console.log(err)
       }
     )
   }
@@ -552,7 +552,7 @@ export class ResultadosComponent implements OnInit {
         })
       },
       (err: any) => {
-        console.log(err);
+        // console.log(err);
       }
     );
     
@@ -617,7 +617,7 @@ export class ResultadosComponent implements OnInit {
       (response: any) => {
           const calidad = response['row'];
 
-          console.log(calidad)
+          // console.log(calidad)
 
           const puntuacion = calidad.Puntuacion_general_sentimientos;
 
@@ -663,7 +663,7 @@ export class ResultadosComponent implements OnInit {
           }
 
       }, (error) => {
-        console.log(error);
+        // console.log(error);
       }
     )
   }

@@ -21,7 +21,7 @@ export class DashboardReporteFidelizacionComponent implements OnInit {
   formReporte:UntypedFormGroup;
   result:any=[];
   result1:any=[];
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}");
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}");
   spinner:boolean=false;
   reportes:any=[];
   loading: boolean = false;
@@ -40,7 +40,7 @@ export class DashboardReporteFidelizacionComponent implements OnInit {
     // this.cors
     // .get('Reporte/vici')
     // .then((response) => {
-    //   // console.log(response)
+    //   // // console.log(response)
     //   this.result = response;
     // //   this.messageService.add({
     // //     key: 'tst',
@@ -50,7 +50,7 @@ export class DashboardReporteFidelizacionComponent implements OnInit {
     // //   });
     // })
     // .catch((error) => {
-    //   console.log(error)
+    //   // console.log(error)
     // //   this.msgs.push({
     // //     severity: 'error',
     // //     summary: 'No se logro guardar',
@@ -60,7 +60,7 @@ export class DashboardReporteFidelizacionComponent implements OnInit {
     this.cors
     .get('Reporte/vici1')
     .then((response) => {
-      // console.log(response)
+      // // console.log(response)
       this.result1 = response;
 
     //   this.messageService.add({
@@ -71,7 +71,7 @@ export class DashboardReporteFidelizacionComponent implements OnInit {
     //   });
     })
     .catch((error) => {
-      console.log(error)
+      // console.log(error)
     //   this.msgs.push({
     //     severity: 'error',
     //     summary: 'No se logro guardar',
@@ -83,7 +83,7 @@ export class DashboardReporteFidelizacionComponent implements OnInit {
 
   ngOnInit(): void {
 
-    // console.log(this.usuario)
+    // // console.log(this.usuario)
     this.registrosReporte()
     setInterval(() => {
       this.registrosReporte();
@@ -95,13 +95,13 @@ export class DashboardReporteFidelizacionComponent implements OnInit {
     this.cors.get('Reporte/getRowsReporte')
     .then((response) => {
       if(response[0] != "SIN INFO"){
-        // console.log(response)
+        // // console.log(response)
         this.reportes=response
 
       }
     })
     .catch((error) => {
-      console.log(error)
+      // console.log(error)
     });
   }
 
@@ -138,7 +138,7 @@ export class DashboardReporteFidelizacionComponent implements OnInit {
         }
         this.cors.post('Reporte/GuardarFormularioEjecucionReporte',a)
         .then((response) => {
-          // console.log(response)
+          // // console.log(response)
           this.messageService.add({
             key: 'tst',
             severity: 'success',
@@ -148,7 +148,7 @@ export class DashboardReporteFidelizacionComponent implements OnInit {
           this.registrosReporte()
         })
         .catch((error) => {
-          console.log(error)
+          // console.log(error)
           this.messageService.add({
             key:'tst',
             severity: 'error',
@@ -207,7 +207,7 @@ export class DashboardReporteFidelizacionComponent implements OnInit {
         }, 5000);
 
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         this.loading2 = false;
         this.messageService.add({
             key: 'tst',
@@ -223,7 +223,7 @@ export class DashboardReporteFidelizacionComponent implements OnInit {
   }
 
   dateFormat1(value:any){
-    // console.log(value)
+    // // console.log(value)
     if(value != null){
       return moment(value).format('yyyy-MM-DDThh:mm:00')
     }else{

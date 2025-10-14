@@ -69,21 +69,20 @@ export class ProcesosDashboardComponent implements OnInit {
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
-  selection(item: any, index: any) {
-    this.opcionToAction = item;
-    // console.log(this.opcionToAction)
-    this.opcionIndex = index;
-  }
+    selection(item: any, index: any) {
+      this.opcionToAction = item;
+      this.opcionIndex = index;
+    }
 
   deleteMAquina() {
-    console.log(this.opcionToAction)
+    // console.log(this.opcionToAction)
 
     this.cors.delete(`Bots/EliminarProceso?id=${this.opcionToAction.id}`, this.opcionToAction).then((response) => {
-      console.log(response);
+      // console.log(response);
       this.dataSource.splice(this.opcionIndex, 1)
       this.showToastSuccess(`Se elimino el proceso ${this.opcionToAction.name_process} correctamente.`)
     }).catch((error) => {
-      console.log(error);
+      // console.log(error);
       this.showToastError(`No se logro eliminar el proceso ${this.opcionToAction.name_process}`)
 
     })
@@ -108,15 +107,10 @@ export class ProcesosDashboardComponent implements OnInit {
         this.showToastError(`No hay registros de procesos!`)
 
       }else{
-        // for(var b=0;b<response.length;b++){
-        //   if(response[b].status == "1"){
-        //     this.dataSource.push(response[b])
-        //   }
-        // }
         this.dataSource = response;
       }
     }).catch((error) => {
-      console.log(error);
+      // console.log(error);
       this.showToastError(`No se logro traer la lista de procesos!`)
     })
   }

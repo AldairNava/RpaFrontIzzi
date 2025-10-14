@@ -19,11 +19,11 @@ export class PruebaComponent {
     }
     this.cors.post(fechas).subscribe(
       (res: any) => {
-        console.log(res.data)
-        console.log(typeof(res))
+        // console.log(res.data)
+        // console.log(typeof(res))
       },
       (err: any) => {
-        console.log(err)
+        // console.log(err)
       }
     )
   }

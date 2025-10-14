@@ -14,7 +14,7 @@ export class TemporadasComponent implements OnInit {
   closeModal: boolean = true;
   display: boolean = false; //Dialogo de confirmacion
   enviando: boolean = false;
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   toClearControls: string[] = ["Cuenta", "Producto", "TipoCuenta","TipoTemporada","Pais","Equipos"]
   msgs: Message[] = [];
   validador = [false];
@@ -63,7 +63,7 @@ export class TemporadasComponent implements OnInit {
     this.getDatosTemporadas();
   }
   sendData() {
-    console.log("Esto es temporada",this.formTemporada);
+    // console.log("Esto es temporada",this.formTemporada);
     this.closeModal = false;
     this.enviando = true;
     if (this.formTemporada.valid) {
@@ -73,7 +73,7 @@ export class TemporadasComponent implements OnInit {
           this.display = false;
           this.enviando = false;
           this.toClearControls.forEach((element) => {
-            // console.log(element)
+            // // console.log(element)
             this.formTemporada.controls[element].setValue(null)
           })
           this.formTemporada.markAsUntouched()
@@ -104,7 +104,7 @@ export class TemporadasComponent implements OnInit {
   }
 
   showErrorViaToast() {
-    console.log('ERROR');
+    // console.log('ERROR');
     this.messageService.add({
       key: 'tst',
       severity: 'error',
@@ -121,17 +121,17 @@ export class TemporadasComponent implements OnInit {
     this.cors.get('Formularios/cat_temporadas_equipos').then((response) => {
       this.equipos = response
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
     })
     this.cors.get('Formularios/cat_temporadas_tipo_cuenta').then((response) => {
       this.tipoCuenta = response
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
     })
     this.cors.get('Formularios/cat_temporadas_producto').then((response) => {
       this.productos = response
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
     })
   }
 
@@ -150,7 +150,7 @@ export class TemporadasComponent implements OnInit {
       this.temporadaDia = response;
     })
     .catch((err)=>{
-      console.log(err)
+      // console.log(err)
     });
   }
   onGlobalFilter(table: Table, event: Event) {

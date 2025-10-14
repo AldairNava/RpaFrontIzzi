@@ -14,7 +14,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class ReportesIzziDashComponent implements OnInit {
   formReporte:UntypedFormGroup;
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   msgs: Message[] = [];
   mostrandoResultados: boolean = false
   reportes:any = [];
@@ -40,15 +40,6 @@ export class ReportesIzziDashComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTipoReporte();
-
-  //   const user = JSON.parse(localStorage.getItem('userData') || '{}');
-  //   if (user?.role === 'administrador') {
-  //     this.reportesFiltrados = this.reportes;
-  //   } else if (user?.role === 'recuperadores') {
-  //     this.reportesFiltrados = this.reportes.filter((r: any) => r.nombreReporte === 'Creacion CNs');
-  //   } else {
-  //     this.reportesFiltrados = [];
-  // }
   }
   
   confirm2(event: Event) {
@@ -60,7 +51,7 @@ export class ReportesIzziDashComponent implements OnInit {
       accept: async () => {
         this.button=true;
         // this.show = false;
-        // console.log(this.formReporte)
+        // // console.log(this.formReporte)
         let fechaini = moment(this.formReporte.value.fechas[0]).format('YYYY-MM-DD');
         let fechafin = moment(this.formReporte.value.fechas[1]).format('YYYY-MM-DD');
         let url=``;
@@ -70,78 +61,56 @@ export class ReportesIzziDashComponent implements OnInit {
           "fecha2":fechafin
         }
         let nomArchivo="";
-        // console.log(a)
-        console.log(this.formReporte.value)
         if(this.formReporte.value.tipoReporte =='Ajustes (Cobranza y Late fee)'){
-          console.log("Ajustes (Cobranza y Late fee)")
           url = `ReportesIzzi/getReporteAjustesCasoNegocioCobranza`;
-          para =`fecha1=${fechaini}&fecha2=${fechafin}`;
+          para =`fecha1=${fechaini}&fecha2=${fechafin}&remitente=RPA`;
           nomArchivo="Reporte_Ajustes_Cobranza_Late_Fee"
-          // console.log(`${url}?${para}`)
         }else if(this.formReporte.value.tipoReporte =='Depuracion OS'){
-          console.log("Depuracion OS")
           url = `ReportesIzzi/getReporteDepuracionOS`;
-          para =`fecha1=${fechaini}&fecha2=${fechafin}`
+          para =`fecha1=${fechaini}&fecha2=${fechafin}&remitente=RPA`
           nomArchivo="Reporte_Depuracion_OS"
-          // console.log(`${url}?${para}`)
         }else if(this.formReporte.value.tipoReporte =='NotDone'){
-          console.log("NotDone")
           url = `ReportesIzzi/getReporteAjustesNotDone`;
-          para =`fecha1=${fechaini}&fecha2=${fechafin}`
+          para =`fecha1=${fechaini}&fecha2=${fechafin}&remitente=RPA`
           nomArchivo="Reporte_NotDone"
-          // console.log(`${url}?${para}`)
-        }
-        // else if(this.formReporte.value.tipoReporte =='Ajustes Sucursales'){
-        //   console.log("Ajustes Sucursales")
-        //   url = `ReportesIzzi/getReporteAjustesCambioServicios`;
-        //   para =`fecha1=${fechaini}&fecha2=${fechafin}`
-        //   nomArchivo="Reporte_Ajustes_Sucursales"
-        //   // console.log(`${url}?${para}`)
-        // }
-        else if(this.formReporte.value.tipoReporte =='Ajustes Sin Validacion'){
-          console.log("Ajustes Sin Validacion")
+        }else if(this.formReporte.value.tipoReporte =='Ajustes Sin Validacion'){
           url = `ReportesIzzi/getReporteAjustesCasoNegocioCobranzaSinValidacion`;
-          para =`fecha1=${fechaini}&fecha2=${fechafin}`
+          para =`fecha1=${fechaini}&fecha2=${fechafin}&remitente=RPA`
           nomArchivo="Reporte_Ajustes_CN_Cobranza_SinValidacion"
-          // console.log(`${url}?${para}`)
         }else if(this.formReporte.value.tipoReporte =='NotDone Sin Validacion'){
-          console.log("NotDone Sin Validacion")
           url = `ReportesIzzi/getReporteAjustesNotDoneSinValidacion`;
-          para =`fecha1=${fechaini}&fecha2=${fechafin}`
+          para =`fecha1=${fechaini}&fecha2=${fechafin}&remitente=RPA`
           nomArchivo="Reporte_NotDone_SinValidacion"
-          // console.log(`${url}?${para}`)
         }else if(this.formReporte.value.tipoReporte =='Creacion OS'){
           url = `ReportesIzzi/getReporteCreacionOrden`;
-          para =`fecha1=${fechaini}&fecha2=${fechafin}`
+          para =`fecha1=${fechaini}&fecha2=${fechafin}&remitente=RPA`
           nomArchivo="Reporte_Creacion_OS"
         }else if(this.formReporte.value.tipoReporte =='Orden Call Trouble'){
           url = `ReportesIzzi/ReporteOrdenesCallTrouble`;
-          para =`fecha1=${fechaini}&fecha2=${fechafin}`
+          para =`fecha1=${fechaini}&fecha2=${fechafin}&remitente=RPA`
           nomArchivo="Reporte_Ordenes_Call_Trouble"
         }else if(this.formReporte.value.tipoReporte =='Ok Cliente'){
           url = `ReportesIzzi/ReporteOkCliente`;
-          para =`fecha1=${fechaini}&fecha2=${fechafin}`
-          nomArchivo="Reporte_Ok-Cleinte"
+          para =`fecha1=${fechaini}&fecha2=${fechafin}&remitente=RPA`
+          nomArchivo="Reporte_Ok-Cliente"
         }else if(this.formReporte.value.tipoReporte =='Creacion CNs'){
           url = `ReportesIzzi/ReporteCreacionCNs`;
-          para =`fecha1=${fechaini}&fecha2=${fechafin}`
-          nomArchivo="Reporte_CReacion_CNs"
+          para =`fecha1=${fechaini}&fecha2=${fechafin}&remitente=RPA`
+          nomArchivo="Reporte_Creacion_CNs"
         }
-        // else if(this.formReporte.value.tipoReporte =='Retencion 0'){
-        //   url = `ReportesIzzi/ReporteRetencion0`;
-        //   para =`fecha1=${fechaini}&fecha2=${fechafin}`
-        //   nomArchivo="Reporte_Retencion_0"
-        // }
+        else if(this.formReporte.value.tipoReporte =='Flag Confirmacion'){
+          url = `ReportesIzzi/ReporteFlagConfirmacion`;
+          para =`fecha1=${fechaini}&fecha2=${fechafin}&remitente=RPA`
+          nomArchivo="Reporte_flagConfirmacion_CNs"
+        }
         try {
           const headers = new HttpHeaders({
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': 'https://rpabackizzi.azurewebsites.net/',
-            // 'Access-Control-Allow-Origin': 'https://localhost:7198/',
             'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
             'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
           });
           const response: any = await this.httpClient.get(`https://rpabackizzi.azurewebsites.net/${url}?${para}`, {
-          // const response: any = await this.httpClient.get(`https://localhost:7198/${url}?${para}`, {
           headers:headers,  
           responseType: 'arraybuffer',
             observe: 'response'
@@ -158,7 +127,7 @@ export class ReportesIzziDashComponent implements OnInit {
           this.messageService.add({ severity: 'info', summary: 'Generando', detail: 'Se ha generado el reporte' });
 
         } catch (error) {
-          console.log(error)
+          // console.log(error)
         }
         this.button = false
         this.formReporte.controls['tipoReporte'].reset();
@@ -180,38 +149,48 @@ export class ReportesIzziDashComponent implements OnInit {
       this.reportesFiltrados = [];
     } else {
       this.reportes = response;
-      const user = JSON.parse(localStorage.getItem('userData') || '{}');
+      const user = JSON.parse(sessionStorage.getItem('user') || '{}');
+      // console.log('Usuario cargado en reportes:', user);
       switch (user?.role) {
-        case 'administrador':
-        case 'eBarrera':
-        case 'testReportes':
-        case 'admin-rpacx':
+        case 'Administrador':
+          case 'administrador':
           this.reportesFiltrados = this.reportes;
           break;
-        case 'Depuracion':
+        case 'admin-cx':
+        case 'reportes-cx':
+          this.reportesFiltrados = this.reportes.filter((r: any) =>
+            r.nombreReporte === 'Orden Call Trouble'
+          || r.nombreReporte === 'Ajustes (Cobranza y Late fee)'
+          || r.nombreReporte === 'NotDone'
+          || r.nombreReporte === 'Depuracion OS'
+          || r.nombreReporte === 'Ajustes Sin Validacion'
+          || r.nombreReporte === 'NotDone Sin Validacion'
+          || r.nombreReporte === 'Ok Cliente'
+          || r.nombreReporte === 'Flag Confirmacion'
+          );
+          break;
+        case 'depuracion-cx':
           this.reportesFiltrados = this.reportes.filter((r: any) => r.nombreReporte === 'Depuracion OS');
           break;
-        case 'Ajustes':
+          case 'okCliente-cx':
+          this.reportesFiltrados = this.reportes.filter((r: any) => r.nombreReporte === 'Ok Cliente');
+          break;
+        case 'notDone-cx':
+          this.reportesFiltrados = this.reportes.filter((r: any) => r.nombreReporte === 'NotDone' || r.nombreReporte === 'NotDone Sin Validacion');
+          break;
+          case 'ordenes-cx':
           this.reportesFiltrados = this.reportes.filter((r: any) =>
-            r.nombreReporte === 'Retencion 0' || r.nombreReporte === 'Ajustes Sucursales'
+            r.nombreReporte === 'Orden Call Trouble'
+          || r.nombreReporte === 'Creacion OS'
           );
           break;
-        case 'AjustesNotDone':
-          this.reportesFiltrados = this.reportes.filter((r: any) =>
-            r.nombreReporte === 'Ajustes (Cobranza y Late fee)' || r.nombreReporte === 'Ajustes Sin Validacion'
-          || r.nombreReporte === 'NotDone' || r.nombreReporte === 'NotDone Sin Validacion'
-          );
-          break;
-        case 'testAjustes1':
+        case 'ajustes-cx':
           this.reportesFiltrados = this.reportes.filter((r: any) =>
             r.nombreReporte === 'Ajustes (Cobranza y Late fee)' || r.nombreReporte === 'Creacion OS'
             || r.nombreReporte === 'Ajustes Sin Validacion'
           );
           break;
-        case 'ACS':
-          this.reportesFiltrados = this.reportes.filter((r: any) => r.nombreReporte === 'Retencion 0');
-          break;
-        case 'recuperadores':
+        case 'admin-limpieza':
           this.reportesFiltrados = this.reportes.filter((r: any) => r.nombreReporte === 'Creacion CNs');
           break;
         default:
@@ -219,7 +198,6 @@ export class ReportesIzziDashComponent implements OnInit {
       }
     }
   }).catch((error) => {
-    console.log("Error", error)
     this.reportesFiltrados = [];
   })
 }

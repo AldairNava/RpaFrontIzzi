@@ -40,7 +40,7 @@ export class ActivaCuentaComponent implements OnInit {
     this.http.post('http://192.168.51.210/api/UsersController/activar', this.activateForm.value).subscribe(
       (res: any) => {
         if( res.status ) {
-          console.log(res)
+          // console.log(res)
         } else {
           
         }
@@ -50,7 +50,7 @@ export class ActivaCuentaComponent implements OnInit {
 
       },
       (err: any) => {
-        console.log(err);
+        // console.log(err);
       }
     )
   }

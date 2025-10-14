@@ -103,7 +103,12 @@
                         <div class="flex justify-content-center align-items-center">
                             Estado Ajuste
                         </div>
-                    </th>                  
+                    </th>        
+                    <th>
+                        <div class="flex justify-content-center align-items-center">
+                            Prioridad
+                        </div>
+                    </th>            
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-item let-i="rowIndex">
@@ -137,6 +142,9 @@
                     </td>
                     <td class="text-center">
                         {{item.estatusAjuste}}
+                    </td>
+                    <td class="text-center">
+                        {{item.prioridad}}
                     </td>
                 </tr>
             </ng-template>

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Message,MessageService } from 'primeng/api';
 import { CorsService } from '@services';
 import * as moment from 'moment';
-import * as XLSX from 'xlsx';
 import { Table } from 'primeng/table';
 
 @Component({
@@ -11,7 +10,7 @@ import { Table } from 'primeng/table';
   styleUrls: ['./consulta-sin-validacion.component.scss']
 })
 export class ConsultaSinValidacionComponent implements OnInit {
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   msgs: Message[] = [];
   showtable:any;
   stats:any[]=[];
@@ -33,7 +32,7 @@ export class ConsultaSinValidacionComponent implements OnInit {
 
   getTableAjustesBasesSinValidacion(){
     this.cors.get('AjustesNotDone/getAjustesSinValidacion').then((response) => {
-      // console.log(response)
+      // // console.log(response)
       if(response[0] =='SIN INFO'){
         this.showtable = [];
 
@@ -42,7 +41,7 @@ export class ConsultaSinValidacionComponent implements OnInit {
 
       }
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
     })
   }
 
@@ -50,7 +49,7 @@ export class ConsultaSinValidacionComponent implements OnInit {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
   dateFormat(value:any){
-    // console.log(value)
+    // // console.log(value)
     if(value != null){
       return moment(value).format('DD/MM/yyyy HH:mm:ss')
     }else{
@@ -70,7 +69,7 @@ export class ConsultaSinValidacionComponent implements OnInit {
       }      
       this.stats=response;
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
     })
   }
 

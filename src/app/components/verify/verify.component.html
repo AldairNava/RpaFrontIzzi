@@ -2,11 +2,29 @@
 <div *ngIf="loading" class="loading-screen">
     <p>Cargando Verificacion Con Microsoft...</p>
   </div>
-  <div *ngIf="!loading" class="component__content">
+  <!-- <div *ngIf="!loading" class="component__content">
     <div class="filtros" [class]="mode ? 'filtros--dark' : 'filtros--light'">
       <div class="celda">
         <p>Contenido de verificación</p>
       </div>
     </div>
+  </div> -->
+  <!-- <div *ngIf="staff === 'wincallmx'" class="col-12 flex justify-content-center mt-6">
+  <div class="card shadow-2xl p-6" style="min-width:370px; border-radius: 2rem;">
+    <h3 class="text-2xl font-bold mb-2 text-primary">Usuario autenticado</h3>
+    <p class="mb-3 text-base">
+      ¡Bienvenido, <b>{{ userName }}</b>!
+    </p>
+    <p class="mb-5">Selecciona el aplicativo al que deseas ingresar:</p>
+    <div class="flex gap-4 justify-content-center">
+      <button pButton type="button" label="Ir a Mariana"
+              class="p-button-rounded p-button-info p-button-lg"
+              icon="pi pi-android"
+              (click)="goTo('/mariana')"></button>
+      <button pButton type="button" label="Ir a CX"
+              class="p-button-rounded p-button-success p-button-lg"
+              icon="pi pi-users"
+              (click)="goTo('/home')"></button>
+    </div>
   </div>
-  
+</div> -->

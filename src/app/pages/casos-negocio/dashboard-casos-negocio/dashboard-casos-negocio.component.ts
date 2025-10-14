@@ -10,7 +10,7 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./dashboard-casos-negocio.component.scss']
 })
 export class DashboardCasosNegocioComponent implements OnInit {
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   msgs: Message[] = [];
   ExcelData:any=[];
   headers:string[]=[
@@ -77,10 +77,10 @@ export class DashboardCasosNegocioComponent implements OnInit {
         var workBook = XLSX.read(fileReader.result,{type:'binary',cellDates:true })
         var sheetNames =  workBook.SheetNames;
         this.ExcelData = XLSX.utils.sheet_to_json(workBook.Sheets[sheetNames[0]],{defval: ''});
-        // console.log(this.ExcelData)
+        // // console.log(this.ExcelData)
         let count=0;
         for(let [key,value] of Object.entries(this.ExcelData[0])){
-          // console.log("Esto es cabezera",key)
+          // // console.log("Esto es cabezera",key)
           for(let i = 0 ; i<this.headers.length;i++){
             if(key == this.headers[i]){
               count++;
@@ -105,7 +105,7 @@ export class DashboardCasosNegocioComponent implements OnInit {
             summary: 'Exito!!!',
             detail: 'El archivo se a cargado completamente!!!',
           });
-          // console.log(this.ExcelData)
+          // // console.log(this.ExcelData)
           this.tabla=true;
           this.button=false;
         }else{
@@ -123,7 +123,7 @@ export class DashboardCasosNegocioComponent implements OnInit {
 
   saveExcel() {
     this.cors.post('AjustesNotDone/InsertarBasesNotDone',this.ExcelData).then((response) => {
-      // console.log(response)
+      // // console.log(response)
       this.messageService.add({
         key: 'tst',
         severity: 'success',
@@ -131,7 +131,7 @@ export class DashboardCasosNegocioComponent implements OnInit {
         detail: 'Correctamente!!',
       });
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
       // this.spinner=false;
       this.messageService.add({
         key: 'tst',
@@ -147,7 +147,7 @@ export class DashboardCasosNegocioComponent implements OnInit {
   }
 
   dateFormat(value:any){
-    // console.log(value)
+    // // console.log(value)
     if(value != null){
       return moment(value).format('DD/MM/yyyy HH:mm:ss')
     }else{

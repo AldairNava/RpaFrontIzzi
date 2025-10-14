@@ -30,7 +30,6 @@ const config: SocketIoConfig = { url: environment.SCOCKET_URL };
   ],
   imports: [
     SharedModule,
-
     CommonModule,
     RobotsRoutingModule,
     SocketIoModule.forRoot(config),
@@ -38,6 +37,9 @@ const config: SocketIoConfig = { url: environment.SCOCKET_URL };
     ReactiveFormsModule,
   ], providers: [
     SocketIoService,ConfirmationService,MessageService
-  ]
+  ],
+  exports: [
+    RobotLogModalComponent
+  ],
 })
 export class RobotsModule { }

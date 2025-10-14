@@ -72,16 +72,21 @@ export class DashUsuariosComponent implements OnInit {
     };
     this.cors.post(data).subscribe(
       (res: any) => {
-        this.usuarios = res.data;
-        this.originalUsuarios = res.data;
-
+        this.usuarios = (res.data || []).filter(
+          (u: any) => u.departamento && (
+            u.departamento.toLowerCase() === 'mariana' ||
+            u.departamento.toLowerCase() === 'general'
+          )
+        );
+        this.originalUsuarios = this.usuarios;
         this.editUserModal = false;
       },
       (err: any) => {
-        console.log(err);
       }
     );
   }
+
+
 
   getRoles() {
     const data = {
@@ -95,7 +100,7 @@ export class DashUsuariosComponent implements OnInit {
         }
       },
       (err: any) => {
-        console.log(err);
+        // console.log(err);
       }
     );
   }
@@ -130,7 +135,7 @@ export class DashUsuariosComponent implements OnInit {
         }
       },
       (err: any) => {
-        console.log(err)
+        // console.log(err)
 
       }
     )

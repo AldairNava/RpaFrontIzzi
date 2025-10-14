@@ -1,9 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { LayoutService } from '@services';
 import { CorsService } from '@services';
-import { Message, MessageService } from 'primeng/api';
-import { UntypedFormBuilder,UntypedFormGroup, Validators } from '@angular/forms';
+import {  MessageService } from 'primeng/api';
+import { UntypedFormBuilder,UntypedFormGroup } from '@angular/forms';
 import * as moment from 'moment';
 moment.lang('es');
 import { PrimeNGConfig } from 'primeng/api';
@@ -25,18 +23,21 @@ import * as ExcelJS from 'exceljs';
 })
 export class DashboardComponent implements OnInit {
     @ViewChild('barChart') barChart: any;
+    maxTabs = 11;
     fechas:any=[];
     primerDia = moment().startOf('month');
     ultimoDia = moment().endOf('month');
     fechasForm:UntypedFormGroup;
     loading: boolean = false
     load: boolean = false
-    basicDataEXT: any;
     isAdmin: boolean = false;
     isAdmin2: boolean = false;
     isUser: boolean = false;
     firstName: string = '';
     lastName: string = '';
+    activeTabIndex = 0;
+    
+    basicDataEXT: any;
     basicOptionsEXT: any;
     basicDataExtArray:any={
         graf:[],
@@ -156,8 +157,21 @@ export class DashboardComponent implements OnInit {
         dia:[],
         status:[],
     };
+
+    basicDataFlagConfirmacion: any;
+    basicOptionsFlagConfirmacion: any;
+    basicDataFlagConfirmacionArray:any={
+        graf:[],
+        esta:[],
+        val:[],
+        categoria:[],
+        solucion:[],
+        mes:[],
+        dia:[],
+        status:[],
+    };
+
     setStyle=['A','B','C','D','E','F','G']
-    activeTabIndex: number = 0;
 
     constructor(private el: ElementRef,private cors: CorsService,private formBuilder: UntypedFormBuilder,private primengConfig: PrimeNGConfig,private messageService: MessageService,) {
         this.primengConfig.setTranslation({
@@ -185,21 +199,36 @@ export class DashboardComponent implements OnInit {
         this.buscarStatsNotCreacionOrdenes(this.primerDia.format('YYYY-MM-DD'),this.ultimoDia.format('YYYY-MM-DD'));
         this.buscarStatsCallTrouble(this.primerDia.format('YYYY-MM-DD'),this.ultimoDia.format('YYYY-MM-DD'));
         this.buscarStatsOkCliente(this.primerDia.format('YYYY-MM-DD'),this.ultimoDia.format('YYYY-MM-DD'));
+        this.buscarStatsFlagConfirmacion(this.primerDia.format('YYYY-MM-DD'),this.ultimoDia.format('YYYY-MM-DD'));
     }
 
     ngOnInit() {
 
         setInterval(() => {
             this.buscarStatsTodos();
-        }, 300000);   
-        
-        const user = JSON.parse(localStorage.getItem('userData') || '{}');
-        this.isAdmin = ['administrador', 'admin-rpacx'].includes(user?.role);
+        }, 300000);
+
+        const user = JSON.parse(sessionStorage.getItem('user') || '{}');
+        this.isAdmin = ['administrador', 'admin-cx'].includes(user?.role);
         this.isAdmin2 = user?.role === 'admin-ajustesSucursales';
         this.isUser = !this.isAdmin && !this.isAdmin2;
         this.firstName = user?.firstName || '';
         this.lastName = user?.lastName || '';
 
+    }
+    prevTab() {
+        if (this.activeTabIndex === 0) {
+            this.activeTabIndex = this.maxTabs - 1;
+        } else {
+            this.activeTabIndex--;
+        }
+    }
+    nextTab() {
+        if (this.activeTabIndex === this.maxTabs - 1) {
+            this.activeTabIndex = 0;
+        } else {
+            this.activeTabIndex++;
+        }
     }
     
     buscarStatsTodos(){
@@ -228,6 +257,7 @@ export class DashboardComponent implements OnInit {
         this.buscarStatsNotCreacionOrdenes(ini,fin);
         this.buscarStatsCallTrouble(ini,fin);
         this.buscarStatsOkCliente(ini,fin);
+        this.buscarStatsFlagConfirmacion(ini,fin);
     }
     buscarStatsEXT(ini:any,fin:any){
         this.basicDataExtArray={
@@ -283,7 +313,7 @@ export class DashboardComponent implements OnInit {
             }else{
  
             
-                // console.log(response);
+                // // console.log(response);
                 let grafica = response[0].grafica;
                 grafica.forEach((obj:any) => {
                     Object.entries(obj).forEach(([key, value]) => {
@@ -317,7 +347,7 @@ export class DashboardComponent implements OnInit {
                 this.basicDataExtArray.status=response[0].status
                 this.basicDataExtArray.ip=response[0].ip
 
-                // console.log(this.basicDataExtArray)
+                // // console.log(this.basicDataExtArray)
                
 
                 this.basicDataEXT = {
@@ -336,7 +366,7 @@ export class DashboardComponent implements OnInit {
         
             }
         }).catch((error) => {
-            console.log(error)
+            // console.log(error)
             this.messageService.add({
                 key:'tst',
                 severity: 'error',
@@ -404,7 +434,7 @@ export class DashboardComponent implements OnInit {
             }else{
  
             
-                // console.log(response);
+                // // console.log(response);
                 let grafica = response[0].grafica;
                 grafica.forEach((obj:any) => {
                     Object.entries(obj).forEach(([key, value]) => {
@@ -438,7 +468,7 @@ export class DashboardComponent implements OnInit {
                 this.basicDataCCArray.status=response[0].status
                 this.basicDataCCArray.ip=response[0].ip
                 this.basicDataCCArray.tipo=response[0].tipo
-            //    console.log(this.basicDataCCArray)
+            //    // console.log(this.basicDataCCArray)
 
                 this.basicDataCC = {
                     // labels: ['Q1', 'Q2', 'Q3', 'Q4'],
@@ -456,7 +486,7 @@ export class DashboardComponent implements OnInit {
         
             }
         }).catch((error) => {
-            console.log(error)
+            // console.log(error)
             this.messageService.add({
                 key:'tst',
                 severity: 'error',
@@ -524,7 +554,7 @@ export class DashboardComponent implements OnInit {
             }else{
  
             
-                // console.log(response);
+                // // console.log(response);
                 let grafica = response[0].grafica;
                 grafica.forEach((obj:any) => {
                     Object.entries(obj).forEach(([key, value]) => {
@@ -559,7 +589,7 @@ export class DashboardComponent implements OnInit {
                 this.basicDataAjustesConValidacionArray.status=response[0].status
                 this.basicDataAjustesConValidacionArray.ip=response[0].ip
                
-                // console.log(this.basicDataAjustesConValidacionArray)
+                // // console.log(this.basicDataAjustesConValidacionArray)
                 this.basicDataAjustesConValidacion = {
                     // labels: ['Q1', 'Q2', 'Q3', 'Q4'],
                     labels: this.basicDataAjustesConValidacionArray.graf,
@@ -579,7 +609,7 @@ export class DashboardComponent implements OnInit {
         
             }
         }).catch((error) => {
-            console.log(error)
+            // console.log(error)
             this.load=false;
             this.messageService.add({
                 key:'tst',
@@ -681,7 +711,7 @@ export class DashboardComponent implements OnInit {
                 this.basicDataAjustesSinValidacionArray.status=response[0].status
                 this.basicDataAjustesSinValidacionArray.ip=response[0].ip
                
-                // console.log(this.basicDataAjustesSinValidacionArray)
+                // // console.log(this.basicDataAjustesSinValidacionArray)
                 this.basicDataAjustesSinValidacion = {
                     // labels: ['Q1', 'Q2', 'Q3', 'Q4'],
                     labels: this.basicDataAjustesSinValidacionArray.graf,
@@ -698,7 +728,7 @@ export class DashboardComponent implements OnInit {
         
             }
         }).catch((error) => {
-            console.log(error)
+            // console.log(error)
             this.messageService.add({
                 key:'tst',
                 severity: 'error',
@@ -807,7 +837,7 @@ export class DashboardComponent implements OnInit {
         
             }
         }).catch((error) => {
-            console.log(error)
+            // console.log(error)
             this.messageService.add({
                 key:'tst',
                 severity: 'error',
@@ -916,7 +946,7 @@ export class DashboardComponent implements OnInit {
         
             }
         }).catch((error) => {
-            console.log(error)
+            // console.log(error)
             this.messageService.add({
                 key:'tst',
                 severity: 'error',
@@ -1025,7 +1055,7 @@ export class DashboardComponent implements OnInit {
         
             }
         }).catch((error) => {
-            console.log(error)
+            // console.log(error)
             this.messageService.add({
                 key:'tst',
                 severity: 'error',
@@ -1134,7 +1164,7 @@ export class DashboardComponent implements OnInit {
         
             }
         }).catch((error) => {
-            console.log(error)
+            // console.log(error)
             this.messageService.add({
                 key:'tst',
                 severity: 'error',
@@ -1243,7 +1273,7 @@ export class DashboardComponent implements OnInit {
         
             }
         }).catch((error) => {
-            console.log(error)
+            // console.log(error)
             this.messageService.add({
                 key:'tst',
                 severity: 'error',
@@ -1252,7 +1282,6 @@ export class DashboardComponent implements OnInit {
               });
         })
     }
-
     buscarStatsOkCliente(ini:any,fin:any){
         this.basicDataOkClienteArray={
             graf:[],
@@ -1353,7 +1382,7 @@ export class DashboardComponent implements OnInit {
         
             }
         }).catch((error) => {
-            console.log(error)
+            // console.log(error)
             this.messageService.add({
                 key:'tst',
                 severity: 'error',
@@ -1362,6 +1391,118 @@ export class DashboardComponent implements OnInit {
               });
         })
     }
+    buscarStatsFlagConfirmacion(ini:any,fin:any){
+        this.basicDataFlagConfirmacionArray={
+            graf:[],
+            esta:[],
+            val:[],
+            categoria:[],
+            solucion:[],
+            mes:[],
+            dia:[],
+            status:[],
+        };
+        const documentStyle = getComputedStyle(document.documentElement);
+        const textColor = documentStyle.getPropertyValue('--text-color');
+        const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+        const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+        this.basicOptionsFlagConfirmacion = {
+            plugins: {
+                legend: {
+                    labels: {
+                        color: textColor
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: textColorSecondary
+                    },
+                    grid: {
+                        color: surfaceBorder,
+                        drawBorder: false
+                    }
+                },
+                x: {
+                    ticks: {
+                        color: textColorSecondary
+                    },
+                    grid: {
+                        color: surfaceBorder,
+                        drawBorder: false
+                    }
+                }
+            }
+        };
+        this.cors.get('Estadisticas/estadisticasFlagConfirmacion',{
+            startDateStr:ini,
+            endDateStr:fin
+        }).then((response) => {
+            if(response[0]=='SIN INFO'){
+             
+            }else{
+                let grafica = response[0].grafica;
+                grafica.forEach((obj:any) => {
+                    Object.entries(obj).forEach(([key, value]) => {
+                      if(key=='fallaRPA'){
+                        this.basicDataFlagConfirmacionArray.graf.push(key)
+                        this.basicDataFlagConfirmacionArray.esta.push(value)
+                      }
+                      if(key=='errorOperativo'){
+                        this.basicDataFlagConfirmacionArray.graf.push(key)
+                        this.basicDataFlagConfirmacionArray.esta.push(value)
+                      }
+                      if(key=='registroPendiente'){
+                        this.basicDataFlagConfirmacionArray.graf.push(key)
+                        this.basicDataFlagConfirmacionArray.esta.push(value)
+                      }
+                      if(key=='completado'){
+                        this.basicDataFlagConfirmacionArray.graf.push(key)
+                        this.basicDataFlagConfirmacionArray.esta.push(value)
+                      }
+                      if(key=='inconcistenciaSiebel'){
+                        this.basicDataFlagConfirmacionArray.graf.push(key)
+                        this.basicDataFlagConfirmacionArray.esta.push(value)
+                      }
+                    });
+                });
+                this.basicDataFlagConfirmacionArray.val=response[0].grafica
+                this.basicDataFlagConfirmacionArray.motivoAjuste=response[0].motivoAjuste
+                this.basicDataFlagConfirmacionArray.solucion=response[0].solucion
+                this.basicDataFlagConfirmacionArray.mes=response[0].mes
+                this.basicDataFlagConfirmacionArray.dia=response[0].dia
+                this.basicDataFlagConfirmacionArray.dia[this.basicDataFlagConfirmacionArray.dia.length-1].base='Total'
+                this.basicDataFlagConfirmacionArray.status=response[0].status
+                this.basicDataFlagConfirmacionArray.ip=response[0].ip
+                this.basicDataFlagConfirmacion = {
+                    labels: this.basicDataFlagConfirmacionArray.graf,
+                    datasets: [
+                        {
+                            label: 'Ok Cliente',
+                            data: this.basicDataFlagConfirmacionArray.esta,
+                            backgroundColor: ['rgba(255, 159, 64, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(153, 102, 255, 0.2)'],
+                            borderColor: ['rgb(255, 159, 64)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)', 'rgb(153, 102, 255)'],
+                            borderWidth: 1
+                        }
+                    ]
+                };
+        
+            }
+        }).catch((error) => {
+            this.messageService.add({
+                key:'tst',
+                severity: 'error',
+                summary: 'No se generaron registros para Ok Cliente',
+                detail: 'Intenta Nuevamente!!!',
+              });
+        })
+    }
+
+
+
+
     primeraLetraMayuscula(cadena: string): string {
         if (cadena.length === 0) {
           return cadena; // Devuelve la cadena original si está vacía

@@ -11,7 +11,7 @@ import { Table } from 'primeng/table';
 })
 export class CambioPaqueteComponent implements OnInit {
   formCambioPaquete:UntypedFormGroup;
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   toClearControls: string[] = ["tipoCuenta", "cuenta", "pais","tipoMovimiento","paqueteOrigen","paqueteDestino","paqueteOrigen1","paqueteDestino1","numDispositivos","costo","tipoDispositivos"]
   display: boolean = false; //Dialogo de confirmacion
   closeModal: boolean = true;
@@ -198,7 +198,7 @@ export class CambioPaqueteComponent implements OnInit {
   }
 
   cambioTipo(event:any){
-    console.log(event.value)
+    // console.log(event.value)
     if(event.value=='Downgrade'){
       this.formCambioPaquete.controls['costo'].setValidators(Validators.required);
       this.formCambioPaquete.controls['costo'].updateValueAndValidity();
@@ -213,10 +213,10 @@ export class CambioPaqueteComponent implements OnInit {
     this.cors.get('Formularios/ObtenerCambioPaqueteDia',{user:this.usuario.email})
     .then((response)=>{
       this.cambioPaqueteDia = response;
-      console.log(this.cambioPaqueteDia)
+      // console.log(this.cambioPaqueteDia)
     })
     .catch((err)=>{
-      console.log(err)
+      // console.log(err)
     });
   }
 

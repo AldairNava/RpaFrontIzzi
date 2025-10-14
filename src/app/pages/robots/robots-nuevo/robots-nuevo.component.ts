@@ -49,7 +49,7 @@ export class RobotsNuevoComponent implements OnInit {
         }      
       }
     }).catch((error) => {
-      console.log(error);
+      // console.log(error);
     })
   }
   
@@ -64,7 +64,7 @@ export class RobotsNuevoComponent implements OnInit {
         }, 3000);
 
       }).catch((error) => {
-        console.log(error);
+        // console.log(error);
         // this.guardando = false
         this.showToastError('No se logro guardar, intente de nuevo.');
       })

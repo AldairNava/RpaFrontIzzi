@@ -7,7 +7,11 @@
     <!-- <h5>Tipo de Cuenta</h5> -->
       <div class="p-fluid p-formgrid grid m-2 flex justify-content-center">
         <div class="col-6 text-center">
-            <input type="file" id="file" accept=".csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" (change)="readExcel($event)">
+            <input 
+            type="file" 
+            id="file" 
+            accept=".csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" 
+            (change)="readExcel($event)">
             <!-- <p-progressSpinner *ngIf="spinner"></p-progressSpinner> -->
         </div>
     </div>
@@ -44,16 +48,6 @@
         <p-table #dt1 [value]="ExcelData" dataKey="Caso de negocio" [rows]="50" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
             styleClass="p-datatable-gridlines" [paginator]="true"
             responsiveLayout="scroll">
-            <!-- <ng-template pTemplate="caption">
-                <div class="flex justify-content-between flex-column sm:flex-row">
-
-                    <span class="p-input-icon-left mb-2">
-                        <i class="pi pi-search"></i>
-                        <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Buscar"
-                            class="w-full" />
-                    </span>
-                </div>
-            </ng-template> -->
             <ng-template pTemplate="header">
                 <tr>
                     <th>
@@ -88,27 +82,35 @@
                             Status
                         </div>
                     </th>
+                    <th>
+                        <div class="flex justify-content-center align-items-center">
+                            Prioridad
+                        </div>
+                    </th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-item let-i="rowIndex">
                 <tr>
                     <td class="text-center">
-                        {{item.Cuenta}}
+                        {{item.cuenta}}
                     </td>
                     <td class="text-center">
-                        {{item['Motivo ajuste']}}
+                        {{item['motivoAjuste']}}
                     </td>
                     <td class="text-center">
-                        {{item['Comentario ajuste']}}
+                        {{item['comentarioAjuste']}}
                     </td>
                     <td class="text-center">
-                        {{item['Cantidad a ajustar']}}
+                        {{item['cantidadAjustar']}}
                     </td>
                     <td class="text-center">
-                        {{ item['Tipo de Ajuste'] }}
+                        {{ item['tipoAplicacion'] }}
                     </td>
                     <td class="text-center">
                         {{ item['Status'] }}
+                    </td>
+                    <td class="text-center">
+                        {{ item['prioridad'] === null || item['prioridad'] === '' ? 2 : item['prioridad'] }}
                     </td>
                 </tr>
             </ng-template>

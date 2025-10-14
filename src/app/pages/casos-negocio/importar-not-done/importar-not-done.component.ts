@@ -201,7 +201,7 @@ export class ImportarNotDoneComponent implements OnInit {
     this.updateSendButtonState();
     this.readingFirstExcel = false;
 
-    console.log('Datos procesados (incluyendo primera fila):', this.firstExcelData);
+    // console.log('Datos procesados (incluyendo primera fila):', this.firstExcelData);
   };
 
   reader.onerror = () => {
@@ -264,7 +264,7 @@ export class ImportarNotDoneComponent implements OnInit {
       this.secondFileLoaded = true;
       this.updateSendButtonState();
       this.readingSecondExcel = false;
-      console.log("Datos de ND & C:", this.secondExcelData);
+      // console.log("Datos de ND & C:", this.secondExcelData);
     };
   }  
 

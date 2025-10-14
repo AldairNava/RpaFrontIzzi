@@ -37,7 +37,7 @@ export class PantallaConsultaComponent implements OnInit {
     this.loading= true;
     this.cors.get('AjustesCambiosServicios/getAjustesCambioServicioInfo')
     .then((response)=>{
-      // console.log(response)
+      // // console.log(response)
       if(response[0]=='SIN INFO'){
         this.tabla=[];
 
@@ -55,7 +55,7 @@ export class PantallaConsultaComponent implements OnInit {
       }
     })
     .catch((err)=>{
-      console.log(err)
+      // console.log(err)
     });
     this.loading= false;
   }
@@ -63,7 +63,7 @@ export class PantallaConsultaComponent implements OnInit {
   getStatsAjustesyCambioServicio(){
     this.cors.get('AjustesCambiosServicios/getStatsAjustesCambioServicio')
     .then((response)=>{
-      // console.log(response)
+      // // console.log(response)
       if(response[0]=='SIN INFO'){
         this.stats=[];
 
@@ -81,7 +81,7 @@ export class PantallaConsultaComponent implements OnInit {
       }
     })
     .catch((err)=>{
-      console.log(err)
+      // console.log(err)
     });
   }
 
@@ -90,7 +90,7 @@ export class PantallaConsultaComponent implements OnInit {
   }
 
   dateFormat(value:any){
-    // console.log(value)
+    // // console.log(value)
     if(value != null){
       return moment(value).format('DD/MM/yyyy HH:mm:ss')
     }else{
@@ -112,7 +112,7 @@ export class PantallaConsultaComponent implements OnInit {
   }
 
   exportar(){
-    // console.log(this.tabla)
+    // // console.log(this.tabla)
     if(this.fechafin == null || this.fechaini== null){
       this.messageService.add({
         key:'tst',
@@ -128,7 +128,7 @@ export class PantallaConsultaComponent implements OnInit {
           return item.fechaCarga>= fecha1 && item.fechaCarga<=fecha2;
         });
         resultado.sort((a,b)=> a.id-b.id);
-        // console.log(resultado)
+        // // console.log(resultado)
         this.exportToExcel(resultado,`AjustesCambioServicio-${fecha1}a${fecha2}`);
         this.export=false;
       }

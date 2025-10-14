@@ -67,7 +67,7 @@ export class AuthService {
     })
       .pipe(map(user => {
         localStorage.setItem("TokenInfo", JSON.stringify(user));
-        console.log(JSON.stringify(user));
+        // console.log(JSON.stringify(user));
         return user;
       }));
   }
@@ -83,8 +83,8 @@ export class AuthService {
     } : null;
     var xx = this.JwtHelperService.decodeToken(data?.usrtoken);
     localStorage.setItem("token", data?.usrtoken)
-    console.log(xx);
-    console.log(userInfo);
+    // console.log(xx);
+    // console.log(userInfo);
     this.router.navigateByUrl('home')
   }
 

@@ -10,7 +10,7 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./creacion-cns.component.scss']
 })
 export class CreacionCNsComponent implements OnInit {
-usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   msgs: Message[] = [];
   ExcelData:any=[];
   button:boolean=true;
@@ -134,14 +134,14 @@ readExcel(event: any) {
     this.tabla = true;
     this.button = false;
 
-    console.log(this.ExcelData);
+    // console.log(this.ExcelData);
   };
 }
 
 
   saveExcel() {
     this.cors.post('AgenciasExternas/InsertarBasesCrearCNs',this.ExcelData).then((response) => {
-      // console.log(response)
+      // // console.log(response)
       this.messageService.add({
         key: 'tst',
         severity: 'success',
@@ -149,7 +149,7 @@ readExcel(event: any) {
         detail: 'Correctamente!!',
       }); 
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
       // this.spinner=false;
       this.messageService.add({
         key: 'tst',
@@ -164,7 +164,7 @@ readExcel(event: any) {
 
   }
   dateFormat(value:any){
-    // console.log(value)
+    // // console.log(value)
     if(value != null){
       return moment(value).format('DD/MM/yyyy HH:mm:ss')
     }else{

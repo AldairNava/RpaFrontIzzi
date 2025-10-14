@@ -88,7 +88,7 @@ export class CancelacionComponent implements OnInit {
   validador = [false];
   aux: string | undefined;
   aux2: string | undefined;
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   toClearControls: string[] = ["recargas","tipoCancelacion", "cuenta", "ordenServicio", "pais", "fechaCorte", "cve_supervisor", "nd","equipos", "aplicacion"]
 
 
@@ -216,7 +216,7 @@ export class CancelacionComponent implements OnInit {
     this.formCancelacion.controls['nd'].setValue(this.telefonosNd?.join(','));
   }
   sendData() {
-    console.log('click');
+    // console.log('click');
     this.closeModal = false;
     this.enviando = true;
     if (this.formCancelacion.valid) {
@@ -226,7 +226,7 @@ export class CancelacionComponent implements OnInit {
           this.display = false;
           this.enviando = false;
           this.toClearControls.forEach((element) => {
-            console.log(element);
+            // console.log(element);
 
             this.formCancelacion.controls[element].setValue(null)
           })
@@ -255,7 +255,7 @@ export class CancelacionComponent implements OnInit {
 
   //▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ MENSAJES ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
   showErrorViaToast() {
-    console.log('ERROR');
+    // console.log('ERROR');
     this.messageService.add({
       key: 'tst',
       severity: 'error',
@@ -274,7 +274,7 @@ export class CancelacionComponent implements OnInit {
       this.cancelacionDia = response;
     })
     .catch((err)=>{
-      console.log(err)
+      // console.log(err)
     });
   }
   onGlobalFilter(table: Table, event: Event) {

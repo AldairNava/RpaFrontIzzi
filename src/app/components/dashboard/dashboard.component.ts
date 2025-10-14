@@ -305,7 +305,7 @@ export class DashboardComponent implements OnInit {
                 }
             },
             (err: any) => {
-                console.log(err)
+                // console.log(err)
             }
         )
     }
@@ -333,7 +333,7 @@ export class DashboardComponent implements OnInit {
                 this.statsCalif(res);
             },
             (err: any) => {
-                console.log(err)
+                // console.log(err)
             }
         )
     }
@@ -348,15 +348,15 @@ export class DashboardComponent implements OnInit {
             owner: this.userName
         }
 
-        console.log('getFullDataEmocionesSentimientos');
+        // console.log('getFullDataEmocionesSentimientos');
 
         this.cors.post(data).subscribe(
             (res: any) => {
-                console.log(res)
+                // console.log(res)
                 this.crearGraficaEmociones(res);
             },
             (err: any) => {
-                console.log(err)
+                // console.log(err)
             }
         )
     }
@@ -416,10 +416,10 @@ export class DashboardComponent implements OnInit {
     }
 
     crearGrafica(res: any) {
-        console.log(res.labels.length);
-        console.log(res.neutralidad.length);
-        console.log(res.negatividad.length);
-        console.log(res.positividad.length);
+        // console.log(res.labels.length);
+        // console.log(res.neutralidad.length);
+        // console.log(res.negatividad.length);
+        // console.log(res.positividad.length);
 
         const neutralidadData = res.neutralidad.map(Number);
         const negatividadData = res.negatividad.map(Number);
@@ -540,7 +540,7 @@ export class DashboardComponent implements OnInit {
                 
             },
             (err: any) => {
-                console.log(err)
+                // console.log(err)
             }
         )
     }
@@ -621,7 +621,7 @@ export class DashboardComponent implements OnInit {
 
             this.calidadyMonitoreo();
         } catch (error) {
-            console.log(error);
+            // console.log(error);
         }
     }
 
@@ -697,7 +697,7 @@ export class DashboardComponent implements OnInit {
                 this.porcCumplimientoData = porcCumplimientoData
             },
             (err: any) => {
-                console.log(err);
+                // console.log(err);
             }
         );
 
@@ -920,7 +920,7 @@ export class DashboardComponent implements OnInit {
                 this.dataIndicadorGeneral.push(tempData3);
             },
             (err: any) => {
-                console.log(err);
+                // console.log(err);
             }
         )
     }
@@ -970,7 +970,7 @@ export class DashboardComponent implements OnInit {
                 this.fetchIndicadorGeneralTabla();
             },
             (err: any) => {
-                console.log(err);
+                // console.log(err);
             }
         )
     }
@@ -1018,7 +1018,7 @@ export class DashboardComponent implements OnInit {
         //         })
         //     },
         //     (err: any) => {
-        //         console.log(err)
+        //         // console.log(err)
         //     }
         // )
 
@@ -1244,8 +1244,8 @@ export class DashboardComponent implements OnInit {
         this.mesIni = mesActual;
         this.mesFin = mesActual;
 
-        // console.log(this.fechaIni);
-        // console.log(this.fechaFin);
+        // // console.log(this.fechaIni);
+        // // console.log(this.fechaFin);
 
         const mesLetra = this.obtenerNombreMes(mes);
         this.mesActualGrafico = mesLetra;
@@ -1388,7 +1388,7 @@ export class DashboardComponent implements OnInit {
 
             this.fechaFin = `${añoFin}-${mesFinConsulta}-${totalDiasFin} 23:59:59`;
 
-            console.log(this.obtenerNombreMes(mesFin))
+            // console.log(this.obtenerNombreMes(mesFin))
 
             this.labelStacked = [`${this.obtenerNombreMes(mesIni)} - ${this.obtenerNombreMes(mesFin)}`]
 
@@ -1434,7 +1434,7 @@ export class DashboardComponent implements OnInit {
                 this.getIndicadorDiario();
             },
             (err: any) => {
-                console.log(err)
+                // console.log(err)
                 this.fetchingIndicadorGeneral = false;
             }
         )
@@ -1453,7 +1453,7 @@ export class DashboardComponent implements OnInit {
                 this.concentradoMesCompleto = res.data;
             },
             (err: any) => {
-                console.log(err)
+                // console.log(err)
             }
         )
     }
@@ -1546,7 +1546,7 @@ export class DashboardComponent implements OnInit {
                 })
             },
             (err: any) => {
-                console.log(err);
+                // console.log(err);
             }
         )
     }
@@ -1605,7 +1605,7 @@ export class DashboardComponent implements OnInit {
                 });
             },
             (err: any) => {
-                console.log(err);
+                // console.log(err);
             }
         )
     }
@@ -1853,7 +1853,7 @@ export class DashboardComponent implements OnInit {
     }
 
     crearGraficaCalidadMonitoreo(): void {
-        console.log('graficaCalidadMonitoreo');
+        // console.log('graficaCalidadMonitoreo');
         const canvas = document.getElementById('graficaCalidadMonitoreo') as HTMLCanvasElement;
         if (!canvas) {
             console.error('Canvas element not found');
@@ -1933,7 +1933,7 @@ export class DashboardComponent implements OnInit {
     }
 
     crearGraficaEstadisticasCalificaciones(): void {
-        console.log('graficaCalificaciones');
+        // console.log('graficaCalificaciones');
         const canvas = document.getElementById('graficaCalificaciones') as HTMLCanvasElement;
         if (!canvas) {
             console.error('Canvas element not found');
@@ -2003,7 +2003,7 @@ export class DashboardComponent implements OnInit {
 
 
     crearGraficaSolucionCliente(): void {
-        console.log('graficaSolucionCliente');
+        // console.log('graficaSolucionCliente');
         const canvas = document.getElementById('graficaSolucionCliente') as HTMLCanvasElement;
         if (!canvas) {
             console.error('Canvas element not found');
@@ -2016,7 +2016,7 @@ export class DashboardComponent implements OnInit {
             return;
         }
 
-        console.log(this.solucionClienteGraph);
+        // console.log(this.solucionClienteGraph);
         // Datos de la gráfica
         const totalAudiosAn = this.solucionClienteGraph.res;
         const noSolucion = Math.round((this.solucionClienteGraph.noSolucion * 100) / totalAudiosAn);
@@ -2078,7 +2078,7 @@ export class DashboardComponent implements OnInit {
     }
 
     crearGraficaCumplimiento(): void {
-        console.log('graficaCumplimiento');
+        // console.log('graficaCumplimiento');
         const canvas = document.getElementById('graficaCumplimiento') as HTMLCanvasElement;
         if (!canvas) {
             console.error('Canvas element not found');
@@ -2146,7 +2146,7 @@ export class DashboardComponent implements OnInit {
     }
 
     crearGraficaCargadosAnalizados(): void {
-        console.log('graficaCargadosAnalizados');
+        // console.log('graficaCargadosAnalizados');
         const canvas = document.getElementById('graficaCargadosAnalizados') as HTMLCanvasElement;
         if (!canvas) {
             console.error('Canvas element not found');
@@ -2213,8 +2213,8 @@ export class DashboardComponent implements OnInit {
     }
     
     crearGraficaEmociones(res: any): void {
-        console.log(res);
-        console.log('graficaEmociones');
+        // console.log(res);
+        // console.log('graficaEmociones');
 
         const canvas = document.getElementById('graficaEmociones') as HTMLCanvasElement;
         if (!canvas) {

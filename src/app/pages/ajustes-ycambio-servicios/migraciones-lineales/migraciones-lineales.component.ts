@@ -10,7 +10,7 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./migraciones-lineales.component.scss']
 })
 export class MigracionesLinealesComponent implements OnInit {
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}")
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}")
   msgs: Message[] = [];
   ExcelData:any;
   spinner:boolean=false;
@@ -63,7 +63,7 @@ export class MigracionesLinealesComponent implements OnInit {
         var sheetNames =  workBook.SheetNames;
         this.ExcelData = XLSX.utils.sheet_to_json(workBook.Sheets[sheetNames[0]],{defval: ''});
         for(let [key,value] of Object.entries(this.ExcelData[0])){
-          // console.log("Esto es cabezera",key)
+          // // console.log("Esto es cabezera",key)
           for(let i = 0 ; i<this.headers.length;i++){
             if(key == this.headers[i]){
               count++;
@@ -91,7 +91,7 @@ export class MigracionesLinealesComponent implements OnInit {
             detail: 'El archivo se a cargado completamente!!!',
           });
           this.button=false;
-          // console.log(this.ExcelData)
+          // // console.log(this.ExcelData)
           this.table=true;
         }else{
           this.messageService.add({
@@ -111,7 +111,7 @@ export class MigracionesLinealesComponent implements OnInit {
   saveExcel() {
     this.button=true;
     this.cors.post('AjustesCambiosServicios/InsertarBaseDatosMigracionesLineales',this.ExcelData).then((response) => {
-      // console.log(response)
+      // // console.log(response)
       this.spinner=false;
       this.messageService.add({
         key: 'tst',
@@ -120,7 +120,7 @@ export class MigracionesLinealesComponent implements OnInit {
         detail: 'Correctamente!!',
       }); 
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
       this.spinner=false;
       this.messageService.add({
         key: 'tst',
@@ -136,7 +136,7 @@ export class MigracionesLinealesComponent implements OnInit {
   }
 
   dateFormat(value:any){
-    // console.log(value)
+    // // console.log(value)
     if(value != null || value!=""){
       return moment(value).format('DD/MM/yyyy HH:mm:ss')
     }else{
@@ -144,7 +144,7 @@ export class MigracionesLinealesComponent implements OnInit {
     }
   }
   dateFormat1(value:any){
-    // console.log(value)
+    // // console.log(value)
     if(value!=""){
       return moment(value).format('DD/MM/yyyy HH:mm:ss')
     }else{

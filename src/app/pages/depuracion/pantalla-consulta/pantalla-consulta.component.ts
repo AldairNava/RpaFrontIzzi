@@ -15,7 +15,7 @@ export class PantallaConsultaComponent implements OnInit {
   stats:any;
   formBusqueda:UntypedFormGroup;
   msgs: Message[] = [];
-  usuario: any = JSON.parse(localStorage.getItem("userData") || "{}");
+  usuario: any = JSON.parse(sessionStorage.getItem("user") || "{}");
   consulta:any;
   cc:any;
   ext:any;
@@ -55,7 +55,7 @@ export class PantallaConsultaComponent implements OnInit {
   }
 
   dateFormat(value:any){
-    // console.log(value)
+    // // console.log(value)
     if(value != null || value != undefined){
       return moment(value).format('DD/MM/yyyy HH:mm:ss')
     }else{
@@ -66,7 +66,7 @@ export class PantallaConsultaComponent implements OnInit {
 
   statsBasesDepuradas(){
     this.cors.get('EjecucionDepuracion/statsBasesCanceladas').then((response) => {
-      // console.log(response)
+      // // console.log(response)
       for (let i = 0; i < response.length; i++) {
         const jsonObject = response[i];
         for (let key in jsonObject) {
@@ -77,26 +77,26 @@ export class PantallaConsultaComponent implements OnInit {
       }      
       this.stats=response;
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
     })
   }
 
   getTableBasesDepuradasCC(){
     this.cors.get('EjecucionDepuracion/getTablaDepuracionOS').then((response) => {
-      // console.log(response)
+      // // console.log(response)
       this.cc=response;
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
     })
   }
 
 
   getTableBasesDepuradasEXT(){
     this.cors.get('EjecucionDepuracion/getTablaDepuracionEXT').then((response) => {
-      // console.log(response)
+      // // console.log(response)
       this.ext = response
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
     })
   }
 

@@ -79,7 +79,7 @@ export class AsignacionIndividualComponent implements OnInit {
         this.analista[0] = res.analista[0]; // Convertir el objeto en un arreglo
       },
       (err: any) => {
-        console.log(err)
+        // console.log(err)
       }
     )
   }
@@ -96,7 +96,7 @@ export class AsignacionIndividualComponent implements OnInit {
         this.audios = res.audios;
       },
       (err: any) => {
-        console.log(err)
+        // console.log(err)
       }
     )
   }

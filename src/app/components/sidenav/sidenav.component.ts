@@ -15,7 +15,7 @@ export class SidenavComponent implements OnInit {
 
   collapsed: boolean = false;
   navData = navData;
-  mode: boolean | undefined;
+  mode: boolean = true;
   multiple: boolean = false;
 
   userName: any;
@@ -28,30 +28,30 @@ export class SidenavComponent implements OnInit {
   }
 
   getRol() {
-    const storedUser = sessionStorage.getItem('user');
+  const storedUser = sessionStorage.getItem('user');
 
-    if (storedUser) {
-      const user = JSON.parse(storedUser);
-      
-      // Parseamos el string de 'name' a un objeto
-      let usuarioObj = JSON.parse(user.name);
+  if (storedUser) {
+    const user = JSON.parse(storedUser);
 
-      this.userName = usuarioObj.Name;
-      this.separarNombre();
-      this.darkModeSubscription();
+    this.userName = user.name;
+    this.separarNombre();
+    this.darkModeSubscription();
 
-      const usuarioRol = usuarioObj.Role; 
-      
-      if (usuarioRol) {
-        this.navData = this.navData.filter(section => 
-          section.access.some(access => access.toLowerCase() === usuarioRol.toLowerCase())
-        );
-      }
-      
-    } else {
-      this.router.navigate(['/403']);
+    const usuarioRol = user.role; 
+
+    console.log('Rol del usuario:', usuarioRol);
+
+    if (usuarioRol) {
+      this.navData = this.navData.filter(section => 
+        section.access.some(access => access.toLowerCase() === usuarioRol.toLowerCase())
+      );
     }
+
+  } else {
+    this.router.navigate(['/403']);
   }
+}
+
 
   toggleMode() {
     this.dark.toggleDarkMode();
@@ -67,7 +67,7 @@ export class SidenavComponent implements OnInit {
       });
     }
     item.expanded = !item.expanded;
-    console.log('Navegando a la ruta:', item.routerLink);
+    // console.log('Navegando a la ruta:', item.routerLink);
     if (item.routerLink) {
       this.router.navigate([item.routerLink]);
     } else {
@@ -109,6 +109,6 @@ export class SidenavComponent implements OnInit {
   private darkModeSubscription(): void {
     this.dark.darkModeChanges$().subscribe((isDarkModeEnabled: boolean) => {
       this.mode = isDarkModeEnabled;
-    });
+    }); 
   }
 }

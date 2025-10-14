@@ -66,7 +66,7 @@ export class ProcesosNuevoComponent implements OnInit {
         }, 1000);
 
       }).catch((error) => {
-        console.log(error);
+        // console.log(error);
         this.showToastError('No se logro guardar, intente de nuevo.');
       })
 

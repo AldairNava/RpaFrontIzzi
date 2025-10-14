@@ -1,0 +1,261 @@
+<div class="col-12">
+  <div class="card">
+    <h5>Roles</h5>
+
+    <p-table #dt [value]="roles" dataKey="name" [rows]="50" [loading]="loading"
+             [paginator]="true" styleClass="p-datatable-gridlines"
+             [globalFilterFields]="['name']" responsiveLayout="scroll">
+
+      <ng-template pTemplate="caption">
+        <div class="flex justify-content-between items-center mb-2">
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text" #filter
+                   (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                   placeholder="Buscar rol" class="w-full" />
+          </span>
+          <div class="flex gap-2">
+            <button pButton
+                    type="button"
+                    icon="pi pi-plus"
+                    label="Agregar Rol"
+                    class="p-button-sm"
+                    (click)="onAgregarRole()">
+            </button>
+            <button pButton
+                    type="button"
+                    icon="pi pi-plus-circle"
+                    label="Agregar Permiso"
+                    class="p-button-sm"
+                    (click)="onAgregarPermiso()">
+            </button>
+            <button pButton
+                    type="button"
+                    icon="pi pi-trash"
+                    label="Eliminar Permiso"
+                    class="p-button-sm"
+                    (click)="onEliminarPermiso()">
+            </button>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Rol</th>
+          <th>Área</th>
+          <th>Departamento</th>
+          <th>Staff</th>
+          <th>Acciones</th>
+          <th>Status</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-role>
+        <tr>
+          <td>{{ role.name }}</td>
+          <td>{{ role.area }}</td>
+          <td>{{ role.departamento }}</td>
+          <td>{{ role.staff }}</td>
+          <td class="flex gap-2">
+            <button pButton
+                    type="button"
+                    icon="pi pi-pencil"
+                    class="p-button-text"
+                    (click)="onEditarRole(role)">
+            </button>
+            <button pButton
+                    type="button"
+                    icon="pi pi-trash"
+                    class="p-button-text"
+                    (click)="onEliminarRole(role.name)">
+            </button>
+            <button pButton
+                    type="button"
+                    icon="pi pi-check"
+                    class="p-button-text"
+                    [disabled]="role.status === 1"
+                    tooltip="Activar rol"
+                    (click)="onActivarRole(role.name)">
+            </button>
+          </td>
+          <td>
+            <span [ngClass]="role.status === 1 ? 'status-active' : 'status-inactive'">
+              {{ role.status === 1 ? 'Activo' : 'Inactivo' }}
+            </span>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr><td colspan="6">Sin roles encontrados.</td></tr>
+      </ng-template>
+      <ng-template pTemplate="loadingbody">
+        <tr><td colspan="6">Cargando roles…</td></tr>
+      </ng-template>
+      <ng-template pTemplate="paginatorleft" let-state>
+        Mostrando {{state.first + 1}} a {{state.first + state.rows}} de {{state.totalRecords}} roles.
+      </ng-template>
+    </p-table>
+  </div>
+
+  <!-- Diálogo para crear/editar roles -->
+  <p-dialog header="{{ selectedRole ? 'Permisos de ' + selectedRole : 'Nuevo Rol' }}"
+            [(visible)]="displayDialog"
+            [modal]="true" [closable]="true" [dismissableMask]="true"
+            [style]="{ width: '500px', 'border-radius': '1.5rem' }">
+
+    <div *ngIf="!loading" class="p-fluid">
+      <div class="p-field mb-3">
+        <label><b>Nombre del rol</b></label>
+        <input pInputText [(ngModel)]="newRoleName" placeholder="Ej. admin-cx" />
+      </div>
+      <div class="p-field mb-3">
+        <label><b>Área</b></label>
+        <input pInputText [(ngModel)]="newArea" placeholder="Ej. Administración" />
+      </div>
+      <div class="p-field mb-3">
+        <label><b>Departamento</b></label>
+        <input pInputText [(ngModel)]="newDepartamento" placeholder="Ej. Legal" />
+      </div>
+      <div class="p-field mb-3">
+        <label><b>Staff</b></label>
+        <input pInputText [(ngModel)]="newStaff" placeholder="Ej. EquipoX" />
+      </div>
+
+      <div *ngFor="let p of permisosGlobales" class="p-field-checkbox mb-2">
+        <p-checkbox [binary]="true"
+                    [inputId]="'chk-'+p"
+                    [label]="p"
+                    [ngModel]="permisosAsignados.has(p)"
+                    (ngModelChange)="togglePermiso(p, $event)">
+        </p-checkbox>
+      </div>
+
+      <div class="flex justify-content-end mt-4">
+        <button pButton type="button" class="p-button-secondary mr-2"
+                label="Cancelar" (click)="displayDialog = false"></button>
+        <button pButton type="button" label="Guardar cambios"
+                (click)="guardarCambios()"></button>
+      </div>
+    </div>
+    <div *ngIf="loading">Cargando permisos…</div>
+  </p-dialog>
+
+  <!-- Diálogo para agregar un permiso -->
+  <p-dialog header="Nuevo Permiso"
+            [(visible)]="displayAddPermisoDialog"
+            [modal]="true" [closable]="true" [dismissableMask]="true"
+            [style]="{ width: '450px', 'border-radius': '1.5rem' }">
+    <div class="p-fluid">
+      <div class="p-field mb-3">
+        <label><b>Clave del permiso</b></label>
+        <input pInputText [(ngModel)]="newPermiso.key" placeholder="Ej. reporteAudios" />
+      </div>
+      <div class="p-field mb-3">
+        <label><b>Área</b></label>
+        <input pInputText [(ngModel)]="newPermiso.area" placeholder="Ej. Administración" />
+      </div>
+      <div class="p-field mb-3">
+        <label><b>Departamento</b></label>
+        <input pInputText [(ngModel)]="newPermiso.departamento" placeholder="Ej. Legal" />
+      </div>
+      <div class="p-field mb-3">
+        <label><b>Staff</b></label>
+        <input pInputText [(ngModel)]="newPermiso.staff" placeholder="Ej. EquipoX" />
+      </div>
+      <div class="flex justify-content-end mt-4">
+        <button pButton type="button" class="p-button-secondary mr-2"
+                label="Cancelar" (click)="displayAddPermisoDialog = false"></button>
+        <button pButton type="button" label="Crear Permiso"
+                (click)="confirmarAgregarPermiso()"
+                [disabled]="!newPermiso.key.trim()"></button>
+      </div>
+    </div>
+  </p-dialog>
+
+  <!-- Diálogo de confirmación para eliminar un rol -->
+  <p-dialog header="Confirmar eliminación"
+            [(visible)]="displayConfirmDeleteRole"
+            [modal]="true" [closable]="false" [dismissableMask]="true"
+            [style]="{ width: '400px', 'border-radius': '1.5rem' }">
+    <p>¿Eliminar el rol "{{ roleToDelete }}"?</p>
+    <div class="flex justify-content-end mt-4">
+      <button pButton type="button" label="Cancelar" class="p-button-text mr-2"
+              (click)="cancelarEliminarRole()"></button>
+      <button pButton type="button" label="Eliminar" class="p-button-danger"
+              (click)="confirmarEliminarRole()"></button>
+    </div>
+  </p-dialog>
+
+  <!-- Diálogo para eliminar permisos -->
+  <p-dialog header="Eliminar Permisos" [(visible)]="displayEliminarDialog"
+            [modal]="true" [closable]="true" [dismissableMask]="true"
+            [style]="{ width: '400px' }">
+    <div class="p-fluid">
+      <div *ngFor="let p of permisosGlobales" class="p-field-checkbox mb-2">
+        <p-checkbox [binary]="true"
+                    [inputId]="'del-'+p"
+                    [label]="p"
+                    [ngModel]="permisosParaEliminar.has(p)"
+                    (ngModelChange)="togglePermisoEliminar(p, $event)">
+        </p-checkbox>
+      </div>
+      <div class="flex justify-content-end mt-4">
+        <button pButton type="button" class="p-button-secondary mr-2"
+                label="Cancelar" (click)="displayEliminarDialog = false"></button>
+        <button pButton type="button" label="Eliminar Seleccionados"
+                (click)="confirmarEliminarPermisos()"
+                [disabled]="!permisosParaEliminar.size"></button>
+      </div>
+    </div>
+  </p-dialog>
+
+  <p-dialog header="Editar Rol" [(visible)]="displayEditDialog" [modal]="true" [closable]="true"
+          [style]="{ width: '500px', 'border-radius': '1.5rem' }">
+  <div *ngIf="!loading" class="p-fluid">
+    <!-- Campos básicos -->
+    <div class="p-field mb-3">
+      <label><b>Nombre del rol</b></label>
+      <input pInputText [(ngModel)]="newRoleName" />
+    </div>
+    <div class="p-field mb-3">
+      <label><b>Área</b></label>
+      <input pInputText [(ngModel)]="newArea" />
+    </div>
+    <div class="p-field mb-3">
+      <label><b>Departamento</b></label>
+      <input pInputText [(ngModel)]="newDepartamento" />
+    </div>
+    <div class="p-field mb-3">
+      <label><b>Staff</b></label>
+      <input pInputText [(ngModel)]="newStaff" />
+    </div>
+
+    <!-- Lista de permisos -->
+    <div *ngFor="let p of permisosGlobales" class="p-field-checkbox mb-2">
+      <p-checkbox [binary]="true"
+                  [inputId]="'chk-'+p"
+                  [label]="p"
+                  [ngModel]="permisosAsignados.has(p)"
+                  (ngModelChange)="togglePermiso(p, $event)">
+      </p-checkbox>
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="flex justify-content-end mt-4">
+      <button pButton type="button" class="p-button-secondary mr-2"
+              label="Cancelar"
+              (click)="displayEditDialog = false"></button>
+      <button pButton type="button"
+              label="Guardar edición"
+              (click)="guardarEdicion()"
+              [disabled]="!newRoleName.trim()"></button>
+    </div>
+  </div>
+  <div *ngIf="loading">Actualizando...</div>
+</p-dialog>
+
+
+  <p-toast key="tst" [baseZIndex]="99999"></p-toast>
+</div>
