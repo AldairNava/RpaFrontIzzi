@@ -137,7 +137,7 @@ export class ReporteComponent implements OnInit {
 
   generarReporte(data: any) {
     data.controlador = 'ReportesDinamicoController';
-    data.metodo = 'pruebaNuevoReporte';
+    data.metodo = 'probandoReporte';
     this.cors.post(data).subscribe(
       (res: any) => {
         if(res.status) {

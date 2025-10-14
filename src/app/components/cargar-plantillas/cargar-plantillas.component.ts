@@ -57,6 +57,7 @@ export class CargarPlantillasComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log('Nueva versión')
     this.darkModeSubscription();
 
     this.home = { icon: 'pi pi-home', routerLink: '/' }; 
