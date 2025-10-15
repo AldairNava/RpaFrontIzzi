@@ -4,6 +4,7 @@ import { CorsService } from '@services';
 import { Message,MessageService,ConfirmationService } from 'primeng/api';
 import * as moment from 'moment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'reportes-izzi-dash',
@@ -22,6 +23,7 @@ export class ReportesIzziDashComponent implements OnInit {
   show:boolean=false;
   button:boolean=false;
   reportesFiltrados: any[] = [];
+  apiBase = environment.API_URL;
 
   constructor(
     private cors: CorsService,
@@ -35,7 +37,6 @@ export class ReportesIzziDashComponent implements OnInit {
       fechas: [null, Validators.required],
       Cve_usuario: [this.usuario.email, Validators.required],
     });
-
   }
 
   ngOnInit(): void {
@@ -61,8 +62,8 @@ export class ReportesIzziDashComponent implements OnInit {
           "fecha2":fechafin
         }
         let nomArchivo="";
-        if(this.formReporte.value.tipoReporte =='Ajustes (Cobranza y Late fee)'){
-          url = `ReportesIzzi/getReporteAjustesCasoNegocioCobranza`;
+        if(this.formReporte.value.tipoReporte =='Ajustes Con Validacion'){
+          url = `ReportesIzzi/getReporteAjustesCV`;
           para =`fecha1=${fechaini}&fecha2=${fechafin}&remitente=RPA`;
           nomArchivo="Reporte_Ajustes_Cobranza_Late_Fee"
         }else if(this.formReporte.value.tipoReporte =='Depuracion OS'){
@@ -74,7 +75,7 @@ export class ReportesIzziDashComponent implements OnInit {
           para =`fecha1=${fechaini}&fecha2=${fechafin}&remitente=RPA`
           nomArchivo="Reporte_NotDone"
         }else if(this.formReporte.value.tipoReporte =='Ajustes Sin Validacion'){
-          url = `ReportesIzzi/getReporteAjustesCasoNegocioCobranzaSinValidacion`;
+          url = `ReportesIzzi/getReporteAjustesSV`;
           para =`fecha1=${fechaini}&fecha2=${fechafin}&remitente=RPA`
           nomArchivo="Reporte_Ajustes_CN_Cobranza_SinValidacion"
         }else if(this.formReporte.value.tipoReporte =='NotDone Sin Validacion'){
@@ -110,9 +111,9 @@ export class ReportesIzziDashComponent implements OnInit {
             'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
             'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
           });
-          const response: any = await this.httpClient.get(`https://rpabackizzi.azurewebsites.net/${url}?${para}`, {
-          headers:headers,  
-          responseType: 'arraybuffer',
+          const response: any = await this.httpClient.get(`${this.apiBase}${url}?${para}`, {
+            headers: headers,  
+            responseType: 'arraybuffer' as 'json', // recuerda el cast de tipos
             observe: 'response'
           }).toPromise();
           const blob = new Blob([response.body], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
@@ -160,7 +161,7 @@ export class ReportesIzziDashComponent implements OnInit {
         case 'reportes-cx':
           this.reportesFiltrados = this.reportes.filter((r: any) =>
             r.nombreReporte === 'Orden Call Trouble'
-          || r.nombreReporte === 'Ajustes (Cobranza y Late fee)'
+          || r.nombreReporte === 'Ajustes Con Validacion'
           || r.nombreReporte === 'NotDone'
           || r.nombreReporte === 'Depuracion OS'
           || r.nombreReporte === 'Ajustes Sin Validacion'
@@ -186,7 +187,7 @@ export class ReportesIzziDashComponent implements OnInit {
           break;
         case 'ajustes-cx':
           this.reportesFiltrados = this.reportes.filter((r: any) =>
-            r.nombreReporte === 'Ajustes (Cobranza y Late fee)' || r.nombreReporte === 'Creacion OS'
+            r.nombreReporte === 'Ajustes Con Validacion' || r.nombreReporte === 'Creacion OS'
             || r.nombreReporte === 'Ajustes Sin Validacion'
           );
           break;

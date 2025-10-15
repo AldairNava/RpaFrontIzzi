@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../auth.service';
 import { MessageService } from 'primeng/api';
+import { CorsService } from '@services';
 
 @Component({
   selector: 'pagprincipal',
@@ -11,19 +12,37 @@ import { MessageService } from 'primeng/api';
 })
 export class PagprincipalComponent implements OnInit {
 
+  alerta: { titulo: string, mensaje: string, tipo: string } | null = null;
+
   constructor(
     private router: Router,
     private authService: AuthService,
     private route: ActivatedRoute,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private corsService: CorsService
   ) {}
-  alerta: { titulo: string, mensaje: string, tipo: string } | null = null;
 
   ngOnInit(): void {
     const token = this.route.snapshot.queryParamMap.get('token');
     if (token) {
       this.authService.validateToken(token);
     }
+
+    // Si está en localhost, setea usuario de prueba
+    if (this.corsService.isLocalHost()) {
+      const userMock = {
+        user: 'p-bnava',
+        email: 'p-bnava@izzi.mx',
+        name: 'p-bnava',
+        role: 'administrador',
+        staff: 'wincallmx',
+        area: 'administrativa',
+        departamento: 'wincallmx',
+        active: true
+      };
+      sessionStorage.setItem('user', JSON.stringify(userMock));
+    }
+
     const user = sessionStorage.getItem('user');
     if (user) {
       const usuario = JSON.parse(user);
@@ -39,7 +58,8 @@ export class PagprincipalComponent implements OnInit {
         tipo: 'alerta-warn'
       };
     }
-    // Opcional: ocultar después de 5s
+
+    // Ocultar alerta tras 5 segundos
     setTimeout(() => { this.alerta = null; }, 5000);
   }
 

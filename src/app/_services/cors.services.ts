@@ -19,6 +19,7 @@ export class CorsService {
             })
             .toPromise(); 
     }
+
     get(partUrl: string, dataGet: any = {}): Promise<any> {
         const params = new HttpParams({
             fromObject: dataGet,
@@ -28,6 +29,7 @@ export class CorsService {
             .get(`${environment.API_URL}${partUrl}?${params}`)
             .toPromise();
     }
+
     get3(partUrl: string, dataGet: any = {}): Promise<any> {
         const params = new HttpParams({
             fromObject: dataGet,
@@ -44,27 +46,27 @@ export class CorsService {
         });
         const headers = new HttpHeaders({
             'Content-Type': 'application/json',
-            // Aquí agregamos los headers para evitar problemas de CORS
-            'Access-Control-Allow-Origin': 'https://rpabackizzi.azurewebsites.net/', // Reemplaza con el dominio de tu frontend
+            'Access-Control-Allow-Origin': 'https://rpabackizzi.azurewebsites.net/',
             'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
             'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-          });
+        });
 
         return this.httpClient
-            .get(`${environment.API_URL}${partUrl}?${params}`,{
-                headers:headers,
-                responseType:'blob'
+            .get(`${environment.API_URL}${partUrl}?${params}`, {
+                headers: headers,
+                responseType: 'blob'
             })
             .toPromise();
     }
+
     get2(partUrl: string, dataGet: any = {}): Promise<any> {
         const params = new HttpParams({
             fromObject: dataGet,
         });
 
         return this.httpClient
-            .get(`${environment.API_URL}${partUrl}?${params}`,{
-                responseType:'blob'
+            .get(`${environment.API_URL}${partUrl}?${params}`, {
+                responseType: 'blob'
             })
             .toPromise();
     }
@@ -74,6 +76,7 @@ export class CorsService {
             .get(partUrl)
             .toPromise();
     }
+
     put(partUrl: string, dataGet: any = {}): Promise<any> {
         return this.httpClient
             .put(`${environment.API_URL}${partUrl}`, dataGet, {
@@ -89,14 +92,20 @@ export class CorsService {
             .delete(`${environment.API_URL}${partUrl}`, {
                 headers: {
                     'Content-Type': 'application/json',
-                },body:dataGet
+                },
+                body: dataGet
             })
             .toPromise();
     }
 
     private handleError(error: HttpErrorResponse) {
         if (error.status === 0 && error.error instanceof ProgressEvent) {
-            // A client-side or network error occurred. Handle it accordingly.
+            // Manejo básico de error local
         }
     }
+
+    // === Método agregado ===
+    isLocalHost(): boolean {
+    return !environment.production;
+  }
 }

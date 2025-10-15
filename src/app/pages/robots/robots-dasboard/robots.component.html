@@ -3,7 +3,7 @@
         <h5>Robots </h5>
         <p-table #dt1 [value]="dataSource" dataKey="id" [rows]="50" [loading]="loading" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
             styleClass="p-datatable-gridlines" [paginator]="true"
-            [globalFilterFields]="['hostName','ipEquipo']" responsiveLayout="scroll">
+            [globalFilterFields]="['hostName','botIp','botEstado']" responsiveLayout="scroll">
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between flex-column sm:flex-row">
 

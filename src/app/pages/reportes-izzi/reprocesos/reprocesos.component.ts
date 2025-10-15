@@ -30,7 +30,8 @@ export class ReprocesosComponent implements OnInit {
     { label: 'Error Obtencion Status Ajuste', value: 'Error Obtencion Status Ajuste' },
     { label: 'Error al crear cn', value: 'Error al crear cn' },
     { label: 'No aplica ajuste reciente', value: 'No aplica ajuste reciente' },
-    { label: 'Error Base', value: 'Error Base' }
+    { label: 'Error Base', value: 'Error Base' },
+    { label: 'Pausa', value: 'Pausa' }
   ];
   
   tipoCambioStatus: string = 'individual';
@@ -68,13 +69,14 @@ export class ReprocesosComponent implements OnInit {
     'DepuracionBasesCanceladasOSExt': 'Registro pendiente',
     'DepuracionBasesCanceladasOS': 'Registro pendiente',
     'OrdenTroubleCall': 'Pendiente',
-    'flagConfirmacion': 'Pendiente'
+    'flagConfirmacion': 'Pendiente',
+    'AjustesConValidacion': 'Pendiente',
   };
 
   private rawProcesos = [
     'Not Done Cancelacion - EjecucionNotDone',
     'Not Done Generacion CN - CasosNegocioSinValidacion',
-    'Ajustes CV - AjustesBasesCasosNeogcioCobranza',
+    'Ajustes CV - AjustesConValidacion',
     'Ajustes SV - AjustesSinValidacion',
     'Depuracion EXT - DepuracionBasesCanceladasOSExt',
     'Depuracion CC - DepuracionBasesCanceladasOS',
