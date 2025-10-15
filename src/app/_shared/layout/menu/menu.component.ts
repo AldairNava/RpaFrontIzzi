@@ -150,7 +150,7 @@ export class MenuComponent implements OnInit {
           label: 'Con Validación',
           items: [
             {
-              label: 'Importar Casos de Negocio Cobranza',
+              label: 'Importar Casos de Negocio BO',
               icon: 'pi pi-fw pi-database',
               routerLink: ['/ajustes'],
             },

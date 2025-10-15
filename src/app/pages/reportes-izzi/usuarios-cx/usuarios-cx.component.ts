@@ -27,59 +27,168 @@ export class UsuariosCXComponent implements OnInit {
   displayDialogEditar: boolean = false;
   rolesDisponibles: { label: string; value: string }[] = [];
   areasDisponibles: { label: string; value: string }[] = [];
+  mostrarBotonAgregar: boolean = false;
+  puedeEliminarUsuarios: boolean = false;
+  nuevoUsuario: UsuarioCx = {
+  id_users: 0,
+  username: '',
+  email: '',
+  active: 1,
+  name: '',
+  rol: '',
+  staff: '',
+  area: '',
+  departamento: ''
+};
+displayDialogNuevo: boolean = false;
 
   constructor(
     private cors: CorsService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
   ) {}
 
   ngOnInit(): void {
-    this.obtenerUsuarios();
+  this.obtenerUsuarios();
+
+  const storedUser = sessionStorage.getItem('user');
+  if (storedUser) {
+    const usuarioLogueado = JSON.parse(storedUser);
+    this.mostrarBotonAgregar = usuarioLogueado?.staff?.toLowerCase() === 'wincallmx';
+    
+    this.puedeEliminarUsuarios = usuarioLogueado?.staff?.toLowerCase() === 'wincallmx';
+  }
+}
+
+
+  abrirDialogNuevo() {
+  this.nuevoUsuario = {
+    id_users: 0,
+    username: '',
+    email: '',
+    active: 1,
+    name: '',
+    rol: '',
+    staff: '',
+    area: '',
+    departamento: ''
+  };
+  this.cargarRolesDisponibles();
+  this.displayDialogNuevo = true;
+}
+eliminarUsuario(user: UsuarioCx) {
+    this.loading = true; // Mostramos el spinner mientras se procesa
+    this.cors.delete(`User/EliminarUsuarioCx/${user.id_users}`)
+      .then(() => {
+        this.messageService.add({
+          key: 'tst',
+          severity: 'success',
+          summary: 'Éxito',
+          detail: 'Usuario eliminado correctamente.'
+        });
+        this.obtenerUsuarios(); // Refresca la tabla para reflejar el cambio
+      })
+      .catch((err: any) => {
+        this.loading = false; // Detenemos el spinner en caso de error
+        this.messageService.add({
+          key: 'tst',
+          severity: 'error',
+          summary: 'Error',
+          detail: 'No se pudo eliminar el usuario. Inténtalo de nuevo.'
+        });
+        console.error('Error al eliminar usuario:', err);
+      });
   }
 
-  obtenerUsuarios(): void {
-    this.loading = true;
-    this.cors.get('User/getUsersCx')
-      .then((data: UsuarioCx[]) => {
-        const storedUser = sessionStorage.getItem('user');
-        let usuarioLogueado: any = null;
-        if (storedUser) {
-          usuarioLogueado = JSON.parse(storedUser);
-        }
 
-        if (usuarioLogueado && usuarioLogueado.role) {
-          const rol = usuarioLogueado.role;
-          if (rol === 'administrador' || rol === 'Administrador') {
-            this.usuarios = data;
-          } else if (rol === 'admin-cx') {
-            this.usuarios = data.filter(u =>
-              (u.staff === 'cx' && u.departamento === 'cx') ||
-              (u.staff === 'General' && (u.departamento === 'General' || u.departamento === 'general'))
-            );
-          } else if (rol === 'admin-sucursales') {
-            this.usuarios = data.filter(u =>
-              (u.staff === 'cx' && u.departamento === 'sucursales') ||
-              (u.staff === 'General' && u.departamento === 'General')
-            );
-          } else if (rol === 'admin-limpieza') {
-            this.usuarios = data.filter(u =>
-              (u.staff === 'cx' && u.departamento === 'limpieza') ||
-              (u.staff === 'General' && u.departamento === 'General')
-            );
-          } else {
-            this.usuarios = [];
-          }
+guardarNuevoUsuario() {
+  this.loading = true;
+
+  const payload = {
+    user: this.nuevoUsuario.username,
+    email: this.nuevoUsuario.email,
+    pass: "", // puedes luego agregar campo de contraseña si lo deseas
+    active: this.nuevoUsuario.active,
+    name: this.nuevoUsuario.name,
+    rol: this.nuevoUsuario.rol,
+    staff: this.nuevoUsuario.staff,
+    area: this.nuevoUsuario.area,
+    departamento: this.nuevoUsuario.departamento
+  };
+
+  this.cors.post('User/CrearUsuarioCx', payload)
+    .then(() => {
+      this.messageService.add({
+        key: 'tst',
+        severity: 'success',
+        summary: 'Éxito',
+        detail: 'Usuario agregado correctamente.'
+      });
+      this.displayDialogNuevo = false;
+      this.obtenerUsuarios(); // refresca la tabla
+    })
+    .catch((err: any) => {
+      this.messageService.add({
+        key: 'tst',
+        severity: 'error',
+        summary: 'Error',
+        detail: 'No se pudo agregar el usuario.'
+      });
+    })
+    .finally(() => this.loading = false);
+}
+
+  obtenerUsuarios(): void {
+  this.loading = true;
+  this.cors.get('User/getUsersCx')
+    .then((data: UsuarioCx[]) => {
+      const storedUser = sessionStorage.getItem('user');
+      let usuarioLogueado: any = null;
+      if (storedUser) {
+        usuarioLogueado = JSON.parse(storedUser);
+      }
+
+      if (usuarioLogueado && usuarioLogueado.role) {
+        const rol = usuarioLogueado.role;
+        const staff = usuarioLogueado.staff?.toLowerCase() || '';
+
+        if (rol === 'administrador' || rol === 'Administrador') {
+          this.usuarios = data;
+        } else if (rol === 'admin-cx') {
+          this.usuarios = data.filter(u =>
+            (u.staff === 'cx' && u.departamento === 'cx') ||
+            (u.staff === 'General' && (u.departamento === 'General' || u.departamento === 'general'))
+          );
+        } else if (rol === 'admin-sucursales') {
+          this.usuarios = data.filter(u =>
+            (u.staff === 'cx' && u.departamento === 'sucursales') ||
+            (u.staff === 'General' && u.departamento === 'General')
+          );
+        } else if (rol === 'admin-limpieza') {
+          this.usuarios = data.filter(u =>
+            (u.staff === 'cx' && u.departamento === 'limpieza') ||
+            (u.staff === 'General' && u.departamento === 'General')
+          );
         } else {
           this.usuarios = [];
         }
 
-        this.loading = false;
-      })
-      .catch((err: any) => {
+        // 🔒 Si el usuario NO es del staff wincallmx, ocultamos los inactivos
+        if (staff !== 'wincallmx') {
+          this.usuarios = this.usuarios.filter(u => u.active === 1 || u.active === true);
+        }
+      } else {
         this.usuarios = [];
-        this.loading = false;
-      });
-  }
+      }
+
+      this.loading = false;
+    })
+    .catch((err: any) => {
+      this.usuarios = [];
+      this.loading = false;
+    });
+}
+
 
   cambiarEstadoUsuario(user: UsuarioCx, nuevoEstado: number) {
     this.loading = true;
@@ -105,7 +214,7 @@ export class UsuariosCXComponent implements OnInit {
           severity: 'success',
           summary: 'Éxito',
           detail: nuevoEstado === 1 ? 'Usuario activado correctamente.' : 'Usuario desactivado correctamente.',
-        });
+        });this.obtenerUsuarios();
       })
       .catch((error: any) => {
         this.loading = false;
@@ -176,6 +285,20 @@ export class UsuariosCXComponent implements OnInit {
 
   this.displayDialogEditar = true;
 }
+
+confirmarEliminarUsuario(user: UsuarioCx) {
+    this.confirmationService.confirm({
+      key: 'confirmDialogKey',
+      message: `¿Estás seguro de que quieres eliminar permanentemente al usuario <strong>${user.email} (${user.name})</strong>? <br> Esta acción no se puede deshacer.`,
+      header: 'Confirmar Eliminación',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Sí, eliminar',
+      rejectLabel: 'Cancelar',
+      accept: () => {
+        this.eliminarUsuario(user);
+      }
+    });
+  }
 
 
   cargarRolesDisponibles() {
@@ -250,4 +373,21 @@ export class UsuariosCXComponent implements OnInit {
         });
       });
   }
+
+  confirmarCambioEstado(user: UsuarioCx, nuevoEstado: number) {
+  const accion = nuevoEstado === 1 ? 'activar' : 'desactivar';
+
+  this.confirmationService.confirm({
+    key: 'confirmDialogKey', // Usamos la misma key que para eliminar
+    message: `¿Estás seguro de que quieres ${accion} al usuario <strong>${user.name}</strong>?`,
+    header: `Confirmar ${accion.charAt(0).toUpperCase() + accion.slice(1)}`, // Pone la primera letra en mayúscula
+    icon: 'pi pi-exclamation-triangle',
+    acceptLabel: `Sí, ${accion}`,
+    rejectLabel: 'Cancelar',
+    accept: () => {
+      // Si el usuario acepta, llamamos a la función que hace el trabajo
+      this.cambiarEstadoUsuario(user, nuevoEstado);
+    }
+  });
+}
 }

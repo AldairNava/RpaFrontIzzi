@@ -37,18 +37,30 @@ export class AuthGuard implements CanActivate {
     const usuarioInfo = JSON.parse(sessionStorage.getItem('user') || '{}');
     console.log('Usuario Info:', usuarioInfo);
 
-    // Validar que exista Role
+    // 🧱 1️⃣ Validar que exista Role
     if (!usuarioInfo?.role) {
       this.router.navigate(['/403'], { skipLocationChange: true });
       return of(false);
     }
 
+    if (
+      usuarioInfo?.active === 0 ||
+      usuarioInfo?.active === false ||
+      usuarioInfo?.active === '0'
+    ) {
+      console.warn('Usuario inactivo, acceso denegado.');
+      this.router.navigate(['/403'], { skipLocationChange: true });
+      return of(false);
+    }
+
+    // 🧭 3️⃣ Validar staff permitido
     const staff = (usuarioInfo?.staff || '').toLowerCase();
     if (staff !== 'cx' && staff !== 'wincallmx') {
       this.router.navigate(['/403'], { skipLocationChange: true });
       return of(false);
     }
 
+    // ✅ 4️⃣ Verificar permisos por rol
     return this.permisoService.obtenerPermisos(usuarioInfo.role).pipe(
       map((permisos: string[]) => {
         if (permisos.includes(path)) {

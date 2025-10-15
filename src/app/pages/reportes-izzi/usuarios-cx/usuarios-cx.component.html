@@ -1,15 +1,25 @@
 <div class="col-12">
   <div class="card">
     <h5>Usuarios</h5>
+    <div class="flex justify-content-end mb-3" *ngIf="mostrarBotonAgregar">
+  <button pButton 
+    icon="pi pi-user-plus" 
+    label="Agregar usuario"
+    class="p-button-success"
+    (click)="abrirDialogNuevo()">
+  </button>
+</div>
+
+
     <p-table #dt
       [value]="usuarios"
       [paginator]="true"
-      [rows]="50"
+      [rows]="10"
       [loading]="loading"
       dataKey="username"
       styleClass="p-datatable-gridlines"
       [rowsPerPageOptions]="[10,20,50,100]"
-      [globalFilterFields]="['rol', 'username', 'name', 'email']"
+      [globalFilterFields]="['rol', 'username', 'name', 'email','active']"
       responsiveLayout="scroll">
 
       <ng-template pTemplate="caption">
@@ -54,24 +64,30 @@
           </td>
           <td>
             <button *ngIf="user.active === 1 || user.active === true"
-                    pButton
-                    icon="pi pi-ban"
-                    class="p-button-rounded p-button-danger p-button-sm"
-                    (click)="cambiarEstadoUsuario(user, 0)"
-                    title="Desactivar">
+              pButton
+              icon="pi pi-ban"
+              class="p-button-rounded p-button-danger p-button-sm"
+              (click)="confirmarCambioEstado(user, 0)" title="Desactivar">
             </button>
+
             <button *ngIf="!user.active || user.active === 0"
-                    pButton
-                    icon="pi pi-check"
-                    class="p-button-rounded p-button-success p-button-sm"
-                    (click)="cambiarEstadoUsuario(user, 1)"
-                    title="Activar">
+              pButton
+              icon="pi pi-check"
+              class="p-button-rounded p-button-success p-button-sm"
+              (click)="confirmarCambioEstado(user, 1)" title="Activar">
             </button>
             <button pButton
                     icon="pi pi-pencil"
                     class="p-button-rounded p-button-warning p-button-sm ml-2"
                     (click)="abrirDialogEditar(user)"
                     title="Editar">
+            </button>
+           <button *ngIf="puedeEliminarUsuarios"
+              pButton
+              icon="pi pi-trash"
+              class="p-button-rounded p-button-danger p-button-sm ml-2"
+              (click)="confirmarEliminarUsuario(user)"
+              title="Eliminar">
             </button>
           </td>
         </tr>
@@ -142,6 +158,63 @@
   </div>
   <div *ngIf="loading">Guardando usuario…</div>
 </p-dialog>
+
+<!-- Diálogo para agregar usuario -->
+<p-dialog
+  header="Agregar nuevo usuario"
+  [(visible)]="displayDialogNuevo"
+  [modal]="true"
+  [closable]="true"
+  [dismissableMask]="true"
+  [style]="{ width: '420px', 'border-radius': '1.5rem' }">
+
+  <div *ngIf="nuevoUsuario" class="p-fluid">
+    <div class="p-field mb-3">
+      <label><b>Usuario</b></label>
+      <input pInputText [(ngModel)]="nuevoUsuario.username" placeholder="Usuario" />
+    </div>
+    <div class="p-field mb-3">
+      <label><b>Nombre</b></label>
+      <input pInputText [(ngModel)]="nuevoUsuario.name" placeholder="Nombre" />
+    </div>
+    <div class="p-field mb-3">
+      <label><b>Email</b></label>
+      <input pInputText [(ngModel)]="nuevoUsuario.email" placeholder="Email" />
+    </div>
+    <div class="p-field mb-3">
+      <label><b>Rol</b></label>
+      <p-dropdown
+        [options]="rolesDisponibles"
+        [(ngModel)]="nuevoUsuario.rol"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Selecciona un rol"
+        [filter]="true">
+      </p-dropdown>
+    </div>
+    <div class="p-field mb-3">
+      <label><b>Staff</b></label>
+      <input pInputText [(ngModel)]="nuevoUsuario.staff" placeholder="Staff" />
+    </div>
+    <div class="p-field mb-3">
+      <label><b>Área</b></label>
+      <input pInputText [(ngModel)]="nuevoUsuario.area" placeholder="Área" />
+    </div>
+    <div class="p-field mb-3">
+      <label><b>Departamento</b></label>
+      <input pInputText [(ngModel)]="nuevoUsuario.departamento" placeholder="Departamento" />
+    </div>
+    <div class="flex justify-content-end mt-4">
+      <button pButton type="button" class="p-button-secondary mr-2"
+              label="Cancelar" (click)="displayDialogNuevo = false"></button>
+      <button pButton type="button" label="Guardar usuario"
+              (click)="guardarNuevoUsuario()" [disabled]="loading"></button>
+    </div>
+  </div>
+  <div *ngIf="loading">Guardando usuario…</div>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '450px'}" key="confirmDialogKey"></p-confirmDialog>
 
 
 <p-toast [baseZIndex]="99999" key="tst"></p-toast>
