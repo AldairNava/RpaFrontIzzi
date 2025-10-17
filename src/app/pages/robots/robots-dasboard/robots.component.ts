@@ -249,27 +249,42 @@ export class RobotsComponent implements OnInit {
   }
 
   buscaBots() {
-    this.cors.get('Bots/getBots').then((response) => {
-      if(response[0] == 'SIN INFO'){
-        this.dataSource = []
-      }else{
-        this.dataSource = response;
-        for (let bot of this.dataSource) {
-          let dias = this.getDays(bot.procesoFechaActualizacion);
-          // if (typeof dias === 'number') {
-          //   if (dias <= 5) {
-          //     this.enviarCorreo(dias, bot.ProcesoUser, bot.ProcesoName);
-          //   }
-          // } else {
-          //   // console.log('dias no es un número:', dias);
-          // }
-        }
+  this.cors.get('Bots/getBots')
+    .then((response) => {
+      if (!response || response[0] === 'SIN INFO') {
+        this.dataSource = [];
+        return;
       }
-    }).catch((error) => {
-      // console.log(error);
-      this.showToastError(`No se logro traer el listado de Robots`)
+
+      // Normaliza datos y crea campos planos persistentes
+      this.dataSource = response.map((bot: any) => {
+        const proceso = bot.procesoBot?.name_process || bot.ProcesoName || 'Sin proceso asignado';
+        const procesoId = bot.procesoBot?.id || bot.procesoId || null;
+
+        return {
+          ...bot,
+          procesoNombre: proceso,
+          procesoId: procesoId
+        };
+      });
+
+      // Recalcula días y otras operaciones adicionales
+      for (let bot of this.dataSource) {
+        const dias = this.getDays(bot.procesoFechaActualizacion);
+        // Si deseas usar la lógica del correo, descomenta y ajusta:
+        /*
+        if (typeof dias === 'number' && dias <= 5) {
+          this.enviarCorreo(dias, bot.ProcesoUser, bot.ProcesoName);
+        }
+        */
+      }
     })
+    .catch((error) => {
+      // console.log(error);
+      this.showToastError(`No se logró traer el listado de Robots`);
+    });
 }
+
 
   statsValidation(item:any){
     if(JSON.stringify(item) !== '{}'){

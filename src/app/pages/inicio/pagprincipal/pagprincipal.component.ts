@@ -31,9 +31,9 @@ export class PagprincipalComponent implements OnInit {
     // Si está en localhost, setea usuario de prueba
     if (this.corsService.isLocalHost()) {
       const userMock = {
-        user: 'p-bnava',
-        email: 'p-bnava@izzi.mx',
-        name: 'p-bnava',
+        user: 'desarrollo',
+        email: 'Desarrollo@izzi.mx',
+        name: 'desarrollo',
         role: 'administrador',
         staff: 'wincallmx',
         area: 'administrativa',

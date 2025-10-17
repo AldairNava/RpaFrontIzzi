@@ -3,7 +3,7 @@
         <h5>Robots </h5>
         <p-table #dt1 [value]="dataSource" dataKey="id" [rows]="50" [loading]="loading" [rowHover]="true" [rowsPerPageOptions]="[50,100,500,1000]"
             styleClass="p-datatable-gridlines" [paginator]="true"
-            [globalFilterFields]="['hostName','botIp','botEstado']" responsiveLayout="scroll">
+            [globalFilterFields]="['hostName','botIp','botEstado','procesoNombre']" responsiveLayout="scroll">
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between flex-column sm:flex-row">
 
@@ -65,10 +65,16 @@
                         {{ item.botIp }}
                      </td> 
                     <td>
-                        <p-dropdown optionLabel="name_process" optionValue="id" appendTo="body" [options]="processArr1"
-                            [disabled]="item.sendingComand == true || item.sendingProcess ==true"
-                            [(ngModel)]="item.procesoId" [showClear]="false" placeholder="Seleccione un processo"
-                            (onChange)="preguntarCambiarProceso($event.value,item)">
+                        <p-dropdown
+                            optionLabel="name_process"
+                            optionValue="id"
+                            appendTo="body"
+                            [options]="processArr1"
+                            [disabled]="item.sendingComand == true || item.sendingProcess == true"
+                            [(ngModel)]="item.procesoId"
+                            [ngModelOptions]="{standalone: true}"
+                            placeholder="Seleccione un proceso"
+                            (onChange)="preguntarCambiarProceso($event.value, item)">
                         </p-dropdown>
                         <p-progressSpinner [style]="{width: '30px', height: '30px'}" *ngIf="item.sendingProcess">
                         </p-progressSpinner>
