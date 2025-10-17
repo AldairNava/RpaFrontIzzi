@@ -6,6 +6,10 @@
     margin-top: 50px;
 }
 
+.breadPage {
+    display: flex;
+}
+
 img {
     display: block;
     max-width: 100%;
@@ -682,4 +686,69 @@ audio {
 .container h5 {
     border: 0 !important;
     padding: 0 !important;
+}
+
+.fila-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
+  width: 100%;
+}
+
+.calif-fija {
+  min-width: 60px;
+  text-align: right;
+  align-self: flex-start;
+  padding-top: 0.2rem;
+}
+
+.rubro-toggle {
+  flex: 1;
+}
+
+.rubro-toggle summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.rubro-toggle summary::-webkit-details-marker {
+  display: none;
+}
+
+.toggle-icon::before {
+  content: "＋";
+  font-weight: 600;
+}
+
+.rubro-toggle[open] .toggle-icon::before {
+  content: "－";
+}
+
+.lista-detalles {
+  margin: 0.5rem 0 0;
+  padding-left: 1rem;
+}
+
+.lista-detalles li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.25rem 0;
+}
+
+.green {
+  color: #16a34a;
+}
+
+.red {
+  color: #dc2626;
+}
+
+.subtotal td {
+  font-weight: 600;
+  padding-top: 0.5rem;
 }

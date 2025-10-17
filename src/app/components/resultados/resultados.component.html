@@ -150,7 +150,7 @@
 				</div>
 
 				<div class="resultados__grid">
-					<div class="tabla__calificaciones">
+					<div class="tabla__calificaciones" *ngIf="guia != 'guia_set_13' && guia != 'guia_set_14'">
 						<div class="calif" *ngFor="let categoria of categoriasIzzi; let i = index">
 							<div class="categoria" >
 								<h5>{{categoria}}</h5>
@@ -222,6 +222,498 @@
 						</div>
 					</div>
 
+					<div class="tabla__calificaciones" *ngIf="guia === 'guia_set_13'">
+					<!-- Categoría 1 -->
+					<div class="calif">
+						<div class="categoria"><h5>Apertura y Cierre</h5></div>
+
+						<div class="table__result">
+						<p-table [value]="[
+							{ rubro:'Presentación', calificacion:5, detalles:[
+							{ procedimiento:'El asesor se presentó', ok:true },
+							{ procedimiento:'El asesor solicitó nombre y teléfono de contacto', ok:true }
+							]},
+							{ rubro:'Cierre', calificacion:20, detalles:[
+							{ procedimiento:'El asesor preguntó por la localidad para confirmar cobertura', ok:true },
+							{ procedimiento:'El asesor preguntó cuántas personas usarán el servicio de internet', ok:true },
+							{ procedimiento:'El asesor preguntó que uso le darán al internet (entretenimiento, HO)', ok:true },
+							{ procedimiento:'El asesor recomendó un paquete', ok:true }
+							]}
+						]" [rowHover]="true">
+							<ng-template pTemplate="header">
+							<tr>
+							<th class="headers"><h5 class="header__txt">Rubro</h5></th>
+							<th class="headers"><h5 class="header__txt">Calificación</h5></th>
+							</tr>
+							</ng-template>
+
+							<ng-template pTemplate="body" let-data>
+							<tr class="row">
+							<td colspan="2">
+								<div class="fila-flex">
+								<details class="rubro-toggle">
+									<summary>
+									<span class="toggle-icon"></span>
+									<span class="p__icon">{{ data.rubro }}</span>
+									</summary>
+									<div class="detalles">
+									<ul class="lista-detalles">
+									<li *ngFor="let d of data.detalles">
+										<span>{{ d.procedimiento }}</span>
+										<i class="pi"
+										[ngClass]="d.ok ? 'pi-check green' : 'pi-times red'"
+										style="font-size:1rem"></i>
+									</li>
+									</ul>
+									</div>
+								</details>
+
+								<div class="calif-fija">
+									<p class="fila__info">{{ data.calificacion }}</p>
+								</div>
+								</div>
+							</td>
+							</tr>
+							</ng-template>
+
+							<ng-template pTemplate="footer">
+							<tr class="subtotal">
+							<td class="sub__txt">Subtotal:</td>
+							<td class="sub__number">25 / 25</td>
+							</tr>
+							</ng-template>
+						</p-table>
+						</div>
+					</div>
+
+					<!-- Categoría 2 -->
+					<div class="calif">
+						<div class="categoria"><h5>Conocimiento del Producto</h5></div>
+
+						<div class="table__result">
+						<p-table [value]="[
+							{
+								rubro: 'Información y asesoría',
+								calificacion: 20,
+								detalles: [
+									{ procedimiento: 'El asesor preguntó por la localidad para confirmar cobertura', ok: true },
+									{ procedimiento: 'El asesor preguntó cuántas personas usarán el servicio de internet', ok: true },
+									{ procedimiento: 'El asesor preguntó que uso le darán al internet (entretenimiento, HO)', ok: true },
+									{ procedimiento: 'El asesor recomendó un paquete', ok: true }
+								]
+							},
+							{
+								rubro: 'Beneficios y promociones',
+								calificacion: 35,
+								detalles: [
+									{ procedimiento: 'El asesor mencionó las ventajas de contratar la marca', ok: true },
+									{ procedimiento: 'El asesor mencionó que se incluye Vix+ a partir de 60 MB', ok: true },
+									{ procedimiento: 'El asesor mencionó las otras OTTs que ofrecemos', ok: true },
+									{ procedimiento: 'El asesor mencionó la promoción de domiciliación', ok: true },
+									{ procedimiento: 'El asesor mencionó la promoción de portabilidad', ok: true },
+									{ procedimiento: 'El asesor mencionó el descuento para clientes nuevos', ok: true },
+									{ procedimiento: 'El asesor mencionó la posibilidad de contratar izzi móvil', ok: true }
+								]
+							}
+
+						]" [rowHover]="true">
+							<ng-template pTemplate="header">
+							<tr>
+							<th class="headers"><h5 class="header__txt">Rubro</h5></th>
+							<th class="headers"><h5 class="header__txt">Calificación</h5></th>
+							</tr>
+							</ng-template>
+
+							<ng-template pTemplate="body" let-data>
+							<tr class="row">
+							<td colspan="2">
+								<div class="fila-flex">
+								<details class="rubro-toggle">
+									<summary>
+									<span class="toggle-icon"></span>
+									<span class="p__icon">{{ data.rubro }}</span>
+									</summary>
+									<div class="detalles">
+									<ul class="lista-detalles">
+									<li *ngFor="let d of data.detalles">
+										<span>{{ d.procedimiento }}</span>
+										<i class="pi"
+										[ngClass]="d.ok ? 'pi-check green' : 'pi-times red'"
+										style="font-size:1rem"></i>
+									</li>
+									</ul>
+									</div>
+								</details>
+
+								<div class="calif-fija">
+									<p class="fila__info">{{ data.calificacion }}</p>
+								</div>
+								</div>
+							</td>
+							</tr>
+							</ng-template>
+
+							<ng-template pTemplate="footer">
+							<tr class="subtotal">
+							<td class="sub__txt">Subtotal:</td>
+							<td class="sub__number">55 / 55</td>
+							</tr>
+							</ng-template>
+						</p-table>
+						</div>
+					</div>
+
+						<!-- Categoría 3 -->
+					<div class="calif">
+						<div class="categoria"><h5>Detalles y Dudas</h5></div>
+
+						<div class="table__result">
+						<p-table [value]="[
+							{
+								rubro: 'Instalación',
+								calificacion: 10,
+								detalles: [
+									{ procedimiento: '¿El asesor mencionó el tiempo de instalación?', ok: true },
+									{ procedimiento: '¿El asesor mencionó el pago anticipado en instalación?', ok: true }
+								]
+							},
+							{
+								rubro: 'Manejo de objeciones',
+								calificacion: 10,
+								detalles: [
+									{ procedimiento: '¿Conoce productos y promociones de la competencia?', ok: true },
+									{ procedimiento: '¿Asegura que izzi garantiza la calidad del servicio sin importar la tecnología?', ok: true }
+								]
+							}
+
+
+						]" [rowHover]="true">
+							<ng-template pTemplate="header">
+							<tr>
+							<th class="headers"><h5 class="header__txt">Rubro</h5></th>
+							<th class="headers"><h5 class="header__txt">Calificación</h5></th>
+							</tr>
+							</ng-template>
+
+							<ng-template pTemplate="body" let-data>
+							<tr class="row">
+							<td colspan="2">
+								<div class="fila-flex">
+								<details class="rubro-toggle">
+									<summary>
+									<span class="toggle-icon"></span>
+									<span class="p__icon">{{ data.rubro }}</span>
+									</summary>
+									<div class="detalles">
+									<ul class="lista-detalles">
+									<li *ngFor="let d of data.detalles">
+										<span>{{ d.procedimiento }}</span>
+										<i class="pi"
+										[ngClass]="d.ok ? 'pi-check green' : 'pi-times red'"
+										style="font-size:1rem"></i>
+									</li>
+									</ul>
+									</div>
+								</details>
+
+								<div class="calif-fija">
+									<p class="fila__info">{{ data.calificacion }}</p>
+								</div>
+								</div>
+							</td>
+							</tr>
+							</ng-template>
+
+							<ng-template pTemplate="footer">
+							<tr class="subtotal">
+							<td class="sub__txt">Subtotal:</td>
+							<td class="sub__number">20 / 20</td>
+							</tr>
+							</ng-template>
+						</p-table>
+						</div>
+					</div>
+
+					<div class="total">
+						<h5>TOTAL:</h5>
+						<h6 class="total__number"> 100 / 100 </h6>
+					</div>
+					</div>
+
+					<div class="tabla__calificaciones" *ngIf="guia === 'guia_set_14'">
+						<!-- Categoría 1 -->
+						<div class="calif">
+							<div class="categoria"><h5>Actitud de servicio</h5></div>
+
+							<div class="table__result">
+							<p-table [value]="[
+							{
+								rubro: 'Apertura, cierre y transferencia de llamada',
+								calificacion: 5,
+								detalles: [
+								{ procedimiento: 'Cumplir con la estructura sin importar el orden', ok: true }
+								]
+							},
+							{
+								rubro: 'Habilidades de comunicación',
+								calificacion: 5,
+								detalles: [
+								{ procedimiento: 'Presta total atención al cliente', ok: true },
+								{ procedimiento: 'Utiliza palabras entendibles para el cliente', ok: true },
+								{ procedimiento: 'No interrumpe al suscriptor', ok: true }
+								]
+							},
+							{
+								rubro: 'Cortesía y etiqueta',
+								calificacion: 5,
+								detalles: [
+								{ procedimiento: 'Se dirige al cliente apropiadamente', ok: true },
+								{ procedimiento: 'Siempre utiliza frases de cortesía', ok: true },
+								{ procedimiento: 'Empatía con el cliente', ok: true },
+								{ procedimiento: 'Al dejar al cliente en espera: informa, justifica el motivo y agradece', ok: true },
+								{ procedimiento: 'Responde todas las preguntas que realiza el cliente', ok: true },
+								{ procedimiento: 'No hace comentarios innecesarios al cliente', ok: true },
+								{ procedimiento: 'Ante clientes difíciles', ok: true }
+								]
+							},
+							{
+								rubro: 'Tiempos de Espera',
+								calificacion: 5,
+								detalles: [
+								{ procedimiento: 'Atender la llamada máximo al segundo 5 de haber ingresado', ok: true },
+								{ procedimiento: 'Retoma correctamente la interacción al menos cada minuto.', ok: true },
+								{ procedimiento: 'Tendrá hasta 4 minutos para retomar al cliente', ok: true },
+								{ procedimiento: 'No solicita tiempo en espera al inicio de la interacción', ok: true },
+								{ procedimiento: 'Deberá haber movimientos en la pantalla del Asesor acordes a la interacción', ok: true }
+								]
+							}
+
+
+							]" [rowHover]="true">
+							<ng-template pTemplate="header">
+								<tr>
+								<th class="headers"><h5 class="header__txt">Rubro</h5></th>
+								<th class="headers"><h5 class="header__txt">Calificación</h5></th>
+								</tr>
+							</ng-template>
+
+							<ng-template pTemplate="body" let-data>
+								<tr class="row">
+								<td colspan="2">
+									<div class="fila-flex">
+									<details class="rubro-toggle">
+									<summary>
+										<span class="toggle-icon"></span>
+										<span class="p__icon">{{ data.rubro }}</span>
+									</summary>
+									<div class="detalles">
+										<ul class="lista-detalles">
+										<li *ngFor="let d of data.detalles">
+											<span>{{ d.procedimiento }}</span>
+											<i class="pi"
+											[ngClass]="d.ok ? 'pi-check green' : 'pi-times red'"
+											style="font-size:1rem"></i>
+										</li>
+										</ul>
+									</div>
+									</details>
+
+									<div class="calif-fija">
+									<p class="fila__info">{{ data.calificacion }}</p>
+									</div>
+									</div>
+								</td>
+								</tr>
+							</ng-template>
+
+							<ng-template pTemplate="footer">
+								<tr class="subtotal">
+								<td class="sub__txt">Subtotal:</td>
+								<td class="sub__number">25 / 25</td>
+								</tr>
+							</ng-template>
+							</p-table>
+							</div>
+						</div>
+
+						<!-- Categoría 2 -->
+						<div class="calif">
+							<div class="categoria"><h5>Solución, Políticas y Procedimientos</h5></div>
+
+							<div class="table__result">
+							<p-table [value]="[
+
+							{
+							rubro: 'Validación de datos',
+							calificacion: 12,
+							detalles: [
+								{ procedimiento: 'Solicitar teléfono o cuenta siempre.', ok: true },
+								{ procedimiento: 'Confirmar nombre completo del titular.', ok: true },
+								{ procedimiento: 'Identificar titular por nombre y apellido.', ok: true },
+								{ procedimiento: 'Actualizar datos al generar caso.', ok: true },
+								{ procedimiento: 'Validar teléfonos en casos de seguimiento.', ok: true }
+							]
+							},
+							{
+							rubro: 'Sondeo y Análisis',
+							calificacion: 12,
+							detalles: [
+								{ procedimiento: 'Sondear necesidades con preguntas clave.', ok: true },
+								{ procedimiento: 'Revisar historial para atender requerimiento.', ok: true },
+								{ procedimiento: 'Preguntar e insistir en motivo de atraso.', ok: true },
+								{ procedimiento: 'Preguntar e insistir en motivo de negativa.', ok: true }
+							]
+							},
+							{
+							rubro: 'Apego a políticas y procedimientos',
+							calificacion: 12,
+							detalles: [
+								{ procedimiento: 'Aplica política de privacidad vigente.', ok: true },
+								{ procedimiento: 'Aplica políticas si tuvo constancia.', ok: true },
+								{ procedimiento: 'Indica documentos y procedimiento con claridad.', ok: true },
+								{ procedimiento: 'Gestiona saldo vencido o próximo.', ok: true },
+								{ procedimiento: 'Ofrece promociones ante negativa de pago.', ok: true },
+								{ procedimiento: 'No duplicar promesas ya vigentes.', ok: true },
+								{ procedimiento: 'No incitar a transferir a supervisor.', ok: true }
+							]
+							},
+							{
+							rubro: 'Solución y confirmación de acuerdos',
+							calificacion: 12,
+							detalles: [
+								{ procedimiento: 'Confirma solución al finalizar llamada.', ok: true },
+								{ procedimiento: 'Ofrece alternativas si hay escalamiento.', ok: true },
+								{ procedimiento: 'Recapitula acuerdos y vigencia de promoción.', ok: true },
+								{ procedimiento: 'Proporciona folio de caso al cliente.', ok: true },
+								{ procedimiento: 'Ofrece opciones de pago siempre.', ok: true }
+							]
+							},
+							{
+							rubro: 'Manejo de la información',
+							calificacion: 12,
+							detalles: [
+								{ procedimiento: 'Brinda información clara y precisa.', ok: true },
+								{ procedimiento: 'Información alineada con sistemas vigentes.', ok: true },
+								{ procedimiento: 'Informa vencimiento y ajustes de saldo.', ok: true }
+							]
+							}
+
+
+							]" [rowHover]="true">
+							<ng-template pTemplate="header">
+								<tr>
+								<th class="headers"><h5 class="header__txt">Rubro</h5></th>
+								<th class="headers"><h5 class="header__txt">Calificación</h5></th>
+								</tr>
+							</ng-template>
+
+							<ng-template pTemplate="body" let-data>
+								<tr class="row">
+								<td colspan="2">
+									<div class="fila-flex">
+									<details class="rubro-toggle">
+									<summary>
+										<span class="toggle-icon"></span>
+										<span class="p__icon">{{ data.rubro }}</span>
+									</summary>
+									<div class="detalles">
+										<ul class="lista-detalles">
+										<li *ngFor="let d of data.detalles">
+											<span>{{ d.procedimiento }}</span>
+											<i class="pi"
+											[ngClass]="d.ok ? 'pi-check green' : 'pi-times red'"
+											style="font-size:1rem"></i>
+										</li>
+										</ul>
+									</div>
+									</details>
+
+									<div class="calif-fija">
+									<p class="fila__info">{{ data.calificacion }}</p>
+									</div>
+									</div>
+								</td>
+								</tr>
+							</ng-template>
+
+							<ng-template pTemplate="footer">
+								<tr class="subtotal">
+								<td class="sub__txt">Subtotal:</td>
+								<td class="sub__number">60 / 60</td>
+								</tr>
+							</ng-template>
+							</p-table>
+							</div>
+						</div>
+
+						<!-- Categoría 3 -->
+						<div class="calif">
+							<div class="categoria"><h5>Manejo de Herramientas</h5></div>
+
+							<div class="table__result">
+							<p-table [value]="[
+							{
+								rubro: 'Uso de Herramientas',
+								calificacion: 15,
+								detalles: [
+								{ procedimiento: 'Maneja adecuadamente CRM de apoyo', ok: true }
+								]
+							}
+
+
+							]" [rowHover]="true">
+							<ng-template pTemplate="header">
+								<tr>
+								<th class="headers"><h5 class="header__txt">Rubro</h5></th>
+								<th class="headers"><h5 class="header__txt">Calificación</h5></th>
+								</tr>
+							</ng-template>
+
+							<ng-template pTemplate="body" let-data>
+								<tr class="row">
+								<td colspan="2">
+									<div class="fila-flex">
+									<details class="rubro-toggle">
+									<summary>
+										<span class="toggle-icon"></span>
+										<span class="p__icon">{{ data.rubro }}</span>
+									</summary>
+									<div class="detalles">
+										<ul class="lista-detalles">
+										<li *ngFor="let d of data.detalles">
+											<span>{{ d.procedimiento }}</span>
+											<i class="pi"
+											[ngClass]="d.ok ? 'pi-check green' : 'pi-times red'"
+											style="font-size:1rem"></i>
+										</li>
+										</ul>
+									</div>
+									</details>
+
+									<div class="calif-fija">
+									<p class="fila__info">{{ data.calificacion }}</p>
+									</div>
+									</div>
+								</td>
+								</tr>
+							</ng-template>
+
+							<ng-template pTemplate="footer">
+								<tr class="subtotal">
+								<td class="sub__txt">Subtotal:</td>
+								<td class="sub__number">15 / 15</td>
+								</tr>
+							</ng-template>
+							</p-table>
+							</div>
+						</div>
+
+						<div class="total">
+							<h5>TOTAL:</h5>
+							<h6 class="total__number"> 100 / 100 </h6>
+						</div>
+					</div>
+
 					<div class="resultados__derecha">
 
 						<!-- <div class="reproductor">
@@ -244,6 +736,7 @@
 					</div>
 				</div>
 
+				
 
 				<div class="grid">
 					<div class="trans">
@@ -314,6 +807,3 @@
 	</div>
 
 <p-toast></p-toast>
-
-	
-

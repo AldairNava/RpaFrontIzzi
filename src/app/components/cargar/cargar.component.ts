@@ -32,7 +32,9 @@ export class CargarComponent implements OnInit {
   tipo: { name: string }[] = [
     { name: 'Servicios' },
     { name: 'Soporte' },
-    { name: 'Retenciones'}
+    { name: 'Retenciones'},
+    { name: 'Televentas'},
+    { name: 'Cobranza'}
   ];
 
   guiaSelected: any;
